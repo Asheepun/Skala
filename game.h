@@ -1,6 +1,11 @@
 #ifndef GAME_H_
 #define GAME_H_
 
+#define SPECIAL_KEY_LEFT 81
+#define SPECIAL_KEY_UP 82
+#define SPECIAL_KEY_RIGHT 83
+#define SPECIAL_KEY_DOWN 84
+
 //enums
 
 enum Actions{
@@ -68,9 +73,14 @@ typedef struct Sprite{
 
 typedef struct TextSprite{
 	EntityHeader entityHeader;
-	Body body;
+	Vec2f pos;
 	Vec4f color;
 	Texture texture;
+	float alpha;
+	unsigned int font;
+	char text[32];
+	//String text;
+	//char *text;
 }TextSprite;
 
 typedef struct Button{
@@ -152,15 +162,15 @@ typedef struct Action{
 
 typedef struct World{
 
-	//RENDERING
-	Vec2f offset;
-	//RENDERING
-
 	Key keys[255];
 
 	Action actions[16];
 
 	Font fonts[16];
+
+	Array textures;
+
+	Renderer renderer;
 
 	bool quit;
 
@@ -274,7 +284,7 @@ Vec2f World_getLastScaleFromScaleType(World *w, enum ScaleType);
 void World_initPlayer(World *, Vec2f, enum ScaleType);
 
 size_t World_addSprite(World *, Vec2f, Vec2f, enum SpriteColor, char *, float);
-size_t World_addTextSprite(World *, Vec2f, char *, Font, Vec4f);
+size_t World_addTextSprite(World *, Vec2f, char *, unsigned int, Vec4f);
 size_t World_addButton(World *w, Vec2f, Vec2f, char *);
 size_t World_addObstacle(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addBodyPair(World *, Body);
@@ -292,6 +302,9 @@ void World_removePointByID(World *, size_t);
 //void World_deinitBodyPairByID(World *, size_t);
 
 BodyPair *World_getBodyPairByID(World *, size_t);
+TextSprite *World_getTextSpriteByID(World *, size_t);
+
+void World_TextSprite_updateText(World *, TextSprite *, char *);
 
 //unsigned int World_getBodyPairIndexByID(World *, size_t);
 

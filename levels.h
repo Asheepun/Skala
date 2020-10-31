@@ -76,7 +76,7 @@ static Level levels[255] = {
 	World_generateLevel8, 13, 15,
 	World_generateLevel9, 15, 14,
 	World_generateLevel10, 15, 13,
-	World_generateLevel11, 16, 13,
+	World_generateLevel11, 16, 11,
 	World_generateLevel12, 15, 12,
 	World_generateLevel13, 15, 11,
 	World_generateLevel14, 15, 10,

@@ -73,7 +73,7 @@ void World_menuState(World *w){
 
 	if(currentButton == Array_getItemIndexByID(&w->buttons, returnButtonID)
 	&& pressingButton
-	|| w->keys[SDL_SCANCODE_ESCAPE].downed){
+	|| w->actions[BACK_ACTION].downed){
 
 		//funkar så här för att det som fanns inte ska försvinna
 		World_removeButtonByID(w, levelSelectButtonID);

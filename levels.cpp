@@ -94,7 +94,7 @@
 
 	//World_addSprite(w, getVec2f(80, 180 - 80), getVec2f(20, 20), COLOR_WHITE, "scale-help");
 
-	World_addTextSprite(w, getVec2f(80, 80), "Use the \"X\" key.", w->fonts[0], COLOR_WHITE);
+	World_addTextSprite(w, getVec2f(80, 80), "Use the \"X\" key.", 0, COLOR_WHITE);
 	
 }
 
@@ -179,7 +179,7 @@
 
 }
 
-:level 16 13{
+:level 16 11{
 
 	World_restore(w);
 
@@ -242,6 +242,7 @@
 
 	World_addPoint(w, getVec2f(260, 180 - 60), ALL);
 
+	//World_addObstacle(w, getVec2f(0, 180 - 20), getVec2f(100, 20), NONE);
 	World_addObstacle(w, getVec2f(0, 180 - 20), getVec2f(100, 20), NONE);
 
 }

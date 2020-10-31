@@ -1,4 +1,4 @@
-OBJS = *.c
+OBJS = *.c miniglut/miniglut.c
 
 CC = gcc
 #CC = tcc
@@ -7,7 +7,7 @@ CC = gcc
 
 COMPILER_FLAGS = -ggdb -w
 
-LINKER_FLAGS = -lSDL2 -ldl -lm
+LINKER_FLAGS = -lSDL2 -ldl -lm -lGL -lX11
 
 OBJ_NAME = main
 #OBJ_NAME = main.exe

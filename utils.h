@@ -12,6 +12,10 @@ typedef struct EntityHeader{
 	size_t ID;
 }EntityHeader;
 
+typedef struct String{
+	char *characters;
+}String;
+
 void Array_init(Array *, unsigned int);
 
 void EntityHeader_init(EntityHeader *);
@@ -29,5 +33,19 @@ void Array_removeItemByIndex(Array *, unsigned int);
 void Array_removeItemByID(Array *, size_t);
 
 void Array_clear(Array *);
+
+void String_init(String *, char *);
+
+void String_setText(String *, char *);
+
+void String_concatText(String *, char *);
+
+void String_concatString(String *, String);
+
+void String_concatInt(String *, int);
+
+unsigned int String_getLength(String *);
+
+void String_free(String *);
 
 #endif

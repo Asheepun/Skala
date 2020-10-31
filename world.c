@@ -15,6 +15,10 @@ void World_init(World *world_p){
 
 	world_p->fonts[0] = getFont("times.ttf", 20);
 
+	Array_init(&world_p->textures, sizeof(Texture));
+
+	Renderer_init(&world_p->renderer);
+
 	Array_init(&world_p->buttons, sizeof(Button));
 	Array_init(&world_p->bodyPairs, sizeof(BodyPair));
 	Array_init(&world_p->points, sizeof(Point));
@@ -29,7 +33,7 @@ void World_init(World *world_p){
 void World_restore(World *world_p){
 
 	//RENDERING
-	world_p->offset = getVec2f(0, 0);
+	world_p->renderer.offset = getVec2f(0, 0);
 	//RENDERING
 
 	world_p->quit = false;
@@ -72,7 +76,7 @@ void World_restore(World *world_p){
 	world_p->spritesLength = 0;
 	world_p->spritesGaps = 0;
 
-	world_p->fpsTextID = World_addTextSprite(world_p, getVec2f(10, 10), "", world_p->fonts[0], COLOR_WHITE);
+	world_p->fpsTextID = World_addTextSprite(world_p, getVec2f(10, 10), "", 0, COLOR_WHITE);
 
 }
 
@@ -132,18 +136,27 @@ size_t World_addSprite(World *w, Vec2f pos, Vec2f size, enum SpriteColor color, 
 	return index;
 }
 
-size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, Font font, Vec4f color){
+size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, unsigned int font, Vec4f color){
 	
 	TextSprite *textSprite_p = Array_addItem(&world_p->textSprites);
 
 	EntityHeader_init(&textSprite_p->entityHeader);
 
-	textSprite_p->texture = getTextureFromFontAndString_mustFree(font, text);
+	//textSprite_p->texture = getTextureFromFontAndString_mustFree(world_p->fonts[font], text);
 
-	textSprite_p->body.size.x = textSprite_p->texture.width;
-	textSprite_p->body.size.y = textSprite_p->texture.height;
-	textSprite_p->body.pos = pos;
+	//textSprite_p->body.size.x = textSprite_p->texture.width;
+	//textSprite_p->body.size.y = textSprite_p->texture.height;
+	textSprite_p->pos = pos;
 	textSprite_p->color = color;
+	//textSprite_p->text = text;
+	textSprite_p->font = font;
+	textSprite_p->alpha = 1;
+
+	strcpy(textSprite_p->text, text);
+
+	//String_init(textSprite_p->text, )
+
+	//World_TextSprite_updateText(world_p, textSprite_p, text);
 
 	return textSprite_p->entityHeader.ID;
 
@@ -171,7 +184,7 @@ unsigned int World_addTextButton(World *world_p, Vec2f pos, char *text){
 
 	button_p->buttonType = TEXT_BUTTON;
 
-	button_p->textSpriteID = World_addTextSprite(world_p, pos, text, world_p->fonts[0], COLOR_WHITE);
+	button_p->textSpriteID = World_addTextSprite(world_p, pos, text, 0, COLOR_WHITE);
 
 	return button_p->entityHeader.ID;
 
@@ -309,6 +322,16 @@ void World_removePointByID(World *world_p, size_t ID){
 BodyPair *World_getBodyPairByID(World *world_p, size_t ID){
 	return Array_getItemPointerByID(&world_p->bodyPairs, ID);
 };
+
+TextSprite *World_getTextSpriteByID(World *world_p, size_t ID){
+	return Array_getItemPointerByID(&world_p->textSprites, ID);
+};
+
+/*
+void World_TextSprite_updateText(World *world_p, TextSprite *textSprite_p, char *text){
+	textSprite_p->texture = getTextureFromFontAndString_mustFree(world_p->fonts[textSprite_p->font], text);
+}
+*/
 
 Vec2f World_getOriginFromScaleType(World *w, enum ScaleType scaleType){
 	if(scaleType == NONE){

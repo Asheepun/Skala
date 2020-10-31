@@ -29,8 +29,10 @@ LevelGridTile levelGrid[30][30];
 
 bool setupLevelGrid = false;
 
-//bool playImmidietly = false;
-bool playImmidietly = true;
+bool playImmidietly = false;
+//bool playImmidietly = true;
+
+size_t currentLevelTextSpriteID;
 
 void World_initLevelSelectState(World *world_p){
 
@@ -43,6 +45,7 @@ void World_initLevelSelectState(World *world_p){
 
 		posX = 15;
 		posY = 20;
+		//posY = 9;
 		//posY = 5;
 		//posY = 11;
 		//posX = 13;
@@ -74,13 +77,15 @@ void World_initLevelSelectState(World *world_p){
 		}
 	}
 
+	currentLevelTextSpriteID = World_addTextSprite(world_p, getVec2f(100, 100), "HERRO!", 0, COLOR_WHITE);
+
 	world_p->currentState = World_levelSelectState;
 
 }
 
 void World_levelSelectState(World *world_p){
 
-	printf("---\n");
+	//printf("---\n");
 
 	velocityX = 0;
 	velocityY = 0;
@@ -146,18 +151,17 @@ void World_levelSelectState(World *world_p){
 		}
 	}
 
-	char fpsString[255] = "";
+	world_p->renderer.offset.x = WIDTH / 2 - posX * 15 - 8;
+	world_p->renderer.offset.y = HEIGHT / 2 - posY * 15 - 8;
 
-	sprintf(fpsString, "level: %i, %i", posX, posY);
+	TextSprite *currentLevelTextSprite_p = World_getTextSpriteByID(world_p, currentLevelTextSpriteID);
 
-	TextSprite *textSprite_p = Array_getItemPointerByID(&world_p->textSprites, world_p->fpsTextID);
-	Texture_freeData(&textSprite_p->texture);
-	textSprite_p->texture = getTextureFromFontAndString_mustFree(world_p->fonts[0], fpsString);
-	textSprite_p->body.size.x = textSprite_p->texture.width;
-	textSprite_p->body.size.y = textSprite_p->texture.height;
+	currentLevelTextSprite_p->pos.x = 10 - world_p->renderer.offset.x;
+	currentLevelTextSprite_p->pos.y = 5 - world_p->renderer.offset.y;
 
-	world_p->offset.x = WIDTH / 2 - posX * 15 - 8;
-	world_p->offset.y = HEIGHT / 2 - posY * 15 - 8;
+	currentLevelTextSprite_p->color = COLOR_GREEN;
+
+	sprintf(currentLevelTextSprite_p->text, "%i, %i", posX, posY);
 
 }
 

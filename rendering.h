@@ -6,9 +6,9 @@
 #include "utils.h"
 
 typedef struct Pixel{
-	unsigned char b;
-	unsigned char g;
 	unsigned char r;
+	unsigned char g;
+	unsigned char b;
 }Pixel;
 
 typedef struct Texture{
@@ -30,10 +30,15 @@ typedef struct TextureSliceMap{
 
 typedef struct Renderer{
 
-	int windowWidth;
-	int windowHeight;
+	int width;
+	int height;
 
-	Pixel *screenPixels;
+	Vec2f scale;
+	Vec2f offset;
+
+	Pixel *pixels;
+
+	Array textures;
 
 }Renderer;
 
@@ -43,8 +48,22 @@ Vec4f getColorFromTexture(Texture, int, int);
 
 Pixel getPixelFromColor(Vec4f);
 
+void Texture_loadData(Texture *, char *);
+
 void Texture_freeData(Texture *);
 
 void TextureSliceMap_init(TextureSliceMap *, Texture);
+
+void Renderer_init(Renderer *);
+
+void Renderer_setSize(Renderer *, int, int);
+
+int Renderer_getPixelIndex(Renderer *, int, int);
+
+void Renderer_fillRect(Renderer *, int, int, int, int, Vec4f);
+
+void Renderer_drawTextureInSingleColor(Renderer *, float, float, float, float, Texture, float, Vec4f);
+
+//void Renderer_loadTexture(Renderer *, char *);
 
 #endif

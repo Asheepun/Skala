@@ -86,7 +86,7 @@ void World_levelState(World *world_p){
 
 	printf("---\n");
 
-	if(world_p->keys[SDL_SCANCODE_ESCAPE].downed){
+	if(world_p->actions[MENU_ACTION].downed){
 		world_p->currentState = World_initMenuState;
 		return;
 	}

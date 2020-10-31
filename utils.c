@@ -121,3 +121,43 @@ void Array_clear(Array *array_p){
 	}
 
 }
+
+void String_init(String *string_p, char *text){
+
+	string_p->characters = malloc(sizeof(text));
+
+	for(int i = 0; i < strlen(text); i++){
+		string_p->characters[i] = text[i];
+	}
+
+}
+
+void String_setText(String *string_p, char *text){
+
+	free(string_p->characters);
+
+	string_p->characters = malloc(sizeof(text));
+
+	for(int i = 0; i < strlen(text); i++){
+		string_p->characters[i] = text[i];
+	}
+
+}
+
+void String_concatText(String *string_p, char *text){
+
+}
+
+void String_concatString(String *string_p, String concatString){
+
+}
+
+void String_concatInt(String *string_p, int number){
+
+}
+
+void String_free(String *string_p){
+
+	free(string_p->characters);
+
+}
