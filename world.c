@@ -51,6 +51,7 @@ void World_restore(World *world_p){
 	Array_clear(&world_p->points);
 	Array_clear(&world_p->obstacles);
 	Array_clear(&world_p->scaleFields);
+	Array_clear(&world_p->textSprites);
 		/*
 	while(world_p->buttons.length > 0){
 		Array_removeItemByIndex(&world_p->buttons, 0);
@@ -65,10 +66,12 @@ void World_restore(World *world_p){
 		Array_removeItemByIndex(&world_p->obstacles, 0);
 	}
 	*/
+	/*
 	while(world_p->textSprites.length > 0){
 		TextSprite *textSprite_p = Array_getItemPointerByIndex(&world_p->textSprites, 0);
 		World_removeTextSpriteByID(world_p, textSprite_p->entityHeader.ID);
 	}
+	*/
 
 	for(int i = 0; i < world_p->spritesLength + world_p->spritesGaps; i++){
 		world_p->sprites[i].active = false;

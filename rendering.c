@@ -139,7 +139,7 @@ int Renderer_getPixelIndex(Renderer *renderer_p, int x, int y){
 	}
 
 #ifdef __WINDOW_LAYER_GL__
-	return renderer_p->width * renderer_p->height - y * renderer_p->width + x;
+	return (renderer_p->height - 1 - y) * renderer_p->width + x;
 #else
 	return y * renderer_p->width + x;
 #endif
