@@ -6,4 +6,4 @@ cd ..
 
 generator\generate.exe
 
-gcc *.c miniglut\miniglut.c -lopengll32 -lgdi32 -lwinm -lm -g -o scale.exe
+gcc *.c miniglut\miniglut.c -lopengl32 -lgdi32 -lwinmm -lm -g -o scale.exe
