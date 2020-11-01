@@ -1,4 +1,3 @@
-//#include "SDL2/SDL.h"
 #include "miniglut/miniglut.h"
 #include "stdbool.h"
 #include "math.h"
