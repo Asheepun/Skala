@@ -91,7 +91,7 @@ void World_levelState(World *world_p){
 	}
 
 	world_p->scaling = false;
-	if(world_p->actions[DO_ACTION].down){
+	if(world_p->actions[SCALE_ACTION].down){
 		world_p->scaling = true;
 	}
 
@@ -128,7 +128,7 @@ void World_levelState(World *world_p){
 			player_p->physics.acceleration.x += player_p->runAcceleration;
 		}
 
-		if((world_p->actions[UP_ACTION].down)
+		if((world_p->actions[JUMP_ACTION].down)
 		&& player_p->onGround){
 			player_p->physics.velocity.y += player_p->jumpSpeed;
 		}
@@ -155,8 +155,9 @@ void World_levelState(World *world_p){
 	//check if level is completed
 	if(world_p->points.length == 0){
 
+		World_initLevelSelectState(world_p);
+		//world_p->currentState = World_initLevelSelectState;
 		unlockNearbyLevels();
-		world_p->currentState = World_initLevelSelectState;
 
 		return;
 

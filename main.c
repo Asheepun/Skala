@@ -190,15 +190,21 @@ int main(int argc, char *argv[]){
 	Action_addBinding(&world.actions[LEFT_ACTION], *"a");
 	Action_addBinding(&world.actions[RIGHT_ACTION], SPECIAL_KEY_RIGHT);
 	Action_addBinding(&world.actions[RIGHT_ACTION], *"d");
+	Action_addBinding(&world.actions[JUMP_ACTION], SPECIAL_KEY_UP);
+	Action_addBinding(&world.actions[JUMP_ACTION], *"w");
+	Action_addBinding(&world.actions[JUMP_ACTION], *" ");
+	Action_addBinding(&world.actions[SCALE_ACTION], *"x");
+	Action_addBinding(&world.actions[SCALE_ACTION], *"j");
 	Action_addBinding(&world.actions[DO_ACTION], *"x");
 	Action_addBinding(&world.actions[DO_ACTION], *"j");
+	Action_addBinding(&world.actions[DO_ACTION], *" ");
 	Action_addBinding(&world.actions[BACK_ACTION], (char)27);//ESCAPE
 	Action_addBinding(&world.actions[MENU_ACTION], (char)27);//ESCAPE
 
 	world.currentLevel = 0;
 
-	world.currentState = World_initLevelSelectState;
-	//world.currentState = World_initLevelState;
+	//world.currentState = World_initLevelSelectState;
+	world.currentState = World_initLevelState;
 
 	Renderer_setSize(&world.renderer, windowWidth, windowHeight);
 	world.renderer.scale = getVec2f(2, 2);

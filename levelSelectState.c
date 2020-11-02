@@ -17,7 +17,12 @@ typedef struct LevelGridTile{
 	int buttonID;
 	bool locked;
 	bool completed;
+	int unlockCounter;
+	int unlockDelayCounter;
 }LevelGridTile;
+
+float UNLOCK_TIME = 60;
+float UNLOCK_DELAY_TIME = 20;
 
 int posX;
 int posY;
@@ -53,9 +58,11 @@ void World_initLevelSelectState(World *world_p){
 		for(int i = 0; i < 30; i++){
 			for(int j = 0; j < 30; j++){
 				levelGrid[i][j].levelIndex = -1;
-				//levelGrid[i][j].locked = true;
-				levelGrid[i][j].locked = false;
+				levelGrid[i][j].locked = true;
+				//levelGrid[i][j].locked = false;
 				levelGrid[i][j].completed = false;
+				levelGrid[i][j].unlockCounter = -1;
+				levelGrid[i][j].unlockDelayCounter = -1;
 			}
 		}
 
@@ -76,7 +83,7 @@ void World_initLevelSelectState(World *world_p){
 		}
 	}
 
-	currentLevelTextSpriteID = World_addTextSprite(world_p, getVec2f(100, 100), "HERRO!", 0, COLOR_WHITE);
+	currentLevelTextSpriteID = World_addTextSprite(world_p, getVec2f(100, 100), "", 0, COLOR_WHITE);
 
 	world_p->currentState = World_levelSelectState;
 
@@ -132,18 +139,38 @@ void World_levelSelectState(World *world_p){
 
 				Button *button_p = Array_getItemPointerByID(&world_p->buttons, levelGrid[i][j].buttonID);
 
-				world_p->sprites[button_p->spriteIndex].color = SPRITE_COLOR_WHITE;
+				Sprite *sprite_p = &world_p->sprites[button_p->spriteIndex];
 
-				if(levelGrid[i][j].locked){
-					world_p->sprites[button_p->spriteIndex].color = SPRITE_COLOR_BLACK;
+				LevelGridTile *levelTile_p = &levelGrid[i][j];
+
+				if(levelTile_p->unlockDelayCounter == 0){
+					levelTile_p->unlockCounter = UNLOCK_TIME;
+				}
+				if(levelTile_p->unlockDelayCounter >= 0){
+					levelTile_p->unlockDelayCounter--;
 				}
 
-				if(levelGrid[i][j].completed){
-					world_p->sprites[button_p->spriteIndex].color = SPRITE_COLOR_GREY;
+				if(levelTile_p->unlockCounter > 0){
+
+					levelTile_p->unlockCounter--;
+
+					sprite_p->alpha = (UNLOCK_TIME - (float)levelTile_p->unlockCounter) / UNLOCK_TIME;
+
+				}
+
+				sprite_p->color = SPRITE_COLOR_WHITE;
+
+				if(levelTile_p->locked
+				|| levelTile_p->unlockDelayCounter >= 0){
+					sprite_p->alpha = 0;
+				}
+
+				if(levelTile_p->completed){
+					sprite_p->color = SPRITE_COLOR_GREY;
 				}
 
 				if(j == posX && i == posY){
-					world_p->sprites[button_p->spriteIndex].color = SPRITE_COLOR_YELLOW;
+					sprite_p->color = SPRITE_COLOR_YELLOW;
 				}
 
 			}
@@ -158,16 +185,48 @@ void World_levelSelectState(World *world_p){
 	currentLevelTextSprite_p->pos.x = 10 - world_p->renderer.offset.x;
 	currentLevelTextSprite_p->pos.y = 5 - world_p->renderer.offset.y;
 
-	currentLevelTextSprite_p->color = COLOR_GREEN;
-
 	sprintf(currentLevelTextSprite_p->text, "%i, %i", posX, posY);
 
 }
 
 void unlockNearbyLevels(){
+
+	levelGrid[posY][posX].locked = false; //for first level
+
 	levelGrid[posY][posX].completed = true;
+
+	int coolDelay = 0;
+
+	if(levelGrid[posY][posX - 1].locked
+	&& levelGrid[posY][posX - 1].levelIndex != -1){
+		levelGrid[posY][posX - 1].unlockDelayCounter = UNLOCK_DELAY_TIME * coolDelay;
+		levelGrid[posY][posX - 1].locked = false;
+		coolDelay++;
+	}
+	if(levelGrid[posY - 1][posX].locked
+	&& levelGrid[posY - 1][posX].levelIndex != -1){
+		levelGrid[posY - 1][posX].unlockDelayCounter = UNLOCK_DELAY_TIME * coolDelay;
+		levelGrid[posY - 1][posX].locked = false;
+		coolDelay++;
+	}
+	if(levelGrid[posY][posX + 1].locked
+	&& levelGrid[posY][posX + 1].levelIndex != -1){
+		levelGrid[posY][posX + 1].unlockDelayCounter = UNLOCK_DELAY_TIME * coolDelay;
+		levelGrid[posY][posX + 1].locked = false;
+		coolDelay++;
+	}
+	if(levelGrid[posY + 1][posX].locked
+	&& levelGrid[posY + 1][posX].levelIndex != -1){
+		levelGrid[posY + 1][posX].unlockDelayCounter = UNLOCK_DELAY_TIME * coolDelay;
+		levelGrid[posY + 1][posX].locked = false;
+		coolDelay++;
+	}
+
+	/*
 	levelGrid[posY + 1][posX].locked = false;
 	levelGrid[posY - 1][posX].locked = false;
 	levelGrid[posY][posX + 1].locked = false;
 	levelGrid[posY][posX - 1].locked = false;
+	*/
+
 }
