@@ -123,6 +123,7 @@ void World_levelState(World *world_p){
 
 	}
 
+	Vec2f_log(world_p->deltaScale);
 	
 	//update bodyPairs last bodies
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
@@ -180,6 +181,7 @@ void World_levelState(World *world_p){
 
 			if(checkBodyPairToBodyPairCollision(*bodyPair_p, *bodyPair2_p)
 			&& i != j
+			&& !compareFloatToFloat(world_p->deltaScale.y, 0)
 			&& bodyPair_p->body.scaleType != NONE
 			&& bodyPair2_p->body.scaleType == NONE
 			&& bodyPair2_p->body.collisionWeight == STATIC){
@@ -211,36 +213,9 @@ void World_levelState(World *world_p){
 
 			if(checkBodyPairToBodyPairCollision(*bodyPair_p, *bodyPair2_p)
 			&& i != j
+			&& !compareFloatToFloat(world_p->deltaScale.y, 0)
 			&& bodyPair_p->body.collisionWeight == MOVABLE
 			&& bodyPair2_p->body.collisionWeight == STATIC){
-
-				float bodyPairCenterY = bodyPair_p->lastBody.pos.y + bodyPair_p->lastBody.size.y / 2;
-				float bodyPair2CenterY = bodyPair2_p->lastBody.pos.y + bodyPair2_p->lastBody.size.y / 2;
-
-				if(bodyPairCenterY < bodyPair2CenterY){
-					bodyPair_p->body.pos.y = bodyPair2_p->body.pos.y - bodyPair_p->body.size.y;
-				}
-				if(bodyPairCenterY > bodyPair2CenterY){
-					bodyPair_p->body.pos.y = bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y;
-				}
-
-			}
-
-		}
-
-	}
-
-	//handle y collisions static and none static AGAIN
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-
-		for(int j = 0; j < world_p->bodyPairs.length; j++){
-
-			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
-
-			if(checkBodyToBodyColCastToInt(bodyPair_p->body, bodyPair2_p->body)
-			&& i != j){
 
 				float bodyPairCenterY = bodyPair_p->lastBody.pos.y + bodyPair_p->lastBody.size.y / 2;
 				float bodyPair2CenterY = bodyPair2_p->lastBody.pos.y + bodyPair2_p->lastBody.size.y / 2;
@@ -269,6 +244,7 @@ void World_levelState(World *world_p){
 
 			if(checkBodyPairToBodyPairCollision(*bodyPair_p, *bodyPair2_p)
 			&& i != j
+			&& !compareFloatToFloat(world_p->deltaScale.y, 0)
 			&& bodyPair_p->body.collisionWeight == STATIC
 			&& bodyPair2_p->body.collisionWeight == STATIC
 			&& bodyPair_p->body.scaleType == ALL
@@ -322,7 +298,8 @@ void World_levelState(World *world_p){
 			BodyPair *bodyPair1 = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 			BodyPair *bodyPair2 = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
-			if(checkBodyToBodyColCastToInt(bodyPair1->body, bodyPair2->body)
+			if(checkBodyPairToBodyPairCollision(*bodyPair1, *bodyPair2)
+			&& !compareFloatToFloat(world_p->deltaScale.y, 0)
 			//&& bodyPair1->lastBody.size.x >= 1 && bodyPair2->lastBody.size.x >= 1
 			//&& bodyPair1->lastBody.size.y >= 1 && bodyPair2->lastBody.size.y >= 1
 			&& i != j){
@@ -395,6 +372,7 @@ void World_levelState(World *world_p){
 
 			if(checkBodyPairToBodyPairCollision(*bodyPair_p, *bodyPair2_p)
 			&& i != j
+			&& !compareFloatToFloat(world_p->deltaScale.x, 0)
 			&& bodyPair_p->body.scaleType != NONE
 			&& bodyPair2_p->body.scaleType == NONE
 			&& bodyPair2_p->body.collisionWeight == STATIC){
@@ -426,8 +404,42 @@ void World_levelState(World *world_p){
 
 			if(checkBodyPairToBodyPairCollision(*bodyPair_p, *bodyPair2_p)
 			&& i != j
+			&& !compareFloatToFloat(world_p->deltaScale.x, 0)
 			&& bodyPair_p->body.collisionWeight == MOVABLE
 			&& bodyPair2_p->body.collisionWeight == STATIC){
+
+				float bodyPairCenterX = bodyPair_p->lastBody.pos.x + bodyPair_p->lastBody.size.x / 2;
+				float bodyPair2CenterX = bodyPair2_p->lastBody.pos.x + bodyPair2_p->lastBody.size.x / 2;
+
+				if(bodyPairCenterX < bodyPair2CenterX){
+					bodyPair_p->body.pos.x = bodyPair2_p->body.pos.x - bodyPair_p->body.size.x;
+				}
+				if(bodyPairCenterX > bodyPair2CenterX){
+					bodyPair_p->body.pos.x = bodyPair2_p->body.pos.x + bodyPair2_p->body.size.x;
+				}
+
+			}
+
+		}
+
+	}
+
+	//handle x collisions scalble and static 
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
+
+		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+		for(int j = 0; j < world_p->bodyPairs.length; j++){
+
+			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
+
+			if(checkBodyPairToBodyPairCollision(*bodyPair_p, *bodyPair2_p)
+			&& i != j
+			&& !compareFloatToFloat(world_p->deltaScale.x, 0)
+			&& bodyPair_p->body.collisionWeight == STATIC
+			&& bodyPair2_p->body.collisionWeight == STATIC
+			&& bodyPair_p->body.scaleType == ALL
+			&& bodyPair2_p->body.scaleType == ALL){
 
 				float bodyPairCenterX = bodyPair_p->lastBody.pos.x + bodyPair_p->lastBody.size.x / 2;
 				float bodyPair2CenterX = bodyPair2_p->lastBody.pos.x + bodyPair2_p->lastBody.size.x / 2;
@@ -466,9 +478,10 @@ void World_levelState(World *world_p){
 			BodyPair *bodyPair1 = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 			BodyPair *bodyPair2 = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
-			if(checkBodyToBodyColCastToInt(bodyPair1->body, bodyPair2->body)
-			&& bodyPair1->lastBody.size.x >= 1 && bodyPair2->lastBody.size.x >= 1
-			&& bodyPair1->lastBody.size.y >= 1 && bodyPair2->lastBody.size.y >= 1
+			if(checkBodyPairToBodyPairCollision(*bodyPair1, *bodyPair2)
+			//&& bodyPair1->lastBody.size.x >= 1 && bodyPair2->lastBody.size.x >= 1
+			//&& bodyPair1->lastBody.size.y >= 1 && bodyPair2->lastBody.size.y >= 1
+			&& !compareFloatToFloat(world_p->deltaScale.x, 0)
 			&& i != j){
 				rescaleX = true;
 			}
@@ -542,11 +555,11 @@ void World_levelState(World *world_p){
 	for(int i = 0; i < world_p->obstacles.length; i++){
 
 		Obstacle *obstacle_p = Array_getItemPointerByIndex(&world_p->obstacles, i);
-		Body *obstacleBody_p = &World_getBodyPairByID(world_p, obstacle_p->bodyPairID)->body;
+		BodyPair *obstacleBodyPair_p = World_getBodyPairByID(world_p, obstacle_p->bodyPairID);
 
-		if(checkBodyToBodyColCastToInt(*playerBody_p, *obstacleBody_p)){
+		if(checkBodyPairToBodyPairCollision(*playerBodyPair_p, *obstacleBodyPair_p)){
 			col = true;
-			colBody = *obstacleBody_p;
+			colBody = obstacleBodyPair_p->body;
 		}
 	}
 
@@ -575,10 +588,11 @@ void World_levelState(World *world_p){
 		Obstacle *obstacle_p = Array_getItemPointerByIndex(&world_p->obstacles, i);
 
 		Body *obstacleBody_p = &World_getBodyPairByID(world_p, obstacle_p->bodyPairID)->body;
+		BodyPair *obstacleBodyPair_p = World_getBodyPairByID(world_p, obstacle_p->bodyPairID);
 
-		if(checkBodyToBodyColCastToInt(*playerBody_p, *obstacleBody_p)){
+		if(checkBodyPairToBodyPairCollision(*playerBodyPair_p, *obstacleBodyPair_p)){
 			col = true;
-			colBody = *obstacleBody_p;
+			colBody = obstacleBodyPair_p->body;
 		}
 	}
 

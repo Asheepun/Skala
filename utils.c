@@ -161,3 +161,7 @@ void String_free(String *string_p){
 	free(string_p->characters);
 
 }
+
+bool compareFloatToFloat(float a, float b){
+	return fabs(a - b) < 0.000001;
+}

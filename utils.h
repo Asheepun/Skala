@@ -48,4 +48,6 @@ unsigned int String_getLength(String *);
 
 void String_free(String *);
 
+bool compareFloatToFloat(float, float);
+
 #endif

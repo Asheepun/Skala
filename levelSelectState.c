@@ -52,8 +52,8 @@ void setupLevelGrid(){
 	for(int i = 0; i < 30; i++){
 		for(int j = 0; j < 30; j++){
 			levelGrid[i][j].levelIndex = -1;
-			levelGrid[i][j].locked = true;
-			//levelGrid[i][j].locked = false;
+			//levelGrid[i][j].locked = true;
+			levelGrid[i][j].locked = false;
 			levelGrid[i][j].completed = false;
 			levelGrid[i][j].unlockCounter = -1;
 			levelGrid[i][j].unlockDelayCounter = -1;
