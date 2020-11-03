@@ -396,3 +396,79 @@ void World_BodyPair_scaleBodies(World *world_p, BodyPair *bodyPair_p){
 
 }
 */
+
+Body BodyPair_getDeltaBody(BodyPair bodyPair){
+
+	float west, east, north, south;
+	
+	Body deltaBody;
+
+	if(bodyPair.body.pos.x < bodyPair.lastBody.pos.x){
+		west = bodyPair.body.pos.x;
+	}else{
+		west = bodyPair.lastBody.pos.x;
+	}
+
+	if(bodyPair.body.pos.x + bodyPair.body.size.x > bodyPair.lastBody.pos.x + bodyPair.lastBody.size.x){
+		east = bodyPair.body.pos.x + bodyPair.body.size.x;
+	}else{
+		east = bodyPair.lastBody.pos.x + bodyPair.lastBody.size.x;
+	}
+
+	if(bodyPair.body.pos.y < bodyPair.lastBody.pos.y){
+		north = bodyPair.body.pos.y;
+	}else{
+		north = bodyPair.lastBody.pos.y;
+	}
+
+	if(bodyPair.body.pos.y + bodyPair.body.size.y > bodyPair.lastBody.pos.y + bodyPair.lastBody.size.y){
+		south = bodyPair.body.pos.y + bodyPair.body.size.y;
+	}else{
+		south = bodyPair.lastBody.pos.y + bodyPair.lastBody.size.y;
+	}
+
+	deltaBody.pos.x = west;
+	deltaBody.pos.y = north;
+
+	deltaBody.size.x = fabs(west - east);
+	deltaBody.size.y = fabs(north - south);
+
+	return deltaBody;
+
+}
+
+bool checkBodyPairToBodyPairCollision(BodyPair bodyPair1, BodyPair bodyPair2){
+	
+	if(/*checkBodyToBodyColCastToInt(BodyPair_getDeltaBody(bodyPair1), BodyPair_getDeltaBody(bodyPair2))*/true){
+
+		if(checkBodyToBodyColCastToInt(bodyPair1.body, bodyPair2.body)
+		&& bodyPair1.lastBody.size.x >= 1 && bodyPair2.lastBody.size.x >= 1//make it so that small things don't appear on the wrong side when they are scaled up
+		&& bodyPair1.lastBody.size.y >= 1 && bodyPair2.lastBody.size.y >= 1){
+			return true;
+		}
+
+		//return true;
+	}
+
+	return false;
+
+	/*
+	if((bodyPair1.body.size.x < fabs(bodyPair1.body.pos.x - bodyPair1.lastBody.pos.x)
+	|| bodyPair1.body.size.x < fabs(bodyPair2.body.pos.x - bodyPair2.lastBody.pos.x)
+	|| bodyPair1.body.size.y < fabs(bodyPair1.body.pos.y - bodyPair1.lastBody.pos.y)
+	|| bodyPair1.body.size.y < fabs(bodyPair2.body.pos.y - bodyPair2.lastBody.pos.y)
+	|| bodyPair2.body.size.x < fabs(bodyPair2.body.pos.x - bodyPair2.lastBody.pos.x)
+	|| bodyPair2.body.size.x < fabs(bodyPair2.body.pos.x - bodyPair2.lastBody.pos.x)
+	|| bodyPair2.body.size.y < fabs(bodyPair1.body.pos.y - bodyPair1.lastBody.pos.y)
+	|| bodyPair2.body.size.y < fabs(bodyPair1.body.pos.y - bodyPair1.lastBody.pos.y))
+	&& bodyPair1.body.size.x >= 1 && bodyPair2.body.size.x >= 1
+	&& bodyPair1.body.size.y >= 1 && bodyPair2.body.size.y >= 1
+	&& bodyPair1.lastBody.size.x >= 1 && bodyPair2.lastBody.size.x >= 1
+	&& bodyPair1.lastBody.size.y >= 1 && bodyPair2.lastBody.size.y >= 1){
+		return checkBodyToBodyColCastToInt(BodyPair_getDeltaBody(bodyPair1), BodyPair_getDeltaBody(bodyPair2));
+	}else{
+		return checkBodyToBodyColCastToInt(bodyPair1.body, bodyPair2.body);
+	}
+	*/
+}
+

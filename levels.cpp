@@ -191,6 +191,10 @@
 
 	World_addObstacle(w, getVec2f(220, 0), getVec2f(20, HEIGHT), NONE);
 
+	World_addObstacle(w, getVec2f(240, 0), getVec2f(WIDTH - 250, 10), NONE);
+
+	World_addObstacle(w, getVec2f(WIDTH - 10, 0), getVec2f(10, HEIGHT), NONE);
+
 }
 
 :level 15 12 {

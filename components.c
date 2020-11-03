@@ -110,14 +110,15 @@ bool checkBodyToBodyColRoundFloats(Body b1, Body b2){
 		&& roundf(b1.pos.y) < roundf(b2.pos.y + b2.size.y)
 		&& b1.size.x >= 1 && b2.size.x >= 1
 		&& b1.size.y >= 1 && b2.size.y >= 1;
-		/*
+}
+
+bool checkBodyToBodyColCastToInt(Body b1, Body b2){
 	return (int)(b1.pos.x + b1.size.x) > (int)b2.pos.x
 		&& (int)b1.pos.x < (int)(b2.pos.x + b2.size.x)
 		&& (int)(b1.pos.y + b1.size.y) > (int)b2.pos.y
 		&& (int)b1.pos.y < (int)(b2.pos.y + b2.size.y)
 		&& b1.size.x >= 1 && b2.size.x >= 1
 		&& b1.size.y >= 1 && b2.size.y >= 1;
-		*/
 }
 
 bool checkBodyToBodyCol(Body b1, Body b2){

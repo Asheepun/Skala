@@ -37,6 +37,9 @@ bool playImmidietly = false;
 //bool playImmidietly = true;
 
 size_t currentLevelTextSpriteID;
+size_t startTextSpriteID;
+
+bool hasStarted = false;
 
 void World_initLevelSelectState(World *world_p){
 
@@ -58,8 +61,8 @@ void World_initLevelSelectState(World *world_p){
 		for(int i = 0; i < 30; i++){
 			for(int j = 0; j < 30; j++){
 				levelGrid[i][j].levelIndex = -1;
-				levelGrid[i][j].locked = true;
-				//levelGrid[i][j].locked = false;
+				//levelGrid[i][j].locked = true;
+				levelGrid[i][j].locked = false;
 				levelGrid[i][j].completed = false;
 				levelGrid[i][j].unlockCounter = -1;
 				levelGrid[i][j].unlockDelayCounter = -1;
@@ -84,6 +87,14 @@ void World_initLevelSelectState(World *world_p){
 	}
 
 	currentLevelTextSpriteID = World_addTextSprite(world_p, getVec2f(100, 100), "", 0, COLOR_WHITE);
+
+	if(!hasStarted){
+
+		startTextSpriteID = World_addTextSprite(world_p, getVec2f(175, 330), "Press X to start", 0, COLOR_WHITE);
+		
+		hasStarted = true;
+
+	}
 
 	world_p->currentState = World_levelSelectState;
 

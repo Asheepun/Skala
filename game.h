@@ -324,6 +324,10 @@ void Action_init(Action *);
 
 void Action_addBinding(Action *, int);
 
+Body BodyPair_getDeltaBody(BodyPair);
+
+bool checkBodyPairToBodyPairCollision(BodyPair, BodyPair);
+
 //FILE: components.c
 
 void Body_init(Body *, Vec2f, Vec2f, enum ScaleType, int);
@@ -345,6 +349,8 @@ void Body_unScaleY(Body *, Vec2f, Vec2f);
 bool Body_checkOub(Body);
 
 bool checkBodyToBodyColRoundFloats(Body, Body);
+
+bool checkBodyToBodyColCastToInt(Body, Body);
 
 bool checkBodyToBodyCol(Body, Body);
 

@@ -203,8 +203,8 @@ int main(int argc, char *argv[]){
 
 	world.currentLevel = 0;
 
-	//world.currentState = World_initLevelSelectState;
-	world.currentState = World_initLevelState;
+	world.currentState = World_initLevelSelectState;
+	//world.currentState = World_initLevelState;
 
 	Renderer_setSize(&world.renderer, windowWidth, windowHeight);
 	world.renderer.scale = getVec2f(2, 2);

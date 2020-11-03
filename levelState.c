@@ -9,65 +9,6 @@
 #include "game.h"
 #include "levels.h"
 
-Body BodyPair_getDeltaBody(BodyPair bodyPair){
-
-	float west, east, north, south;
-	
-	Body deltaBody;
-
-	if(bodyPair.body.pos.x < bodyPair.lastBody.pos.x){
-		west = bodyPair.body.pos.x;
-	}else{
-		west = bodyPair.lastBody.pos.x;
-	}
-
-	if(bodyPair.body.pos.x + bodyPair.body.size.x > bodyPair.lastBody.pos.x + bodyPair.lastBody.size.x){
-		east = bodyPair.body.pos.x + bodyPair.body.size.x;
-	}else{
-		east = bodyPair.lastBody.pos.x + bodyPair.lastBody.size.x;
-	}
-
-	if(bodyPair.body.pos.y < bodyPair.lastBody.pos.y){
-		north = bodyPair.body.pos.y;
-	}else{
-		north = bodyPair.lastBody.pos.y;
-	}
-
-	if(bodyPair.body.pos.y + bodyPair.body.size.y > bodyPair.lastBody.pos.y + bodyPair.lastBody.size.y){
-		south = bodyPair.body.pos.y + bodyPair.body.size.y;
-	}else{
-		south = bodyPair.lastBody.pos.y + bodyPair.lastBody.size.y;
-	}
-
-	deltaBody.pos.x = west;
-	deltaBody.pos.y = north;
-
-	deltaBody.size.x = fabs(west - east);
-	deltaBody.size.y = fabs(north - south);
-
-	return deltaBody;
-
-}
-
-bool checkBodyPairToBodyPairCollision(BodyPair bodyPair1, BodyPair bodyPair2){
-	if((bodyPair1.body.size.x < fabs(bodyPair1.body.pos.x - bodyPair1.lastBody.pos.x)
-	|| bodyPair1.body.size.x < fabs(bodyPair2.body.pos.x - bodyPair2.lastBody.pos.x)
-	|| bodyPair1.body.size.y < fabs(bodyPair1.body.pos.y - bodyPair1.lastBody.pos.y)
-	|| bodyPair1.body.size.y < fabs(bodyPair2.body.pos.y - bodyPair2.lastBody.pos.y)
-	|| bodyPair2.body.size.x < fabs(bodyPair2.body.pos.x - bodyPair2.lastBody.pos.x)
-	|| bodyPair2.body.size.x < fabs(bodyPair2.body.pos.x - bodyPair2.lastBody.pos.x)
-	|| bodyPair2.body.size.y < fabs(bodyPair1.body.pos.y - bodyPair1.lastBody.pos.y)
-	|| bodyPair2.body.size.y < fabs(bodyPair1.body.pos.y - bodyPair1.lastBody.pos.y))
-	&& bodyPair1.body.size.x >= 1 && bodyPair2.body.size.x >= 1
-	&& bodyPair1.body.size.y >= 1 && bodyPair2.body.size.y >= 1
-	&& bodyPair1.lastBody.size.x >= 1 && bodyPair2.lastBody.size.x >= 1
-	&& bodyPair1.lastBody.size.y >= 1 && bodyPair2.lastBody.size.y >= 1){
-		return checkBodyToBodyColRoundFloats(BodyPair_getDeltaBody(bodyPair1), BodyPair_getDeltaBody(bodyPair2));
-	}else{
-		return checkBodyToBodyColRoundFloats(bodyPair1.body, bodyPair2.body);
-	}
-}
-
 int blockerAnimationCount = 25;
 
 void World_initLevelState(World *world_p){
@@ -116,6 +57,13 @@ void World_levelState(World *world_p){
 		}
 		if(world_p->actions[UP_ACTION].down){
 			world_p->scale.y *= 1 - world_p->scaleSpeed;
+		}
+
+		if(world_p->scale.x < 0.000001){
+			world_p->scale.x = world_p->lastScale.x;
+		}
+		if(world_p->scale.y < 0.000001){
+			world_p->scale.y = world_p->lastScale.y;
 		}
 
 	}else{
@@ -269,6 +217,34 @@ void World_levelState(World *world_p){
 
 	}
 
+	//handle y collisions static and none static AGAIN
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
+
+		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+		for(int j = 0; j < world_p->bodyPairs.length; j++){
+
+			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
+
+			if(checkBodyToBodyColCastToInt(bodyPair_p->body, bodyPair2_p->body)
+			&& i != j){
+
+				float bodyPairCenterY = bodyPair_p->lastBody.pos.y + bodyPair_p->lastBody.size.y / 2;
+				float bodyPair2CenterY = bodyPair2_p->lastBody.pos.y + bodyPair2_p->lastBody.size.y / 2;
+
+				if(bodyPairCenterY < bodyPair2CenterY){
+					bodyPair_p->body.pos.y = bodyPair2_p->body.pos.y - bodyPair_p->body.size.y;
+				}
+				if(bodyPairCenterY > bodyPair2CenterY){
+					bodyPair_p->body.pos.y = bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y;
+				}
+
+			}
+
+		}
+
+	}
+
 	//handle y collisions scalble and static 
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
 
@@ -333,9 +309,9 @@ void World_levelState(World *world_p){
 			BodyPair *bodyPair1 = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 			BodyPair *bodyPair2 = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
-			if(checkBodyToBodyColRoundFloats(bodyPair1->body, bodyPair2->body)
-			&& bodyPair1->lastBody.size.x >= 1 && bodyPair2->lastBody.size.x >= 1
-			&& bodyPair1->lastBody.size.y >= 1 && bodyPair2->lastBody.size.y >= 1
+			if(checkBodyToBodyColCastToInt(bodyPair1->body, bodyPair2->body)
+			//&& bodyPair1->lastBody.size.x >= 1 && bodyPair2->lastBody.size.x >= 1
+			//&& bodyPair1->lastBody.size.y >= 1 && bodyPair2->lastBody.size.y >= 1
 			&& i != j){
 				rescaleY = true;
 			}
@@ -410,12 +386,6 @@ void World_levelState(World *world_p){
 			&& bodyPair2_p->body.scaleType == NONE
 			&& bodyPair2_p->body.collisionWeight == STATIC){
 
-				printf("COLLED HRE!\n");
-				printf("pos1: %f\n", bodyPair_p->body.pos.x);
-				printf("size1: %f\n", bodyPair_p->body.size.x);
-				printf("pos2: %f\n", bodyPair2_p->body.pos.x);
-				printf("size2: %f\n", bodyPair2_p->body.size.x);
-
 				float bodyPairCenterX = bodyPair_p->lastBody.pos.x + bodyPair_p->lastBody.size.x / 2;
 				float bodyPair2CenterX = bodyPair2_p->lastBody.pos.x + bodyPair2_p->lastBody.size.x / 2;
 
@@ -483,7 +453,7 @@ void World_levelState(World *world_p){
 			BodyPair *bodyPair1 = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 			BodyPair *bodyPair2 = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
-			if(checkBodyToBodyColRoundFloats(bodyPair1->body, bodyPair2->body)
+			if(checkBodyToBodyColCastToInt(bodyPair1->body, bodyPair2->body)
 			&& bodyPair1->lastBody.size.x >= 1 && bodyPair2->lastBody.size.x >= 1
 			&& bodyPair1->lastBody.size.y >= 1 && bodyPair2->lastBody.size.y >= 1
 			&& i != j){
@@ -561,7 +531,7 @@ void World_levelState(World *world_p){
 		Obstacle *obstacle_p = Array_getItemPointerByIndex(&world_p->obstacles, i);
 		Body *obstacleBody_p = &World_getBodyPairByID(world_p, obstacle_p->bodyPairID)->body;
 
-		if(checkBodyToBodyColRoundFloats(*playerBody_p, *obstacleBody_p)){
+		if(checkBodyToBodyColCastToInt(*playerBody_p, *obstacleBody_p)){
 			col = true;
 			colBody = *obstacleBody_p;
 		}
@@ -593,7 +563,7 @@ void World_levelState(World *world_p){
 
 		Body *obstacleBody_p = &World_getBodyPairByID(world_p, obstacle_p->bodyPairID)->body;
 
-		if(checkBodyToBodyColRoundFloats(*playerBody_p, *obstacleBody_p)){
+		if(checkBodyToBodyColCastToInt(*playerBody_p, *obstacleBody_p)){
 			col = true;
 			colBody = *obstacleBody_p;
 		}
@@ -626,7 +596,7 @@ void World_levelState(World *world_p){
 
 			ScaleField *scaleField_p = Array_getItemPointerByIndex(&world_p->scaleFields, j);
 
-			if(checkBodyToBodyColRoundFloats(bodyPair_p->body, scaleField_p->body)){
+			if(checkBodyToBodyColCastToInt(bodyPair_p->body, scaleField_p->body)){
 
 				bodyPair_p->body.scaleType = scaleField_p->scaleType;
 				
