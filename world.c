@@ -26,6 +26,8 @@ void World_init(World *world_p){
 	Array_init(&world_p->textSprites, sizeof(TextSprite));
 	Array_init(&world_p->scaleFields, sizeof(ScaleField));
 
+	world_p->fadeTransitionCounter = FADE_TRANSITION_TIME / 3 + 1;
+
 	World_restore(world_p);
 
 }
@@ -81,6 +83,11 @@ void World_restore(World *world_p){
 
 	world_p->fpsTextID = World_addTextSprite(world_p, getVec2f(10, 10), "", 0, COLOR_WHITE);
 
+}
+
+void World_fadeTransition(World *world_p){//BUGGAR SKER NÄR TRANSITIONS KROCKAR
+	world_p->fadeTransitionCounter = FADE_TRANSITION_TIME;
+	printf("CHECK\n");
 }
 
 void World_initPlayer(World *w, Vec2f pos, enum ScaleType scaleType){

@@ -31,8 +31,6 @@ int velocityY;
 
 LevelGridTile levelGrid[30][30];
 
-bool setupLevelGrid = false;
-
 bool playImmidietly = false;
 //bool playImmidietly = true;
 
@@ -41,42 +39,41 @@ size_t startTextSpriteID;
 
 bool hasStarted = false;
 
-void World_initLevelSelectState(World *world_p){
+void setupLevelGrid(){
+
+	posX = 15;
+	posY = 20;
+	//posY = 9;
+	//posY = 5;
+	//posY = 11;
+	//posX = 13;
+	//posY = 15;
+
+	for(int i = 0; i < 30; i++){
+		for(int j = 0; j < 30; j++){
+			levelGrid[i][j].levelIndex = -1;
+			levelGrid[i][j].locked = true;
+			//levelGrid[i][j].locked = false;
+			levelGrid[i][j].completed = false;
+			levelGrid[i][j].unlockCounter = -1;
+			levelGrid[i][j].unlockDelayCounter = -1;
+		}
+	}
+
+	for(int i = 0; i < levelsLength; i++){
+		levelGrid[levels[i].y][levels[i].x].levelIndex = i;
+	}
+
+	levelGrid[posY][posX].locked = false;
+
+}
+
+void World_initLevelSelect(World *world_p){
 
 	World_restore(world_p);
 
 	velocityX = 0;
 	velocityY = 0;
-
-	if(!setupLevelGrid){
-
-		posX = 15;
-		posY = 20;
-		//posY = 9;
-		//posY = 5;
-		//posY = 11;
-		//posX = 13;
-		//posY = 15;
-
-		for(int i = 0; i < 30; i++){
-			for(int j = 0; j < 30; j++){
-				levelGrid[i][j].levelIndex = -1;
-				//levelGrid[i][j].locked = true;
-				levelGrid[i][j].locked = false;
-				levelGrid[i][j].completed = false;
-				levelGrid[i][j].unlockCounter = -1;
-				levelGrid[i][j].unlockDelayCounter = -1;
-			}
-		}
-
-		for(int i = 0; i < levelsLength; i++){
-			levelGrid[levels[i].y][levels[i].x].levelIndex = i;
-		}
-
-		levelGrid[posY][posX].locked = false;
-
-		setupLevelGrid = true;
-	}
 
 	for(int i = 0; i < 30; i++){
 		for(int j = 0; j < 30; j++){
@@ -140,6 +137,10 @@ void World_levelSelectState(World *world_p){
 
 	if(world_p->actions[DO_ACTION].downedNoRepeat
 	|| playImmidietly){
+		World_fadeTransition(world_p);
+	}
+
+	if(world_p->fadeTransitionCounter == FADE_TRANSITION_TIME / 2){
 		world_p->currentLevel = levelGrid[posY][posX].levelIndex;
 		world_p->currentState = World_initLevelState;
 	}
@@ -157,7 +158,8 @@ void World_levelSelectState(World *world_p){
 				if(levelTile_p->unlockDelayCounter == 0){
 					levelTile_p->unlockCounter = UNLOCK_TIME;
 				}
-				if(levelTile_p->unlockDelayCounter >= 0){
+				if(levelTile_p->unlockDelayCounter >= 0
+				&& world_p->fadeTransitionCounter < 0){
 					levelTile_p->unlockDelayCounter--;
 				}
 
@@ -197,6 +199,9 @@ void World_levelSelectState(World *world_p){
 	currentLevelTextSprite_p->pos.y = 5 - world_p->renderer.offset.y;
 
 	sprintf(currentLevelTextSprite_p->text, "%i, %i", posX, posY);
+
+	strcpy(currentLevelTextSprite_p->text, "");
+	
 
 }
 

@@ -203,6 +203,9 @@ typedef struct World{
 
 	size_t fpsTextID;
 
+	float fadeTransitionAlpha;
+	int fadeTransitionCounter;
+
 }World;
 
 //global variables
@@ -210,8 +213,8 @@ typedef struct World{
 static int WIDTH = 320;
 static int HEIGHT = 180;
 
-static float windowWidth = 320 * 2;
-static float windowHeight = 180 * 2;
+static int windowWidth = 320 * 2;
+static int windowHeight = 180 * 2;
 
 static Vec4f COLOR_BLACK = { 0, 0, 0, 1 };
 static Vec4f COLOR_WHITE = { 1, 1, 1, 1 };
@@ -247,6 +250,8 @@ static enum SpriteColor SCALE_TYPE_COLORS[] = {
 	*/
 };
 
+static int FADE_TRANSITION_TIME = 60;
+
 //functions
 
 /*
@@ -272,6 +277,8 @@ void Array_removeItemByID(Array *, size_t);
 void World_init(World *);
 
 void World_restore(World *);
+
+void World_fadeTransition(World *);
 
 Vec2f World_getOriginFromScaleType(World *w, enum ScaleType);
 
@@ -356,11 +363,13 @@ bool checkBodyToBodyCol(Body, Body);
 
 //FILE: levelSelectState.c
 
-void World_initLevelSelectState(World *);
+void World_initLevelSelect(World *);
 
 void World_levelSelectState(World *);
 
 void unlockNearbyLevels();
+
+void setupLevelGrid();
 
 //FILE: levelState.c
 

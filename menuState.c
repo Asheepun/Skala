@@ -62,7 +62,8 @@ void World_menuState(World *w){
 
 	if(currentButton == Array_getItemIndexByID(&w->buttons, levelSelectButtonID)
 	&& pressingButton){
-		w->currentState = World_initLevelSelectState;
+		World_initLevelSelect(w);
+		w->currentState = World_levelSelectState;
 	}
 
 	if(currentButton == Array_getItemIndexByID(&w->buttons, quitButtonID)

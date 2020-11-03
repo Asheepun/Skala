@@ -100,16 +100,29 @@ void World_levelState(World *world_p){
 
 	}
 
+	if(world_p->fadeTransitionCounter == FADE_TRANSITION_TIME / 2){
+
+		World_initLevelSelect(world_p);
+
+		unlockNearbyLevels();
+
+		world_p->currentState = World_levelSelectState;
+
+		return;
+		
+	}
+
 	//check if level is completed
 	if(world_p->points.length == 0){
 
-		World_initLevelSelectState(world_p);
-		//world_p->currentState = World_initLevelSelectState;
-		unlockNearbyLevels();
+		if(world_p->fadeTransitionCounter < 0){
+			World_fadeTransition(world_p);
+		}
 
 		return;
 
 	}
+
 	
 	//update bodyPairs last bodies
 	for(int i = 0; i < world_p->bodyPairs.length; i++){

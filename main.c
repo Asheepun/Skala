@@ -148,6 +148,35 @@ void drawGame(){
 	
 	}
 
+	//draw fade transition
+	if(world.fadeTransitionCounter >= 0){
+
+		world.fadeTransitionAlpha = (float)(world.fadeTransitionCounter) / (float)(FADE_TRANSITION_TIME / 3);
+
+		if(world.fadeTransitionCounter <= FADE_TRANSITION_TIME * 2 / 3){
+			world.fadeTransitionAlpha = 0;
+		}
+
+		if(world.fadeTransitionCounter <= FADE_TRANSITION_TIME / 3){
+			world.fadeTransitionAlpha = (float)(FADE_TRANSITION_TIME / 3 - world.fadeTransitionCounter) / (float)(FADE_TRANSITION_TIME / 3);
+		}
+
+		for(int y = 0; y < world.renderer.height; y++){
+			for(int x = 0; x < world.renderer.width; x++){
+
+				int pixelIndex = Renderer_getPixelIndex(&world.renderer, x, y);
+
+				world.renderer.pixels[pixelIndex].r *= world.fadeTransitionAlpha;
+				world.renderer.pixels[pixelIndex].g *= world.fadeTransitionAlpha;
+				world.renderer.pixels[pixelIndex].b *= world.fadeTransitionAlpha;
+
+			}
+		}
+
+		world.fadeTransitionCounter--;
+
+	}
+
 	glTranslatef(0, 1, 0);
 
 	glDrawPixels(world.renderer.width, world.renderer.height, GL_RGB, GL_UNSIGNED_BYTE, world.renderer.pixels);
@@ -178,6 +207,8 @@ int main(int argc, char *argv[]){
 
 	World_init(&world);
 
+	setupLevelGrid();
+
 	for(int i = 0; i < 16; i++){
 		Action_init(&world.actions[i]);
 	}
@@ -203,7 +234,8 @@ int main(int argc, char *argv[]){
 
 	world.currentLevel = 0;
 
-	world.currentState = World_initLevelSelectState;
+	World_initLevelSelect(&world);
+	world.currentState = World_levelSelectState;
 	//world.currentState = World_initLevelState;
 
 	Renderer_setSize(&world.renderer, windowWidth, windowHeight);
