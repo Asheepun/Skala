@@ -435,7 +435,7 @@
 
 	World_addPoint(w, getVec2f(270, 180 - 120), NONE);
 
-	World_addObstacle(w, getVec2f(0, HEIGHT - 60), getVec2f(100, 60), NONE);
+	World_addObstacle(w, getVec2f(0, HEIGHT - 60), getVec2f(110, 60), NONE);
 
 	World_addObstacle(w, getVec2f(WIDTH - 80, HEIGHT - 60), getVec2f(80, 60), NONE);
 

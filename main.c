@@ -87,6 +87,19 @@ void mainLoop(){
 
 	}
 
+	if(windowWidth != glutGet(GLUT_WINDOW_WIDTH)
+	|| windowHeight != glutGet(GLUT_WINDOW_HEIGHT)){
+
+		windowWidth = glutGet(GLUT_WINDOW_WIDTH);
+		windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
+
+		Renderer_setSize(&world.renderer, windowWidth, windowWidth * 9 / 16);
+
+		world.renderer.scale.x = world.renderer.width / WIDTH;
+		world.renderer.scale.y = world.renderer.height / HEIGHT;
+
+	}
+
 	glutPostRedisplay();
 
 }
@@ -239,7 +252,7 @@ int main(int argc, char *argv[]){
 	//world.currentState = World_initLevelState;
 
 	Renderer_setSize(&world.renderer, windowWidth, windowHeight);
-	world.renderer.scale = getVec2f(2, 2);
+	world.renderer.scale = getVec2f(windowWidth / WIDTH, windowHeight / HEIGHT);
 
 	char *assets[] = {
 		"player",
@@ -283,6 +296,8 @@ int main(int argc, char *argv[]){
 	glutKeyboardUpFunc(handleKeyboardUpEvents);
 	glutSpecialFunc(handleKeyboardDownEvents);
 	glutSpecialUpFunc(handleKeyboardUpEvents);
+
+	//glutFullScreen();
 
 	glutMainLoop();
 

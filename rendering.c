@@ -131,12 +131,14 @@ void Renderer_setSize(Renderer *renderer_p, int width, int height){
 
 int Renderer_getPixelIndex(Renderer *renderer_p, int x, int y){
 
+	/*
 	if(x < 0
 	|| y < 0
 	|| x >= renderer_p->width
 	|| y >= renderer_p->height){
 		return -1;
 	}
+	*/
 
 #ifdef __WINDOW_LAYER_GL__
 	return (renderer_p->height - 1 - y) * renderer_p->width + x;
@@ -214,13 +216,11 @@ void Renderer_drawTextureInSingleColor(Renderer *renderer_p, float inputPosX, fl
 			int texturePixelIndex = getPixelIndexFromTexture(texture, texturePosX, texturePosY);
 			int pixelIndex = Renderer_getPixelIndex(renderer_p, screenPosX + x, screenPosY + y);
 
-			if(texture.data[texturePixelIndex + 3] != 0){
+			float textureAlpha = texture.data[texturePixelIndex + 3] / 255;
 
-				renderer_p->pixels[pixelIndex].r = (int)((1 - (1 - color.x * alpha) * (1 - renderer_p->pixels[pixelIndex].r / 255)) * 255);
-				renderer_p->pixels[pixelIndex].g = (int)((1 - (1 - color.y * alpha) * (1 - renderer_p->pixels[pixelIndex].g / 255)) * 255);
-				renderer_p->pixels[pixelIndex].b = (int)((1 - (1 - color.z * alpha) * (1 - renderer_p->pixels[pixelIndex].b / 255)) * 255);
-
-			}
+			renderer_p->pixels[pixelIndex].r = (int)((1 - (1 - color.x * alpha * textureAlpha) * (1 - renderer_p->pixels[pixelIndex].r / 255)) * 255);
+			renderer_p->pixels[pixelIndex].g = (int)((1 - (1 - color.y * alpha * textureAlpha) * (1 - renderer_p->pixels[pixelIndex].g / 255)) * 255);
+			renderer_p->pixels[pixelIndex].b = (int)((1 - (1 - color.z * alpha * textureAlpha) * (1 - renderer_p->pixels[pixelIndex].b / 255)) * 255);
 		
 		}
 	}

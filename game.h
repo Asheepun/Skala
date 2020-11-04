@@ -214,8 +214,11 @@ typedef struct World{
 static int WIDTH = 320;
 static int HEIGHT = 180;
 
-static int windowWidth = 320 * 2;
-static int windowHeight = 180 * 2;
+static int windowWidth = 320 * 4;
+static int windowHeight = 180 * 4;
+
+//static int lastWindowWidth = 320 * 2;
+//static int lastWindowHeight = 180 * 2;
 
 static Vec4f COLOR_BLACK = { 0, 0, 0, 1 };
 static Vec4f COLOR_WHITE = { 1, 1, 1, 1 };
