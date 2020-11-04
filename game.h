@@ -205,6 +205,7 @@ typedef struct World{
 
 	float fadeTransitionAlpha;
 	int fadeTransitionCounter;
+	size_t currentFadeTransitionID;
 
 }World;
 
@@ -278,7 +279,7 @@ void World_init(World *);
 
 void World_restore(World *);
 
-void World_fadeTransition(World *);
+size_t World_fadeTransition(World *);
 
 Vec2f World_getOriginFromScaleType(World *w, enum ScaleType);
 

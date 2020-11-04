@@ -39,6 +39,8 @@ size_t startTextSpriteID;
 
 bool hasStarted = false;
 
+size_t levelSelectStateFadeTransitionID = 6900;//så att det inte krockar första gången
+
 void setupLevelGrid(){
 
 	posX = 15;
@@ -137,10 +139,11 @@ void World_levelSelectState(World *world_p){
 
 	if(world_p->actions[DO_ACTION].downedNoRepeat
 	|| playImmidietly){
-		World_fadeTransition(world_p);
+		levelSelectStateFadeTransitionID = World_fadeTransition(world_p);
 	}
 
-	if(world_p->fadeTransitionCounter == FADE_TRANSITION_TIME / 2){
+	if(world_p->fadeTransitionCounter == FADE_TRANSITION_TIME / 2
+	&& levelSelectStateFadeTransitionID == world_p->currentFadeTransitionID){
 		world_p->currentLevel = levelGrid[posY][posX].levelIndex;
 		world_p->currentState = World_initLevelState;
 	}
@@ -200,7 +203,7 @@ void World_levelSelectState(World *world_p){
 
 	sprintf(currentLevelTextSprite_p->text, "%i, %i", posX, posY);
 
-	strcpy(currentLevelTextSprite_p->text, "");
+	//strcpy(currentLevelTextSprite_p->text, "");
 	
 
 }

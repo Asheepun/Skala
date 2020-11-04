@@ -11,6 +11,8 @@
 
 int blockerAnimationCount = 25;
 
+size_t levelStateFadeTransitionID = 6900;//så att det inte krockar första gången
+
 void World_initLevelState(World *world_p){
 
 	levels[world_p->currentLevel].generate(world_p);
@@ -100,7 +102,8 @@ void World_levelState(World *world_p){
 
 	}
 
-	if(world_p->fadeTransitionCounter == FADE_TRANSITION_TIME / 2){
+	if(world_p->fadeTransitionCounter == FADE_TRANSITION_TIME / 2
+	&& levelStateFadeTransitionID == world_p->currentFadeTransitionID){
 
 		World_initLevelSelect(world_p);
 
@@ -116,7 +119,7 @@ void World_levelState(World *world_p){
 	if(world_p->points.length == 0){
 
 		if(world_p->fadeTransitionCounter < 0){
-			World_fadeTransition(world_p);
+			levelStateFadeTransitionID = World_fadeTransition(world_p);
 		}
 
 		return;

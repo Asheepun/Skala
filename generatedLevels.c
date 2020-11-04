@@ -432,13 +432,29 @@ void World_generateLevel27(World *w){
 
 	World_addObstacle(w, getVec2f(0, HEIGHT - 20), getVec2f(WIDTH, 20), ALL);
 
-	World_addObstacle(w, getVec2f(0, HEIGHT - 60), getVec2f(20, 20), NONE);
+	World_addObstacle(w, getVec2f(0, 0), getVec2f(20, HEIGHT - 40), NONE);
 
 	World_addScaleField(w, getVec2f(150, HEIGHT - 40), getVec2f(40, 40), ALL);
 
 }
 
 void World_generateLevel28(World *w){
+
+	World_restore(w);
+
+	World_initPlayer(w, getVec2f(40, 100), NONE);
+
+	World_addPoint(w, getVec2f(270, 180 - 120), NONE);
+
+	World_addObstacle(w, getVec2f(0, HEIGHT - 60), getVec2f(100, 60), NONE);
+
+	World_addObstacle(w, getVec2f(WIDTH - 80, HEIGHT - 60), getVec2f(80, 60), NONE);
+
+	World_addScaleField(w, getVec2f(WIDTH / 2 - 20, HEIGHT - 110), getVec2f(100, 40), ALL);
+
+}
+
+void World_generateLevel29(World *w){
 
 	World_restore(w);
 

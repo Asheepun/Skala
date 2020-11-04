@@ -63,7 +63,9 @@ void World_generateLevel27(World *);
 
 void World_generateLevel28(World *);
 
-static int levelsLength = 28;
+void World_generateLevel29(World *);
+
+static int levelsLength = 29;
 
 static Level levels[255] = {
 	World_generateLevel1, 15, 20,
@@ -92,8 +94,9 @@ static Level levels[255] = {
 	World_generateLevel24, 16, 5,
 	World_generateLevel25, 14, 5,
 	World_generateLevel26, 13, 5,
-	World_generateLevel27, 12, 5,
-	World_generateLevel28, 11, 5,
+	World_generateLevel27, 13, 4,
+	World_generateLevel28, 12, 5,
+	World_generateLevel29, 11, 5,
 };
 
 #endif
