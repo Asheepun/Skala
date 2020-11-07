@@ -174,6 +174,19 @@ void drawGame(){
 			world.fadeTransitionAlpha = (float)(FADE_TRANSITION_TIME / 3 - world.fadeTransitionCounter) / (float)(FADE_TRANSITION_TIME / 3);
 		}
 
+		Texture texture;
+
+		for(int j = 0; j < world.textures.length; j++){
+
+			Texture *texture_p = Array_getItemPointerByIndex(&world.textures, j);
+
+			if(strcmp(texture_p->name, "obstacle") == 0){
+				texture = *texture_p;
+			}
+
+		}
+
+		/*
 		for(int y = 0; y < world.renderer.height; y++){
 			for(int x = 0; x < world.renderer.width; x++){
 
@@ -185,12 +198,13 @@ void drawGame(){
 
 			}
 		}
+		*/
 
 		world.fadeTransitionCounter--;
 
 	}
 
-	glTranslatef(0, 1, 0);
+	//glTranslatef(0, 1, 0);
 
 	glDrawPixels(world.renderer.width, world.renderer.height, GL_RGB, GL_UNSIGNED_BYTE, world.renderer.pixels);
 
@@ -254,6 +268,10 @@ int main(int argc, char *argv[]){
 	Renderer_setSize(&world.renderer, windowWidth, windowHeight);
 	world.renderer.scale = getVec2f(windowWidth / WIDTH, windowHeight / HEIGHT);
 
+	Renderer_testSingleThreadDrawSizeLimit(&world.renderer);
+
+	initDrawingThreads();
+
 	char *assets[] = {
 		"player",
 		"point",
@@ -297,7 +315,7 @@ int main(int argc, char *argv[]){
 	glutSpecialFunc(handleKeyboardDownEvents);
 	glutSpecialUpFunc(handleKeyboardUpEvents);
 
-	//glutFullScreen();
+	glutFullScreen();
 
 	glutMainLoop();
 

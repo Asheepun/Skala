@@ -125,8 +125,6 @@ void World_levelState(World *world_p){
 		return;
 
 	}
-
-	Vec2f_log(world_p->deltaScale);
 	
 	//update bodyPairs last bodies
 	for(int i = 0; i < world_p->bodyPairs.length; i++){

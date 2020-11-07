@@ -40,6 +40,8 @@ typedef struct Renderer{
 
 	Array textures;
 
+	int singleThreadDrawSizeLimit;
+
 }Renderer;
 
 unsigned int getPixelIndexFromTexture(Texture, int, int);
@@ -63,6 +65,8 @@ int Renderer_getPixelIndex(Renderer *, int, int);
 void Renderer_fillRect(Renderer *, int, int, int, int, Vec4f);
 
 void Renderer_drawTextureInSingleColor(Renderer *, float, float, float, float, Texture, float, Vec4f);
+
+void Renderer_testSingleThreadDrawSizeLimit(Renderer *);
 
 //void Renderer_loadTexture(Renderer *, char *);
 

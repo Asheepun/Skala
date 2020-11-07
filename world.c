@@ -13,7 +13,7 @@ void World_init(World *world_p){
 
 	memset(world_p, 0, sizeof(World));
 
-	world_p->fonts[0] = getFont("times.ttf", 20);
+	world_p->fonts[0] = getFont("assets/times.ttf", 20);
 
 	Array_init(&world_p->textures, sizeof(Texture));
 
