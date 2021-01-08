@@ -77,7 +77,7 @@ typedef struct TextSprite{
 	EntityHeader entityHeader;
 	Vec2f pos;
 	Vec4f color;
-	Texture texture;
+	//Texture texture;
 	float alpha;
 	unsigned int font;
 	char text[32];
@@ -172,7 +172,13 @@ typedef struct World{
 
 	Array textures;
 
-	Renderer renderer;
+	Array shaderPrograms;
+	unsigned int VBO;
+	unsigned int VAO;
+
+	Vec2f renderOffset;
+
+	//Renderer renderer;
 
 	bool quit;
 
@@ -214,8 +220,14 @@ typedef struct World{
 static int WIDTH = 320;
 static int HEIGHT = 180;
 
-static int windowWidth = 320 * 4;
-static int windowHeight = 180 * 4;
+static int windowWidth = 320 * 3;
+static int windowHeight = 180 * 3;
+
+//static int windowWidth = 1366;
+//static int windowHeight = 768;
+
+//static int windowWidth = 802;
+//static int windowHeight = 802 * 9 / 16;
 
 //static int lastWindowWidth = 320 * 2;
 //static int lastWindowHeight = 180 * 2;

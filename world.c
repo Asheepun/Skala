@@ -1,9 +1,10 @@
+#include "glad/glad.h"
+#include "SDL2/SDL.h"
 #include "stdbool.h"
 #include "math.h"
 #include "stdio.h"
 #include "geometry.h"
-#include "rendering.h"
-#include "values.h"
+#include "openglUtils.h"
 #include "stb_truetype.h"
 #include "text.h"
 #include "utils.h"
@@ -15,9 +16,12 @@ void World_init(World *world_p){
 
 	world_p->fonts[0] = getFont("assets/times.ttf", 20);
 
-	Array_init(&world_p->textures, sizeof(Texture));
+	//Array_init(&world_p->textures, sizeof(Texture));
+	Array_init(&world_p->textures, sizeof(OpenglUtils_Texture));
 
-	Renderer_init(&world_p->renderer);
+	//Renderer_init(&world_p->renderer);
+
+	world_p->renderOffset = getVec2f(0, 0);
 
 	Array_init(&world_p->buttons, sizeof(Button));
 	Array_init(&world_p->bodyPairs, sizeof(BodyPair));
@@ -36,7 +40,7 @@ void World_init(World *world_p){
 void World_restore(World *world_p){
 
 	//RENDERING
-	world_p->renderer.offset = getVec2f(0, 0);
+	//world_p->renderer.offset = getVec2f(0, 0);
 	//RENDERING
 
 	world_p->quit = false;
@@ -289,7 +293,7 @@ void World_removeTextSpriteByID(World *world_p, size_t ID){
 		return;
 	}
 
-	Texture_freeData(&textSprite_p->texture);
+	//Texture_freeData(&textSprite_p->texture);
 
 	Array_removeItemByID(&world_p->textSprites, ID);
 

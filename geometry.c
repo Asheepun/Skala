@@ -262,11 +262,11 @@ void Mat4f_scale(Mat4f *m, float x, float y, float z){
 	Mat4f_mul(m, &scaleMatrix);
 }
 
-void Mat4f_translate(Mat4f *m, Vec3f *pos){
+void Mat4f_translate(Mat4f *m, float x, float y, float z){
 	Mat4f translationMatrix = {
-		1, 0, 0, pos->x,
-		0, 1, 0, pos->y,
-		0, 0, 1, pos->z,
+		1, 0, 0, x,
+		0, 1, 0, y,
+		0, 0, 1, z,
 		0, 0, 0, 1,
 	};
 

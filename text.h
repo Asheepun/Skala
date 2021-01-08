@@ -35,6 +35,6 @@ typedef struct Font{
 
 Font getFont(char *, int);
 
-Texture getTextureFromFontAndString_mustFree(Font, char *);
+//Texture getTextureFromFontAndString_mustFree(Font, char *);
 
 #endif

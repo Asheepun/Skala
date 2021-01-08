@@ -26,12 +26,13 @@ typedef struct TextureSlice{
 
 typedef struct TextureSliceMap{
 	Array *sliceArrays;
+	char *name;
 }TextureSliceMap;
 
 typedef struct Renderer{
 
-	int width;
-	int height;
+	float width;
+	float height;
 
 	Vec2f scale;
 	Vec2f offset;
@@ -41,6 +42,10 @@ typedef struct Renderer{
 	Array textures;
 
 	int singleThreadDrawSizeLimit;
+
+	bool multiThreadingOn;
+
+	float fadeOutAlpha;
 
 }Renderer;
 
@@ -58,11 +63,13 @@ void TextureSliceMap_init(TextureSliceMap *, Texture);
 
 void Renderer_init(Renderer *);
 
-void Renderer_setSize(Renderer *, int, int);
+void Renderer_setSize(Renderer *, float, float);
 
 int Renderer_getPixelIndex(Renderer *, int, int);
 
 void Renderer_fillRect(Renderer *, int, int, int, int, Vec4f);
+
+void Renderer_drawTextureSliceMapInSingleColor(Renderer *, float, float, float, float, TextureSliceMap, float, Vec4f);
 
 void Renderer_drawTextureInSingleColor(Renderer *, float, float, float, float, Texture, float, Vec4f);
 

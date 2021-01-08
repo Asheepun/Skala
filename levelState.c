@@ -2,7 +2,6 @@
 #include "math.h"
 #include "stdio.h"
 #include "geometry.h"
-#include "rendering.h"
 #include "stb_truetype.h"
 #include "text.h"
 #include "utils.h"
@@ -22,6 +21,7 @@ void World_initLevelState(World *world_p){
 	//!!!!!!!!!!!
 
 	world_p->currentState = World_levelState;
+
 }
 
 void World_levelState(World *world_p){
@@ -102,6 +102,7 @@ void World_levelState(World *world_p){
 
 	}
 
+	/*
 	if(world_p->fadeTransitionCounter == FADE_TRANSITION_TIME / 2
 	&& levelStateFadeTransitionID == world_p->currentFadeTransitionID){
 
@@ -114,13 +115,24 @@ void World_levelState(World *world_p){
 		return;
 		
 	}
+	*/
 
 	//check if level is completed
 	if(world_p->points.length == 0){
 
+		/*
 		if(world_p->fadeTransitionCounter < 0){
 			levelStateFadeTransitionID = World_fadeTransition(world_p);
 		}
+
+		return;
+		*/
+
+		World_initLevelSelect(world_p);
+
+		unlockNearbyLevels();
+
+		world_p->currentState = World_levelSelectState;
 
 		return;
 
@@ -668,5 +680,7 @@ void World_levelState(World *world_p){
 	playerBody_p = &World_getBodyPairByID(world_p, world_p->player.bodyPairID)->body;
 	world_p->sprites[player_p->spriteIndex].body = *playerBody_p;
 	world_p->sprites[player_p->spriteIndex].color = SCALE_TYPE_COLORS[playerBody_p->scaleType];
+
+	world_p->renderOffset = getVec2f(0, 0);
 
 }

@@ -2,7 +2,6 @@
 #include "math.h"
 #include "stdio.h"
 #include "geometry.h"
-#include "rendering.h"
 #include "stb_truetype.h"
 #include "text.h"
 #include "utils.h"
@@ -54,8 +53,8 @@ void setupLevelGrid(){
 	for(int i = 0; i < 30; i++){
 		for(int j = 0; j < 30; j++){
 			levelGrid[i][j].levelIndex = -1;
-			levelGrid[i][j].locked = true;
-			//levelGrid[i][j].locked = false;
+			//levelGrid[i][j].locked = true;
+			levelGrid[i][j].locked = false;
 			levelGrid[i][j].completed = false;
 			levelGrid[i][j].unlockCounter = -1;
 			levelGrid[i][j].unlockDelayCounter = -1;
@@ -139,14 +138,18 @@ void World_levelSelectState(World *world_p){
 
 	if(world_p->actions[DO_ACTION].downedNoRepeat
 	|| playImmidietly){
-		levelSelectStateFadeTransitionID = World_fadeTransition(world_p);
+		world_p->currentLevel = levelGrid[posY][posX].levelIndex;
+		world_p->currentState = World_initLevelState;
+		//levelSelectStateFadeTransitionID = World_fadeTransition(world_p);
 	}
 
+	/*
 	if(world_p->fadeTransitionCounter == FADE_TRANSITION_TIME / 2
 	&& levelSelectStateFadeTransitionID == world_p->currentFadeTransitionID){
 		world_p->currentLevel = levelGrid[posY][posX].levelIndex;
 		world_p->currentState = World_initLevelState;
 	}
+	*/
 
 	for(int i = 0; i < 30; i++){
 		for(int j = 0; j < 30; j++){
@@ -193,18 +196,17 @@ void World_levelSelectState(World *world_p){
 		}
 	}
 
-	world_p->renderer.offset.x = WIDTH / 2 - posX * 15 - 8;
-	world_p->renderer.offset.y = HEIGHT / 2 - posY * 15 - 8;
+	world_p->renderOffset.x = WIDTH / 2 - posX * 15 - 8;
+	world_p->renderOffset.y = HEIGHT / 2 - posY * 15 - 8;
 
 	TextSprite *currentLevelTextSprite_p = World_getTextSpriteByID(world_p, currentLevelTextSpriteID);
 
-	currentLevelTextSprite_p->pos.x = 10 - world_p->renderer.offset.x;
-	currentLevelTextSprite_p->pos.y = 5 - world_p->renderer.offset.y;
+	currentLevelTextSprite_p->pos.x = 10 - world_p->renderOffset.x;
+	currentLevelTextSprite_p->pos.y = 5 - world_p->renderOffset.y;
 
 	sprintf(currentLevelTextSprite_p->text, "%i, %i", posX, posY);
 
 	strcpy(currentLevelTextSprite_p->text, "");
-	
 
 }
 

@@ -4,7 +4,6 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "stb_truetype.h"
 #include "geometry.h"
-#include "rendering.h"
 #include "text.h"
 
 Font getFont(char *fontPath, int fontSize){
@@ -80,6 +79,7 @@ Font getFont(char *fontPath, int fontSize){
 	
 }
 
+/*
 Texture getTextureFromFontAndString_mustFree(Font font, char *string){
 
 	Texture texture;
@@ -151,3 +151,4 @@ Texture getTextureFromFontAndString_mustFree(Font font, char *string){
 	return texture;
 
 }
+*/

@@ -1,9 +1,9 @@
-#include "miniglut/miniglut.h"
+//#include "miniglut/miniglut.h"
 #include "math.h"
 #include "stdio.h"
 #include "pthread.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+//#define STB_IMAGE_IMPLEMENTATION
+//#include "stb_image.h"
 #include "rendering.h"
 #include "unistd.h"
 #include "signal.h"
@@ -90,6 +90,7 @@ void TextureSliceMap_init(TextureSliceMap *textureSliceMap_p, Texture texture){
 
 void Texture_loadData(Texture *texture_p, char *imagePath){
 
+	/*
 	int *comp;
 
 	texture_p->data = stbi_load(imagePath, &texture_p->width, &texture_p->height, &comp, 4);
@@ -97,6 +98,7 @@ void Texture_loadData(Texture *texture_p, char *imagePath){
 	if(texture_p->data == NULL){
 		printf("Failed to load texture %s\n", imagePath);
 	}
+	*/
 
 }
 
@@ -120,7 +122,7 @@ void Renderer_init(Renderer *renderer_p){
 
 }
 
-void Renderer_setSize(Renderer *renderer_p, int width, int height){
+void Renderer_setSize(Renderer *renderer_p, float width, float height){
 
 	renderer_p->width = width;
 	renderer_p->height = height;
@@ -164,6 +166,101 @@ void Renderer_fillRect(Renderer *renderer_p, int posX, int posY, int width, int 
 			renderer_p->pixels[pixelIndex].b = (int)(color.z * 255);
 
 		}
+	}
+
+}
+
+void Renderer_drawTextureSliceMapInSingleColor(Renderer *renderer_p, float inputPosX, float inputPosY, float inputWidth, float inputHeight, TextureSliceMap textureSliceMap, float alpha, Vec4f color ){
+
+	if(inputWidth < 1
+	|| inputHeight < 1){
+		return;
+	}
+
+	float posX = (int)((floor(inputPosX) + renderer_p->offset.x) * renderer_p->scale.x);
+	float posY = (int)((floor(inputPosY) + renderer_p->offset.y) * renderer_p->scale.y);
+
+	float width = (int)(floor(inputWidth) * renderer_p->scale.x);
+	float height = (int)(floor(inputHeight) * renderer_p->scale.y);
+
+	float screenPosX = posX;
+	float screenPosY = posY;
+	float screenWidth = width;
+	float screenHeight = height;
+
+	if(screenPosX + screenWidth < 0
+	|| screenPosX > renderer_p->width
+	|| screenPosY + screenHeight < 0
+	|| screenPosY > renderer_p->height){
+		return;
+	}
+
+	if(screenPosX + screenWidth > renderer_p->width){
+		screenWidth = renderer_p->width - screenPosX;
+	}
+
+	if(screenPosX < 0){
+		screenWidth += screenPosX;
+		screenPosX = 0;
+	}
+
+	if(screenPosY + screenHeight > renderer_p->height){
+		screenHeight = renderer_p->height - screenPosY;
+	}
+
+	if(screenPosY < 0){
+		screenHeight += screenPosY;
+		screenPosY = 0;
+	}
+
+	if(!renderer_p->multiThreadingOn){
+
+		for(int y = 0; y < screenHeight; y++){
+
+			Array textureSliceArray = textureSliceMap.sliceArrays[(int)(y / screenHeight)];
+
+			for(int i = 0; i < textureSliceArray.length; i++){
+
+				TextureSlice *textureSlice_p = Array_getItemPointerByIndex(&textureSliceArray, i);
+
+				for(int x = 0; x < textureSlice_p->width; x++){
+
+					int pixelIndex = Renderer_getPixelIndex(renderer_p, screenPosX, screenPosY + y);
+
+					Pixel *pixel_p = &renderer_p->pixels[pixelIndex];
+
+					pixel_p->r = pixel_p->r + (color.x * 255 - pixel_p->r) * alpha /** textureAlpha*/ * renderer_p->fadeOutAlpha;
+				
+				}
+				
+			}
+		
+		}
+
+
+		/*
+		for(int y = 0; y < screenHeight; y++){
+
+			int pixelIndex = Renderer_getPixelIndex(renderer_p, screenPosX, screenPosY + y);
+
+			for(int x = 0; x < screenWidth; x++){
+
+				int texturePosX = (int)((x + (screenPosX - posX)) * texture.width / width);
+				int texturePosY = (int)((y + (screenPosY - posY)) * texture.height / height);
+
+				int texturePixelIndex = getPixelIndexFromTexture(texture, texturePosX, texturePosY);
+			
+				float textureAlpha = texture.data[texturePixelIndex + 3] / 255;
+				Pixel *pixel_p = &renderer_p->pixels[pixelIndex + x];
+
+				pixel_p->r = pixel_p->r + (color.x * 255 - pixel_p->r) * alpha * textureAlpha * renderer_p->fadeOutAlpha;
+				pixel_p->g = pixel_p->g + (color.y * 255 - pixel_p->g) * alpha * textureAlpha * renderer_p->fadeOutAlpha;
+				pixel_p->b = pixel_p->b + (color.z * 255 - pixel_p->b) * alpha * textureAlpha * renderer_p->fadeOutAlpha;
+
+			}
+		}
+		*/
+	
 	}
 
 }
@@ -365,11 +462,11 @@ void Renderer_drawTextureInSingleColor(Renderer *renderer_p, float inputPosX, fl
 		return;
 	}
 
-	float posX = (int)((inputPosX + renderer_p->offset.x) * renderer_p->scale.x);
-	float posY = (int)((inputPosY + renderer_p->offset.y) * renderer_p->scale.y);
+	float posX = (int)((floor(inputPosX) + renderer_p->offset.x) * renderer_p->scale.x);
+	float posY = (int)((floor(inputPosY) + renderer_p->offset.y) * renderer_p->scale.y);
 
-	float width = (int)(inputWidth * renderer_p->scale.x);
-	float height = (int)(inputHeight * renderer_p->scale.y);
+	float width = (int)(floor(inputWidth) * renderer_p->scale.x);
+	float height = (int)(floor(inputHeight) * renderer_p->scale.y);
 
 	float screenPosX = posX;
 	float screenPosY = posY;
@@ -417,57 +514,93 @@ void Renderer_drawTextureInSingleColor(Renderer *renderer_p, float inputPosX, fl
 		color
 	};
 
-	completedDrawingProcesses = 0;
+	if(!renderer_p->multiThreadingOn){
 
-	for(int i = 0; i < NUMBER_OF_DRAWING_THREADS; i++){
-		//pthread_mutex_lock(&drawingThreadsMutexLocks[i]);
-	}
+		for(int y = 0; y < screenHeight; y++){
 
-	for(int i = 0; i < NUMBER_OF_DRAWING_THREADS; i++){
+			int pixelIndex = Renderer_getPixelIndex(renderer_p, screenPosX, screenPosY + y);
 
-		drawingThreadsArguments[i] = baseArguments;
+			for(int x = 0; x < screenWidth; x++){
 
-		drawingThreadsArguments[i].screenHeight /= NUMBER_OF_DRAWING_THREADS;
+				Pixel *pixel_p = &renderer_p->pixels[pixelIndex + x];
 
-		drawingThreadsArguments[i].startY = i * screenHeight / NUMBER_OF_DRAWING_THREADS;
+				pixel_p->r = pixel_p->r + (color.x * 255 - pixel_p->r);
+				pixel_p->g = pixel_p->g + (color.y * 255 - pixel_p->g);
+				pixel_p->b = pixel_p->b + (color.z * 255 - pixel_p->b);
 
-		pthread_mutex_lock(&drawingThreadsMutexLocks[i]);
+				//int texturePosX = (int)((x + (screenPosX - posX)) * texture.width / width);
+				//int texturePosY = (int)((y + (screenPosY - posY)) * texture.height / height);
 
-		int rc = pthread_cond_signal(&drawingThreadsConds[i]);
+				//int texturePixelIndex = getPixelIndexFromTexture(texture, texturePosX, texturePosY);
+			
+				/*
+				float textureAlpha = texture.data[texturePixelIndex + 3] / 255;
+				Pixel *pixel_p = &renderer_p->pixels[pixelIndex + x];
 
-		//printf("SIGNALED! %i, %i\n", i, rc);
+				pixel_p->r = pixel_p->r + (color.x * 255 - pixel_p->r) * alpha * textureAlpha * renderer_p->fadeOutAlpha;
+				pixel_p->g = pixel_p->g + (color.y * 255 - pixel_p->g) * alpha * textureAlpha * renderer_p->fadeOutAlpha;
+				pixel_p->b = pixel_p->b + (color.z * 255 - pixel_p->b) * alpha * textureAlpha * renderer_p->fadeOutAlpha;
+				*/
 
-		//while(pthread_cond_signal(&drawingThreadsConds[i])){
-			//printf("RE TRIED!\n");
-		//}
-
-		pthread_mutex_unlock(&drawingThreadsMutexLocks[i]);
-
-		//usleep(1 * NUMBER_OF_DRAWING_THREADS);
+			}
+		}
 	
+	}else{
+
+		completedDrawingProcesses = 0;
+
+		for(int i = 0; i < NUMBER_OF_DRAWING_THREADS; i++){
+			//pthread_mutex_lock(&drawingThreadsMutexLocks[i]);
+		}
+
+		for(int i = 0; i < NUMBER_OF_DRAWING_THREADS; i++){
+
+			drawingThreadsArguments[i] = baseArguments;
+
+			drawingThreadsArguments[i].screenHeight /= NUMBER_OF_DRAWING_THREADS;
+
+			drawingThreadsArguments[i].startY = i * screenHeight / NUMBER_OF_DRAWING_THREADS;
+
+			pthread_mutex_lock(&drawingThreadsMutexLocks[i]);
+
+			int rc = pthread_cond_signal(&drawingThreadsConds[i]);
+
+			//printf("SIGNALED! %i, %i\n", i, rc);
+
+			//while(pthread_cond_signal(&drawingThreadsConds[i])){
+				//printf("RE TRIED!\n");
+			//}
+
+			pthread_mutex_unlock(&drawingThreadsMutexLocks[i]);
+
+			//usleep(1 * NUMBER_OF_DRAWING_THREADS);
+		
+		}
+
+		for(int i = 0; i < NUMBER_OF_DRAWING_THREADS; i++){
+			//pthread_mutex_unlock(&drawingThreadsMutexLocks[i]);
+		}
+
+		/*
+		pthread_mutex_lock(&drawingThreadsAreDoneMutex);
+
+		pthread_cond_wait(&drawingThreadsAreDoneCond, &drawingThreadsAreDoneMutex);
+
+		printf("%i\n", completedDrawingProcesses);
+
+		pthread_mutex_unlock(&drawingThreadsAreDoneMutex);
+		*/
+		
+		//printf("SIGNAL IS SENT\n");
+
+		//printf("%i\n", rc);
+
+		while(completedDrawingProcesses < NUMBER_OF_DRAWING_THREADS){
+			//printf("CHECKING IF PROCESSES ARE DONE!, %i of %i\n", completedDrawingProcesses, NUMBER_OF_DRAWING_THREADS);
+		}
+
 	}
 
-	for(int i = 0; i < NUMBER_OF_DRAWING_THREADS; i++){
-		//pthread_mutex_unlock(&drawingThreadsMutexLocks[i]);
-	}
-
-	/*
-	pthread_mutex_lock(&drawingThreadsAreDoneMutex);
-
-	pthread_cond_wait(&drawingThreadsAreDoneCond, &drawingThreadsAreDoneMutex);
-
-	printf("%i\n", completedDrawingProcesses);
-
-	pthread_mutex_unlock(&drawingThreadsAreDoneMutex);
-	*/
-	
-	//printf("SIGNAL IS SENT\n");
-
-	//printf("%i\n", rc);
-
-	while(completedDrawingProcesses < NUMBER_OF_DRAWING_THREADS){
-		//printf("CHECKING IF PROCESSES ARE DONE!, %i of %i\n", completedDrawingProcesses, NUMBER_OF_DRAWING_THREADS);
-	}
 
 	//usleep(1);
 
@@ -558,7 +691,7 @@ void Renderer_testSingleThreadDrawSizeLimit(Renderer *renderer_p){
 		Texture testTexture;
 		testTexture.data = malloc(1000 * sizeof(unsigned char));
 
-		testStartTime = glutGet(GLUT_ELAPSED_TIME);
+		//testStartTime = glutGet(GLUT_ELAPSED_TIME);
 
 		//speed test
 		for(int i = 0; i < pixelAmount; i++){
@@ -575,7 +708,7 @@ void Renderer_testSingleThreadDrawSizeLimit(Renderer *renderer_p){
 
 		free(testTexture.data);
 
-		testEndTime = glutGet(GLUT_ELAPSED_TIME);
+		//testEndTime = glutGet(GLUT_ELAPSED_TIME);
 
 		testTimesResult += testEndTime - testStartTime;
 		

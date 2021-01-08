@@ -104,7 +104,7 @@ int main(){
 	}
 	*/
 
-	char *topOfFile = "#include \"stdbool.h\"\n#include \"math.h\"\n#include \"stdio.h\"\n#include \"geometry.h\"\n#include \"rendering.h\"\n#include \"utils.h\"\n#include \"stb_truetype.h\"\n#include \"text.h\"\n#include \"game.h\"\n#include \"levels.h\"\n";
+	char *topOfFile = "#include \"stdbool.h\"\n#include \"math.h\"\n#include \"stdio.h\"\n#include \"geometry.h\"\n#include \"utils.h\"\n#include \"stb_truetype.h\"\n#include \"text.h\"\n#include \"game.h\"\n#include \"levels.h\"\n";
 	
 	//char *topOfFile = "hello\n";
 

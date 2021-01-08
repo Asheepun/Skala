@@ -89,7 +89,7 @@ void Mat4f_rotate(Mat4f *, float, float, float);
 
 void Mat4f_scale(Mat4f *, float, float, float);
 
-void Mat4f_translate(Mat4f *, Vec3f *);
+void Mat4f_translate(Mat4f *, float, float, float);
 
 void Mat4f_perspective(Mat4f *m, float fov, float aspectRatio, float n, float f);
 

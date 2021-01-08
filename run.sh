@@ -1,3 +1,5 @@
-tcc generator/generate.c -o generator/generate && ./generator/generate
+#tcc generator/generate.c -o generator/generate && ./generator/generate
 
-make && ./main
+#make && ./main
+
+./compile.sh && ./main
