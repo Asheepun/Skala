@@ -687,6 +687,6 @@ void World_levelState(World *world_p){
 	world_p->sprites[player_p->spriteIndex].body = *playerBody_p;
 	world_p->sprites[player_p->spriteIndex].color = SCALE_TYPE_COLORS[playerBody_p->scaleType];
 
-	world_p->renderOffset = getVec2f(0, 0);
+	world_p->renderer.offset = getVec2f(0, 0);
 
 }

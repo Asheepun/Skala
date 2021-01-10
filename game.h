@@ -1,6 +1,10 @@
 #ifndef GAME_H_
 #define GAME_H_
 
+#include "glad/glad.h"
+#include "SDL2/SDL.h"
+#include "openglUtils.h"
+
 #define SPECIAL_KEY_LEFT 81
 #define SPECIAL_KEY_UP 82
 #define SPECIAL_KEY_RIGHT 83
@@ -173,6 +177,9 @@ typedef struct World{
 	Array textures;
 
 	Array shaderPrograms;
+
+	OpenglUtils_Renderer renderer;
+
 	unsigned int VBO;
 	unsigned int VAO;
 

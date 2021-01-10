@@ -79,27 +79,29 @@ Font getFont(char *fontPath, int fontSize){
 	
 }
 
-/*
-Texture getTextureFromFontAndString_mustFree(Font font, char *string){
+char *getImageDataFromFontAndString_mustFree(Font font, char *string, int *outWidth, int *outHeight){
 
-	Texture texture;
+	//Texture texture;
 
 	unsigned char *bitmap;
-	texture.width = 0;
-	texture.height = font.size;
+	int width = 0;
+	int height = font.size;
+	char *imageData;
+	//texture.width = 0;
+	//texture.height = font.size;
 
 	for(int i = 0; i < strlen(string); i++){
 
-		texture.width += roundf(font.glyphs[string[i]].width * font.scale);
+		width += roundf(font.glyphs[string[i]].width * font.scale);
 
 		int kern;
 		kern = stbtt_GetCodepointKernAdvance(&font.info, string[i], string[i + 1]);
 
-		texture.width += roundf(kern * font.scale);
+		width += roundf(kern * font.scale);
 	
 	}
 
-	bitmap = calloc(texture.width * texture.height, sizeof(unsigned char));
+	bitmap = calloc(width * height, sizeof(unsigned char));
 
 	int x = 0;
 	for(int i = 0; i < strlen(string); i++){
@@ -108,14 +110,14 @@ Texture getTextureFromFontAndString_mustFree(Font font, char *string){
 		
 		int y = font.ascent + glyph.north;
 
-		int byteOffset = x + roundf(glyph.leastSignificantBit * font.scale) + (y * texture.width);
+		int byteOffset = x + roundf(glyph.leastSignificantBit * font.scale) + (y * width);
 
 		stbtt_MakeCodepointBitmap(
 			&font.info,
 			bitmap + byteOffset,
 			glyph.east - glyph.west,
 			glyph.south - glyph.north,
-			texture.width,
+			width,
 			font.scale,
 			font.scale,
 			string[i]
@@ -130,25 +132,28 @@ Texture getTextureFromFontAndString_mustFree(Font font, char *string){
 
 	}
 
-	texture.data = malloc(texture.width * texture.width * 4 * sizeof(unsigned char));
+	imageData = malloc(width * height * 4 * sizeof(unsigned char));
 
-	for(int i = 0; i < texture.width * texture.height; i++){
+	for(int i = 0; i < width * height; i++){
 		if(bitmap[i] == 0){
-			texture.data[i * 4 + 0] = 0;
-			texture.data[i * 4 + 1] = 0;
-			texture.data[i * 4 + 2] = 0;
-			texture.data[i * 4 + 3] = 0;
+			imageData[i * 4 + 0] = 0;
+			imageData[i * 4 + 1] = 0;
+			imageData[i * 4 + 2] = 0;
+			imageData[i * 4 + 3] = 0;
 		}else{
-			texture.data[i * 4 + 0] = 255;
-			texture.data[i * 4 + 1] = 255;
-			texture.data[i * 4 + 2] = 255;
-			texture.data[i * 4 + 3] = 255;
+			imageData[i * 4 + 0] = 255;
+			imageData[i * 4 + 1] = 255;
+			imageData[i * 4 + 2] = 255;
+			imageData[i * 4 + 3] = 255;
 		}
 	}
 
 	free(bitmap);
 
-	return texture;
+	*outWidth = width;
+	*outHeight = height;
+
+	return imageData;
+	//return texture;
 
 }
-*/

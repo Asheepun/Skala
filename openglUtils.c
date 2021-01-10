@@ -52,3 +52,74 @@ unsigned int getCompiledShader(char *shaderSourcePath, GLenum type){
 
 	return shader;
 }
+
+void OpenglUtils_Renderer_init(OpenglUtils_Renderer *renderer_p, float width, float height){
+
+	renderer_p->offset = getVec2f(0, 0);
+	renderer_p->width = width;
+	renderer_p->height = height;
+
+	float rectangleVertices[] = {
+		1, 1, 0, 		1, 0,
+		-1, 1, 0, 		0, 0,
+		-1, -1, 0, 		0, 1,
+
+		1, 1, 0, 		1, 0,
+		1, -1, 0, 		1, 1,
+		-1, -1, 0, 		0, 1,
+	};
+
+	glGenBuffers(1, &renderer_p->VBO);
+
+	glGenVertexArrays(1, &renderer_p->VAO);
+
+	glBindVertexArray(renderer_p->VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, renderer_p->VBO);
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(rectangleVertices), rectangleVertices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	glGenTextures(1, &renderer_p->textTextureID);
+
+}
+
+unsigned int OpenglUtils_Renderer_drawTexture(OpenglUtils_Renderer renderer, Vec2f pos, Vec2f size, Vec4f color, unsigned int textureID, unsigned int shaderProgramID){
+
+	Mat4f transformations = {
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1
+	};
+
+	Mat4f_translate(&transformations, -1, 1, 0);
+
+	Mat4f_translate(&transformations, size.x / renderer.width, -size.y / renderer.height, 0);
+
+	Mat4f_translate(&transformations, 2 * pos.x / renderer.width, 2 * -pos.y / renderer.height, 0);
+
+	Mat4f_translate(&transformations, 2 * renderer.offset.x / renderer.width, 2 * -renderer.offset.y / renderer.height, 0);
+
+	Mat4f_scale(&transformations, size.x / renderer.width, size.y / renderer.height, 1);
+
+	glUseProgram(shaderProgramID);
+
+	unsigned int transformationsLocation = glGetUniformLocation(shaderProgramID, "transformations");
+	glUniformMatrix4fv(transformationsLocation, 1, GL_TRUE, transformations.values);
+
+	unsigned int colorLocation = glGetUniformLocation(shaderProgramID, "color");
+	glUniform4fv(colorLocation, 1, &color);
+
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
+	glBindVertexArray(renderer.VAO);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+}

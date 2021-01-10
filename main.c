@@ -134,108 +134,6 @@ void mainLoop(){
 
 void drawGame(){
 
-	/*
-	//draw background
-	memset(world.renderer.pixels, 0, world.renderer.width * world.renderer.height * sizeof(Pixel));
-
-	//draw sprites
-	for(int i = 0; i < world.spritesLength + world.spritesGaps; i++){
-		if(world.sprites[i].active){
-
-			Sprite *sprite_p = &world.sprites[i];
-			Texture texture;
-			//TextureSliceMap textureSliceMap;
-
-			for(int j = 0; j < world.textures.length; j++){
-
-				Texture *texture_p = Array_getItemPointerByIndex(&world.textures, j);
-
-				if(strcmp(texture_p->name, sprite_p->texture) == 0){
-					texture = *texture_p;
-				}
-
-			}
-
-			Renderer_drawTextureInSingleColor(&world.renderer,
-				sprite_p->body.pos.x,
-				sprite_p->body.pos.y,
-				sprite_p->body.size.x,
-				sprite_p->body.size.y,
-				texture,
-				//textureSliceMap,
-				sprite_p->alpha,
-				SPRITE_COLORS[sprite_p->color]
-			);
-
-		}
-	}
-
-	float startTime = glutGet(GLUT_ELAPSED_TIME);
-
-	for(int i = 0; i < 1; i++){
-		Renderer_drawTextureInSingleColor(&world.renderer,
-			0,
-			0,
-			WIDTH,
-			HEIGHT,
-			*(Texture *)Array_getItemPointerByIndex(&world.textures, 2),
-			//textureSliceMap,
-			1,
-			COLOR_GREEN
-		);
-	}
-
-	float endTime = glutGet(GLUT_ELAPSED_TIME);
-
-	printf("time: %f\n", endTime - startTime);
-
-	//draw text sprites
-	for(int i = 0; i < world.textSprites.length; i++){
-
-		TextSprite *textSprite_p = Array_getItemPointerByIndex(&world.textSprites, i);
-
-		Texture texture = getTextureFromFontAndString_mustFree(world.fonts[textSprite_p->font], textSprite_p->text);
-
-		Renderer_drawTextureInSingleColor(
-			&world.renderer,
-			textSprite_p->pos.x,
-			textSprite_p->pos.y,
-			texture.width,
-			texture.height,
-			texture,
-			textSprite_p->alpha,
-			textSprite_p->color
-		);
-
-		Texture_freeData(&texture);
-	
-	}
-
-	//draw fade transition
-	if(world.fadeTransitionCounter >= 0){
-
-		world.fadeTransitionAlpha = (float)(world.fadeTransitionCounter) / (float)(FADE_TRANSITION_TIME / 3);
-
-		if(world.fadeTransitionCounter <= FADE_TRANSITION_TIME * 2 / 3){
-			world.fadeTransitionAlpha = 0;
-		}
-
-		if(world.fadeTransitionCounter <= FADE_TRANSITION_TIME / 3){
-			world.fadeTransitionAlpha = (float)(FADE_TRANSITION_TIME / 3 - world.fadeTransitionCounter) / (float)(FADE_TRANSITION_TIME / 3);
-		}
-
-		world.renderer.fadeOutAlpha = world.fadeTransitionAlpha;
-
-		world.fadeTransitionCounter--;
-
-	}
-
-	//glTranslatef(0, 1, 0);
-
-	glDrawPixels(world.renderer.width, world.renderer.height, GL_RGB, GL_UNSIGNED_BYTE, world.renderer.pixels);
-
-	*/
-
 	glClearColor(0, 0, 0, 1);
 
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -276,40 +174,48 @@ void drawGame(){
 			Vec4f color = SPRITE_COLORS[sprite_p->color];
 			color.w = alpha;
 
-			Mat4f transformations = {
-				1, 0, 0, 0,
-				0, 1, 0, 0,
-				0, 0, 1, 0,
-				0, 0, 0, 1
-			};
-
-			Mat4f_translate(&transformations, -1, 1, 0);
-
-			Mat4f_translate(&transformations, size.x / (float)WIDTH, -size.y / (float)HEIGHT, 0);
-
-			Mat4f_translate(&transformations, 2 * pos.x / (float)WIDTH, 2 * -pos.y / (float)HEIGHT, 0);
-
-			Mat4f_translate(&transformations, 2 * world.renderOffset.x / (float)WIDTH, 2 * -world.renderOffset.y / (float)HEIGHT, 0);
-
-			Mat4f_scale(&transformations, size.x / (float)WIDTH, size.y / (float)HEIGHT, 1);
-
 			unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
 
-			glUseProgram(shaderProgram);
-
-			unsigned int transformationsLocation = glGetUniformLocation(shaderProgram, "transformations");
-			glUniformMatrix4fv(transformationsLocation, 1, GL_TRUE, transformations.values);
-
-			unsigned int colorLocation = glGetUniformLocation(shaderProgram, "color");
-			glUniform4fv(colorLocation, 1, &color);
-
-			glBindTexture(GL_TEXTURE_2D, texture.ID);
-
-			glBindVertexArray(world.VAO);
-
-			glDrawArrays(GL_TRIANGLES, 0, 6);
+			OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, texture.ID, shaderProgram);
 
 		}
+	}
+
+	//draw text sprites
+	for(int i = 0; i < world.textSprites.length; i++){
+
+		TextSprite *textSprite_p = Array_getItemPointerByIndex(&world.textSprites, i);
+
+		Vec2f pos;
+		pos.x = floor(textSprite_p->pos.x);
+		pos.y = floor(textSprite_p->pos.y);
+
+		Vec4f color = textSprite_p->color;
+		color.w = textSprite_p->alpha;
+
+		int imageWidth, imageHeight;
+
+		char *imageData = getImageDataFromFontAndString_mustFree(world.fonts[textSprite_p->font], textSprite_p->text, &imageWidth, &imageHeight);
+
+		glBindTexture(GL_TEXTURE_2D, world.renderer.textTextureID);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+		
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		free(imageData);
+
+		Vec2f size;
+		size.x = floor(imageWidth);
+		size.y = floor(imageHeight);
+
+		unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
+
+		OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, world.renderer.textTextureID, shaderProgram);
+
 	}
 
 	//draw fade transition
@@ -325,32 +231,18 @@ void drawGame(){
 			fadeTransitionAlpha = 3 * ((float)(world.fadeTransitionCounter) / (float)(FADE_TRANSITION_TIME));
 		}
 
+		Vec2f pos = { -world.renderer.offset.x, -world.renderer.offset.y };
+		Vec2f size = { WIDTH, HEIGHT };
+
 		Vec4f color = { 0, 0, 0, 1 };
 		color.w = fadeTransitionAlpha;
 
-		Mat4f transformations = {
-			1, 0, 0, 0,
-			0, 1, 0, 0,
-			0, 0, 1, 0,
-			0, 0, 0, 1
-		};
+		unsigned int textureID = 4;//4 is obstacle texture
 
 		unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
 
-		glUseProgram(shaderProgram);
+		OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, textureID, shaderProgram);
 
-		unsigned int transformationsLocation = glGetUniformLocation(shaderProgram, "transformations");
-		glUniformMatrix4fv(transformationsLocation, 1, GL_TRUE, transformations.values);
-
-		unsigned int colorLocation = glGetUniformLocation(shaderProgram, "color");
-		glUniform4fv(colorLocation, 1, &color);
-
-		glBindTexture(GL_TEXTURE_2D, 3);//3 is obstacle texture
-
-		glBindVertexArray(world.VAO);
-
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-	
 	}
 
 	SDL_GL_SwapWindow(window);
@@ -359,6 +251,7 @@ void drawGame(){
 
 int main(int argc, char *argv[]){
 
+	//set up world and game
 	World_init(&world);
 
 	setupLevelGrid();
@@ -412,69 +305,13 @@ int main(int argc, char *argv[]){
 		printf("ERROR LOADING WITH GLAD\n");
 	}
 
-	/*
-	for(int i = 0; i < texturesLength; i++){
-
-		Texture *texture_p = Array_addItem(&world.textures);
-
-		texture_p->name = assets[i];
-
-		char path[255];
-
-		sprintf(path, "assets/sprites/%s.png", texture_p->name);
-
-		Texture_loadData(texture_p, path);
-	
-	}
-
-	for(int i = 0; i < world.textures.length; i++){
-
-		TextureSliceMap *textureSliceMap_p = Array_addItem(&world.textureSliceMaps);
-		Texture texture = *(Texture *)Array_getItemPointerByIndex(&world.textures, i);
-
-		TextureSliceMap_init(textureSliceMap_p, texture);
-
-		textureSliceMap_p->name = texture.name;
-		
-	}
-	*/
-
 	//set up opengl
 	glViewport(0, 0, windowWidth, windowHeight);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//glOrtho(0, 0, windowWidth, windowHeight, 0, 0, 1);
-
-	//glTranslatef(0.375f, 0.375f, 0);
-
-	//set up VBO and VAO
-	float vertices[] = {
-		1, 1, 0, 		1, 0,
-		-1, 1, 0, 		0, 0,
-		-1, -1, 0, 		0, 1,
-
-		1, 1, 0, 		1, 0,
-		1, -1, 0, 		1, 1,
-		-1, -1, 0, 		0, 1,
-	};
-
-	glGenBuffers(1, &world.VBO);
-
-	glGenVertexArrays(1, &world.VAO);
-
-	glBindVertexArray(world.VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, world.VBO);
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	OpenglUtils_Renderer_init(&world.renderer, WIDTH, HEIGHT);
 
 	//load shaders
 	unsigned int vertexShader = getCompiledShader("shaders/vertex-shader.glsl", GL_VERTEX_SHADER);

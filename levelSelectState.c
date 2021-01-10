@@ -201,13 +201,13 @@ void World_levelSelectState(World *world_p){
 		}
 	}
 
-	world_p->renderOffset.x = WIDTH / 2 - posX * 15 - 8;
-	world_p->renderOffset.y = HEIGHT / 2 - posY * 15 - 8;
+	world_p->renderer.offset.x = WIDTH / 2 - posX * 15 - 8;
+	world_p->renderer.offset.y = HEIGHT / 2 - posY * 15 - 8;
 
 	TextSprite *currentLevelTextSprite_p = World_getTextSpriteByID(world_p, currentLevelTextSpriteID);
 
-	currentLevelTextSprite_p->pos.x = 10 - world_p->renderOffset.x;
-	currentLevelTextSprite_p->pos.y = 5 - world_p->renderOffset.y;
+	currentLevelTextSprite_p->pos.x = 10 - world_p->renderer.offset.x;
+	currentLevelTextSprite_p->pos.y = 5 - world_p->renderer.offset.y;
 
 	sprintf(currentLevelTextSprite_p->text, "%i, %i", posX, posY);
 
