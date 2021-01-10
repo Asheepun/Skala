@@ -104,6 +104,13 @@ void mainLoop(){
 				}
 			}
 
+			//handle fade transition
+			world.fadeTransitionCounter--;
+
+			if(world.fadeTransitionCounter == FADE_TRANSITION_TIME / 2){
+				world.currentState = world.nextStateAfterTransition;
+			}
+
 			world.currentState(&world);
 
 			for(int i = 0; i < 255; i++){
@@ -254,8 +261,6 @@ void drawGame(){
 			Vec2f pos = sprite_p->body.pos;
 			Vec2f size = sprite_p->body.size;
 
-			Vec2f textureSize = getVec2f(14, 20);
-
 			pos.x = floor(pos.x);
 			pos.y = floor(pos.y);
 
@@ -298,9 +303,6 @@ void drawGame(){
 			unsigned int colorLocation = glGetUniformLocation(shaderProgram, "color");
 			glUniform4fv(colorLocation, 1, &color);
 
-			unsigned int textureSizeLocation = glGetUniformLocation(shaderProgram, "textureSize");
-			glUniform2fv(textureSizeLocation, 1, &textureSize);
-
 			glBindTexture(GL_TEXTURE_2D, texture.ID);
 
 			glBindVertexArray(world.VAO);
@@ -308,6 +310,47 @@ void drawGame(){
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		}
+	}
+
+	//draw fade transition
+	if(world.fadeTransitionCounter > 0){
+
+		float fadeTransitionAlpha = 3 * ((float)(FADE_TRANSITION_TIME - world.fadeTransitionCounter) / (float)(FADE_TRANSITION_TIME));
+
+		if(world.fadeTransitionCounter <= FADE_TRANSITION_TIME * 2 / 3){
+			fadeTransitionAlpha = 1;
+		}
+
+		if(world.fadeTransitionCounter <= FADE_TRANSITION_TIME / 3){
+			fadeTransitionAlpha = 3 * ((float)(world.fadeTransitionCounter) / (float)(FADE_TRANSITION_TIME));
+		}
+
+		Vec4f color = { 0, 0, 0, 1 };
+		color.w = fadeTransitionAlpha;
+
+		Mat4f transformations = {
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+		};
+
+		unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
+
+		glUseProgram(shaderProgram);
+
+		unsigned int transformationsLocation = glGetUniformLocation(shaderProgram, "transformations");
+		glUniformMatrix4fv(transformationsLocation, 1, GL_TRUE, transformations.values);
+
+		unsigned int colorLocation = glGetUniformLocation(shaderProgram, "color");
+		glUniform4fv(colorLocation, 1, &color);
+
+		glBindTexture(GL_TEXTURE_2D, 3);//3 is obstacle texture
+
+		glBindVertexArray(world.VAO);
+
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+	
 	}
 
 	SDL_GL_SwapWindow(window);
@@ -347,7 +390,7 @@ int main(int argc, char *argv[]){
 
 	World_initLevelSelect(&world);
 	//world.currentState = World_levelSelectState;
-	world.currentState = World_initLevelState;
+	//world.currentState = World_initLevelState;
 
 	//setup SDL
 	SDL_Init(SDL_INIT_VIDEO);
@@ -398,6 +441,9 @@ int main(int argc, char *argv[]){
 
 	//set up opengl
 	glViewport(0, 0, windowWidth, windowHeight);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//glOrtho(0, 0, windowWidth, windowHeight, 0, 0, 1);
 

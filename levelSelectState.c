@@ -53,8 +53,8 @@ void setupLevelGrid(){
 	for(int i = 0; i < 30; i++){
 		for(int j = 0; j < 30; j++){
 			levelGrid[i][j].levelIndex = -1;
-			//levelGrid[i][j].locked = true;
-			levelGrid[i][j].locked = false;
+			levelGrid[i][j].locked = true;
+			//levelGrid[i][j].locked = false;
 			levelGrid[i][j].completed = false;
 			levelGrid[i][j].unlockCounter = -1;
 			levelGrid[i][j].unlockDelayCounter = -1;
@@ -100,6 +100,10 @@ void World_initLevelSelect(World *world_p){
 
 void World_levelSelectState(World *world_p){
 
+	if(world_p->fadeTransitionCounter > FADE_TRANSITION_TIME / 2){
+		return;
+	}
+
 	//printf("---\n");
 
 	velocityX = 0;
@@ -139,7 +143,8 @@ void World_levelSelectState(World *world_p){
 	if(world_p->actions[DO_ACTION].downedNoRepeat
 	|| playImmidietly){
 		world_p->currentLevel = levelGrid[posY][posX].levelIndex;
-		world_p->currentState = World_initLevelState;
+		world_p->fadeTransitionCounter = FADE_TRANSITION_TIME;
+		world_p->nextStateAfterTransition = World_initLevelState;
 		//levelSelectStateFadeTransitionID = World_fadeTransition(world_p);
 	}
 

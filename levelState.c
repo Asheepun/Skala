@@ -26,6 +26,11 @@ void World_initLevelState(World *world_p){
 
 void World_levelState(World *world_p){
 
+	if(world_p->fadeTransitionCounter > FADE_TRANSITION_TIME / 2
+	&& world_p->points.length == 0){
+		return;
+	}
+
 	printf("---\n");
 
 	if(world_p->actions[MENU_ACTION].downed){
@@ -128,11 +133,12 @@ void World_levelState(World *world_p){
 		return;
 		*/
 
-		World_initLevelSelect(world_p);
+		//World_initLevelSelect(world_p);
 
 		unlockNearbyLevels();
 
-		world_p->currentState = World_levelSelectState;
+		world_p->fadeTransitionCounter = FADE_TRANSITION_TIME;
+		world_p->nextStateAfterTransition = World_initLevelSelect;//?
 
 		return;
 

@@ -30,8 +30,9 @@ void World_init(World *world_p){
 	Array_init(&world_p->textSprites, sizeof(TextSprite));
 	Array_init(&world_p->scaleFields, sizeof(ScaleField));
 
-	world_p->fadeTransitionCounter = FADE_TRANSITION_TIME / 3 + 1;
-	world_p->currentFadeTransitionID = 0;
+	world_p->fadeTransitionCounter = 0;
+	//world_p->fadeTransitionCounter = FADE_TRANSITION_TIME / 3 + 1;
+	//world_p->currentFadeTransitionID = 0;
 
 	World_restore(world_p);
 
@@ -92,11 +93,11 @@ void World_restore(World *world_p){
 
 size_t World_fadeTransition(World *world_p){//BUGGAR SKER NÄR TRANSITIONS KROCKAR
 
-	world_p->fadeTransitionCounter = FADE_TRANSITION_TIME;
+	//world_p->fadeTransitionCounter = FADE_TRANSITION_TIME;
 
-	world_p->currentFadeTransitionID++;
+	//world_p->currentFadeTransitionID++;
 
-	return world_p->currentFadeTransitionID;
+	//return world_p->currentFadeTransitionID;
 
 }
 

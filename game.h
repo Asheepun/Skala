@@ -183,6 +183,8 @@ typedef struct World{
 	bool quit;
 
 	void (*currentState)(struct World *w);
+	void (*nextStateAfterTransition)(struct World *w);
+	int fadeTransitionCounter;
 
 	size_t currentLevel;
 
@@ -209,9 +211,9 @@ typedef struct World{
 
 	size_t fpsTextID;
 
-	float fadeTransitionAlpha;
-	int fadeTransitionCounter;
-	size_t currentFadeTransitionID;
+	//float fadeTransitionAlpha;
+	//int fadeTransitionCounter;
+	//size_t currentFadeTransitionID;
 
 }World;
 
