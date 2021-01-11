@@ -31,8 +31,7 @@ void World_init(World *world_p){
 	Array_init(&world_p->scaleFields, sizeof(ScaleField));
 
 	world_p->fadeTransitionCounter = 0;
-	//world_p->fadeTransitionCounter = FADE_TRANSITION_TIME / 3 + 1;
-	//world_p->currentFadeTransitionID = 0;
+	world_p->initCurrentState = false;
 
 	World_restore(world_p);
 
@@ -98,6 +97,22 @@ size_t World_fadeTransition(World *world_p){//BUGGAR SKER NÄR TRANSITIONS KROCK
 	//world_p->currentFadeTransitionID++;
 
 	//return world_p->currentFadeTransitionID;
+
+}
+
+void World_fadeTransitionToState(World *world_p, enum WorldState nextStateAfterTransition){
+
+	world_p->fadeTransitionCounter = FADE_TRANSITION_TIME;
+
+	world_p->nextStateAfterTransition = nextStateAfterTransition;
+
+}
+
+void World_switchToAndInitState(World *world_p, enum WorldState newState){
+
+	world_p->currentState = newState;
+
+	world_p->initCurrentState = true;
 
 }
 

@@ -31,7 +31,7 @@ void World_initMenuState(World *w){
 
 	currentButton = 1;
 
-	w->currentState = World_menuState;
+	//w->currentState = World_menuState;
 	
 }
 
@@ -61,8 +61,9 @@ void World_menuState(World *w){
 
 	if(currentButton == Array_getItemIndexByID(&w->buttons, levelSelectButtonID)
 	&& pressingButton){
-		World_initLevelSelect(w);
-		w->currentState = World_levelSelectState;
+		World_switchToAndInitState(w, LEVEL_SELECT_STATE);
+		//World_initLevelSelectState(w);
+		//w->currentState = LEVEL_SELECT_STATE;
 	}
 
 	if(currentButton == Array_getItemIndexByID(&w->buttons, quitButtonID)
@@ -81,7 +82,7 @@ void World_menuState(World *w){
 
 		World_removeSprite(w, menuBackgroundSpriteIndex);
 
-		w->currentState = World_levelState;
+		w->currentState = LEVEL_STATE;
 		return;
 	}
 

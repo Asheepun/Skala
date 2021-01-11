@@ -54,6 +54,12 @@ enum SpriteColor{
 	SPRITE_COLOR_YELLOW,
 };
 
+enum WorldState{
+	LEVEL_STATE,
+	LEVEL_SELECT_STATE,
+	MENU_STATE,
+};
+
 //structs
 
 typedef struct Body{
@@ -189,9 +195,12 @@ typedef struct World{
 
 	bool quit;
 
-	void (*currentState)(struct World *w);
-	void (*nextStateAfterTransition)(struct World *w);
+	//void (*currentState)(struct World *w);
+	//void (*nextStateAfterTransition)(struct World *w);
+	enum WorldState currentState;
+	enum WorldState nextStateAfterTransition;
 	int fadeTransitionCounter;
+	bool initCurrentState;
 
 	size_t currentLevel;
 
@@ -359,6 +368,10 @@ void Action_addBinding(Action *, int);
 Body BodyPair_getDeltaBody(BodyPair);
 
 bool checkBodyPairToBodyPairCollision(BodyPair, BodyPair);
+
+void World_fadeTransitionToState(World *, enum WorldState);
+
+void World_switchToAndInitState(World *, enum WorldState);
 
 //FILE: components.c
 

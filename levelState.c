@@ -20,7 +20,7 @@ void World_initLevelState(World *world_p){
 	World_levelState(world_p);//VERY TEMPORARY, JUST MAKE SCALING NOT LOOK BAD FOR A FRAME
 	//!!!!!!!!!!!
 
-	world_p->currentState = World_levelState;
+	//world_p->currentState = World_levelState;
 
 }
 
@@ -34,8 +34,11 @@ void World_levelState(World *world_p){
 	printf("---\n");
 
 	if(world_p->actions[MENU_ACTION].downed){
-		world_p->currentState = World_initMenuState;
+
+		World_switchToAndInitState(world_p, MENU_STATE);
+
 		return;
+
 	}
 
 	world_p->scaling = false;
@@ -101,7 +104,9 @@ void World_levelState(World *world_p){
 	|| playerBody_p->size.x < 1
 	|| playerBody_p->size.y < 1){
 
-		world_p->currentState = World_initLevelState;
+		World_initLevelState(world_p);
+		//world_p->
+		//world_p->currentState = World_initLevelState;
 
 		return;
 
@@ -137,8 +142,10 @@ void World_levelState(World *world_p){
 
 		unlockNearbyLevels();
 
-		world_p->fadeTransitionCounter = FADE_TRANSITION_TIME;
-		world_p->nextStateAfterTransition = World_initLevelSelect;//?
+		World_fadeTransitionToState(world_p, LEVEL_SELECT_STATE);
+		//world_p->fadeTransitionCounter = FADE_TRANSITION_TIME;
+		//world_p->nextStateAfterTransition = World_initLevelSelect;//?
+		//world_p->nextStateAfterTransition = LEVEL_SELECT_STATE;
 
 		return;
 

@@ -41,6 +41,7 @@ void mainLoop(){
 
 	while(!quit){
 
+		//handle events
 		while(SDL_PollEvent(&e)){
 
 			if(e.type == SDL_QUIT
@@ -71,6 +72,7 @@ void mainLoop(){
 
 		while(elapsedTime > 1000 / 60){
 
+			//handle keys
 			for(int i = 0; i < 255; i++){
 				if(world.keys[i].down){
 					world.keys[i].downCounter--;
@@ -85,6 +87,7 @@ void mainLoop(){
 				}
 			}
 
+			//handle actions
 			for(int i = 0; i < 16; i++){
 
 				world.actions[i].down = false;
@@ -107,12 +110,44 @@ void mainLoop(){
 			//handle fade transition
 			world.fadeTransitionCounter--;
 
+			//switch state when screen
 			if(world.fadeTransitionCounter == FADE_TRANSITION_TIME / 2){
 				world.currentState = world.nextStateAfterTransition;
+
+				world.initCurrentState = true;
 			}
 
-			world.currentState(&world);
+			//init current state if needed
+			if(world.initCurrentState){
 
+				if(world.currentState == LEVEL_STATE){
+					World_initLevelState(&world);
+				}
+				else if(world.currentState == LEVEL_SELECT_STATE){
+					World_initLevelSelectState(&world);
+				}
+				else if(world.currentState == MENU_STATE){
+					World_initMenuState(&world);
+				}
+
+				world.initCurrentState = false;
+
+			}
+
+			//run current state
+			if(world.currentState == LEVEL_STATE
+			&& world.fadeTransitionCounter < FADE_TRANSITION_TIME / 2){
+				World_levelState(&world);
+			}
+			else if(world.currentState == LEVEL_SELECT_STATE
+			&& world.fadeTransitionCounter < FADE_TRANSITION_TIME / 2){
+				World_levelSelectState(&world);
+			}
+			else if(world.currentState == MENU_STATE){
+				World_menuState(&world);
+			}
+
+			//reset keys and actions
 			for(int i = 0; i < 255; i++){
 				world.keys[i].downed = false;
 				world.keys[i].downedNoRepeat = false;
@@ -281,9 +316,8 @@ int main(int argc, char *argv[]){
 
 	world.currentLevel = 0;
 
-	World_initLevelSelect(&world);
-	//world.currentState = World_levelSelectState;
-	//world.currentState = World_initLevelState;
+	World_switchToAndInitState(&world, LEVEL_SELECT_STATE);
+	//World_switchToAndInitState(&world, LEVEL_STATE);
 
 	//setup SDL
 	SDL_Init(SDL_INIT_VIDEO);
