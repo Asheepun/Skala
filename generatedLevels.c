@@ -104,7 +104,7 @@ void World_generateLevel4(World *w){
 
 	//World_addSprite(w, getVec2f(80, 180 - 80), getVec2f(20, 20), COLOR_WHITE, "scale-help");
 
-	World_addTextSprite(w, getVec2f(80, 80), "Use the \"X\" key.", 0, COLOR_WHITE);
+	World_addTextSprite(w, getVec2f(80, 80), "Use the \"X\" key.", 0, COLOR_WHITE, GAME_LAYER_TEXT);
 	
 }
 

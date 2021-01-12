@@ -79,16 +79,16 @@ void World_initLevelSelectState(World *world_p){
 	for(int i = 0; i < 30; i++){
 		for(int j = 0; j < 30; j++){
 			if(levelGrid[j][i].levelIndex != -1){
-				levelGrid[j][i].buttonID = World_addButton(world_p, getVec2f(0 + i * 15, 0 + j * 15), getVec2f(10, 10), "level");
+				levelGrid[j][i].buttonID = World_addButton(world_p, getVec2f(0 + i * 15, 0 + j * 15), getVec2f(10, 10), "level", GAME_LAYER_FOREGROUND);
 			}
 		}
 	}
 
-	currentLevelSpriteID = World_addTextSprite(world_p, getVec2f(100, 100), "", 0, COLOR_WHITE);
+	currentLevelSpriteID = World_addTextSprite(world_p, getVec2f(100, 100), "", 0, COLOR_WHITE, GAME_LAYER_TEXT);
 
 	if(!hasStarted){
 
-		startSpriteID = World_addTextSprite(world_p, getVec2f(175, 330), "Press X to start", 0, COLOR_WHITE);
+		startSpriteID = World_addTextSprite(world_p, getVec2f(175, 330), "Press X to start", 0, COLOR_WHITE, GAME_LAYER_TEXT);
 		
 		hasStarted = true;
 

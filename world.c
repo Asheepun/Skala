@@ -18,14 +18,15 @@ void World_init(World *world_p){
 
 	Array_init(&world_p->textures, sizeof(OpenglUtils_Texture));
 
-	world_p->renderOffset = getVec2f(0, 0);
-
 	Array_init(&world_p->buttons, sizeof(Button));
 	Array_init(&world_p->bodyPairs, sizeof(BodyPair));
 	Array_init(&world_p->points, sizeof(Point));
 	Array_init(&world_p->obstacles, sizeof(Obstacle));
-	Array_init(&world_p->sprites, sizeof(Sprite));
 	Array_init(&world_p->scaleFields, sizeof(ScaleField));
+
+	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
+		Array_init(&world_p->spriteLayers[i], sizeof(Sprite));
+	}
 
 	world_p->fadeTransitionCounter = 0;
 	world_p->initCurrentState = false;
@@ -51,9 +52,12 @@ void World_restore(World *world_p){
 	Array_clear(&world_p->points);
 	Array_clear(&world_p->obstacles);
 	Array_clear(&world_p->scaleFields);
-	Array_clear(&world_p->sprites);
 
-	world_p->fpsTextID = World_addTextSprite(world_p, getVec2f(10, 10), "", 0, COLOR_WHITE);
+	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
+		Array_clear(&world_p->spriteLayers[i]);
+	}
+
+	world_p->fpsTextID = World_addTextSprite(world_p, getVec2f(10, 10), "", 0, COLOR_WHITE, GAME_LAYER_TEXT);
 
 }
 
@@ -98,29 +102,13 @@ void World_initPlayer(World *w, Vec2f pos, enum ScaleType scaleType){
 
 	Physics_init(&p->physics);
 
-	p->spriteID = World_addSprite(w, pos, body.size, SCALE_TYPE_COLORS[body.scaleType], "player", 1);
+	p->spriteID = World_addSprite(w, pos, body.size, SCALE_TYPE_COLORS[body.scaleType], "player", 1, GAME_LAYER_FOREGROUND);
 
 }
 
-size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Vec4f color, char *texture, float alpha){
-	//size_t index;
+size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Vec4f color, char *texture, float alpha, enum SpriteLayer layer){
 
-	/*
-	for(int i = 0; i < w->spritesLength + 1; i++){
-		if(!w->sprites[i].active){
-			index = i;
-			if(i < w->spritesLength){
-				w->spritesGaps--;
-			}
-		}
-	}
-	*/
-
-	//w->spritesLength++;
-
-	//Sprite *s = &w->sprites[index];
-
-	Sprite *sprite_p = Array_addItem(&world_p->sprites);
+	Sprite *sprite_p = Array_addItem(&world_p->spriteLayers[layer]);
 
 	EntityHeader_init(&sprite_p->entityHeader);
 
@@ -136,9 +124,9 @@ size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Vec4f color, char 
 
 }
 
-size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, unsigned int font, Vec4f color){
+size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, unsigned int font, Vec4f color, enum SpriteLayer layer){
 	
-	Sprite *sprite_p = Array_addItem(&world_p->sprites);
+	Sprite *sprite_p = Array_addItem(&world_p->spriteLayers[layer]);
 
 	EntityHeader_init(&sprite_p->entityHeader);
 
@@ -155,7 +143,7 @@ size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, unsigned int f
 
 }
 
-size_t World_addButton(World *world_p, Vec2f pos, Vec2f size, char *texture){
+size_t World_addButton(World *world_p, Vec2f pos, Vec2f size, char *texture, enum SpriteLayer layer){
 
 	Button *button_p = Array_addItem(&world_p->buttons);
 
@@ -163,13 +151,13 @@ size_t World_addButton(World *world_p, Vec2f pos, Vec2f size, char *texture){
 
 	button_p->buttonType = SPRITE_BUTTON;
 
-	button_p->spriteID = World_addSprite(world_p, pos, size, SPRITE_COLORS[SPRITE_COLOR_WHITE], texture, 1);
+	button_p->spriteID = World_addSprite(world_p, pos, size, SPRITE_COLORS[SPRITE_COLOR_WHITE], texture, 1, layer);
 
 	return button_p->entityHeader.ID;
 
 }
 
-unsigned int World_addTextButton(World *world_p, Vec2f pos, char *text){
+unsigned int World_addTextButton(World *world_p, Vec2f pos, char *text, enum SpriteLayer layer){
 	
 	Button *button_p = Array_addItem(&world_p->buttons);
 
@@ -177,7 +165,7 @@ unsigned int World_addTextButton(World *world_p, Vec2f pos, char *text){
 
 	button_p->buttonType = TEXT_BUTTON;
 
-	button_p->spriteID = World_addTextSprite(world_p, pos, text, 0, COLOR_WHITE);
+	button_p->spriteID = World_addTextSprite(world_p, pos, text, 0, COLOR_WHITE, layer);
 
 	return button_p->entityHeader.ID;
 
@@ -211,7 +199,7 @@ size_t World_addObstacle(World *world_p, Vec2f pos, Vec2f size, enum ScaleType s
 
 	Physics_init(&obstacle_p->physics);
 
-	obstacle_p->spriteID = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[body.scaleType], "obstacle", 1);
+	obstacle_p->spriteID = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[body.scaleType], "obstacle", 1, GAME_LAYER_BACKGROUND);
 
 	return obstacle_p->entityHeader.ID;
 
@@ -235,7 +223,7 @@ size_t World_addPoint(World *world_p, Vec2f pos, enum ScaleType scaleType){
 
 	Physics_init(&point_p->physics);
 
-	point_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[body.scaleType], "point", 1);
+	point_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[body.scaleType], "point", 1, GAME_LAYER_FOREGROUND);
 
 	return point_p->entityHeader.ID;
 
@@ -251,7 +239,7 @@ size_t World_addScaleField(World *world_p, Vec2f pos, Vec2f size, enum ScaleType
 
 	scaleField_p->scaleType = scaleType;
 
-	scaleField_p->spriteID = World_addSprite(world_p, pos, scaleField_p->body.size, SCALE_TYPE_COLORS[scaleField_p->body.scaleType], "obstacle", 0.5);
+	scaleField_p->spriteID = World_addSprite(world_p, pos, scaleField_p->body.size, SCALE_TYPE_COLORS[scaleField_p->body.scaleType], "obstacle", 0.5, GAME_LAYER_FOREGROUND);
 
 	return scaleField_p->entityHeader.ID;
 
@@ -259,13 +247,15 @@ size_t World_addScaleField(World *world_p, Vec2f pos, Vec2f size, enum ScaleType
 
 void World_removeSpriteByID(World *world_p, size_t ID){
 	
-	Sprite *sprite_p = Array_getItemPointerByID(&world_p->sprites, ID);
+	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 
-	if(sprite_p == NULL){
-		return;
+		Sprite *sprite_p = Array_getItemPointerByID(&world_p->spriteLayers[i], ID);
+
+		if(sprite_p != NULL){
+			Array_removeItemByID(&world_p->spriteLayers[i], ID);
+		}
+	
 	}
-
-	Array_removeItemByID(&world_p->sprites, ID);
 
 }
 
@@ -293,11 +283,23 @@ void World_removePointByID(World *world_p, size_t ID){
 
 BodyPair *World_getBodyPairByID(World *world_p, size_t ID){
 	return Array_getItemPointerByID(&world_p->bodyPairs, ID);
-};
+}
 
 Sprite *World_getSpriteByID(World *world_p, size_t ID){
-	return Array_getItemPointerByID(&world_p->sprites, ID);
-};
+
+	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
+
+		Sprite *sprite_p = Array_getItemPointerByID(&world_p->spriteLayers[i], ID);
+
+		if(sprite_p != NULL){
+			return sprite_p;
+		}
+	
+	}
+
+	return NULL;
+
+}
 
 Vec2f World_getOriginFromScaleType(World *w, enum ScaleType scaleType){
 	if(scaleType == NONE){

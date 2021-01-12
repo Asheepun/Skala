@@ -5,10 +5,9 @@
 #include "SDL2/SDL.h"
 #include "openglUtils.h"
 
-#define SPECIAL_KEY_LEFT 81
-#define SPECIAL_KEY_UP 82
-#define SPECIAL_KEY_RIGHT 83
-#define SPECIAL_KEY_DOWN 84
+//definitions
+
+#define NUMBER_OF_SPRITE_LAYERS 20
 
 //enums
 
@@ -57,6 +56,15 @@ enum SpriteColor{
 	SPRITE_COLOR_RED,
 	SPRITE_COLOR_WHITE,
 	SPRITE_COLOR_YELLOW,
+};
+
+enum SpriteLayer{
+	GAME_LAYER_BACKGROUND,
+	GAME_LAYER_FOREGROUND,
+	GAME_LAYER_TEXT,
+	MENU_LAYER_BACKGROUND,
+	MENU_LAYER_FOREGROUND,
+	MENU_LAYER_TEXT,
 };
 
 enum WorldState{
@@ -183,22 +191,12 @@ typedef struct World{
 	Font fonts[16];
 
 	Array textures;
-
 	Array shaderPrograms;
 
 	OpenglUtils_Renderer renderer;
 
-	unsigned int VBO;
-	unsigned int VAO;
-
-	Vec2f renderOffset;
-
-	//Renderer renderer;
-
 	bool quit;
 
-	//void (*currentState)(struct World *w);
-	//void (*nextStateAfterTransition)(struct World *w);
 	enum WorldState currentState;
 	enum WorldState nextStateAfterTransition;
 	int fadeTransitionCounter;
@@ -221,18 +219,10 @@ typedef struct World{
 	Array obstacles;
 	Array scaleFields;
 	Array bodyPairs;
-	Array sprites;
-	//Array textSprites;
 
-	//Sprite sprites[255];
-	//size_t spritesLength;
-	//size_t spritesGaps;
+	Array spriteLayers[NUMBER_OF_SPRITE_LAYERS];
 
 	size_t fpsTextID;
-
-	//float fadeTransitionAlpha;
-	//int fadeTransitionCounter;
-	//size_t currentFadeTransitionID;
 
 }World;
 
@@ -307,9 +297,9 @@ Vec2f World_getLastScaleFromScaleType(World *w, enum ScaleType);
 
 void World_initPlayer(World *, Vec2f, enum ScaleType);
 
-size_t World_addSprite(World *, Vec2f, Vec2f, Vec4f, char *, float);
-size_t World_addTextSprite(World *, Vec2f, char *, unsigned int, Vec4f);
-size_t World_addButton(World *w, Vec2f, Vec2f, char *);
+size_t World_addSprite(World *, Vec2f, Vec2f, Vec4f, char *, float, enum SpriteLayer);
+size_t World_addTextSprite(World *, Vec2f, char *, unsigned int, Vec4f, enum SpriteLayer);
+size_t World_addButton(World *w, Vec2f, Vec2f, char *, enum SpriteLayer);
 size_t World_addObstacle(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addBodyPair(World *, Body);
 size_t World_addPoint(World *, Vec2f, enum ScaleType);

@@ -19,15 +19,15 @@ bool pressingButton;
 void World_initMenuState(World *w){
 	pressingButton = false;
 
-	menuBackgroundSpriteID = World_addSprite(w, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), SPRITE_COLORS[SPRITE_COLOR_BLACK], "menu-background", 1);
+	menuBackgroundSpriteID = World_addSprite(w, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), SPRITE_COLORS[SPRITE_COLOR_BLACK], "menu-background", 1, MENU_LAYER_BACKGROUND);
 
 
 
-	levelSelectButtonID = World_addTextButton(w, getVec2f(100, 50), "Level Select");
+	levelSelectButtonID = World_addTextButton(w, getVec2f(100, 50), "Level Select", MENU_LAYER_TEXT);
 
-	returnButtonID = World_addTextButton(w, getVec2f(100, 100), "Return");
+	returnButtonID = World_addTextButton(w, getVec2f(100, 100), "Return", MENU_LAYER_TEXT);
 
-	quitButtonID = World_addTextButton(w, getVec2f(100, 150), "Quit");
+	quitButtonID = World_addTextButton(w, getVec2f(100, 150), "Quit", MENU_LAYER_TEXT);
 
 	currentButton = 1;
 
@@ -90,7 +90,8 @@ void World_menuState(World *w){
 	
 		if(button_p->buttonType == TEXT_BUTTON){
 
-			Sprite *sprite_p = Array_getItemPointerByID(&w->sprites, button_p->spriteID);
+			//Sprite *sprite_p = Array_getItemPointerByID(&w->sprites, button_p->spriteID);
+			Sprite *sprite_p = World_getSpriteByID(w, button_p->spriteID);
 
 			sprite_p->color = COLOR_WHITE;
 
