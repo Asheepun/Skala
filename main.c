@@ -174,10 +174,17 @@ void drawGame(){
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	//draw sprites
-	for(int i = 0; i < world.spritesLength + world.spritesGaps; i++){
-		if(world.sprites[i].active){
+	for(int i = 0; i < world.sprites.length; i++){
 
-			Sprite *sprite_p = &world.sprites[i];
+		Sprite *sprite_p = Array_getItemPointerByIndex(&world.sprites, i);
+
+		Vec4f color = sprite_p->color;
+		color.w = sprite_p->alpha;
+
+		Vec2f pos;
+		Vec2f size;
+
+		if(sprite_p->type == REGULAR_SPRITE){
 
 			OpenglUtils_Texture texture;
 
@@ -191,66 +198,51 @@ void drawGame(){
 
 			}
 
-			Vec2f pos = sprite_p->body.pos;
-			Vec2f size = sprite_p->body.size;
+			pos.x = floor(sprite_p->body.pos.x);
+			pos.y = floor(sprite_p->body.pos.y);
 
-			pos.x = floor(pos.x);
-			pos.y = floor(pos.y);
-
-			size.x = floor(size.x);
-			size.y = floor(size.y);
+			size.x = floor(sprite_p->body.size.x);
+			size.y = floor(sprite_p->body.size.y);
 
 			if(size.x < 1
 			|| size.y < 1){
 				size = getVec2f(0, 0);
 			}
 
-			float alpha = sprite_p->alpha;
-			Vec4f color = SPRITE_COLORS[sprite_p->color];
-			color.w = alpha;
-
 			unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
 
 			OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, texture.ID, shaderProgram);
-
-		}
-	}
-
-	//draw text sprites
-	for(int i = 0; i < world.textSprites.length; i++){
-
-		TextSprite *textSprite_p = Array_getItemPointerByIndex(&world.textSprites, i);
-
-		Vec2f pos;
-		pos.x = floor(textSprite_p->pos.x);
-		pos.y = floor(textSprite_p->pos.y);
-
-		Vec4f color = textSprite_p->color;
-		color.w = textSprite_p->alpha;
-
-		int imageWidth, imageHeight;
-
-		char *imageData = getImageDataFromFontAndString_mustFree(world.fonts[textSprite_p->font], textSprite_p->text, &imageWidth, &imageHeight);
-
-		glBindTexture(GL_TEXTURE_2D, world.renderer.textTextureID);
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 		
-		glGenerateMipmap(GL_TEXTURE_2D);
+		}
+		else if(sprite_p->type == TEXT_SPRITE){
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			pos.x = floor(sprite_p->pos.x);
+			pos.y = floor(sprite_p->pos.y);
 
-		free(imageData);
+			int imageWidth, imageHeight;
 
-		Vec2f size;
-		size.x = floor(imageWidth);
-		size.y = floor(imageHeight);
+			char *imageData = getImageDataFromFontAndString_mustFree(world.fonts[sprite_p->font], sprite_p->text, &imageWidth, &imageHeight);
 
-		unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
+			glBindTexture(GL_TEXTURE_2D, world.renderer.textTextureID);
 
-		OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, world.renderer.textTextureID, shaderProgram);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+			
+			glGenerateMipmap(GL_TEXTURE_2D);
 
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+			free(imageData);
+
+			size.x = floor(imageWidth);
+			size.y = floor(imageHeight);
+
+			unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
+
+			OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, world.renderer.textTextureID, shaderProgram);
+		
+		}
+	
 	}
 
 	//draw fade transition

@@ -16,10 +16,7 @@ void World_init(World *world_p){
 
 	world_p->fonts[0] = getFont("assets/times.ttf", 20);
 
-	//Array_init(&world_p->textures, sizeof(Texture));
 	Array_init(&world_p->textures, sizeof(OpenglUtils_Texture));
-
-	//Renderer_init(&world_p->renderer);
 
 	world_p->renderOffset = getVec2f(0, 0);
 
@@ -27,7 +24,7 @@ void World_init(World *world_p){
 	Array_init(&world_p->bodyPairs, sizeof(BodyPair));
 	Array_init(&world_p->points, sizeof(Point));
 	Array_init(&world_p->obstacles, sizeof(Obstacle));
-	Array_init(&world_p->textSprites, sizeof(TextSprite));
+	Array_init(&world_p->sprites, sizeof(Sprite));
 	Array_init(&world_p->scaleFields, sizeof(ScaleField));
 
 	world_p->fadeTransitionCounter = 0;
@@ -38,10 +35,6 @@ void World_init(World *world_p){
 }
 
 void World_restore(World *world_p){
-
-	//RENDERING
-	//world_p->renderer.offset = getVec2f(0, 0);
-	//RENDERING
 
 	world_p->quit = false;
 
@@ -58,45 +51,9 @@ void World_restore(World *world_p){
 	Array_clear(&world_p->points);
 	Array_clear(&world_p->obstacles);
 	Array_clear(&world_p->scaleFields);
-	Array_clear(&world_p->textSprites);
-		/*
-	while(world_p->buttons.length > 0){
-		Array_removeItemByIndex(&world_p->buttons, 0);
-	}
-	while(world_p->bodyPairs.length > 0){
-		Array_removeItemByIndex(&world_p->bodyPairs, 0);
-	}
-	while(world_p->points.length > 0){
-		Array_removeItemByIndex(&world_p->points, 0);
-	}
-	while(world_p->obstacles.length > 0){
-		Array_removeItemByIndex(&world_p->obstacles, 0);
-	}
-	*/
-	/*
-	while(world_p->textSprites.length > 0){
-		TextSprite *textSprite_p = Array_getItemPointerByIndex(&world_p->textSprites, 0);
-		World_removeTextSpriteByID(world_p, textSprite_p->entityHeader.ID);
-	}
-	*/
-
-	for(int i = 0; i < world_p->spritesLength + world_p->spritesGaps; i++){
-		world_p->sprites[i].active = false;
-	}
-	world_p->spritesLength = 0;
-	world_p->spritesGaps = 0;
+	Array_clear(&world_p->sprites);
 
 	world_p->fpsTextID = World_addTextSprite(world_p, getVec2f(10, 10), "", 0, COLOR_WHITE);
-
-}
-
-size_t World_fadeTransition(World *world_p){//BUGGAR SKER NÄR TRANSITIONS KROCKAR
-
-	//world_p->fadeTransitionCounter = FADE_TRANSITION_TIME;
-
-	//world_p->currentFadeTransitionID++;
-
-	//return world_p->currentFadeTransitionID;
 
 }
 
@@ -141,13 +98,14 @@ void World_initPlayer(World *w, Vec2f pos, enum ScaleType scaleType){
 
 	Physics_init(&p->physics);
 
-	p->spriteIndex = World_addSprite(w, pos, body.size, SCALE_TYPE_COLORS[body.scaleType], "player", 1);
+	p->spriteID = World_addSprite(w, pos, body.size, SCALE_TYPE_COLORS[body.scaleType], "player", 1);
 
 }
 
-size_t World_addSprite(World *w, Vec2f pos, Vec2f size, enum SpriteColor color, char *texture, float alpha){
-	size_t index;
+size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Vec4f color, char *texture, float alpha){
+	//size_t index;
 
+	/*
 	for(int i = 0; i < w->spritesLength + 1; i++){
 		if(!w->sprites[i].active){
 			index = i;
@@ -156,45 +114,44 @@ size_t World_addSprite(World *w, Vec2f pos, Vec2f size, enum SpriteColor color, 
 			}
 		}
 	}
+	*/
 
-	w->spritesLength++;
+	//w->spritesLength++;
 
-	Sprite *s = &w->sprites[index];
+	//Sprite *s = &w->sprites[index];
 
-	s->active = true;
+	Sprite *sprite_p = Array_addItem(&world_p->sprites);
 
-	s->body.pos = pos;
-	s->body.size = size;
-	s->color = color;
-	s->texture = texture;
-	s->alpha = alpha;
+	EntityHeader_init(&sprite_p->entityHeader);
 
-	return index;
+	sprite_p->type = REGULAR_SPRITE;
+
+	sprite_p->body.pos = pos;
+	sprite_p->body.size = size;
+	sprite_p->color = color;
+	sprite_p->texture = texture;
+	sprite_p->alpha = alpha;
+
+	return sprite_p->entityHeader.ID;
+
 }
 
 size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, unsigned int font, Vec4f color){
 	
-	TextSprite *textSprite_p = Array_addItem(&world_p->textSprites);
+	Sprite *sprite_p = Array_addItem(&world_p->sprites);
 
-	EntityHeader_init(&textSprite_p->entityHeader);
+	EntityHeader_init(&sprite_p->entityHeader);
 
-	//textSprite_p->texture = getTextureFromFontAndString_mustFree(world_p->fonts[font], text);
+	sprite_p->type = TEXT_SPRITE;
 
-	//textSprite_p->body.size.x = textSprite_p->texture.width;
-	//textSprite_p->body.size.y = textSprite_p->texture.height;
-	textSprite_p->pos = pos;
-	textSprite_p->color = color;
-	//textSprite_p->text = text;
-	textSprite_p->font = font;
-	textSprite_p->alpha = 1;
+	sprite_p->pos = pos;
+	sprite_p->color = color;
+	sprite_p->font = font;
+	sprite_p->alpha = 1;
 
-	strcpy(textSprite_p->text, text);
+	strcpy(sprite_p->text, text);
 
-	//String_init(textSprite_p->text, )
-
-	//World_TextSprite_updateText(world_p, textSprite_p, text);
-
-	return textSprite_p->entityHeader.ID;
+	return sprite_p->entityHeader.ID;
 
 }
 
@@ -206,7 +163,7 @@ size_t World_addButton(World *world_p, Vec2f pos, Vec2f size, char *texture){
 
 	button_p->buttonType = SPRITE_BUTTON;
 
-	button_p->spriteIndex = World_addSprite(world_p, pos, size, SPRITE_COLOR_WHITE, texture, 1);
+	button_p->spriteID = World_addSprite(world_p, pos, size, SPRITE_COLORS[SPRITE_COLOR_WHITE], texture, 1);
 
 	return button_p->entityHeader.ID;
 
@@ -220,7 +177,7 @@ unsigned int World_addTextButton(World *world_p, Vec2f pos, char *text){
 
 	button_p->buttonType = TEXT_BUTTON;
 
-	button_p->textSpriteID = World_addTextSprite(world_p, pos, text, 0, COLOR_WHITE);
+	button_p->spriteID = World_addTextSprite(world_p, pos, text, 0, COLOR_WHITE);
 
 	return button_p->entityHeader.ID;
 
@@ -254,7 +211,7 @@ size_t World_addObstacle(World *world_p, Vec2f pos, Vec2f size, enum ScaleType s
 
 	Physics_init(&obstacle_p->physics);
 
-	obstacle_p->spriteIndex = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[body.scaleType], "obstacle", 1);
+	obstacle_p->spriteID = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[body.scaleType], "obstacle", 1);
 
 	return obstacle_p->entityHeader.ID;
 
@@ -278,7 +235,7 @@ size_t World_addPoint(World *world_p, Vec2f pos, enum ScaleType scaleType){
 
 	Physics_init(&point_p->physics);
 
-	point_p->spriteIndex = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[body.scaleType], "point", 1);
+	point_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[body.scaleType], "point", 1);
 
 	return point_p->entityHeader.ID;
 
@@ -294,36 +251,21 @@ size_t World_addScaleField(World *world_p, Vec2f pos, Vec2f size, enum ScaleType
 
 	scaleField_p->scaleType = scaleType;
 
-	scaleField_p->spriteIndex = World_addSprite(world_p, pos, scaleField_p->body.size, SCALE_TYPE_COLORS[scaleField_p->body.scaleType], "obstacle", 0.5);
+	scaleField_p->spriteID = World_addSprite(world_p, pos, scaleField_p->body.size, SCALE_TYPE_COLORS[scaleField_p->body.scaleType], "obstacle", 0.5);
 
 	return scaleField_p->entityHeader.ID;
 
 }
 
-void World_removeTextSpriteByID(World *world_p, size_t ID){
+void World_removeSpriteByID(World *world_p, size_t ID){
 	
-	TextSprite *textSprite_p = Array_getItemPointerByID(&world_p->textSprites, ID);
+	Sprite *sprite_p = Array_getItemPointerByID(&world_p->sprites, ID);
 
-	if(textSprite_p == NULL){
-		
+	if(sprite_p == NULL){
 		return;
 	}
 
-	//Texture_freeData(&textSprite_p->texture);
-
-	Array_removeItemByID(&world_p->textSprites, ID);
-
-}
-
-void World_removeSprite(World *w, size_t index){
-
-	w->sprites[index].active = false;
-
-	if(index < w->spritesLength - 1){
-		w->spritesGaps++;
-	}
-
-	w->spritesLength--;
+	Array_removeItemByID(&world_p->sprites, ID);
 
 }
 
@@ -331,13 +273,7 @@ void World_removeButtonByID(World *world_p, size_t ID){
 
 	Button *button_p = Array_getItemPointerByID(&world_p->buttons, ID);
 
-	if(button_p->buttonType == SPRITE_BUTTON){
-		World_removeSprite(world_p, button_p->spriteIndex);
-	}
-
-	if(button_p->buttonType == TEXT_BUTTON){
-		World_removeTextSpriteByID(world_p, button_p->textSpriteID);
-	}
+	World_removeSpriteByID(world_p, button_p->spriteID);
 
 	Array_removeItemByID(&world_p->buttons, ID);
 
@@ -347,7 +283,7 @@ void World_removePointByID(World *world_p, size_t ID){
 
 	Point *point_p = Array_getItemPointerByID(&world_p->points, ID);
 	
-	World_removeSprite(world_p, point_p->spriteIndex);
+	World_removeSpriteByID(world_p, point_p->spriteID);
 
 	Array_removeItemByID(&world_p->bodyPairs, point_p->bodyPairID);
 
@@ -359,15 +295,9 @@ BodyPair *World_getBodyPairByID(World *world_p, size_t ID){
 	return Array_getItemPointerByID(&world_p->bodyPairs, ID);
 };
 
-TextSprite *World_getTextSpriteByID(World *world_p, size_t ID){
-	return Array_getItemPointerByID(&world_p->textSprites, ID);
+Sprite *World_getSpriteByID(World *world_p, size_t ID){
+	return Array_getItemPointerByID(&world_p->sprites, ID);
 };
-
-/*
-void World_TextSprite_updateText(World *world_p, TextSprite *textSprite_p, char *text){
-	textSprite_p->texture = getTextureFromFontAndString_mustFree(world_p->fonts[textSprite_p->font], text);
-}
-*/
 
 Vec2f World_getOriginFromScaleType(World *w, enum ScaleType scaleType){
 	if(scaleType == NONE){

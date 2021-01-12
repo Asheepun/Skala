@@ -11,7 +11,7 @@
 size_t levelSelectButtonID;
 size_t returnButtonID;
 size_t quitButtonID;
-size_t menuBackgroundSpriteIndex;
+size_t menuBackgroundSpriteID;
 
 int currentButton;
 bool pressingButton;
@@ -19,7 +19,7 @@ bool pressingButton;
 void World_initMenuState(World *w){
 	pressingButton = false;
 
-	menuBackgroundSpriteIndex = World_addSprite(w, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), SPRITE_COLOR_BLACK, "menu-background", 1);
+	menuBackgroundSpriteID = World_addSprite(w, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), SPRITE_COLORS[SPRITE_COLOR_BLACK], "menu-background", 1);
 
 
 
@@ -62,8 +62,6 @@ void World_menuState(World *w){
 	if(currentButton == Array_getItemIndexByID(&w->buttons, levelSelectButtonID)
 	&& pressingButton){
 		World_switchToAndInitState(w, LEVEL_SELECT_STATE);
-		//World_initLevelSelectState(w);
-		//w->currentState = LEVEL_SELECT_STATE;
 	}
 
 	if(currentButton == Array_getItemIndexByID(&w->buttons, quitButtonID)
@@ -80,7 +78,7 @@ void World_menuState(World *w){
 		World_removeButtonByID(w, quitButtonID);
 		World_removeButtonByID(w, returnButtonID);
 
-		World_removeSprite(w, menuBackgroundSpriteIndex);
+		World_removeSpriteByID(w, menuBackgroundSpriteID);
 
 		w->currentState = LEVEL_STATE;
 		return;
@@ -92,12 +90,12 @@ void World_menuState(World *w){
 	
 		if(button_p->buttonType == TEXT_BUTTON){
 
-			TextSprite *textSprite_p = Array_getItemPointerByID(&w->textSprites, button_p->textSpriteID);
+			Sprite *sprite_p = Array_getItemPointerByID(&w->sprites, button_p->spriteID);
 
-			textSprite_p->color = COLOR_WHITE;
+			sprite_p->color = COLOR_WHITE;
 
 			if(i == currentButton){
-				textSprite_p->color = COLOR_YELLOW;
+				sprite_p->color = COLOR_YELLOW;
 			}
 
 		}

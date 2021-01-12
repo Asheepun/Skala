@@ -670,9 +670,11 @@ void World_levelState(World *world_p){
 
 		Body *obstacleBody_p = &World_getBodyPairByID(world_p, obstacle_p->bodyPairID)->body;
 
-		world_p->sprites[obstacle_p->spriteIndex].body = *obstacleBody_p;
+		Sprite *sprite_p = World_getSpriteByID(world_p, obstacle_p->spriteID);
 
-		world_p->sprites[obstacle_p->spriteIndex].color = SCALE_TYPE_COLORS[obstacleBody_p->scaleType];
+		sprite_p->body = *obstacleBody_p;
+
+		sprite_p->color = SCALE_TYPE_COLORS[obstacleBody_p->scaleType];
 
 	}
 
@@ -683,16 +685,39 @@ void World_levelState(World *world_p){
 
 		Body *pointBody_p = &World_getBodyPairByID(world_p, point_p->bodyPairID)->body;
 
-		world_p->sprites[point_p->spriteIndex].body = *pointBody_p;
+		Sprite *sprite_p = World_getSpriteByID(world_p, point_p->spriteID);
 
-		world_p->sprites[point_p->spriteIndex].color = SCALE_TYPE_COLORS[pointBody_p->scaleType];
+		sprite_p->body = *pointBody_p;
+
+		sprite_p->color = SCALE_TYPE_COLORS[pointBody_p->scaleType];
+
+	}
+
+	//update scale field sprites
+	for(int i = 0; i < world_p->scaleFields.length; i++){
+
+		Obstacle *scaleField_p = Array_getItemPointerByIndex(&world_p->scaleFields, i);
+
+		Body *scaleFieldBody_p = &World_getBodyPairByID(world_p, scaleField_p->bodyPairID)->body;
+
+		Sprite *sprite_p = World_getSpriteByID(world_p, scaleField_p->spriteID);
+
+		sprite_p->body = *scaleFieldBody_p;
+
+		sprite_p->color = SCALE_TYPE_COLORS[scaleFieldBody_p->scaleType];
 
 	}
 
 	//update player sprite
-	playerBody_p = &World_getBodyPairByID(world_p, world_p->player.bodyPairID)->body;
-	world_p->sprites[player_p->spriteIndex].body = *playerBody_p;
-	world_p->sprites[player_p->spriteIndex].color = SCALE_TYPE_COLORS[playerBody_p->scaleType];
+	{
+		playerBody_p = &World_getBodyPairByID(world_p, world_p->player.bodyPairID)->body;
+
+		Sprite *sprite_p = World_getSpriteByID(world_p, world_p->player.spriteID);
+
+		sprite_p->body = *playerBody_p;
+
+		sprite_p->color = SCALE_TYPE_COLORS[playerBody_p->scaleType];
+	}
 
 	world_p->renderer.offset = getVec2f(0, 0);
 

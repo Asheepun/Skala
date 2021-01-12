@@ -33,8 +33,8 @@ LevelGridTile levelGrid[30][30];
 bool playImmidietly = false;
 //bool playImmidietly = true;
 
-size_t currentLevelTextSpriteID;
-size_t startTextSpriteID;
+size_t currentLevelSpriteID;
+size_t startSpriteID;
 
 bool hasStarted = false;
 
@@ -84,29 +84,21 @@ void World_initLevelSelectState(World *world_p){
 		}
 	}
 
-	currentLevelTextSpriteID = World_addTextSprite(world_p, getVec2f(100, 100), "", 0, COLOR_WHITE);
+	currentLevelSpriteID = World_addTextSprite(world_p, getVec2f(100, 100), "", 0, COLOR_WHITE);
 
 	if(!hasStarted){
 
-		startTextSpriteID = World_addTextSprite(world_p, getVec2f(175, 330), "Press X to start", 0, COLOR_WHITE);
+		startSpriteID = World_addTextSprite(world_p, getVec2f(175, 330), "Press X to start", 0, COLOR_WHITE);
 		
 		hasStarted = true;
 
 	}
 
-	//world_p->currentState = World_levelSelectState;
-
 }
 
 void World_levelSelectState(World *world_p){
 
-	/*
-	if(world_p->fadeTransitionCounter > FADE_TRANSITION_TIME / 2){
-		return;
-	}
-	*/
-
-	//printf("---\n");
+	printf("---\n");
 
 	velocityX = 0;
 	velocityY = 0;
@@ -166,7 +158,8 @@ void World_levelSelectState(World *world_p){
 
 				Button *button_p = Array_getItemPointerByID(&world_p->buttons, levelGrid[i][j].buttonID);
 
-				Sprite *sprite_p = &world_p->sprites[button_p->spriteIndex];
+				Sprite *sprite_p = World_getSpriteByID(world_p, button_p->spriteID);
+				//Sprite *sprite_p = &world_p->sprites[button_p->spriteIndex];
 
 				LevelGridTile *levelTile_p = &levelGrid[i][j];
 
@@ -186,7 +179,7 @@ void World_levelSelectState(World *world_p){
 
 				}
 
-				sprite_p->color = SPRITE_COLOR_WHITE;
+				sprite_p->color = SPRITE_COLORS[SPRITE_COLOR_WHITE];
 
 				if(levelTile_p->locked
 				|| levelTile_p->unlockDelayCounter >= 0){
@@ -194,11 +187,11 @@ void World_levelSelectState(World *world_p){
 				}
 
 				if(levelTile_p->completed){
-					sprite_p->color = SPRITE_COLOR_GREY;
+					sprite_p->color = SPRITE_COLORS[SPRITE_COLOR_GREY];
 				}
 
 				if(j == posX && i == posY){
-					sprite_p->color = SPRITE_COLOR_YELLOW;
+					sprite_p->color = SPRITE_COLORS[SPRITE_COLOR_YELLOW];
 				}
 
 			}
@@ -208,14 +201,14 @@ void World_levelSelectState(World *world_p){
 	world_p->renderer.offset.x = WIDTH / 2 - posX * 15 - 8;
 	world_p->renderer.offset.y = HEIGHT / 2 - posY * 15 - 8;
 
-	TextSprite *currentLevelTextSprite_p = World_getTextSpriteByID(world_p, currentLevelTextSpriteID);
+	Sprite *currentLevelSprite_p = World_getSpriteByID(world_p, currentLevelSpriteID);
 
-	currentLevelTextSprite_p->pos.x = 10 - world_p->renderer.offset.x;
-	currentLevelTextSprite_p->pos.y = 5 - world_p->renderer.offset.y;
+	currentLevelSprite_p->pos.x = 10 - world_p->renderer.offset.x;
+	currentLevelSprite_p->pos.y = 5 - world_p->renderer.offset.y;
 
-	sprintf(currentLevelTextSprite_p->text, "%i, %i", posX, posY);
+	sprintf(currentLevelSprite_p->text, "%i, %i", posX, posY);
 
-	strcpy(currentLevelTextSprite_p->text, "");
+	strcpy(currentLevelSprite_p->text, "");
 
 }
 

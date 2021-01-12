@@ -42,6 +42,11 @@ enum CollisionWeight{
 	MOVABLE,
 };
 
+enum SpriteType{
+	REGULAR_SPRITE,
+	TEXT_SPRITE,
+};
+
 enum SpriteColor{
 	SPRITE_COLOR_BLACK,
 	SPRITE_COLOR_BLUE,
@@ -75,30 +80,27 @@ typedef struct Physics{
 }Physics;
 
 typedef struct Sprite{
-	Body body;
-	//Vec4f color;
-	enum SpriteColor color;
-	char *texture;
-	float alpha;
-	bool active;
-}Sprite;
 
-typedef struct TextSprite{
+	//common
 	EntityHeader entityHeader;
-	Vec2f pos;
+	enum SpriteType type;
 	Vec4f color;
-	//Texture texture;
 	float alpha;
+
+	//regular sprite
+	Body body;
+	char *texture;
+
+	//text sprite
+	Vec2f pos;
 	unsigned int font;
 	char text[32];
-	//String text;
-	//char *text;
-}TextSprite;
+
+}Sprite;
 
 typedef struct Button{
 	EntityHeader entityHeader;
-	size_t spriteIndex;
-	size_t textSpriteID;
+	size_t spriteID;
 	enum ButtonType buttonType;
 }Button;
 
@@ -122,7 +124,7 @@ typedef struct Obstacle{
 	Physics physics;
 	size_t bodyPairIndex;
 	size_t bodyPairID;
-	size_t spriteIndex;
+	size_t spriteID;
 }Obstacle;
 
 typedef struct Player{
@@ -133,7 +135,7 @@ typedef struct Player{
 	Vec2f resistance;
 	size_t bodyPairIndex;
 	size_t bodyPairID;
-	size_t spriteIndex;
+	size_t spriteID;
 	float runAcceleration;
 	float jumpSpeed;
 	float gravity;
@@ -147,14 +149,14 @@ typedef struct Point{
 	Physics physics;
 	size_t bodyPairIndex;
 	size_t bodyPairID;
-	size_t spriteIndex;
+	size_t spriteID;
 }Point;
 
 typedef struct ScaleField{
 	EntityHeader entityHeader;
 	Body body;
 	enum ScaleType scaleType;
-	size_t spriteIndex;
+	size_t spriteID;
 }ScaleField;
 
 typedef struct Key{
@@ -219,11 +221,12 @@ typedef struct World{
 	Array obstacles;
 	Array scaleFields;
 	Array bodyPairs;
-	Array textSprites;
+	Array sprites;
+	//Array textSprites;
 
-	Sprite sprites[255];
-	size_t spritesLength;
-	size_t spritesGaps;
+	//Sprite sprites[255];
+	//size_t spritesLength;
+	//size_t spritesGaps;
 
 	size_t fpsTextID;
 
@@ -257,7 +260,7 @@ static Vec4f COLOR_BROWN = { 0.6, 0.3, 0.2, 1 };
 static Vec4f COLOR_GREEN = { 0, 1, 0, 1 };
 static Vec4f COLOR_YELLOW = { 1, 1, 0, 1 };
 
-static Vec4f SPRITE_COLORS[] = {
+static const Vec4f SPRITE_COLORS[] = {
 	0, 0, 0, 1, //black
 	0, 0, 1, 1, //blue
 	0.6, 0.3, 0.2, 1,  //brown
@@ -269,10 +272,10 @@ static Vec4f SPRITE_COLORS[] = {
 	1, 1, 0, 1, //yellow
 };
 
-static enum SpriteColor SCALE_TYPE_COLORS[] = {
-	SPRITE_COLOR_GREEN, //non scalable
-	SPRITE_COLOR_WHITE, //scalable all
-	SPRITE_COLOR_PURPLE, //scalable origin top all
+static const Vec4f SCALE_TYPE_COLORS[] = {
+	SPRITE_COLORS[SPRITE_COLOR_GREEN], //non scalable
+	SPRITE_COLORS[SPRITE_COLOR_WHITE], //scalable all
+	SPRITE_COLORS[SPRITE_COLOR_PURPLE], //scalable origin top all
 	//SPRITE_COLOR_RED,
 	//SPRITE_COLOR_BLUE,
 	/*
@@ -288,24 +291,6 @@ static int FADE_TRANSITION_TIME = 60;
 
 //functions
 
-/*
-//FILE: utils.c
-
-void Array_init(Array *, unsigned int);
-
-void *Array_addItem(Array *);
-
-void *Array_getItemPointerByIndex(Array *, unsigned int);
-
-void *Array_getItemPointerByID(Array *, size_t);
-
-unsigned int Array_getItemIndexByID(Array *, size_t);
-
-void Array_removeItemByIndex(Array *, unsigned int);
-
-void Array_removeItemByID(Array *, size_t);
-*/
-
 //FILE: world.c
 
 void World_init(World *);
@@ -320,13 +305,9 @@ Vec2f World_getScaleFromScaleType(World *w, enum ScaleType);
 
 Vec2f World_getLastScaleFromScaleType(World *w, enum ScaleType);
 
-//Obstacle *World_Body_checkBodyToObstaclesCol(World *, Body *);
-
-//void World_EntityHeader_init(World *, EntityHeader *);
-
 void World_initPlayer(World *, Vec2f, enum ScaleType);
 
-size_t World_addSprite(World *, Vec2f, Vec2f, enum SpriteColor, char *, float);
+size_t World_addSprite(World *, Vec2f, Vec2f, Vec4f, char *, float);
 size_t World_addTextSprite(World *, Vec2f, char *, unsigned int, Vec4f);
 size_t World_addButton(World *w, Vec2f, Vec2f, char *);
 size_t World_addObstacle(World *, Vec2f, Vec2f, enum ScaleType);
@@ -334,33 +315,13 @@ size_t World_addBodyPair(World *, Body);
 size_t World_addPoint(World *, Vec2f, enum ScaleType);
 size_t World_addScaleField(World *, Vec2f, Vec2f, enum ScaleType);
 
-//void World_deinitSpriteByID(World *, size_t);
-//void World_deinitTextSpriteByID(World *w, size_t);
-
+void World_removeSpriteByID(World *, size_t);
 void World_removeButtonByID(World *, size_t);
 void World_removePointByID(World *, size_t);
-//void World_deinitButtonByID(World *, size_t);
-
-//void World_removeBodyPair(World *, size_t);
-//void World_deinitBodyPairByID(World *, size_t);
 
 BodyPair *World_getBodyPairByID(World *, size_t);
-TextSprite *World_getTextSpriteByID(World *, size_t);
+Sprite *World_getSpriteByID(World *, size_t);
 
-void World_TextSprite_updateText(World *, TextSprite *, char *);
-
-//unsigned int World_getBodyPairIndexByID(World *, size_t);
-
-//void World_removeObstacle(World *, size_t);
-//void World_deinitObstacleByID(World *, size_t);
-
-//void World_clearObstacles(World *);
-
-//void World_deinitPointByID(World *, size_t);
-
-//void World_clearPoints(World *);
-
-//void World_deinitPlayer(World *);
 void Action_init(Action *);
 
 void Action_addBinding(Action *, int);
