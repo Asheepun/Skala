@@ -195,6 +195,7 @@ void drawGame(){
 
 					if(strcmp(texture_p->name, sprite_p->texture) == 0){
 						texture = *texture_p;
+						break;
 					}
 
 				}
@@ -222,7 +223,19 @@ void drawGame(){
 
 				int imageWidth, imageHeight;
 
-				char *imageData = getImageDataFromFontAndString_mustFree(world.fonts[sprite_p->font], sprite_p->text, &imageWidth, &imageHeight);
+				Font font;
+				for(int k = 0; k < world.fonts.length; k++){
+
+					Font *font_p = Array_getItemPointerByIndex(&world.fonts, k);
+
+					if(strcmp(font_p->name, sprite_p->fontName) == 0){
+						font = *font_p;
+						break;
+					}
+				
+				}
+
+				char *imageData = getImageDataFromFontAndString_mustFree(font, sprite_p->text, &imageWidth, &imageHeight);
 
 				glBindTexture(GL_TEXTURE_2D, world.renderer.textTextureID);
 

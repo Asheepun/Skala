@@ -32,8 +32,9 @@ enum ScaleType{
 	NONE,
 	ALL,
 	ALL_FROM_TOP,
-	X_AXIS,
-	Y_AXIS,
+	ALL_SWITCH_X_Y,
+	//X_AXIS,
+	//Y_AXIS,
 };
 
 enum CollisionWeight{
@@ -44,18 +45,6 @@ enum CollisionWeight{
 enum SpriteType{
 	REGULAR_SPRITE,
 	TEXT_SPRITE,
-};
-
-enum SpriteColor{
-	SPRITE_COLOR_BLACK,
-	SPRITE_COLOR_BLUE,
-	SPRITE_COLOR_BROWN,
-	SPRITE_COLOR_GREY,
-	SPRITE_COLOR_GREEN,
-	SPRITE_COLOR_PURPLE,
-	SPRITE_COLOR_RED,
-	SPRITE_COLOR_WHITE,
-	SPRITE_COLOR_YELLOW,
 };
 
 enum SpriteLayer{
@@ -78,8 +67,6 @@ enum WorldState{
 typedef struct Body{
 	Vec2f pos;
 	Vec2f size;
-	enum ScaleType scaleType;
-	enum CollisionWeight collisionWeight;
 }Body;
 
 typedef struct Physics{
@@ -101,7 +88,8 @@ typedef struct Sprite{
 
 	//text sprite
 	Vec2f pos;
-	unsigned int font;
+	//unsigned int font;
+	char *fontName;
 	char text[32];
 
 }Sprite;
@@ -117,12 +105,14 @@ typedef struct BodyPair{
 	Body body;
 	Body lastBody;
 	Body originBody;
-	Array bodies;
 	Vec2f scaleForce;
 	Vec2f scale;
 	Vec2f lastScale;
 	Vec2f origin;
+	enum ScaleType scaleType;
 	enum ScaleType originScaleType;
+	enum CollisionWeight collisionWeight;
+	bool canCollideWithPlayer;
 }BodyPair;
 
 typedef struct Obstacle{
@@ -160,6 +150,21 @@ typedef struct Point{
 	size_t spriteID;
 }Point;
 
+typedef struct Door{
+	EntityHeader entityHeader;
+	size_t bodyPairIndex;
+	size_t bodyPairID;
+	size_t spriteID;
+}Door;
+
+typedef struct DoorKey{
+	EntityHeader entityHeader;
+	Physics physics;
+	size_t bodyPairIndex;
+	size_t bodyPairID;
+	size_t spriteID;
+}DoorKey;
+
 typedef struct ScaleField{
 	EntityHeader entityHeader;
 	Body body;
@@ -188,7 +193,8 @@ typedef struct World{
 
 	Action actions[16];
 
-	Font fonts[16];
+	//Font fonts[16];
+	Array fonts;
 
 	Array textures;
 	Array shaderPrograms;
@@ -243,38 +249,20 @@ static int windowHeight = 180 * 3;
 //static int lastWindowWidth = 320 * 2;
 //static int lastWindowHeight = 180 * 2;
 
-static Vec4f COLOR_BLACK = { 0, 0, 0, 1 };
-static Vec4f COLOR_WHITE = { 1, 1, 1, 1 };
-static Vec4f COLOR_GREY = { 0.5, 0.5, 0.5, 1 };
-static Vec4f COLOR_BROWN = { 0.6, 0.3, 0.2, 1 };
-static Vec4f COLOR_GREEN = { 0, 1, 0, 1 };
-static Vec4f COLOR_YELLOW = { 1, 1, 0, 1 };
-
-static const Vec4f SPRITE_COLORS[] = {
-	0, 0, 0, 1, //black
-	0, 0, 1, 1, //blue
-	0.6, 0.3, 0.2, 1,  //brown
-	0.5, 0.5, 0.5, 1, //grey
-	0, 1, 0, 1, //green
-	1, 0, 1, 1, //purple
-	1, 0, 0, 1, //red
-	1, 1, 1, 1, //white
-	1, 1, 0, 1, //yellow
-};
+static const Vec4f COLOR_BLACK 		= { 0, 		0, 		0, 		1 };
+static const Vec4f COLOR_WHITE 		= { 1, 		1, 		1, 		1 };
+static const Vec4f COLOR_GREY 		= { 0.5, 	0.5, 	0.5, 	1 };
+static const Vec4f COLOR_BROWN 		= { 0.6, 	0.3, 	0.2, 	1 };
+static const Vec4f COLOR_GREEN 		= { 0, 		1, 		0, 		1 };
+static const Vec4f COLOR_PURPLE 	= { 1, 		0, 		1, 		1 };
+static const Vec4f COLOR_BLUE 		= { 0, 		0, 		1, 		1 };
+static const Vec4f COLOR_YELLOW 	= { 1, 		1, 		0, 		1 };
 
 static const Vec4f SCALE_TYPE_COLORS[] = {
-	SPRITE_COLORS[SPRITE_COLOR_GREEN], //non scalable
-	SPRITE_COLORS[SPRITE_COLOR_WHITE], //scalable all
-	SPRITE_COLORS[SPRITE_COLOR_PURPLE], //scalable origin top all
-	//SPRITE_COLOR_RED,
-	//SPRITE_COLOR_BLUE,
-	/*
-	0, 1, 0, 1, //green
-	1, 1, 1, 1, //white
-	1, 0, 1, 1, //purple
-	1, 0, 0, 1, //red
-	0, 0, 1, 1, //blue
-	*/
+	COLOR_GREEN, 	//none scalable
+	COLOR_WHITE, 	//scalable all
+	COLOR_PURPLE, 	//scalable origin top all
+	COLOR_BLUE, 	//scalable x y switch
 };
 
 static int FADE_TRANSITION_TIME = 60;
@@ -298,10 +286,10 @@ Vec2f World_getLastScaleFromScaleType(World *w, enum ScaleType);
 void World_initPlayer(World *, Vec2f, enum ScaleType);
 
 size_t World_addSprite(World *, Vec2f, Vec2f, Vec4f, char *, float, enum SpriteLayer);
-size_t World_addTextSprite(World *, Vec2f, char *, unsigned int, Vec4f, enum SpriteLayer);
+size_t World_addTextSprite(World *, Vec2f, char *, char *, Vec4f, enum SpriteLayer);
 size_t World_addButton(World *w, Vec2f, Vec2f, char *, enum SpriteLayer);
 size_t World_addObstacle(World *, Vec2f, Vec2f, enum ScaleType);
-size_t World_addBodyPair(World *, Body);
+size_t World_addBodyPair(World *, Body, enum ScaleType, enum CollisionWeight, bool);
 size_t World_addPoint(World *, Vec2f, enum ScaleType);
 size_t World_addScaleField(World *, Vec2f, Vec2f, enum ScaleType);
 
@@ -324,9 +312,12 @@ void World_fadeTransitionToState(World *, enum WorldState);
 
 void World_switchToAndInitState(World *, enum WorldState);
 
+void World_checkAndHandleBodyPairCollisionsX(World *, enum CollisionWeight, enum ScaleType, enum CollisionWeight, enum ScaleType);
+void World_checkAndHandleBodyPairCollisionsY(World *, enum CollisionWeight, enum ScaleType, enum CollisionWeight, enum ScaleType);
+
 //FILE: components.c
 
-void Body_init(Body *, Vec2f, Vec2f, enum ScaleType, int);
+void Body_init(Body *, Vec2f, Vec2f);
 
 Vec2f Body_getCenter(Body);
 

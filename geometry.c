@@ -3,6 +3,16 @@
 #include "stdio.h"
 #include "geometry.h"
 
+int Number_normalize(float x){
+	if(x > 0){
+		return 1;
+	}
+	if(x < 0){
+		return -1;
+	}
+	return 0;
+}
+
 Vec2f getVec2f(float x, float y){
 	Vec2f v = { x, y };
 	return v;

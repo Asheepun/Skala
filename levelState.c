@@ -160,328 +160,32 @@ void World_levelState(World *world_p){
 		
 	}
 
-	//scale y
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-
-		Vec2f scale = World_getScaleFromScaleType(world_p, bodyPair_p->body.scaleType);
-		Vec2f lastScale = World_getLastScaleFromScaleType(world_p, bodyPair_p->body.scaleType);
-		Vec2f origin = World_getOriginFromScaleType(world_p, bodyPair_p->body.scaleType);
-
-		Body_unScaleY(&bodyPair_p->body, origin, lastScale);
-
-		//bodyPair_p->body.size.y = roundf(bodyPair_p->body.size.y);
-		//bodyPair_p->body.size.x = (int)bodyPair_p->body.size.x;
-		//bodyPair_p->body.size.y = (int)bodyPair_p->body.size.y;
-
-		Body_scaleY(&bodyPair_p->body, origin, scale);
-	
-	}
-
-	//check if player collides with points y
-	for(int i = 0; i < world_p->points.length; i++){
-
-		Point *point_p = Array_getItemPointerByIndex(&world_p->points, i);
-
-		Body *pointBody_p = &((BodyPair *)Array_getItemPointerByID(&world_p->bodyPairs, point_p->bodyPairID))->body;
-	
-		if(checkBodyToBodyCol(*playerBody_p, *pointBody_p)){
-
-			World_removePointByID(world_p, point_p->entityHeader.ID);
-
-			i--;
-
-		}
-
-	}
-
-	//handle y collisions scalable and none scalable
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-
-		for(int j = 0; j < world_p->bodyPairs.length; j++){
-
-			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
-
-			if(checkBodyPairToBodyPairCollision(*bodyPair_p, *bodyPair2_p)
-			&& i != j
-			&& !compareFloatToFloat(world_p->deltaScale.y, 0)
-			&& bodyPair_p->body.scaleType != NONE
-			&& bodyPair2_p->body.scaleType == NONE
-			&& bodyPair2_p->body.collisionWeight == STATIC){
-
-				float bodyPairCenterY = bodyPair_p->lastBody.pos.y + bodyPair_p->lastBody.size.y / 2;
-				float bodyPair2CenterY = bodyPair2_p->lastBody.pos.y + bodyPair2_p->lastBody.size.y / 2;
-
-				if(bodyPairCenterY < bodyPair2CenterY){
-					bodyPair_p->body.pos.y = bodyPair2_p->body.pos.y - bodyPair_p->body.size.y;
-				}
-				if(bodyPairCenterY > bodyPair2CenterY){
-					bodyPair_p->body.pos.y = bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y;
-				}
-
-			}
-		
-		}
-	
-	}
-
-	//handle y collisions static and none static
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-
-		for(int j = 0; j < world_p->bodyPairs.length; j++){
-
-			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
-
-			if(checkBodyPairToBodyPairCollision(*bodyPair_p, *bodyPair2_p)
-			&& i != j
-			&& !compareFloatToFloat(world_p->deltaScale.y, 0)
-			&& bodyPair_p->body.collisionWeight == MOVABLE
-			&& bodyPair2_p->body.collisionWeight == STATIC){
-
-				float bodyPairCenterY = bodyPair_p->lastBody.pos.y + bodyPair_p->lastBody.size.y / 2;
-				float bodyPair2CenterY = bodyPair2_p->lastBody.pos.y + bodyPair2_p->lastBody.size.y / 2;
-
-				if(bodyPairCenterY < bodyPair2CenterY){
-					bodyPair_p->body.pos.y = bodyPair2_p->body.pos.y - bodyPair_p->body.size.y;
-				}
-				if(bodyPairCenterY > bodyPair2CenterY){
-					bodyPair_p->body.pos.y = bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y;
-				}
-
-			}
-
-		}
-
-	}
-
-	//handle y collisions scalble and static 
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-
-		for(int j = 0; j < world_p->bodyPairs.length; j++){
-
-			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
-
-			if(checkBodyPairToBodyPairCollision(*bodyPair_p, *bodyPair2_p)
-			&& i != j
-			&& !compareFloatToFloat(world_p->deltaScale.y, 0)
-			&& bodyPair_p->body.collisionWeight == STATIC
-			&& bodyPair2_p->body.collisionWeight == STATIC
-			&& bodyPair_p->body.scaleType == ALL
-			&& bodyPair2_p->body.scaleType == ALL){
-
-				float bodyPairCenterY = bodyPair_p->lastBody.pos.y + bodyPair_p->lastBody.size.y / 2;
-				float bodyPair2CenterY = bodyPair2_p->lastBody.pos.y + bodyPair2_p->lastBody.size.y / 2;
-
-				if(bodyPairCenterY < bodyPair2CenterY){
-					bodyPair_p->body.pos.y = bodyPair2_p->body.pos.y - bodyPair_p->body.size.y;
-				}
-				if(bodyPairCenterY > bodyPair2CenterY){
-					bodyPair_p->body.pos.y = bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y;
-				}
-
-			}
-
-		}
-
-	}
-
-	//check oub y
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-
-		//player dies if he falls down so he should not col with the bottom of the screen
-		if(bodyPair_p->entityHeader.ID == player_p->bodyPairID){
-			continue;
-		}
-
-		if(bodyPair_p->body.scaleType == ALL_FROM_TOP
-		&& bodyPair_p->body.pos.y < 0){
-			bodyPair_p->body.pos.y = 0;
-		}
-
-		if(bodyPair_p->body.scaleType == ALL
-		&& bodyPair_p->body.pos.y + bodyPair_p->body.size.y > HEIGHT){
-			bodyPair_p->body.pos.y = HEIGHT - bodyPair_p->body.size.y;
-		}
-	
-	}
-
-	//check if y needs rescaling
-	bool rescaleY = false;
-
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-		for(int j = 0; j < world_p->bodyPairs.length; j++){
-
-			BodyPair *bodyPair1 = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-			BodyPair *bodyPair2 = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
-
-			if(checkBodyPairToBodyPairCollision(*bodyPair1, *bodyPair2)
-			&& !compareFloatToFloat(world_p->deltaScale.y, 0)
-			//&& bodyPair1->lastBody.size.x >= 1 && bodyPair2->lastBody.size.x >= 1
-			//&& bodyPair1->lastBody.size.y >= 1 && bodyPair2->lastBody.size.y >= 1
-			&& i != j){
-				rescaleY = true;
-			}
-		
-		}
-
-	}
-
-	//rescale y
-	if(rescaleY){
-
-		for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-			BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-
-			bodyPair_p->body.pos.y = bodyPair_p->lastBody.pos.y;
-			bodyPair_p->body.size.y = bodyPair_p->lastBody.size.y;
-
-		}
-
-		world_p->scale.y = world_p->lastScale.y;
-	
-	}
-
 	//scale x
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
 
 		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
-		Vec2f scale = World_getScaleFromScaleType(world_p, bodyPair_p->body.scaleType);
-		Vec2f lastScale = World_getLastScaleFromScaleType(world_p, bodyPair_p->body.scaleType);
-		Vec2f origin = World_getOriginFromScaleType(world_p, bodyPair_p->body.scaleType);
+		Vec2f scale = World_getScaleFromScaleType(world_p, bodyPair_p->scaleType);
+		Vec2f lastScale = World_getLastScaleFromScaleType(world_p, bodyPair_p->scaleType);
+		Vec2f origin = World_getOriginFromScaleType(world_p, bodyPair_p->scaleType);
 
 		Body_unScaleX(&bodyPair_p->body, origin, lastScale);
-
-		//bodyPair_p->body.size.x = roundf(bodyPair_p->body.size.x);
-		//bodyPair_p->body.size.x = (int)bodyPair_p->body.size.x;
-		//bodyPair_p->body.size.y = (int)bodyPair_p->body.size.y;
 
 		Body_scaleX(&bodyPair_p->body, origin, scale);
 	
 	}
 
-	//check if player collides with points x
-	for(int i = 0; i < world_p->points.length; i++){
+	World_checkAndHandleBodyPairCollisionsX(world_p, -1, ALL_SWITCH_X_Y, -1, -1);
 
-		Point *point_p = Array_getItemPointerByIndex(&world_p->points, i);
+	World_checkAndHandleBodyPairCollisionsX(world_p, -1, ALL_SWITCH_X_Y, -1, ALL_FROM_TOP);
 
-		Body *pointBody_p = &((BodyPair *)Array_getItemPointerByID(&world_p->bodyPairs, point_p->bodyPairID))->body;
-	
-		if(checkBodyToBodyCol(*playerBody_p, *pointBody_p)){
+	World_checkAndHandleBodyPairCollisionsX(world_p, -1, ALL_FROM_TOP, -1, ALL);
 
-			World_removePointByID(world_p, point_p->entityHeader.ID);
+	World_checkAndHandleBodyPairCollisionsX(world_p, MOVABLE, -1, STATIC, -1);
 
-			i--;
-		}
-
-	}
-
-	//handle x collisions scalable and none scalable
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-
-		for(int j = 0; j < world_p->bodyPairs.length; j++){
-
-			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
-
-			if(checkBodyPairToBodyPairCollision(*bodyPair_p, *bodyPair2_p)
-			&& i != j
-			&& !compareFloatToFloat(world_p->deltaScale.x, 0)
-			&& bodyPair_p->body.scaleType != NONE
-			&& bodyPair2_p->body.scaleType == NONE
-			&& bodyPair2_p->body.collisionWeight == STATIC){
-
-				float bodyPairCenterX = bodyPair_p->lastBody.pos.x + bodyPair_p->lastBody.size.x / 2;
-				float bodyPair2CenterX = bodyPair2_p->lastBody.pos.x + bodyPair2_p->lastBody.size.x / 2;
-
-				if(bodyPairCenterX < bodyPair2CenterX){
-					bodyPair_p->body.pos.x = bodyPair2_p->body.pos.x - bodyPair_p->body.size.x;
-				}
-				if(bodyPairCenterX > bodyPair2CenterX){
-					bodyPair_p->body.pos.x = bodyPair2_p->body.pos.x + bodyPair2_p->body.size.x;
-				}
-
-			}
-		
-		}
-	
-	}
-
-	//handle x collisions static and none static
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-
-		for(int j = 0; j < world_p->bodyPairs.length; j++){
-
-			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
-
-			if(checkBodyPairToBodyPairCollision(*bodyPair_p, *bodyPair2_p)
-			&& i != j
-			&& !compareFloatToFloat(world_p->deltaScale.x, 0)
-			&& bodyPair_p->body.collisionWeight == MOVABLE
-			&& bodyPair2_p->body.collisionWeight == STATIC){
-
-				float bodyPairCenterX = bodyPair_p->lastBody.pos.x + bodyPair_p->lastBody.size.x / 2;
-				float bodyPair2CenterX = bodyPair2_p->lastBody.pos.x + bodyPair2_p->lastBody.size.x / 2;
-
-				if(bodyPairCenterX < bodyPair2CenterX){
-					bodyPair_p->body.pos.x = bodyPair2_p->body.pos.x - bodyPair_p->body.size.x;
-				}
-				if(bodyPairCenterX > bodyPair2CenterX){
-					bodyPair_p->body.pos.x = bodyPair2_p->body.pos.x + bodyPair2_p->body.size.x;
-				}
-
-			}
-
-		}
-
-	}
-
-	//handle x collisions scalble and static 
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-
-		for(int j = 0; j < world_p->bodyPairs.length; j++){
-
-			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
-
-			if(checkBodyPairToBodyPairCollision(*bodyPair_p, *bodyPair2_p)
-			&& i != j
-			&& !compareFloatToFloat(world_p->deltaScale.x, 0)
-			&& bodyPair_p->body.collisionWeight == STATIC
-			&& bodyPair2_p->body.collisionWeight == STATIC
-			&& bodyPair_p->body.scaleType == ALL
-			&& bodyPair2_p->body.scaleType == ALL){
-
-				float bodyPairCenterX = bodyPair_p->lastBody.pos.x + bodyPair_p->lastBody.size.x / 2;
-				float bodyPair2CenterX = bodyPair2_p->lastBody.pos.x + bodyPair2_p->lastBody.size.x / 2;
-
-				if(bodyPairCenterX < bodyPair2CenterX){
-					bodyPair_p->body.pos.x = bodyPair2_p->body.pos.x - bodyPair_p->body.size.x;
-				}
-				if(bodyPairCenterX > bodyPair2CenterX){
-					bodyPair_p->body.pos.x = bodyPair2_p->body.pos.x + bodyPair2_p->body.size.x;
-				}
-
-			}
-
-		}
-
-	}
+	World_checkAndHandleBodyPairCollisionsX(world_p, STATIC, ALL, STATIC, NONE);
+	World_checkAndHandleBodyPairCollisionsX(world_p, STATIC, ALL_FROM_TOP, STATIC, NONE);
+	World_checkAndHandleBodyPairCollisionsX(world_p, STATIC, ALL_SWITCH_X_Y, STATIC, NONE);
 
 	//check oub x
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
@@ -498,22 +202,19 @@ void World_levelState(World *world_p){
 	bool rescaleX = false;
 
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
 		for(int j = 0; j < world_p->bodyPairs.length; j++){
 
-			BodyPair *bodyPair1 = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-			BodyPair *bodyPair2 = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
+			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
-			if(checkBodyPairToBodyPairCollision(*bodyPair1, *bodyPair2)
-			//&& bodyPair1->lastBody.size.x >= 1 && bodyPair2->lastBody.size.x >= 1
-			//&& bodyPair1->lastBody.size.y >= 1 && bodyPair2->lastBody.size.y >= 1
-			&& !compareFloatToFloat(world_p->deltaScale.x, 0)
+			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+			&& (bodyPair1_p->canCollideWithPlayer || bodyPair2_p->canCollideWithPlayer)
+			//&& !compareFloatToFloat(world_p->deltaScale.x, 0)
 			&& i != j){
 				rescaleX = true;
 			}
 		
 		}
-
 	}
 
 	//rescale x
@@ -529,6 +230,91 @@ void World_levelState(World *world_p){
 		}
 
 		world_p->scale.x = world_p->lastScale.x;
+	
+	}
+
+	//scale y
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
+
+		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+		Vec2f scale = World_getScaleFromScaleType(world_p, bodyPair_p->scaleType);
+		Vec2f lastScale = World_getLastScaleFromScaleType(world_p, bodyPair_p->scaleType);
+		Vec2f origin = World_getOriginFromScaleType(world_p, bodyPair_p->scaleType);
+
+		Body_unScaleY(&bodyPair_p->body, origin, lastScale);
+
+		Body_scaleY(&bodyPair_p->body, origin, scale);
+	
+	}
+
+	World_checkAndHandleBodyPairCollisionsY(world_p, -1, ALL_SWITCH_X_Y, -1, -1);
+
+	World_checkAndHandleBodyPairCollisionsY(world_p, -1, ALL_SWITCH_X_Y, -1, ALL_FROM_TOP);
+
+	World_checkAndHandleBodyPairCollisionsY(world_p, -1, ALL_FROM_TOP, -1, ALL);
+
+	World_checkAndHandleBodyPairCollisionsY(world_p, MOVABLE, -1, STATIC, -1);
+
+	World_checkAndHandleBodyPairCollisionsY(world_p, STATIC, ALL, STATIC, NONE);
+	World_checkAndHandleBodyPairCollisionsY(world_p, STATIC, ALL_FROM_TOP, STATIC, NONE);
+	World_checkAndHandleBodyPairCollisionsY(world_p, STATIC, ALL_SWITCH_X_Y, STATIC, NONE);
+
+	//check oub y
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
+
+		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+		//player dies if he falls down so he should not col with the bottom of the screen
+		if(bodyPair_p->entityHeader.ID == player_p->bodyPairID){
+			continue;
+		}
+
+		if(bodyPair_p->scaleType == ALL_FROM_TOP
+		&& bodyPair_p->body.pos.y < 0){
+			bodyPair_p->body.pos.y = 0;
+		}
+
+		if((bodyPair_p->scaleType == ALL
+		|| bodyPair_p->scaleType == ALL_SWITCH_X_Y)
+		&& bodyPair_p->body.pos.y + bodyPair_p->body.size.y > HEIGHT){
+			bodyPair_p->body.pos.y = HEIGHT - bodyPair_p->body.size.y;
+		}
+	
+	}
+
+	//check if y needs rescaling
+	bool rescaleY = false;
+
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
+		for(int j = 0; j < world_p->bodyPairs.length; j++){
+
+			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
+
+			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+			&& !compareFloatToFloat(world_p->deltaScale.y, 0)
+			&& (bodyPair1_p->canCollideWithPlayer || bodyPair2_p->canCollideWithPlayer)
+			&& i != j){
+				rescaleY = true;
+			}
+		
+		}
+	}
+
+	//rescale y
+	if(rescaleY){
+
+		for(int i = 0; i < world_p->bodyPairs.length; i++){
+
+			BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+			bodyPair_p->body.pos.y = bodyPair_p->lastBody.pos.y;
+			bodyPair_p->body.size.y = bodyPair_p->lastBody.size.y;
+
+		}
+
+		world_p->scale.y = world_p->lastScale.y;
 	
 	}
 
@@ -638,12 +424,32 @@ void World_levelState(World *world_p){
 		playerBody_p->pos.x = 0;
 	}
 
+	//reset player acceleration
+	player_p->physics.acceleration = getVec2f(0, 0);
+
+	//check if player collides with points
+	for(int i = 0; i < world_p->points.length; i++){
+
+		Point *point_p = Array_getItemPointerByIndex(&world_p->points, i);
+
+		Body *pointBody_p = &((BodyPair *)Array_getItemPointerByID(&world_p->bodyPairs, point_p->bodyPairID))->body;
+	
+		if(checkBodyToBodyCol(*playerBody_p, *pointBody_p)){
+
+			World_removePointByID(world_p, point_p->entityHeader.ID);
+
+			i--;
+
+		}
+
+	}
+
 	//check collision with scale fields
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
 
 		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
-		bodyPair_p->body.scaleType = bodyPair_p->originScaleType;
+		bodyPair_p->scaleType = bodyPair_p->originScaleType;
 
 		for(int j = 0; j < world_p->scaleFields.length; j++){
 
@@ -651,15 +457,13 @@ void World_levelState(World *world_p){
 
 			if(checkBodyToBodyColCastToInt(bodyPair_p->body, scaleField_p->body)){
 
-				bodyPair_p->body.scaleType = scaleField_p->scaleType;
+				bodyPair_p->scaleType = scaleField_p->scaleType;
 				
 			}
 		
 		}
 	
 	}
-
-	player_p->physics.acceleration = getVec2f(0, 0);
 
 	//update sprites
 
@@ -668,55 +472,56 @@ void World_levelState(World *world_p){
 
 		Obstacle *obstacle_p = Array_getItemPointerByIndex(&world_p->obstacles, i);
 
-		Body *obstacleBody_p = &World_getBodyPairByID(world_p, obstacle_p->bodyPairID)->body;
+		BodyPair *obstacleBodyPair_p = World_getBodyPairByID(world_p, obstacle_p->bodyPairID);
 
 		Sprite *sprite_p = World_getSpriteByID(world_p, obstacle_p->spriteID);
 
-		sprite_p->body = *obstacleBody_p;
+		sprite_p->body = obstacleBodyPair_p->body;
 
-		sprite_p->color = SCALE_TYPE_COLORS[obstacleBody_p->scaleType];
+		sprite_p->color = SCALE_TYPE_COLORS[obstacleBodyPair_p->scaleType];
 
 	}
 
 	//update point sprites
 	for(int i = 0; i < world_p->points.length; i++){
 
-		Obstacle *point_p = Array_getItemPointerByIndex(&world_p->points, i);
+		Point *point_p = Array_getItemPointerByIndex(&world_p->points, i);
 
-		Body *pointBody_p = &World_getBodyPairByID(world_p, point_p->bodyPairID)->body;
+		BodyPair *pointBodyPair_p = World_getBodyPairByID(world_p, point_p->bodyPairID);
 
 		Sprite *sprite_p = World_getSpriteByID(world_p, point_p->spriteID);
 
-		sprite_p->body = *pointBody_p;
+		sprite_p->body = pointBodyPair_p->body;
 
-		sprite_p->color = SCALE_TYPE_COLORS[pointBody_p->scaleType];
+		sprite_p->color = SCALE_TYPE_COLORS[pointBodyPair_p->scaleType];
 
 	}
 
 	//update scale field sprites
 	for(int i = 0; i < world_p->scaleFields.length; i++){
 
-		Obstacle *scaleField_p = Array_getItemPointerByIndex(&world_p->scaleFields, i);
+		ScaleField *scaleField_p = Array_getItemPointerByIndex(&world_p->scaleFields, i);
 
-		Body *scaleFieldBody_p = &World_getBodyPairByID(world_p, scaleField_p->bodyPairID)->body;
+		//BodyPair *scaleFieldBodyPair_p = World_getBodyPairByID(world_p, scaleField_p->bodyPairID);
 
 		Sprite *sprite_p = World_getSpriteByID(world_p, scaleField_p->spriteID);
 
-		sprite_p->body = *scaleFieldBody_p;
+		//sprite_p->body = scaleFieldBodyPair_p->body;
+		sprite_p->body = scaleField_p->body;
 
-		sprite_p->color = SCALE_TYPE_COLORS[scaleFieldBody_p->scaleType];
+		sprite_p->color = SCALE_TYPE_COLORS[scaleField_p->scaleType];
 
 	}
 
 	//update player sprite
 	{
-		playerBody_p = &World_getBodyPairByID(world_p, world_p->player.bodyPairID)->body;
+		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
 
 		Sprite *sprite_p = World_getSpriteByID(world_p, world_p->player.spriteID);
 
-		sprite_p->body = *playerBody_p;
+		sprite_p->body = playerBodyPair_p->body;
 
-		sprite_p->color = SCALE_TYPE_COLORS[playerBody_p->scaleType];
+		sprite_p->color = SCALE_TYPE_COLORS[playerBodyPair_p->scaleType];
 	}
 
 	world_p->renderer.offset = getVec2f(0, 0);

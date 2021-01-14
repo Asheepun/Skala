@@ -31,6 +31,8 @@ typedef struct Font{
 
 	float scale;
 
+	char name[255];
+
 }Font;
 
 Font getFont(char *, int);

@@ -7,11 +7,11 @@
 #include "utils.h"
 #include "game.h"
 
-void Body_init(Body *b, Vec2f pos, Vec2f size, enum ScaleType scaleType, int collisionWeight){
+void Body_init(Body *b, Vec2f pos, Vec2f size){
 	b->pos = pos;
 	b->size = size;
-	b->scaleType = scaleType;
-	b->collisionWeight = collisionWeight;
+	//b->scaleType = scaleType;
+	//b->collisionWeight = collisionWeight;
 }
 
 Vec2f Body_getCenter(Body b){

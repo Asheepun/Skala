@@ -19,7 +19,7 @@ bool pressingButton;
 void World_initMenuState(World *w){
 	pressingButton = false;
 
-	menuBackgroundSpriteID = World_addSprite(w, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), SPRITE_COLORS[SPRITE_COLOR_BLACK], "menu-background", 1, MENU_LAYER_BACKGROUND);
+	menuBackgroundSpriteID = World_addSprite(w, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), COLOR_BLACK, "menu-background", 1, MENU_LAYER_BACKGROUND);
 
 
 

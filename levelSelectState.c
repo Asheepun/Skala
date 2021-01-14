@@ -53,8 +53,8 @@ void setupLevelGrid(){
 	for(int i = 0; i < 30; i++){
 		for(int j = 0; j < 30; j++){
 			levelGrid[i][j].levelIndex = -1;
-			levelGrid[i][j].locked = true;
-			//levelGrid[i][j].locked = false;
+			//levelGrid[i][j].locked = true;
+			levelGrid[i][j].locked = false;
 			levelGrid[i][j].completed = false;
 			levelGrid[i][j].unlockCounter = -1;
 			levelGrid[i][j].unlockDelayCounter = -1;
@@ -84,11 +84,11 @@ void World_initLevelSelectState(World *world_p){
 		}
 	}
 
-	currentLevelSpriteID = World_addTextSprite(world_p, getVec2f(100, 100), "", 0, COLOR_WHITE, GAME_LAYER_TEXT);
+	currentLevelSpriteID = World_addTextSprite(world_p, getVec2f(100, 100), "", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
 	if(!hasStarted){
 
-		startSpriteID = World_addTextSprite(world_p, getVec2f(175, 330), "Press X to start", 0, COLOR_WHITE, GAME_LAYER_TEXT);
+		startSpriteID = World_addTextSprite(world_p, getVec2f(175, 330), "Press X to start", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 		
 		hasStarted = true;
 
@@ -179,7 +179,7 @@ void World_levelSelectState(World *world_p){
 
 				}
 
-				sprite_p->color = SPRITE_COLORS[SPRITE_COLOR_WHITE];
+				sprite_p->color = COLOR_WHITE;
 
 				if(levelTile_p->locked
 				|| levelTile_p->unlockDelayCounter >= 0){
@@ -187,11 +187,11 @@ void World_levelSelectState(World *world_p){
 				}
 
 				if(levelTile_p->completed){
-					sprite_p->color = SPRITE_COLORS[SPRITE_COLOR_GREY];
+					sprite_p->color = COLOR_GREY;
 				}
 
 				if(j == posX && i == posY){
-					sprite_p->color = SPRITE_COLORS[SPRITE_COLOR_YELLOW];
+					sprite_p->color = COLOR_YELLOW;
 				}
 
 			}

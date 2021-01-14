@@ -23,6 +23,8 @@ typedef struct Mat4f{
 	float values[16];
 }Mat4f;
 
+int Number_normalize(float);
+
 Vec2f getVec2f(float, float);
 
 void Vec2f_set(Vec2f *, float, float);

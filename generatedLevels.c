@@ -23,6 +23,8 @@ void World_generateLevel1(World *w){
 
 	World_addObstacle(w, getVec2f(0, 160), getVec2f(WIDTH, 20), ALL);
 
+	World_addObstacle(w, getVec2f(50, 50), getVec2f(50, 50), ALL_SWITCH_X_Y);
+
 	//World_addObstacle(w, getVec2f(100, 80), getVec2f(20, 20), ALL);
 
 	//World_addMovingPoint(w, getVec2f(270, 100), getVec2f(-1, 0), NONE);
@@ -104,7 +106,7 @@ void World_generateLevel4(World *w){
 
 	//World_addSprite(w, getVec2f(80, 180 - 80), getVec2f(20, 20), COLOR_WHITE, "scale-help");
 
-	World_addTextSprite(w, getVec2f(80, 80), "Use the \"X\" key.", 0, COLOR_WHITE, GAME_LAYER_TEXT);
+	World_addTextSprite(w, getVec2f(80, 80), "Use the \"X\" key.", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 	
 }
 
