@@ -22,7 +22,10 @@ void World_init(World *world_p){
 	Array_init(&world_p->bodyPairs, sizeof(BodyPair));
 	Array_init(&world_p->points, sizeof(Point));
 	Array_init(&world_p->obstacles, sizeof(Obstacle));
+	Array_init(&world_p->doors, sizeof(Door));
+	Array_init(&world_p->doorKeys, sizeof(DoorKey));
 	Array_init(&world_p->scaleFields, sizeof(ScaleField));
+	Array_init(&world_p->levelDoors, sizeof(LevelDoor));
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 		Array_init(&world_p->spriteLayers[i], sizeof(Sprite));
@@ -44,6 +47,8 @@ void World_init(World *world_p){
 
 	}
 
+	world_p->quit = false;
+
 	World_restore(world_p);
 
 }
@@ -64,7 +69,10 @@ void World_restore(World *world_p){
 	Array_clear(&world_p->bodyPairs);
 	Array_clear(&world_p->points);
 	Array_clear(&world_p->obstacles);
+	Array_clear(&world_p->doors);
+	Array_clear(&world_p->doorKeys);
 	Array_clear(&world_p->scaleFields);
+	Array_clear(&world_p->levelDoors);
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 		Array_clear(&world_p->spriteLayers[i]);
@@ -90,10 +98,10 @@ void World_switchToAndInitState(World *world_p, enum WorldState newState){
 
 }
 
-void World_initPlayer(World *w, Vec2f pos, enum ScaleType scaleType){
-	Player *p = &w->player;
+void World_initPlayer(World *world_p, Vec2f pos, enum ScaleType scaleType){
+	Player *player_p = &world_p->player;
 
-	EntityHeader_init(&p->entityHeader);
+	EntityHeader_init(&player_p->entityHeader);
 
 	int collisionWeight = 0;
 
@@ -101,21 +109,21 @@ void World_initPlayer(World *w, Vec2f pos, enum ScaleType scaleType){
 
 	Body_init(&body, pos, getVec2f(14, 20));
 
-	p->bodyPairID = World_addBodyPair(w, body, scaleType, MOVABLE, false);
+	player_p->bodyPairID = World_addBodyPair(world_p, body, scaleType, MOVABLE, PLAYER);
+
+	Physics *physics_p = &World_getBodyPairByID(world_p, player_p->bodyPairID)->physics;
+
+	physics_p->gravity = 0.35;
+	physics_p->resistance = getVec2f(0.8, 1);
 
 	//p->runAcceleration = 0.8;
-	p->runAcceleration = 0.6;
+	player_p->runAcceleration = 0.6;
 	//p->jumpSpeed = -4.5;
-	p->jumpSpeed = -4;
-	//p->resistance = getVec2f(0.8, 1);
-	p->resistance = getVec2f(0.8, 1);
-	//p->gravity = 0.45;
-	p->gravity = 0.35;
-	p->onGround = false;
+	player_p->jumpSpeed = -4;
 
-	Physics_init(&p->physics);
+	player_p->facing = RIGHT;
 
-	p->spriteID = World_addSprite(w, pos, body.size, SCALE_TYPE_COLORS[scaleType], "player", 1, GAME_LAYER_FOREGROUND);
+	player_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "player", 1, GAME_LAYER_FOREGROUND);
 
 }
 
@@ -133,6 +141,8 @@ size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Vec4f color, char 
 	sprite_p->texture = texture;
 	sprite_p->alpha = alpha;
 
+	sprite_p->facing = RIGHT;
+
 	return sprite_p->entityHeader.ID;
 
 }
@@ -149,6 +159,8 @@ size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, char *fontName
 	sprite_p->color = color;
 	sprite_p->fontName = fontName;
 	sprite_p->alpha = 1;
+
+	sprite_p->facing = RIGHT;
 
 	strcpy(sprite_p->text, text);
 
@@ -184,7 +196,7 @@ unsigned int World_addTextButton(World *world_p, Vec2f pos, char *text, enum Spr
 
 }
 
-size_t World_addBodyPair(World *world_p, Body body, enum ScaleType scaleType, enum CollisionWeight collisionWeight, bool canCollideWithPlayer){
+size_t World_addBodyPair(World *world_p, Body body, enum ScaleType scaleType, enum CollisionWeight collisionWeight, enum EntityType entityType){
 
 	BodyPair *bodyPair_p = Array_addItem(&world_p->bodyPairs);
 
@@ -196,8 +208,11 @@ size_t World_addBodyPair(World *world_p, Body body, enum ScaleType scaleType, en
 	bodyPair_p->scaleType = scaleType;
 	bodyPair_p->originScaleType = scaleType;
 	bodyPair_p->collisionWeight = collisionWeight;
+	bodyPair_p->entityType = entityType;
 
-	bodyPair_p->canCollideWithPlayer = canCollideWithPlayer;
+	//bodyPair_p->canCollideWithPlayer = canCollideWithPlayer;
+
+	Physics_init(&bodyPair_p->physics);
 
 	return bodyPair_p->entityHeader.ID;
 
@@ -212,7 +227,7 @@ size_t World_addObstacle(World *world_p, Vec2f pos, Vec2f size, enum ScaleType s
 	Body body;
 	Body_init(&body, pos, size);
 
-	obstacle_p->bodyPairID = World_addBodyPair(world_p, body, scaleType, STATIC, true);
+	obstacle_p->bodyPairID = World_addBodyPair(world_p, body, scaleType, STATIC, OBSTACLE);
 
 	Physics_init(&obstacle_p->physics);
 
@@ -228,21 +243,63 @@ size_t World_addPoint(World *world_p, Vec2f pos, enum ScaleType scaleType){
 
 	EntityHeader_init(&point_p->entityHeader);
 
-	int collisionWeight = 1;
-	if(scaleType == NONE){
-		collisionWeight = 2;
-	}
-
 	Body body;
 	Body_init(&body, pos, getVec2f(10, 10));
 
-	point_p->bodyPairID = World_addBodyPair(world_p, body, scaleType, STATIC, false);
+	point_p->bodyPairID = World_addBodyPair(world_p, body, scaleType, STATIC, POINT);
 
 	Physics_init(&point_p->physics);
 
 	point_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "point", 1, GAME_LAYER_FOREGROUND);
 
 	return point_p->entityHeader.ID;
+
+}
+
+size_t World_addDoor(World *world_p, Vec2f pos, Vec2f size, enum ScaleType scaleType){
+
+	Door *door_p = Array_addItem(&world_p->doors);
+
+	EntityHeader_init(&door_p->entityHeader);
+
+	//Physics_init(&doorKey_p->physics);
+	//doorKey_p->gravity = 0.35;
+
+	Body body;
+	Body_init(&body, pos, size);
+
+	door_p->bodyPairID = World_addBodyPair(world_p, body, scaleType, STATIC, DOOR);
+
+	door_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "door", 1, GAME_LAYER_FOREGROUND);
+
+	return door_p->entityHeader.ID;
+
+}
+
+size_t World_addDoorKey(World *world_p, Vec2f pos, enum ScaleType scaleType){
+
+	DoorKey *doorKey_p = Array_addItem(&world_p->doorKeys);
+
+	EntityHeader_init(&doorKey_p->entityHeader);
+
+	//Physics_init(&doorKey_p->physics);
+	//doorKey_p->gravity = 0.35;
+
+	Body body;
+	Body_init(&body, pos, getVec2f(20, 10));
+
+	doorKey_p->bodyPairID = World_addBodyPair(world_p, body, scaleType, MOVABLE, DOOR_KEY);
+
+	doorKey_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "door-key", 1, GAME_LAYER_FOREGROUND);
+
+	Physics *physics_p = &World_getBodyPairByID(world_p, doorKey_p->bodyPairID)->physics;
+
+	physics_p->gravity = 0.35;
+	physics_p->resistance = getVec2f(0.9, 0.9);
+
+	doorKey_p->facing = RIGHT;
+
+	return doorKey_p->entityHeader.ID;
 
 }
 
@@ -259,6 +316,22 @@ size_t World_addScaleField(World *world_p, Vec2f pos, Vec2f size, enum ScaleType
 	scaleField_p->spriteID = World_addSprite(world_p, pos, scaleField_p->body.size, SCALE_TYPE_COLORS[scaleField_p->scaleType], "obstacle", 0.5, GAME_LAYER_FOREGROUND);
 
 	return scaleField_p->entityHeader.ID;
+
+}
+
+size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName){
+
+	LevelDoor *levelDoor_p = Array_addItem(&world_p->levelDoors);
+
+	EntityHeader_init(&levelDoor_p->entityHeader);
+
+	Body_init(&levelDoor_p->body, pos, getVec2f(20, 15));
+
+	levelDoor_p->levelName = levelName;
+
+	levelDoor_p->spriteID = World_addSprite(world_p, pos, levelDoor_p->body.size, COLOR_GREEN, "level-door", 1, GAME_LAYER_FOREGROUND);
+
+	return levelDoor_p->entityHeader.ID;
 
 }
 
@@ -298,6 +371,30 @@ void World_removePointByID(World *world_p, size_t ID){
 
 }
 
+void World_removeDoorByID(World *world_p, size_t ID){
+
+	Door *door_p = Array_getItemPointerByID(&world_p->doors, ID);
+	
+	World_removeSpriteByID(world_p, door_p->spriteID);
+
+	Array_removeItemByID(&world_p->bodyPairs, door_p->bodyPairID);
+
+	Array_removeItemByID(&world_p->doors, ID);
+
+}
+
+void World_removeDoorKeyByID(World *world_p, size_t ID){
+
+	DoorKey *doorKey_p = Array_getItemPointerByID(&world_p->doorKeys, ID);
+	
+	World_removeSpriteByID(world_p, doorKey_p->spriteID);
+
+	Array_removeItemByID(&world_p->bodyPairs, doorKey_p->bodyPairID);
+
+	Array_removeItemByID(&world_p->doorKeys, ID);
+
+}
+
 BodyPair *World_getBodyPairByID(World *world_p, size_t ID){
 	return Array_getItemPointerByID(&world_p->bodyPairs, ID);
 }
@@ -316,6 +413,10 @@ Sprite *World_getSpriteByID(World *world_p, size_t ID){
 
 	return NULL;
 
+}
+
+Button *World_getButtonByID(World *world_p, size_t ID){
+	return Array_getItemPointerByID(&world_p->buttons, ID);
 }
 
 Vec2f World_getOriginFromScaleType(World *world_p, enum ScaleType scaleType){
@@ -475,6 +576,19 @@ bool checkBodyPairToBodyPairCollision(BodyPair bodyPair1, BodyPair bodyPair2){
 	*/
 }
 
+bool checkIfBodyPairsCanCollide(BodyPair bodyPair1, BodyPair bodyPair2){
+	return !(bodyPair1.entityType == PLAYER && bodyPair2.entityType == POINT)
+		&& !(bodyPair1.entityType == PLAYER && bodyPair2.entityType == DOOR_KEY)
+		&& !(bodyPair1.entityType == POINT && bodyPair2.entityType == PLAYER)
+		&& !(bodyPair1.entityType == DOOR_KEY && bodyPair2.entityType == PLAYER)
+
+		&& !(bodyPair1.entityType == DOOR && bodyPair2.entityType == DOOR_KEY)
+		&& !(bodyPair1.entityType == DOOR_KEY && bodyPair2.entityType == DOOR)
+
+		&& bodyPair1.entityType != SCALE_FIELD
+		&& bodyPair2.entityType != SCALE_FIELD;
+}
+
 void World_checkAndHandleBodyPairCollisionsX(World *world_p, enum CollisionWeight collisionWeight1, enum ScaleType scaleType1, enum CollisionWeight collisionWeight2, enum ScaleType scaleType2){
 
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
@@ -485,7 +599,8 @@ void World_checkAndHandleBodyPairCollisionsX(World *world_p, enum CollisionWeigh
 
 			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
 			&& i != j
-			&& (bodyPair1_p->canCollideWithPlayer || bodyPair2_p->canCollideWithPlayer)
+			//&& (bodyPair1_p->canCollideWithPlayer || bodyPair2_p->canCollideWithPlayer)
+			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
 
 			&& (bodyPair1_p->collisionWeight == collisionWeight1 || collisionWeight1 == -1)
 			&& (bodyPair2_p->collisionWeight == collisionWeight2 || collisionWeight2 == -1)
@@ -514,31 +629,41 @@ void World_checkAndHandleBodyPairCollisionsY(World *world_p, enum CollisionWeigh
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
 		for(int j = 0; j < world_p->bodyPairs.length; j++){
 
-			BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
-			if(checkBodyPairToBodyPairCollision(*bodyPair_p, *bodyPair2_p)
+			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
 			&& i != j
-			&& (bodyPair_p->canCollideWithPlayer || bodyPair2_p->canCollideWithPlayer)
+			//&& (bodyPair_p->canCollideWithPlayer || bodyPair2_p->canCollideWithPlayer)
+			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
 
-			&& (bodyPair_p->collisionWeight == collisionWeight1 || collisionWeight1 == -1)
+			&& (bodyPair1_p->collisionWeight == collisionWeight1 || collisionWeight1 == -1)
 			&& (bodyPair2_p->collisionWeight == collisionWeight2 || collisionWeight2 == -1)
-			&& (bodyPair_p->scaleType == scaleType1 || scaleType1 == -1)
+			&& (bodyPair1_p->scaleType == scaleType1 || scaleType1 == -1)
 			&& (bodyPair2_p->scaleType == scaleType2 || scaleType2 == -1)){
 
-				float bodyPairCenterY = bodyPair_p->lastBody.pos.y + bodyPair_p->lastBody.size.y / 2;
+				float bodyPair1CenterY = bodyPair1_p->lastBody.pos.y + bodyPair1_p->lastBody.size.y / 2;
 				float bodyPair2CenterY = bodyPair2_p->lastBody.pos.y + bodyPair2_p->lastBody.size.y / 2;
 
-				if(bodyPairCenterY < bodyPair2CenterY){
-					bodyPair_p->body.pos.y = bodyPair2_p->body.pos.y - bodyPair_p->body.size.y;
+				if(bodyPair1CenterY < bodyPair2CenterY){
+					bodyPair1_p->body.pos.y = bodyPair2_p->body.pos.y - bodyPair1_p->body.size.y;
 				}
-				if(bodyPairCenterY > bodyPair2CenterY){
-					bodyPair_p->body.pos.y = bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y;
+				if(bodyPair1CenterY > bodyPair2CenterY){
+					bodyPair1_p->body.pos.y = bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y;
 				}
 
 			}
 		
 		}
 	}
+
+}
+
+Vec2f BodyPair_getPhysicsScale(BodyPair *bodyPair_p){
+
+	Vec2f physicsScale = bodyPair_p->originBody.size;
+	Vec2f_div(&physicsScale, &bodyPair_p->body.size);
+
+	return physicsScale;
 
 }

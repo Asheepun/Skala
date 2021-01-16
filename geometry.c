@@ -38,9 +38,19 @@ void Vec2f_mul(Vec2f *v1, Vec2f *v2){
 	v1->y *= v2->y;
 }
 
+void Vec2f_mulByFactor(Vec2f *v1, float a){
+	v1->x *= a;
+	v1->y *= a;
+}
+
 void Vec2f_div(Vec2f *v1, Vec2f *v2){
 	v1->x /= v2->x;
 	v1->y /= v2->y;
+}
+
+void Vec2f_divByFactor(Vec2f *v1, float a){
+	v1->x /= a;
+	v1->y /= a;
 }
 
 float Vec2f_getMag(Vec2f v){
@@ -49,6 +59,10 @@ float Vec2f_getMag(Vec2f v){
 
 Vec2f Vec2f_getInverse(Vec2f v){
 	return getVec2f(1 / v.x, 1 / v.y);
+}
+
+void Vec2f_normalize(Vec2f *v){
+	Vec2f_divByFactor(v, Vec2f_getMag(*v));
 }
 
 void Vec2f_log(Vec2f v){

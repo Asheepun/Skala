@@ -28,6 +28,15 @@ enum ButtonType{
 	TEXT_BUTTON,
 };
 
+enum EntityType{
+	PLAYER,
+	OBSTACLE,
+	POINT,
+	DOOR_KEY,
+	DOOR,
+	SCALE_FIELD,
+};
+
 enum ScaleType{
 	NONE,
 	ALL,
@@ -40,6 +49,11 @@ enum ScaleType{
 enum CollisionWeight{
 	STATIC,
 	MOVABLE,
+};
+
+enum Facing{
+	LEFT,
+	RIGHT,
 };
 
 enum SpriteType{
@@ -59,6 +73,7 @@ enum SpriteLayer{
 enum WorldState{
 	LEVEL_STATE,
 	LEVEL_SELECT_STATE,
+	LEVEL_HUB_STATE,
 	MENU_STATE,
 };
 
@@ -72,6 +87,9 @@ typedef struct Body{
 typedef struct Physics{
 	Vec2f velocity;
 	Vec2f acceleration;
+	Vec2f resistance;
+	float gravity;
+	bool onGround;
 }Physics;
 
 typedef struct Sprite{
@@ -81,6 +99,7 @@ typedef struct Sprite{
 	enum SpriteType type;
 	Vec4f color;
 	float alpha;
+	enum Facing facing;
 
 	//regular sprite
 	Body body;
@@ -102,42 +121,41 @@ typedef struct Button{
 
 typedef struct BodyPair{
 	EntityHeader entityHeader;
+
 	Body body;
 	Body lastBody;
 	Body originBody;
+	Physics physics;
+
 	Vec2f scaleForce;
 	Vec2f scale;
 	Vec2f lastScale;
 	Vec2f origin;
+
 	enum ScaleType scaleType;
 	enum ScaleType originScaleType;
 	enum CollisionWeight collisionWeight;
-	bool canCollideWithPlayer;
+	enum EntityType entityType;
 }BodyPair;
 
 typedef struct Obstacle{
 	EntityHeader entityHeader;
-	Body originBody;
-	Body body;
 	Physics physics;
-	size_t bodyPairIndex;
 	size_t bodyPairID;
 	size_t spriteID;
 }Obstacle;
 
 typedef struct Player{
 	EntityHeader entityHeader;
-	Body originBody;
-	Body body;
 	Physics physics;
 	Vec2f resistance;
-	size_t bodyPairIndex;
 	size_t bodyPairID;
 	size_t spriteID;
 	float runAcceleration;
 	float jumpSpeed;
 	float gravity;
 	bool onGround;
+	enum Facing facing;
 }Player;
 
 typedef struct Point{
@@ -145,7 +163,6 @@ typedef struct Point{
 	Body originBody;
 	Body body;
 	Physics physics;
-	size_t bodyPairIndex;
 	size_t bodyPairID;
 	size_t spriteID;
 }Point;
@@ -160,17 +177,25 @@ typedef struct Door{
 typedef struct DoorKey{
 	EntityHeader entityHeader;
 	Physics physics;
-	size_t bodyPairIndex;
 	size_t bodyPairID;
 	size_t spriteID;
+	enum Facing facing;
 }DoorKey;
 
 typedef struct ScaleField{
 	EntityHeader entityHeader;
 	Body body;
 	enum ScaleType scaleType;
+	size_t bodyPairID;
 	size_t spriteID;
 }ScaleField;
+
+typedef struct LevelDoor{
+	EntityHeader entityHeader;
+	Body body;
+	char *levelName;
+	size_t spriteID;
+}LevelDoor;
 
 typedef struct Key{
 	bool down;
@@ -205,10 +230,12 @@ typedef struct World{
 
 	enum WorldState currentState;
 	enum WorldState nextStateAfterTransition;
+	enum WorldState stateBeforeOpeningMenu;
 	int fadeTransitionCounter;
 	bool initCurrentState;
 
-	size_t currentLevel;
+	//size_t currentLevel;
+	char *currentLevel;
 
 	Vec2f scale;
 	Vec2f lastScale;
@@ -220,11 +247,14 @@ typedef struct World{
 
 	Player player;
 
-	Array buttons;
-	Array points;
-	Array obstacles;
-	Array scaleFields;
 	Array bodyPairs;
+	Array buttons;
+	Array obstacles;
+	Array points;
+	Array doors;
+	Array doorKeys;
+	Array scaleFields;
+	Array levelDoors;
 
 	Array spriteLayers[NUMBER_OF_SPRITE_LAYERS];
 
@@ -275,7 +305,7 @@ void World_init(World *);
 
 void World_restore(World *);
 
-size_t World_fadeTransition(World *);
+//size_t World_fadeTransition(World *);
 
 Vec2f World_getOriginFromScaleType(World *w, enum ScaleType);
 
@@ -289,16 +319,22 @@ size_t World_addSprite(World *, Vec2f, Vec2f, Vec4f, char *, float, enum SpriteL
 size_t World_addTextSprite(World *, Vec2f, char *, char *, Vec4f, enum SpriteLayer);
 size_t World_addButton(World *w, Vec2f, Vec2f, char *, enum SpriteLayer);
 size_t World_addObstacle(World *, Vec2f, Vec2f, enum ScaleType);
-size_t World_addBodyPair(World *, Body, enum ScaleType, enum CollisionWeight, bool);
+size_t World_addBodyPair(World *, Body, enum ScaleType, enum CollisionWeight, enum EntityType);
 size_t World_addPoint(World *, Vec2f, enum ScaleType);
+size_t World_addDoor(World *, Vec2f, Vec2f, enum ScaleType);
+size_t World_addDoorKey(World *, Vec2f, enum ScaleType);
 size_t World_addScaleField(World *, Vec2f, Vec2f, enum ScaleType);
+size_t World_addLevelDoor(World *, Vec2f, char *);
 
 void World_removeSpriteByID(World *, size_t);
 void World_removeButtonByID(World *, size_t);
 void World_removePointByID(World *, size_t);
+void World_removeDoorByID(World *, size_t);
+void World_removeDoorKeyByID(World *, size_t);
 
 BodyPair *World_getBodyPairByID(World *, size_t);
 Sprite *World_getSpriteByID(World *, size_t);
+Button *World_getButtonByID(World *, size_t);
 
 void Action_init(Action *);
 
@@ -308,12 +344,16 @@ Body BodyPair_getDeltaBody(BodyPair);
 
 bool checkBodyPairToBodyPairCollision(BodyPair, BodyPair);
 
+bool checkIfBodyPairsCanCollide(BodyPair, BodyPair);
+
 void World_fadeTransitionToState(World *, enum WorldState);
 
 void World_switchToAndInitState(World *, enum WorldState);
 
 void World_checkAndHandleBodyPairCollisionsX(World *, enum CollisionWeight, enum ScaleType, enum CollisionWeight, enum ScaleType);
 void World_checkAndHandleBodyPairCollisionsY(World *, enum CollisionWeight, enum ScaleType, enum CollisionWeight, enum ScaleType);
+
+Vec2f BodyPair_getPhysicsScale(BodyPair *);
 
 //FILE: components.c
 
@@ -341,28 +381,20 @@ bool checkBodyToBodyColCastToInt(Body, Body);
 
 bool checkBodyToBodyCol(Body, Body);
 
-//FILE: levelSelectState.c
-
-void World_initLevelSelect(World *);
-
-void World_levelSelectState(World *);
-
-void unlockNearbyLevels();
-
-void setupLevelGrid();
-
 //FILE: levelState.c
 
-void World_initLevelState(World *);
+void World_initLevel(World *);
 
 void World_levelState(World *);
 
+//FILE: levelHub.c
+
+void World_initLevelHub(World *);
+
 //FILE: menuState.c
 
-void World_initMenuState(World *);
+void World_initMenu(World *);
 
 void World_menuState(World *);
-
-//FILE: 
 
 #endif

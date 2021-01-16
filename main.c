@@ -13,14 +13,7 @@
 #include "game.h"
 #include "levels.h"
 
-/*
- *
- * MÅSTE GÖRE EN KEY RESET FUNKTION SOM AKTIVERAS NÄR STATES BYTS!!!
- *
-*/
-
 static World world;
-//static Pixel *screenPixels;
 
 SDL_Window *window = NULL;
 SDL_GLContext *context = NULL;
@@ -36,10 +29,9 @@ int getPixelIndex(int x, int y){
 
 void mainLoop(){
 
-	bool quit = false;
 	SDL_Event e;
 
-	while(!quit){
+	while(!world.quit){
 
 		//handle events
 		while(SDL_PollEvent(&e)){
@@ -47,7 +39,7 @@ void mainLoop(){
 			if(e.type == SDL_QUIT
 			|| e.type == SDL_KEYDOWN
 			&& e.key.keysym.sym == SDLK_q){
-				quit = true;
+				world.quit = true;
 			}
 
 			if(e.type == SDL_KEYDOWN){
@@ -121,13 +113,13 @@ void mainLoop(){
 			if(world.initCurrentState){
 
 				if(world.currentState == LEVEL_STATE){
-					World_initLevelState(&world);
+					World_initLevel(&world);
 				}
-				else if(world.currentState == LEVEL_SELECT_STATE){
-					World_initLevelSelectState(&world);
+				if(world.currentState == LEVEL_HUB_STATE){
+					World_initLevelHub(&world);
 				}
 				else if(world.currentState == MENU_STATE){
-					World_initMenuState(&world);
+					World_initMenu(&world);
 				}
 
 				world.initCurrentState = false;
@@ -135,13 +127,10 @@ void mainLoop(){
 			}
 
 			//run current state
-			if(world.currentState == LEVEL_STATE
+			if((world.currentState == LEVEL_STATE
+			|| world.currentState == LEVEL_HUB_STATE)
 			&& world.fadeTransitionCounter < FADE_TRANSITION_TIME / 2){
 				World_levelState(&world);
-			}
-			else if(world.currentState == LEVEL_SELECT_STATE
-			&& world.fadeTransitionCounter < FADE_TRANSITION_TIME / 2){
-				World_levelSelectState(&world);
 			}
 			else if(world.currentState == MENU_STATE){
 				World_menuState(&world);
@@ -213,7 +202,7 @@ void drawGame(){
 
 				unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
 
-				OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, texture.ID, shaderProgram);
+				OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, sprite_p->facing, texture.ID, shaderProgram);
 			
 			}
 			else if(sprite_p->type == TEXT_SPRITE){
@@ -253,7 +242,7 @@ void drawGame(){
 
 				unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
 
-				OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, world.renderer.textTextureID, shaderProgram);
+				OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, 1, world.renderer.textTextureID, shaderProgram);
 			
 			}
 		
@@ -283,7 +272,7 @@ void drawGame(){
 
 		unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
 
-		OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, textureID, shaderProgram);
+		OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, 1, textureID, shaderProgram);
 
 	}
 
@@ -295,8 +284,6 @@ int main(int argc, char *argv[]){
 
 	//set up world and game
 	World_init(&world);
-
-	setupLevelGrid();
 
 	for(int i = 0; i < 16; i++){
 		Action_init(&world.actions[i]);
@@ -321,9 +308,9 @@ int main(int argc, char *argv[]){
 	Action_addBinding(&world.actions[BACK_ACTION], SDL_SCANCODE_ESCAPE);
 	Action_addBinding(&world.actions[MENU_ACTION], SDL_SCANCODE_ESCAPE);
 
-	world.currentLevel = 0;
+	world.currentLevel = "level-1";
 
-	World_switchToAndInitState(&world, LEVEL_SELECT_STATE);
+	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
 	//World_switchToAndInitState(&world, LEVEL_STATE);
 
 	//setup SDL
@@ -378,6 +365,10 @@ int main(int argc, char *argv[]){
 		"scale-help",
 		"menu-background",
 		"level",
+		"door",
+		"door-key",
+		"level-door",
+		"level-door-completed",
 	};
 
 	int texturesLength = sizeof(assets) / sizeof(char *);

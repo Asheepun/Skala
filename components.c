@@ -129,7 +129,10 @@ bool checkBodyToBodyCol(Body b1, Body b2){
 		&& b1.size.y >= 1 && b2.size.y >= 1;
 }
 
-void Physics_init(Physics *p){
-	Vec2f_set(&p->velocity, 0, 0);
-	Vec2f_set(&p->acceleration, 0, 0);
+void Physics_init(Physics *physics_p){
+	Vec2f_set(&physics_p->velocity, 0, 0);
+	Vec2f_set(&physics_p->acceleration, 0, 0);
+	physics_p->resistance = getVec2f(1, 1);
+	physics_p->onGround = false;
+	physics_p->gravity = 0;
 }

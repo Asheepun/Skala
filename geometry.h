@@ -35,11 +35,17 @@ void Vec2f_sub(Vec2f *, Vec2f *);
 
 void Vec2f_mul(Vec2f *, Vec2f *);
 
+void Vec2f_mulByFactor(Vec2f *, float);
+
 void Vec2f_div(Vec2f *, Vec2f *);
+
+void Vec2f_divByFactor(Vec2f *, float);
 
 float Vec2f_getMag(Vec2f);
 
 Vec2f Vec2f_getInverse(Vec2f);
+
+void Vec2f_normalize(Vec2f *);
 
 void Vec2f_log(Vec2f);
 

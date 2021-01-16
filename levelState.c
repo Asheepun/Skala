@@ -12,15 +12,17 @@ int blockerAnimationCount = 25;
 
 size_t levelStateFadeTransitionID = 6900;//så att det inte krockar första gången
 
-void World_initLevelState(World *world_p){
+void World_initLevel(World *world_p){
 
-	levels[world_p->currentLevel].generate(world_p);
+	for(int i = 0; i < LEVELS_LENGTH; i++){
+		if(strcmp(world_p->currentLevel, levels[i].name) == 0){
 
-	//!!!!!!!!!!!
-	World_levelState(world_p);//VERY TEMPORARY, JUST MAKE SCALING NOT LOOK BAD FOR A FRAME
-	//!!!!!!!!!!!
+			levels[i].generate(world_p);
 
-	//world_p->currentState = World_levelState;
+		}
+	}
+
+	world_p->renderer.offset = getVec2f(0, 0);
 
 }
 
@@ -34,6 +36,8 @@ void World_levelState(World *world_p){
 	printf("---\n");
 
 	if(world_p->actions[MENU_ACTION].downed){
+
+		world_p->stateBeforeOpeningMenu = world_p->currentState;
 
 		World_switchToAndInitState(world_p, MENU_STATE);
 
@@ -79,16 +83,18 @@ void World_levelState(World *world_p){
 	}else{
 		//control player
 
+		Physics *playerPhysics_p = &World_getBodyPairByID(world_p, player_p->bodyPairID)->physics;
+
 		if(world_p->actions[LEFT_ACTION].down){
-			player_p->physics.acceleration.x += -player_p->runAcceleration;
+			playerPhysics_p->acceleration.x += -player_p->runAcceleration;
 		}
 		if(world_p->actions[RIGHT_ACTION].down){
-			player_p->physics.acceleration.x += player_p->runAcceleration;
+			playerPhysics_p->acceleration.x += player_p->runAcceleration;
 		}
 
 		if((world_p->actions[JUMP_ACTION].down)
-		&& player_p->onGround){
-			player_p->physics.velocity.y += player_p->jumpSpeed;
+		&& playerPhysics_p->onGround){
+			playerPhysics_p->velocity.y += player_p->jumpSpeed;
 		}
 
 	}
@@ -104,48 +110,17 @@ void World_levelState(World *world_p){
 	|| playerBody_p->size.x < 1
 	|| playerBody_p->size.y < 1){
 
-		World_initLevelState(world_p);
-		//world_p->
-		//world_p->currentState = World_initLevelState;
+		World_initLevel(world_p);
 
 		return;
 
 	}
-
-	/*
-	if(world_p->fadeTransitionCounter == FADE_TRANSITION_TIME / 2
-	&& levelStateFadeTransitionID == world_p->currentFadeTransitionID){
-
-		World_initLevelSelect(world_p);
-
-		unlockNearbyLevels();
-
-		world_p->currentState = World_levelSelectState;
-
-		return;
-		
-	}
-	*/
 
 	//check if level is completed
-	if(world_p->points.length == 0){
+	if(world_p->points.length == 0
+	&& world_p->currentState == LEVEL_STATE){
 
-		/*
-		if(world_p->fadeTransitionCounter < 0){
-			levelStateFadeTransitionID = World_fadeTransition(world_p);
-		}
-
-		return;
-		*/
-
-		//World_initLevelSelect(world_p);
-
-		unlockNearbyLevels();
-
-		World_fadeTransitionToState(world_p, LEVEL_SELECT_STATE);
-		//world_p->fadeTransitionCounter = FADE_TRANSITION_TIME;
-		//world_p->nextStateAfterTransition = World_initLevelSelect;//?
-		//world_p->nextStateAfterTransition = LEVEL_SELECT_STATE;
+		World_fadeTransitionToState(world_p, LEVEL_HUB_STATE);
 
 		return;
 
@@ -175,17 +150,17 @@ void World_levelState(World *world_p){
 	
 	}
 
-	World_checkAndHandleBodyPairCollisionsX(world_p, -1, ALL_SWITCH_X_Y, -1, -1);
-
-	World_checkAndHandleBodyPairCollisionsX(world_p, -1, ALL_SWITCH_X_Y, -1, ALL_FROM_TOP);
-
-	World_checkAndHandleBodyPairCollisionsX(world_p, -1, ALL_FROM_TOP, -1, ALL);
-
-	World_checkAndHandleBodyPairCollisionsX(world_p, MOVABLE, -1, STATIC, -1);
-
 	World_checkAndHandleBodyPairCollisionsX(world_p, STATIC, ALL, STATIC, NONE);
 	World_checkAndHandleBodyPairCollisionsX(world_p, STATIC, ALL_FROM_TOP, STATIC, NONE);
 	World_checkAndHandleBodyPairCollisionsX(world_p, STATIC, ALL_SWITCH_X_Y, STATIC, NONE);
+
+	World_checkAndHandleBodyPairCollisionsX(world_p, -1, ALL_FROM_TOP, -1, ALL);
+
+	World_checkAndHandleBodyPairCollisionsX(world_p, -1, ALL_SWITCH_X_Y, -1, ALL_FROM_TOP);
+
+	World_checkAndHandleBodyPairCollisionsX(world_p, -1, ALL_SWITCH_X_Y, STATIC, -1);
+
+	World_checkAndHandleBodyPairCollisionsX(world_p, MOVABLE, -1, STATIC, -1);
 
 	//check oub x
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
@@ -208,7 +183,7 @@ void World_levelState(World *world_p){
 			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
 			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
-			&& (bodyPair1_p->canCollideWithPlayer || bodyPair2_p->canCollideWithPlayer)
+			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
 			//&& !compareFloatToFloat(world_p->deltaScale.x, 0)
 			&& i != j){
 				rescaleX = true;
@@ -248,17 +223,17 @@ void World_levelState(World *world_p){
 	
 	}
 
-	World_checkAndHandleBodyPairCollisionsY(world_p, -1, ALL_SWITCH_X_Y, -1, -1);
-
-	World_checkAndHandleBodyPairCollisionsY(world_p, -1, ALL_SWITCH_X_Y, -1, ALL_FROM_TOP);
-
-	World_checkAndHandleBodyPairCollisionsY(world_p, -1, ALL_FROM_TOP, -1, ALL);
-
-	World_checkAndHandleBodyPairCollisionsY(world_p, MOVABLE, -1, STATIC, -1);
-
 	World_checkAndHandleBodyPairCollisionsY(world_p, STATIC, ALL, STATIC, NONE);
 	World_checkAndHandleBodyPairCollisionsY(world_p, STATIC, ALL_FROM_TOP, STATIC, NONE);
 	World_checkAndHandleBodyPairCollisionsY(world_p, STATIC, ALL_SWITCH_X_Y, STATIC, NONE);
+
+	World_checkAndHandleBodyPairCollisionsY(world_p, -1, ALL_FROM_TOP, -1, ALL);
+
+	World_checkAndHandleBodyPairCollisionsY(world_p, -1, ALL_SWITCH_X_Y, -1, ALL_FROM_TOP);
+
+	World_checkAndHandleBodyPairCollisionsY(world_p, -1, ALL_SWITCH_X_Y, STATIC, -1);
+
+	World_checkAndHandleBodyPairCollisionsY(world_p, MOVABLE, -1, STATIC, -1);
 
 	//check oub y
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
@@ -293,8 +268,8 @@ void World_levelState(World *world_p){
 			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
 			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
-			&& !compareFloatToFloat(world_p->deltaScale.y, 0)
-			&& (bodyPair1_p->canCollideWithPlayer || bodyPair2_p->canCollideWithPlayer)
+			//&& (bodyPair1_p->canCollideWithPlayer || bodyPair2_p->canCollideWithPlayer)
+			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
 			&& i != j){
 				rescaleY = true;
 			}
@@ -318,114 +293,189 @@ void World_levelState(World *world_p){
 	
 	}
 
-	/*
-	 * INTE KLAR MÅSTE FIXA LITE PÅ!!!
-	 *
-	 */
+	//apply physics
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
 
-	//calculate player scale for physics
-	BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
-	playerBody_p = &playerBodyPair_p->body;
+		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
-	Vec2f playerScale = playerBodyPair_p->originBody.size;
-	Vec2f_div(&playerScale, &playerBody_p->size);
+		bodyPair_p->physics.acceleration.y += bodyPair_p->physics.gravity;
 
-	//Body playerOriginBody = *playerBody_p;
+		Vec2f_mul(&bodyPair_p->physics.velocity, &bodyPair_p->physics.resistance);
 
-	/*
+		Vec2f_add(&bodyPair_p->physics.velocity, &bodyPair_p->physics.acceleration);
+
+		bodyPair_p->physics.onGround = false;
+
+		//reset acceleration
+		bodyPair_p->physics.acceleration = getVec2f(0, 0);
+			
+	}
+
+	//move x
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
+
+		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+		Vec2f physicsScale = BodyPair_getPhysicsScale(bodyPair_p);
+
+		bodyPair_p->body.pos.x += bodyPair_p->physics.velocity.x / physicsScale.x;
+	
+	}
+
+	//handle collisions x
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
+		for(int j = 0; j < world_p->bodyPairs.length; j++){
+
+			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
+
+			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+			&& i != j
+			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
+			&& bodyPair1_p->collisionWeight == MOVABLE
+			&& bodyPair2_p->collisionWeight == STATIC){
+
+				float bodyPair1CenterX = bodyPair1_p->lastBody.pos.x + bodyPair1_p->lastBody.size.x / 2;
+				float bodyPair2CenterX = bodyPair2_p->lastBody.pos.x + bodyPair2_p->lastBody.size.x / 2;
+
+				if(bodyPair1CenterX < bodyPair2CenterX){
+					bodyPair1_p->body.pos.x = bodyPair2_p->body.pos.x - bodyPair1_p->body.size.x;
+				}
+				if(bodyPair1CenterX > bodyPair2CenterX){
+					bodyPair1_p->body.pos.x = bodyPair2_p->body.pos.x + bodyPair2_p->body.size.x;
+				}
+
+				bodyPair1_p->physics.velocity.x = 0;
+				
+			}
+
+		}
+	}
+
+	//handle oub x
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
+
+		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+		if(bodyPair_p->body.pos.x < 0){
+			bodyPair_p->body.pos.x = 0;
+			bodyPair_p->physics.velocity.x = 0;
+		}
+
+	}
+
+	//move y
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
+
+		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+		Vec2f physicsScale = BodyPair_getPhysicsScale(bodyPair_p);
+
+		bodyPair_p->body.pos.y += bodyPair_p->physics.velocity.y / physicsScale.y;
+	
+	}
+
+	//handle collisions y
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
+		for(int j = 0; j < world_p->bodyPairs.length; j++){
+
+			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
+
+			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+			&& i != j
+			//&& (bodyPair1_p->canCollideWithPlayer || bodyPair2_p->canCollideWithPlayer)
+			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
+			&& bodyPair1_p->collisionWeight == MOVABLE
+			&& bodyPair2_p->collisionWeight == STATIC){
+
+				float bodyPair1CenterY = bodyPair1_p->lastBody.pos.y + bodyPair1_p->lastBody.size.y / 2;
+				float bodyPair2CenterY = bodyPair2_p->lastBody.pos.y + bodyPair2_p->lastBody.size.y / 2;
+
+				if(bodyPair1CenterY < bodyPair2CenterY){
+					bodyPair1_p->body.pos.y = bodyPair2_p->body.pos.y - bodyPair1_p->body.size.y;
+					bodyPair1_p->physics.onGround = true;
+				}
+				if(bodyPair1CenterY > bodyPair2CenterY){
+					bodyPair1_p->body.pos.y = bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y;
+				}
+
+				bodyPair1_p->physics.velocity.y = 0;
+				
+			}
+
+		}
+	}
+
+	//update player facing
 	{
-		Vec2f scale = World_getScaleFromScaleType(world_p, playerBody_p->scaleType);
-		//Vec2f lastScale = World_getLastScaleFromScaleType(world_p, playerBody_p->scaleType);
-		Vec2f origin = World_getOriginFromScaleType(world_p, playerBody_p->scaleType);
+		Physics *playerPhysics_p = &World_getBodyPairByID(world_p, player_p->bodyPairID)->physics;
 
-		Body_unScale(&playerOriginBody, origin, scale);
-	
-	}
-	*/
-
-	//Vec2f playerScale = World_getScaleFromScaleType(world_p, playerBody_p->scaleType);
-	//Vec2f playerScale = playerOriginBody.size;
-	//Vec2f_div(&playerScale, &playerBody_p->size);
-
-	//Vec2f_log(playerOriginBody.size);
-	//Vec2f_log(playerScale);
-
-	//update player physics
-
-	player_p->physics.acceleration.y += player_p->gravity;
-
-	Vec2f_mul(&player_p->physics.velocity, &player_p->resistance);
-
-	Vec2f_add(&player_p->physics.velocity, &player_p->physics.acceleration);
-
-	//move player y
-	playerBody_p->pos.y += player_p->physics.velocity.y / playerScale.y;
-
-	//check player col y
-	bool col = false;
-	Body colBody;
-	for(int i = 0; i < world_p->obstacles.length; i++){
-
-		Obstacle *obstacle_p = Array_getItemPointerByIndex(&world_p->obstacles, i);
-		BodyPair *obstacleBodyPair_p = World_getBodyPairByID(world_p, obstacle_p->bodyPairID);
-
-		if(checkBodyPairToBodyPairCollision(*playerBodyPair_p, *obstacleBodyPair_p)){
-			col = true;
-			colBody = obstacleBodyPair_p->body;
+		if(playerPhysics_p->velocity.x > 0){
+			player_p->facing = RIGHT;
+		}
+		if(playerPhysics_p->velocity.x < 0){
+			player_p->facing = LEFT;
 		}
 	}
 
-	//handle player col y
-	player_p->onGround = false;
+	//check if player collides with door keys
+	for(int i = 0; i < world_p->doorKeys.length; i++){
 
-	if(col){
-		if(player_p->physics.velocity.y < 0){
-			playerBody_p->pos.y = colBody.pos.y + colBody.size.y;
-		}
-		if(player_p->physics.velocity.y > 0){
-			playerBody_p->pos.y = colBody.pos.y - playerBody_p->size.y;
-			player_p->onGround = true;
+		DoorKey *doorKey_p = Array_getItemPointerByIndex(&world_p->doorKeys, i);
+		BodyPair *doorKeyBodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
+		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
+
+		Vec2f doorKeyPhysicsScale = BodyPair_getPhysicsScale(doorKeyBodyPair_p);
+
+		Vec2f playerHand = getVec2f(playerBodyPair_p->body.pos.x + 10, playerBodyPair_p->body.pos.y + 15);
+
+		if(player_p->facing == LEFT){
+			playerHand.x -= 6;
 		}
 
-		player_p->physics.velocity.y = 0;
+		Vec2f doorKeyHold = getVec2f(doorKeyBodyPair_p->body.pos.x, doorKeyBodyPair_p->body.pos.y + doorKeyBodyPair_p->body.size.y);
+
+		if(player_p->facing == LEFT){
+			doorKeyHold.x += doorKeyBodyPair_p->body.size.x;
+		}
+
+		Vec2f velocity = playerHand;
+		Vec2f_sub(&velocity, &doorKeyHold);
+		Vec2f_mul(&velocity, &doorKeyPhysicsScale);
+
+		float mag = Vec2f_getMag(velocity);
+
+		Vec2f_normalize(&velocity);
+		Vec2f_mulByFactor(&velocity, mag);
+		//Vec2f_divByFactor(&velocity, 3);
+
+		if(checkBodyToBodyCol(playerBodyPair_p->body, doorKeyBodyPair_p->body)){
+			doorKeyBodyPair_p->physics.velocity = velocity;
+			doorKey_p->facing = player_p->facing;
+		}
+
 	}
 
-	//move player x
-	playerBody_p->pos.x += player_p->physics.velocity.x / playerScale.x;
-	
-	//check player col x
-	col = false;
-	colBody;
-	for(int i = 0; i < world_p->obstacles.length; i++){
-		Obstacle *obstacle_p = Array_getItemPointerByIndex(&world_p->obstacles, i);
+	//check if door keys collide with doors
+	for(int i = 0; i < world_p->doors.length; i++){
+		for(int j = 0; j < world_p->doorKeys.length; j++){
+			
+			Door *door_p = Array_getItemPointerByIndex(&world_p->doors, i);
+			DoorKey *doorKey_p = Array_getItemPointerByIndex(&world_p->doorKeys, j);
+			BodyPair *doorBodyPair_p = World_getBodyPairByID(world_p, door_p->bodyPairID);
+			BodyPair *doorKeyBodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
 
-		Body *obstacleBody_p = &World_getBodyPairByID(world_p, obstacle_p->bodyPairID)->body;
-		BodyPair *obstacleBodyPair_p = World_getBodyPairByID(world_p, obstacle_p->bodyPairID);
+			if(checkBodyToBodyCol(doorBodyPair_p->body, doorKeyBodyPair_p->body)){
 
-		if(checkBodyPairToBodyPairCollision(*playerBodyPair_p, *obstacleBodyPair_p)){
-			col = true;
-			colBody = obstacleBodyPair_p->body;
+				World_removeDoorByID(world_p, door_p->entityHeader.ID);
+				World_removeDoorKeyByID(world_p, doorKey_p->entityHeader.ID);
+
+				i--;
+				j--;
+
+			}
+
 		}
 	}
-
-	//handle player col x
-	if(col){
-		if(player_p->physics.velocity.x > 0){
-			playerBody_p->pos.x = colBody.pos.x - playerBody_p->size.x;
-		}
-		if(player_p->physics.velocity.x < 0){
-			playerBody_p->pos.x = colBody.pos.x + colBody.size.x;
-		}
-		player_p->physics.velocity.x = 0;
-	}
-
-	//check and handle player oub x
-	if(playerBody_p->pos.x < 0){
-		playerBody_p->pos.x = 0;
-	}
-
-	//reset player acceleration
-	player_p->physics.acceleration = getVec2f(0, 0);
 
 	//check if player collides with points
 	for(int i = 0; i < world_p->points.length; i++){
@@ -439,6 +489,22 @@ void World_levelState(World *world_p){
 			World_removePointByID(world_p, point_p->entityHeader.ID);
 
 			i--;
+
+		}
+
+	}
+
+	//check if player collides with level doors
+	for(int i = 0; i < world_p->levelDoors.length; i++){
+
+		LevelDoor *levelDoor_p = Array_getItemPointerByIndex(&world_p->levelDoors, i);
+	
+		if(checkBodyToBodyCol(*playerBody_p, levelDoor_p->body)){
+
+			//world_p->currentLevel = 0;
+			world_p->currentLevel = levelDoor_p->levelName;
+
+			World_fadeTransitionToState(world_p, LEVEL_STATE);
 
 		}
 
@@ -497,6 +563,38 @@ void World_levelState(World *world_p){
 
 	}
 
+	//update door sprites
+	for(int i = 0; i < world_p->doors.length; i++){
+
+		Door *door_p = Array_getItemPointerByIndex(&world_p->doors, i);
+
+		BodyPair *doorBodyPair_p = World_getBodyPairByID(world_p, door_p->bodyPairID);
+
+		Sprite *sprite_p = World_getSpriteByID(world_p, door_p->spriteID);
+
+		sprite_p->body = doorBodyPair_p->body;
+
+		sprite_p->color = SCALE_TYPE_COLORS[doorBodyPair_p->scaleType];
+
+	}
+
+	//update door key sprites
+	for(int i = 0; i < world_p->doorKeys.length; i++){
+
+		DoorKey *doorKey_p = Array_getItemPointerByIndex(&world_p->doorKeys, i);
+
+		BodyPair *doorKeyBodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
+
+		Sprite *sprite_p = World_getSpriteByID(world_p, doorKey_p->spriteID);
+
+		sprite_p->body = doorKeyBodyPair_p->body;
+
+		sprite_p->color = SCALE_TYPE_COLORS[doorKeyBodyPair_p->scaleType];
+
+		sprite_p->facing = doorKey_p->facing;
+
+	}
+
 	//update scale field sprites
 	for(int i = 0; i < world_p->scaleFields.length; i++){
 
@@ -522,8 +620,8 @@ void World_levelState(World *world_p){
 		sprite_p->body = playerBodyPair_p->body;
 
 		sprite_p->color = SCALE_TYPE_COLORS[playerBodyPair_p->scaleType];
-	}
 
-	world_p->renderer.offset = getVec2f(0, 0);
+		sprite_p->facing = world_p->player.facing;
+	}
 
 }

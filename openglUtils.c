@@ -89,7 +89,7 @@ void OpenglUtils_Renderer_init(OpenglUtils_Renderer *renderer_p, float width, fl
 
 }
 
-unsigned int OpenglUtils_Renderer_drawTexture(OpenglUtils_Renderer renderer, Vec2f pos, Vec2f size, Vec4f color, unsigned int textureID, unsigned int shaderProgramID){
+unsigned int OpenglUtils_Renderer_drawTexture(OpenglUtils_Renderer renderer, Vec2f pos, Vec2f size, Vec4f color, unsigned int facing, unsigned int textureID, unsigned int shaderProgramID){
 
 	Mat4f transformations = {
 		1, 0, 0, 0,
@@ -115,6 +115,9 @@ unsigned int OpenglUtils_Renderer_drawTexture(OpenglUtils_Renderer renderer, Vec
 
 	unsigned int colorLocation = glGetUniformLocation(shaderProgramID, "color");
 	glUniform4fv(colorLocation, 1, &color);
+
+	unsigned int facingLocation = glGetUniformLocation(shaderProgramID, "facing");
+	glUniform1iv(facingLocation, 1, &facing);
 
 	glBindTexture(GL_TEXTURE_2D, textureID);
 

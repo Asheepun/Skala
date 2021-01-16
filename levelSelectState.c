@@ -1,3 +1,4 @@
+/*
 #include "stdbool.h"
 #include "math.h"
 #include "stdio.h"
@@ -143,6 +144,7 @@ void World_levelSelectState(World *world_p){
 		//world_p->nextStateAfterTransition = World_initLevelState;
 		//levelSelectStateFadeTransitionID = World_fadeTransition(world_p);
 	}
+	*/
 
 	/*
 	if(world_p->fadeTransitionCounter == FADE_TRANSITION_TIME / 2
@@ -152,6 +154,7 @@ void World_levelSelectState(World *world_p){
 	}
 	*/
 
+		/*
 	for(int i = 0; i < 30; i++){
 		for(int j = 0; j < 30; j++){
 			if(levelGrid[i][j].levelIndex != -1){
@@ -245,11 +248,5 @@ void unlockNearbyLevels(){
 		coolDelay++;
 	}
 
-	/*
-	levelGrid[posY + 1][posX].locked = false;
-	levelGrid[posY - 1][posX].locked = false;
-	levelGrid[posY][posX + 1].locked = false;
-	levelGrid[posY][posX - 1].locked = false;
-	*/
-
 }
+*/
