@@ -45,6 +45,10 @@ int main(){
 
 	while(fgets(line, 255, file) != NULL){
 
+		if(strcmp(strncpy(word, line, 2), "//") == 0){
+			continue;
+		}
+
 		if(strcmp(strncpy(word, line, 10), ":levelName") == 0){
 
 			currentReadMode = LEVEL_NAME;

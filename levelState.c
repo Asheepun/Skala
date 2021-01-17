@@ -61,16 +61,24 @@ void World_levelState(World *world_p){
 		//control scale
 
 		if(world_p->actions[LEFT_ACTION].down){
-			world_p->scale.x *= 1 + world_p->scaleSpeed * HEIGHT / WIDTH;
+			world_p->scale.x *= 1 + world_p->scaleSpeed * (float)HEIGHT / (float)WIDTH * sqrt(sqrt(world_p->scale.x));
+			//world_p->scale.x += world_p->scaleSpeed * HEIGHT / WIDTH;
 		}
 		if(world_p->actions[RIGHT_ACTION].down){
-			world_p->scale.x *= 1 - world_p->scaleSpeed * HEIGHT / WIDTH;
+			world_p->scale.x /= 1 + world_p->scaleSpeed * (float)HEIGHT / (float)WIDTH * sqrt(sqrt(world_p->scale.x));
+			//world_p->scale.x *= 1 - world_p->scaleSpeed * HEIGHT / WIDTH;
+			//world_p->scale.x -= world_p->scaleSpeed * HEIGHT / WIDTH;
 		}
 		if(world_p->actions[DOWN_ACTION].down){
-			world_p->scale.y *= 1 + world_p->scaleSpeed;
+			world_p->scale.y *= 1 + world_p->scaleSpeed * sqrt(sqrt(world_p->scale.y));
+			//world_p->scale.y *= 1 + world_p->scaleSpeed;
+			//world_p->scale.y += world_p->scaleSpeed;
 		}
 		if(world_p->actions[UP_ACTION].down){
-			world_p->scale.y *= 1 - world_p->scaleSpeed;
+			world_p->scale.y /= 1 + world_p->scaleSpeed * sqrt(sqrt(world_p->scale.y));
+			//world_p->scale.y /= 1 + world_p->scaleSpeed;
+			//world_p->scale.y *= 1 - world_p->scaleSpeed;
+			//world_p->scale.y -= world_p->scaleSpeed;
 		}
 
 		if(world_p->scale.x < 0.000001){
@@ -95,6 +103,11 @@ void World_levelState(World *world_p){
 		if((world_p->actions[JUMP_ACTION].down)
 		&& playerPhysics_p->onGround){
 			playerPhysics_p->velocity.y += player_p->jumpSpeed;
+		}
+
+		if(!world_p->actions[JUMP_ACTION].down
+		&& playerPhysics_p->velocity.y < 0){
+			playerPhysics_p->velocity.y = 0;
 		}
 
 	}
@@ -184,7 +197,6 @@ void World_levelState(World *world_p){
 
 			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
 			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
-			//&& !compareFloatToFloat(world_p->deltaScale.x, 0)
 			&& i != j){
 				rescaleX = true;
 			}
@@ -268,7 +280,6 @@ void World_levelState(World *world_p){
 			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
 			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
-			//&& (bodyPair1_p->canCollideWithPlayer || bodyPair2_p->canCollideWithPlayer)
 			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
 			&& i != j){
 				rescaleY = true;
@@ -300,9 +311,9 @@ void World_levelState(World *world_p){
 
 		bodyPair_p->physics.acceleration.y += bodyPair_p->physics.gravity;
 
-		Vec2f_mul(&bodyPair_p->physics.velocity, &bodyPair_p->physics.resistance);
-
 		Vec2f_add(&bodyPair_p->physics.velocity, &bodyPair_p->physics.acceleration);
+
+		Vec2f_mul(&bodyPair_p->physics.velocity, &bodyPair_p->physics.resistance);
 
 		bodyPair_p->physics.onGround = false;
 
@@ -424,12 +435,13 @@ void World_levelState(World *world_p){
 		BodyPair *doorKeyBodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
 
+		Vec2f playerPhysicsScale = BodyPair_getPhysicsScale(playerBodyPair_p);
 		Vec2f doorKeyPhysicsScale = BodyPair_getPhysicsScale(doorKeyBodyPair_p);
 
-		Vec2f playerHand = getVec2f(playerBodyPair_p->body.pos.x + 10, playerBodyPair_p->body.pos.y + 15);
+		Vec2f playerHand = getVec2f(playerBodyPair_p->body.pos.x + 10 / playerPhysicsScale.x, playerBodyPair_p->body.pos.y + 15 / playerPhysicsScale.y);
 
 		if(player_p->facing == LEFT){
-			playerHand.x -= 6;
+			playerHand.x -= 6 / playerPhysicsScale.x;
 		}
 
 		Vec2f doorKeyHold = getVec2f(doorKeyBodyPair_p->body.pos.x, doorKeyBodyPair_p->body.pos.y + doorKeyBodyPair_p->body.size.y);
@@ -623,5 +635,19 @@ void World_levelState(World *world_p){
 
 		sprite_p->facing = world_p->player.facing;
 	}
+
+	//update offset
+	if(world_p->currentState == LEVEL_HUB_STATE){
+
+		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
+
+		world_p->renderer.offset.x = floor(WIDTH / 2 - playerBodyPair_p->body.pos.x);
+
+		if(world_p->renderer.offset.x > 0){
+			world_p->renderer.offset.x = 0;
+		}
+	
+	}
+
 
 }

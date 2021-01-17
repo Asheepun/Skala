@@ -264,11 +264,13 @@ typedef struct World{
 
 //global variables
 
-static int WIDTH = 320;
-static int HEIGHT = 180;
+//static int WIDTH = 320 * 1.5;
+//static int HEIGHT = 180 * 1.5;
+static int WIDTH = 480;
+static int HEIGHT = 270;
 
-static int windowWidth = 320 * 3;
-static int windowHeight = 180 * 3;
+static int windowWidth = 480 * 3;
+static int windowHeight = 270 * 3;
 
 //static int windowWidth = 1366;
 //static int windowHeight = 768;
@@ -279,18 +281,18 @@ static int windowHeight = 180 * 3;
 //static int lastWindowWidth = 320 * 2;
 //static int lastWindowHeight = 180 * 2;
 
-static const Vec4f COLOR_BLACK 		= { 0, 		0, 		0, 		1 };
-static const Vec4f COLOR_WHITE 		= { 1, 		1, 		1, 		1 };
+static const Vec4f COLOR_BLACK 		= { 0.05, 		0.04, 		0.02, 		1 };
+static const Vec4f COLOR_WHITE 		= { 0.9, 		0.85, 		0.75, 		1 };
 static const Vec4f COLOR_GREY 		= { 0.5, 	0.5, 	0.5, 	1 };
 static const Vec4f COLOR_BROWN 		= { 0.6, 	0.3, 	0.2, 	1 };
-static const Vec4f COLOR_GREEN 		= { 0, 		1, 		0, 		1 };
-static const Vec4f COLOR_PURPLE 	= { 1, 		0, 		1, 		1 };
+static const Vec4f COLOR_GREEN 		= { 0.3, 		0.90, 		0.2, 		1 };
+static const Vec4f COLOR_PURPLE 	= { 0.80, 		0.1, 		0.6, 		1 };
 static const Vec4f COLOR_BLUE 		= { 0, 		0, 		1, 		1 };
 static const Vec4f COLOR_YELLOW 	= { 1, 		1, 		0, 		1 };
 
 static const Vec4f SCALE_TYPE_COLORS[] = {
-	COLOR_GREEN, 	//none scalable
-	COLOR_WHITE, 	//scalable all
+	COLOR_WHITE, 	//none scalable
+	COLOR_GREEN, 	//scalable all
 	COLOR_PURPLE, 	//scalable origin top all
 	COLOR_BLUE, 	//scalable x y switch
 };

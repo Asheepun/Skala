@@ -63,7 +63,9 @@ void World_restore(World *world_p){
 	Vec2f_set(&world_p->origin, 0, HEIGHT);
 
 	world_p->scaling = false;
-	world_p->scaleSpeed = 0.05;
+	//world_p->scaleSpeed = 0.05;
+	//world_p->scaleSpeed = 0.045;
+	world_p->scaleSpeed = 0.035;
 
 	Array_clear(&world_p->buttons);
 	Array_clear(&world_p->bodyPairs);
@@ -113,13 +115,15 @@ void World_initPlayer(World *world_p, Vec2f pos, enum ScaleType scaleType){
 
 	Physics *physics_p = &World_getBodyPairByID(world_p, player_p->bodyPairID)->physics;
 
-	physics_p->gravity = 0.35;
-	physics_p->resistance = getVec2f(0.8, 1);
+	//physics_p->gravity = 0.35;
+	physics_p->gravity = 0.23;
+	physics_p->resistance = getVec2f(0.88, 1);
 
 	//p->runAcceleration = 0.8;
-	player_p->runAcceleration = 0.6;
+	player_p->runAcceleration = 0.33;
 	//p->jumpSpeed = -4.5;
-	player_p->jumpSpeed = -4;
+	//player_p->jumpSpeed = -4;
+	player_p->jumpSpeed = -3.4;
 
 	player_p->facing = RIGHT;
 
@@ -329,7 +333,7 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName){
 
 	levelDoor_p->levelName = levelName;
 
-	levelDoor_p->spriteID = World_addSprite(world_p, pos, levelDoor_p->body.size, COLOR_GREEN, "level-door", 1, GAME_LAYER_FOREGROUND);
+	levelDoor_p->spriteID = World_addSprite(world_p, pos, levelDoor_p->body.size, COLOR_WHITE, "level-door", 1, GAME_LAYER_FOREGROUND);
 
 	return levelDoor_p->entityHeader.ID;
 

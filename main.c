@@ -158,7 +158,7 @@ void mainLoop(){
 
 void drawGame(){
 
-	glClearColor(0, 0, 0, 1);
+	glClearColor(COLOR_BLACK.x, COLOR_BLACK.y, COLOR_BLACK.z, 1);
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -308,7 +308,7 @@ int main(int argc, char *argv[]){
 	Action_addBinding(&world.actions[BACK_ACTION], SDL_SCANCODE_ESCAPE);
 	Action_addBinding(&world.actions[MENU_ACTION], SDL_SCANCODE_ESCAPE);
 
-	world.currentLevel = "level-1";
+	//world.currentLevel = "level-5";
 
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
 	//World_switchToAndInitState(&world, LEVEL_STATE);
@@ -328,6 +328,8 @@ int main(int argc, char *argv[]){
 	context = SDL_GL_CreateContext(window);
 
 	SDL_GL_MakeCurrent(window, context);
+
+	//SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
 	if(!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)){
 		printf("ERROR LOADING WITH GLAD\n");
