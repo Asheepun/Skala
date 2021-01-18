@@ -14,7 +14,7 @@ void World_init(World *world_p){
 
 	memset(world_p, 0, sizeof(World));
 
-	world_p->saveData.playerHubPos = getVec2f(1000, 100);
+	world_p->saveData.playerHubPos = getVec2f(1650, 50);
 
 	Array_init(&world_p->fonts, sizeof(Font));
 
