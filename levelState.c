@@ -426,6 +426,11 @@ void World_levelState(World *world_p){
 		if(playerPhysics_p->velocity.x < 0){
 			player_p->facing = LEFT;
 		}
+
+		//check if player has landed
+		if(playerPhysics_p->onGround){
+			world_p->playerHasLanded = true;
+		}
 	}
 
 	//check if player collides with door keys
@@ -495,8 +500,9 @@ void World_levelState(World *world_p){
 		Point *point_p = Array_getItemPointerByIndex(&world_p->points, i);
 
 		Body *pointBody_p = &((BodyPair *)Array_getItemPointerByID(&world_p->bodyPairs, point_p->bodyPairID))->body;
+		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
 	
-		if(checkBodyToBodyCol(*playerBody_p, *pointBody_p)){
+		if(checkBodyToBodyCol(playerBodyPair_p->body, *pointBody_p)){
 
 			World_removePointByID(world_p, point_p->entityHeader.ID);
 
@@ -510,11 +516,14 @@ void World_levelState(World *world_p){
 	for(int i = 0; i < world_p->levelDoors.length; i++){
 
 		LevelDoor *levelDoor_p = Array_getItemPointerByIndex(&world_p->levelDoors, i);
+		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
 	
-		if(checkBodyToBodyCol(*playerBody_p, levelDoor_p->body)){
+		if(checkBodyToBodyCol(playerBodyPair_p->body, levelDoor_p->body)
+		&& world_p->playerHasLanded){
 
-			//world_p->currentLevel = 0;
 			world_p->currentLevel = levelDoor_p->levelName;
+
+			world_p->saveData.playerHubPos = playerBodyPair_p->body.pos;
 
 			World_fadeTransitionToState(world_p, LEVEL_STATE);
 

@@ -212,11 +212,17 @@ typedef struct Action{
 	int bindingsLength;
 }Action;
 
+typedef struct SaveData{
+	Vec2f playerHubPos;
+}SaveData;
+
 typedef struct World{
 
 	Key keys[255];
 
 	Action actions[16];
+
+	SaveData saveData;
 
 	//Font fonts[16];
 	Array fonts;
@@ -260,6 +266,8 @@ typedef struct World{
 
 	size_t fpsTextID;
 
+	bool playerHasLanded;
+
 }World;
 
 //global variables
@@ -281,14 +289,14 @@ static int windowHeight = 270 * 3;
 //static int lastWindowWidth = 320 * 2;
 //static int lastWindowHeight = 180 * 2;
 
-static const Vec4f COLOR_BLACK 		= { 0.05, 		0.04, 		0.02, 		1 };
-static const Vec4f COLOR_WHITE 		= { 0.9, 		0.85, 		0.75, 		1 };
-static const Vec4f COLOR_GREY 		= { 0.5, 	0.5, 	0.5, 	1 };
-static const Vec4f COLOR_BROWN 		= { 0.6, 	0.3, 	0.2, 	1 };
-static const Vec4f COLOR_GREEN 		= { 0.3, 		0.90, 		0.2, 		1 };
-static const Vec4f COLOR_PURPLE 	= { 0.80, 		0.1, 		0.6, 		1 };
-static const Vec4f COLOR_BLUE 		= { 0, 		0, 		1, 		1 };
-static const Vec4f COLOR_YELLOW 	= { 1, 		1, 		0, 		1 };
+static const Vec4f COLOR_BLACK 		= { 0.00, 		0.00, 		0.00, 		1 };
+static const Vec4f COLOR_WHITE 		= { 1.00, 		1.00, 		1.00, 		1 };
+static const Vec4f COLOR_GREY 		= { 0.50, 		0.50, 		0.50, 		1 };
+static const Vec4f COLOR_BROWN 		= { 0.60, 		0.30, 		0.20, 		1 };
+static const Vec4f COLOR_GREEN 		= { 0.30, 		0.90, 		0.10, 		1 };
+static const Vec4f COLOR_PURPLE 	= { 1.00, 		0.00, 		1.00, 		1 };
+static const Vec4f COLOR_BLUE 		= { 0.00, 		0.00, 		1.00, 		1 };
+static const Vec4f COLOR_YELLOW 	= { 1.00, 		1.00, 		0.00, 		1 };
 
 static const Vec4f SCALE_TYPE_COLORS[] = {
 	COLOR_WHITE, 	//none scalable
@@ -398,5 +406,7 @@ void World_initLevelHub(World *);
 void World_initMenu(World *);
 
 void World_menuState(World *);
+
+//FILE saving.c
 
 #endif
