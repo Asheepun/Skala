@@ -10,11 +10,13 @@
 
 void World_initLevelHub(World *world_p){
 
+	SaveData_write(&world_p->saveData);
+
 	World_restore(world_p);
 
 	world_p->playerHasLanded = false;
 
-	World_initPlayer(world_p, world_p->saveData.playerHubPos, NONE);
+	World_initPlayer(world_p, world_p->saveData.playerPos, NONE);
 
 	//add level doors
 	int normalLevelDistance = 70;

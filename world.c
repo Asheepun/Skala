@@ -16,6 +16,8 @@ void World_init(World *world_p){
 
 	SaveData_init(&world_p->saveData);
 
+	SaveData_read(&world_p->saveData);
+
 	Array_init(&world_p->fonts, sizeof(Font));
 
 	Array_init(&world_p->textures, sizeof(OpenglUtils_Texture));

@@ -1,0 +1,8 @@
+:playerPos
+1848 68
+:completedLevels
+level-1
+level-3
+first-scaling-level-1
+high-jump-2
+flying-key-2-trickshot-edition

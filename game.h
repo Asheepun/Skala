@@ -214,7 +214,7 @@ typedef struct Action{
 }Action;
 
 typedef struct SaveData{
-	Vec2f playerHubPos;
+	Vec2f playerPos;
 	Array completedLevels;
 }SaveData;
 

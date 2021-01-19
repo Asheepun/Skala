@@ -583,7 +583,7 @@ void World_levelState(World *world_p){
 
 			world_p->currentLevel = levelDoor_p->levelName;
 
-			world_p->saveData.playerHubPos = playerBodyPair_p->body.pos;
+			world_p->saveData.playerPos = playerBodyPair_p->body.pos;
 
 			World_fadeTransitionToState(world_p, LEVEL_STATE);
 
