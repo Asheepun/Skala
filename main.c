@@ -189,14 +189,14 @@ void drawGame(){
 
 				}
 
-				pos.x = floor(sprite_p->body.pos.x);
-				pos.y = floor(sprite_p->body.pos.y);
+				pos.x = round(sprite_p->body.pos.x);
+				pos.y = round(sprite_p->body.pos.y);
 
-				size.x = floor(sprite_p->body.size.x);
-				size.y = floor(sprite_p->body.size.y);
+				size.x = round(sprite_p->body.size.x);
+				size.y = round(sprite_p->body.size.y);
 
-				if(size.x < 1
-				|| size.y < 1){
+				if(sprite_p->body.size.x < 1
+				|| sprite_p->body.size.y < 1){
 					size = getVec2f(0, 0);
 				}
 
@@ -207,8 +207,8 @@ void drawGame(){
 			}
 			else if(sprite_p->type == TEXT_SPRITE){
 
-				pos.x = floor(sprite_p->pos.x);
-				pos.y = floor(sprite_p->pos.y);
+				pos.x = round(sprite_p->pos.x);
+				pos.y = round(sprite_p->pos.y);
 
 				int imageWidth, imageHeight;
 
@@ -237,8 +237,8 @@ void drawGame(){
 
 				free(imageData);
 
-				size.x = floor(imageWidth);
-				size.y = floor(imageHeight);
+				size.x = round(imageWidth);
+				size.y = round(imageHeight);
 
 				unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
 
@@ -307,6 +307,7 @@ int main(int argc, char *argv[]){
 	Action_addBinding(&world.actions[DO_ACTION], SDL_SCANCODE_SPACE);
 	Action_addBinding(&world.actions[BACK_ACTION], SDL_SCANCODE_ESCAPE);
 	Action_addBinding(&world.actions[MENU_ACTION], SDL_SCANCODE_ESCAPE);
+	Action_addBinding(&world.actions[RESTART_ACTION], SDL_SCANCODE_R);
 
 	world.currentLevel = "make-it-bigger-1";
 

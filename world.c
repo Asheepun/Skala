@@ -14,7 +14,7 @@ void World_init(World *world_p){
 
 	memset(world_p, 0, sizeof(World));
 
-	world_p->saveData.playerHubPos = getVec2f(1650, 50);
+	SaveData_init(&world_p->saveData);
 
 	Array_init(&world_p->fonts, sizeof(Font));
 
@@ -300,7 +300,7 @@ size_t World_addDoorKey(World *world_p, Vec2f pos, enum ScaleType scaleType){
 
 	Physics *physics_p = &World_getBodyPairByID(world_p, doorKey_p->bodyPairID)->physics;
 
-	physics_p->gravity = 0.35;
+	physics_p->gravity = 0.23;
 	physics_p->resistance = getVec2f(0.9, 0.9);
 
 	doorKey_p->facing = RIGHT;
@@ -551,9 +551,9 @@ bool checkBodyPairToBodyPairCollision(BodyPair bodyPair1, BodyPair bodyPair2){
 	
 	if(/*checkBodyToBodyColCastToInt(BodyPair_getDeltaBody(bodyPair1), BodyPair_getDeltaBody(bodyPair2))*/true){
 
-		if(checkBodyToBodyColCastToInt(bodyPair1.body, bodyPair2.body)
-		&& bodyPair1.lastBody.size.x >= 1 && bodyPair2.lastBody.size.x >= 1//make it so that small things don't appear on the wrong side when they are scaled up
-		&& bodyPair1.lastBody.size.y >= 1 && bodyPair2.lastBody.size.y >= 1){
+		if(checkBodyToBodyColRoundFloats(bodyPair1.body, bodyPair2.body)){
+		//&& bodyPair1.lastBody.size.x >= 1 && bodyPair2.lastBody.size.x >= 1//make it so that small things don't appear on the wrong side when they are scaled up
+		//&& bodyPair1.lastBody.size.y >= 1 && bodyPair2.lastBody.size.y >= 1){
 			return true;
 		}
 

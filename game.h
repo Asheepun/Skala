@@ -21,6 +21,7 @@ enum Actions{
 	DO_ACTION,
 	BACK_ACTION,
 	MENU_ACTION,
+	RESTART_ACTION,
 };
 
 enum ButtonType{
@@ -214,6 +215,7 @@ typedef struct Action{
 
 typedef struct SaveData{
 	Vec2f playerHubPos;
+	Array completedLevels;
 }SaveData;
 
 typedef struct World{
@@ -408,5 +410,7 @@ void World_initMenu(World *);
 void World_menuState(World *);
 
 //FILE saving.c
+
+void SaveData_init(SaveData *);
 
 #endif

@@ -29,8 +29,13 @@ World_generateLevel20(World *);
 World_generateLevel21(World *);
 World_generateLevel22(World *);
 World_generateLevel23(World *);
+World_generateLevel24(World *);
+World_generateLevel25(World *);
+World_generateLevel26(World *);
+World_generateLevel27(World *);
+World_generateLevel28(World *);
 
-static const size_t LEVELS_LENGTH = 23;
+static const size_t LEVELS_LENGTH = 28;
 
 static Level levels[255] = {
 	"level-1",
@@ -79,6 +84,16 @@ static Level levels[255] = {
 	World_generateLevel22,
 	"get-key-up-2",
 	World_generateLevel23,
+	"floor-is-door",
+	World_generateLevel24,
+	"push-key-with-point",
+	World_generateLevel25,
+	"maybe-key-should-fly",
+	World_generateLevel26,
+	"flying-key-1",
+	World_generateLevel27,
+	"flying-key-2-trickshot-edition",
+	World_generateLevel28,
 };
 
 #endif

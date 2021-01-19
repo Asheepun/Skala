@@ -317,7 +317,7 @@ door-key-level-3
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
 
-	World_addObstacle(world_p, getVec2f(240, 20), getVec2f(20, 35), NONE);
+	//World_addObstacle(world_p, getVec2f(240, 20), getVec2f(20, 35), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 60), getVec2f(300, 20), NONE);
 
@@ -399,3 +399,120 @@ get-key-up-2
 
 	World_addDoorKey(world_p, getVec2f(100, 230), ALL);
 
+:levelName
+floor-is-door
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(70, 50), NONE);
+
+	World_addPoint(world_p, getVec2f(380, 10), ALL);
+
+	World_addDoor(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(100, 30), getVec2f(WIDTH - 100, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 50, 90), getVec2f(50, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 110, 50), getVec2f(20, 135), NONE);
+
+	World_addDoorKey(world_p, getVec2f(WIDTH - 30, 70), ALL);
+
+:levelName
+push-key-with-point
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(200, 150), NONE);
+
+	World_addPoint(world_p, getVec2f(380, 170), ALL);
+
+	World_addObstacle(world_p, getVec2f(150, 210), getVec2f(180, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(150, 230), getVec2f(195, 40), NONE);
+
+	World_addObstacle(world_p, getVec2f(150, 110), getVec2f(180, 40), NONE);
+
+	World_addObstacle(world_p, getVec2f(150, 150), getVec2f(20, 60), NONE);
+
+	World_addDoor(world_p, getVec2f(310, 150), getVec2f(20, 60), NONE);
+
+	World_addDoorKey(world_p, getVec2f(220, 50), NONE);
+
+:levelName
+maybe-key-should-fly
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(30, 50), NONE);
+
+	World_addPoint(world_p, getVec2f(420, 230), ALL);
+
+	World_addObstacle(world_p, getVec2f(0, 250), getVec2f(WIDTH - 100, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(WIDTH - 130, 50), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 100, 260), getVec2f(WIDTH - 100, 10), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 130, 60), getVec2f(30, HEIGHT - 80), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 20), getVec2f(20, HEIGHT - 30), NONE);
+
+	World_addDoor(world_p, getVec2f(WIDTH - 120, 20), getVec2f(20, 40), NONE);
+
+	World_addDoorKey(world_p, getVec2f(200, 150), ALL);
+
+:levelName
+flying-key-1
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(30, 50), NONE);
+
+	World_addPoint(world_p, getVec2f(420, 230), ALL);
+
+	World_addObstacle(world_p, getVec2f(0, 250), getVec2f(WIDTH - 100, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(100, 50), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 100, 260), getVec2f(WIDTH - 100, 10), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 130, 60), getVec2f(30, HEIGHT - 80), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 20), getVec2f(20, HEIGHT - 30), NONE);
+
+	World_addDoor(world_p, getVec2f(WIDTH - 120, 20), getVec2f(20, 40), NONE);
+
+	World_addDoorKey(world_p, getVec2f(200, 150), ALL);
+
+:levelName
+flying-key-2-trickshot-edition
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(30, 50), NONE);
+
+	World_addPoint(world_p, getVec2f(420, 230), ALL);
+
+	World_addObstacle(world_p, getVec2f(0, 250), getVec2f(WIDTH - 100, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 100, 260), getVec2f(WIDTH - 100, 10), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 130, 60), getVec2f(30, HEIGHT - 80), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 20), getVec2f(20, HEIGHT - 30), NONE);
+
+	World_addDoor(world_p, getVec2f(WIDTH - 120, 20), getVec2f(20, 40), NONE);
+
+	World_addDoorKey(world_p, getVec2f(200, 150), ALL);
