@@ -34,8 +34,15 @@ World_generateLevel25(World *);
 World_generateLevel26(World *);
 World_generateLevel27(World *);
 World_generateLevel28(World *);
+World_generateLevel29(World *);
+World_generateLevel30(World *);
+World_generateLevel31(World *);
+World_generateLevel32(World *);
+World_generateLevel33(World *);
+World_generateLevel34(World *);
+World_generateLevel35(World *);
 
-static const size_t LEVELS_LENGTH = 28;
+static const size_t LEVELS_LENGTH = 35;
 
 static Level levels[255] = {
 	"level-1",
@@ -76,24 +83,38 @@ static Level levels[255] = {
 	World_generateLevel18,
 	"door-key-level-2",
 	World_generateLevel19,
-	"door-key-level-3",
+	"",
 	World_generateLevel20,
-	"door-key-level-4",
+	"door-key-level-3",
 	World_generateLevel21,
-	"get-key-up-1",
+	"	//World_addDoorKey(world_p, getVec2f(90, 20), ALL);(20, HEIGHT - 60), NONE);",
 	World_generateLevel22,
-	"get-key-up-2",
+	"get-key-up-1",
 	World_generateLevel23,
-	"floor-is-door",
+	"get-key-up-2",
 	World_generateLevel24,
-	"push-key-with-point",
+	"floor-is-door",
 	World_generateLevel25,
-	"maybe-key-should-fly",
+	"push-key-with-point",
 	World_generateLevel26,
-	"flying-key-1",
+	"maybe-key-should-fly",
 	World_generateLevel27,
-	"flying-key-2-trickshot-edition",
+	"flying-key-1",
 	World_generateLevel28,
+	"flying-key-2-trickshot-edition",
+	World_generateLevel29,
+	"door-key-level-with-key",
+	World_generateLevel30,
+	"all-from-top-1",
+	World_generateLevel31,
+	"all-from-top-2",
+	World_generateLevel32,
+	"all-from-top-3",
+	World_generateLevel33,
+	"point-pikaboo",
+	World_generateLevel34,
+	"get-under-cup",
+	World_generateLevel35,
 };
 
 #endif

@@ -154,8 +154,7 @@ typedef struct Player{
 	size_t spriteID;
 	float runAcceleration;
 	float jumpSpeed;
-	float gravity;
-	bool onGround;
+	bool holdingKey;
 	enum Facing facing;
 }Player;
 
@@ -216,6 +215,9 @@ typedef struct Action{
 typedef struct SaveData{
 	Vec2f playerPos;
 	Array completedLevels;
+	Array levelsWithDoorKey;
+	Array doorKeys;
+	Array doors;
 }SaveData;
 
 typedef struct World{
@@ -276,11 +278,14 @@ typedef struct World{
 
 //static int WIDTH = 320 * 1.5;
 //static int HEIGHT = 180 * 1.5;
-static int WIDTH = 480;
-static int HEIGHT = 270;
+static const int WIDTH = 480;
+static const int HEIGHT = 270;
 
-static int windowWidth = 480 * 3;
-static int windowHeight = 270 * 3;
+static int windowWidth = WIDTH * 3;
+static int windowHeight = HEIGHT * 3;
+
+//static int windowWidth = WIDTH * 2;
+//static int windowHeight = HEIGHT * 2;
 
 //static int windowWidth = 1366;
 //static int windowHeight = 768;

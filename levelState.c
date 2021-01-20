@@ -137,8 +137,26 @@ void World_levelState(World *world_p){
 	if(world_p->points.length == 0
 	&& world_p->currentState == LEVEL_STATE){
 
+		//add completed level to save data
 		char **completedLevel_p = Array_addItem(&world_p->saveData.completedLevels);
 		*completedLevel_p = world_p->currentLevel;
+
+		//check if player has unlocked a door key, and if so att to save data
+		for(int i = 0; i < world_p->saveData.levelsWithDoorKey.length; i++){
+			
+			char *levelName_p = *((char **)Array_getItemPointerByIndex(&world_p->saveData.levelsWithDoorKey, i));
+
+			if(strcmp(levelName_p, world_p->currentLevel) == 0){
+
+				Vec2f *doorKeyPos_p = Array_addItem(&world_p->saveData.doorKeys);
+				*doorKeyPos_p = world_p->saveData.playerPos;
+
+				Array_removeItemByIndex(&world_p->saveData.levelsWithDoorKey, i);
+				i--;
+
+			}
+
+		}
 
 		World_fadeTransitionToState(world_p, LEVEL_HUB_STATE);
 
@@ -180,7 +198,9 @@ void World_levelState(World *world_p){
 			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
 			&& i != j
 			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
-			&& bodyPair1_p->lastBody.size.x < 1){
+			&& bodyPair1_p->lastBody.size.x < 1
+			&& !(bodyPair1_p->collisionWeight == STATIC
+			&& bodyPair2_p->collisionWeight == MOVABLE)){
 					bodyPair1_p->body.pos.x = bodyPair1_p->lastBody.pos.x;
 					bodyPair1_p->body.size.x = bodyPair1_p->lastBody.size.x;
 			}
@@ -491,6 +511,8 @@ void World_levelState(World *world_p){
 	}
 
 	//check if player collides with door keys
+	player_p->holdingKey = false;
+
 	for(int i = 0; i < world_p->doorKeys.length; i++){
 
 		DoorKey *doorKey_p = Array_getItemPointerByIndex(&world_p->doorKeys, i);
@@ -522,9 +544,14 @@ void World_levelState(World *world_p){
 		Vec2f_mulByFactor(&velocity, mag);
 		//Vec2f_divByFactor(&velocity, 3);
 
-		if(checkBodyToBodyCol(playerBodyPair_p->body, doorKeyBodyPair_p->body)){
+		if(checkBodyToBodyCol(playerBodyPair_p->body, doorKeyBodyPair_p->body)
+		&& !player_p->holdingKey){
+
+			player_p->holdingKey = true;
+
 			doorKeyBodyPair_p->physics.velocity = velocity;
 			doorKey_p->facing = player_p->facing;
+
 		}
 
 	}
@@ -538,11 +565,16 @@ void World_levelState(World *world_p){
 			BodyPair *doorBodyPair_p = World_getBodyPairByID(world_p, door_p->bodyPairID);
 			BodyPair *doorKeyBodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
 
-			//if(checkBodyToBodyCol(doorBodyPair_p->body, doorKeyBodyPair_p->body)){
 			if(checkBodyPairToBodyPairCollision(*doorBodyPair_p, *doorKeyBodyPair_p)){
 
 				World_removeDoorByID(world_p, door_p->entityHeader.ID);
 				World_removeDoorKeyByID(world_p, doorKey_p->entityHeader.ID);
+
+				if(world_p->currentState == LEVEL_HUB_STATE){
+					//BÖR FUNGERA, då de läggs till i samma ordning som de finns i saveData, KAN DOCK VARA ELLER BLI BUGGIGT!!!
+					Array_removeItemByIndex(&world_p->saveData.doors, i);
+					Array_removeItemByIndex(&world_p->saveData.doorKeys, j);
+				}
 
 				i--;
 				j--;

@@ -129,6 +129,8 @@ void World_initPlayer(World *world_p, Vec2f pos, enum ScaleType scaleType){
 	//player_p->jumpSpeed = -4;
 	player_p->jumpSpeed = -3.4;
 
+	player_p->holdingKey = false;
+
 	player_p->facing = RIGHT;
 
 	player_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "player", 1, GAME_LAYER_FOREGROUND);

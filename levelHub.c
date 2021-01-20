@@ -10,8 +10,6 @@
 
 void World_initLevelHub(World *world_p){
 
-	SaveData_write(&world_p->saveData);
-
 	World_restore(world_p);
 
 	world_p->playerHasLanded = false;
@@ -103,8 +101,8 @@ void World_initLevelHub(World *world_p){
 	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "door-key-level-3");
 	doorKeyLevelPosX += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "door-key-level-4");
-	doorKeyLevelPosX += normalLevelDistance;
+	//World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "door-key-level-4");
+	//doorKeyLevelPosX += normalLevelDistance;
 
 	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "floor-is-door");
 	doorKeyLevelPosX += normalLevelDistance;
@@ -114,6 +112,9 @@ void World_initLevelHub(World *world_p){
 
 	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "get-key-up-2");
 	doorKeyLevelPosX += normalLevelDistance;
+
+	//World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "door-key-level-with-key");
+	//doorKeyLevelPosX += normalLevelDistance;
 
 	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "push-key-with-point");
 	doorKeyLevelPosX += normalLevelDistance;
@@ -127,6 +128,25 @@ void World_initLevelHub(World *world_p){
 	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "flying-key-2-trickshot-edition");
 	doorKeyLevelPosX += normalLevelDistance;
 
+	int allFromTopLevelPosX = coolerScalingLevelPosX + 330;
+	int allFromTopLevelPosY = 195;
+
+	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "all-from-top-1");
+	allFromTopLevelPosX += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "all-from-top-2");
+	allFromTopLevelPosX += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "all-from-top-3");
+	allFromTopLevelPosX += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "point-pikaboo");
+	allFromTopLevelPosX += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "get-under-cup");
+	allFromTopLevelPosX += normalLevelDistance;
+
+
 	//add obstacles
 
 	World_addObstacle(world_p, getVec2f(firstLevelPosX + 10, 170), getVec2f(coolerScalingLevelPosX - firstLevelPosX, 100), NONE);
@@ -139,7 +159,7 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60, 240), getVec2f(1000, 30), NONE);
 
-	World_addDoor(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60 + 160, 180), getVec2f(20, 60), NONE);
+	//World_addDoor(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60 + 160, 180), getVec2f(20, 60), NONE);
 
 	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60, 100), getVec2f(1000, 80), NONE);
 
@@ -149,10 +169,12 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(makeItBiggerLevelPosX, makeItBiggerLevelPosY - 50), getVec2f(coolerScalingLevelPosX - makeItBiggerLevelPosX + 10, 90), NONE);
 
+	//mark completed levels and doors with keys
 	for(int i = 0; i < world_p->levelDoors.length; i++){
-		for(int j = 0; j < world_p->saveData.completedLevels.length; j++){
 
-			LevelDoor *levelDoor_p = Array_getItemPointerByIndex(&world_p->levelDoors, i);
+		LevelDoor *levelDoor_p = Array_getItemPointerByIndex(&world_p->levelDoors, i);
+
+		for(int j = 0; j < world_p->saveData.completedLevels.length; j++){
 			char *completedLevelName = *((char **)Array_getItemPointerByIndex(&world_p->saveData.completedLevels, j));
 
 			if(strcmp(levelDoor_p->levelName, completedLevelName) == 0){
@@ -163,7 +185,39 @@ void World_initLevelHub(World *world_p){
 
 			}
 		}
+
+		for(int j = 0; j < world_p->saveData.levelsWithDoorKey.length; j++){
+			char *levelWithDoorKeyName = *((char **)Array_getItemPointerByIndex(&world_p->saveData.levelsWithDoorKey, j));
+
+			if(strcmp(levelDoor_p->levelName, levelWithDoorKeyName) == 0){
+
+				Sprite *sprite_p = World_getSpriteByID(world_p, levelDoor_p->spriteID);
+
+				sprite_p->texture = "level-door-with-key";
+
+			}
+		}
+
 	}
 
+	//add saved door keys
+	for(int i = 0; i < world_p->saveData.doorKeys.length; i++){
+
+		Vec2f *doorKeyPos_p = Array_getItemPointerByIndex(&world_p->saveData.doorKeys, i);
+
+		World_addDoorKey(world_p, *doorKeyPos_p, NONE);
+
+	}
+
+	//add saved doors
+	for(int i = 0; i < world_p->saveData.doors.length; i++){
+
+		Body *doorBody_p = Array_getItemPointerByIndex(&world_p->saveData.doors, i);
+
+		World_addDoor(world_p, doorBody_p->pos, doorBody_p->size, NONE);
+
+	}
+
+	SaveData_write(&world_p->saveData);
 
 }

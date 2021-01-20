@@ -39,6 +39,9 @@ void mainLoop(){
 			if(e.type == SDL_QUIT
 			|| e.type == SDL_KEYDOWN
 			&& e.key.keysym.sym == SDLK_q){
+
+				SaveData_write(&world.saveData);
+
 				world.quit = true;
 			}
 
@@ -372,6 +375,7 @@ int main(int argc, char *argv[]){
 		"door-key",
 		"level-door",
 		"level-door-completed",
+		"level-door-with-key",
 	};
 
 	int texturesLength = sizeof(assets) / sizeof(char *);

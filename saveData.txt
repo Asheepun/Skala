@@ -1,8 +1,19 @@
 :playerPos
-1848 68
+1267 68
+:doorKeys
+:doors
+:levelsWithDoorKey
 :completedLevels
-level-1
-level-3
-first-scaling-level-1
-high-jump-2
-flying-key-2-trickshot-edition
+floor-is-door
+get-key-up-2
+all-from-top-1
+all-from-top-2
+all-from-top-3
+all-from-top-3
+point-pikaboo
+point-pikaboo
+get-under-cup
+get-under-cup
+get-under-cup
+get-under-cup
+get-under-cup
