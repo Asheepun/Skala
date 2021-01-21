@@ -147,13 +147,9 @@ void SaveData_read(SaveData *saveData_p){
 
 		if(currentReadMode == LEVELS_WITH_DOOR_KEY){
 
-			printf("CHENKA\n");
 			char **levelName = Array_addItem(&saveData_p->levelsWithDoorKey);
 
-			printf("CHIKA\n");
-
-			*levelName = malloc(sizeof(char) * strlen(word));//MUST FREE (is freed at top of function)
-			printf("CHIKA\n");
+			*levelName = malloc(sizeof(char) * 255);//MUST FREE (is freed at top of function)
 			memcpy(*levelName, word, strlen(word));
 
 		}
@@ -163,7 +159,7 @@ void SaveData_read(SaveData *saveData_p){
 
 			char **levelName = Array_addItem(&saveData_p->completedLevels);
 
-			*levelName = malloc(sizeof(char) * strlen(word));//MUST FREE (is freed at top of function)
+			*levelName = malloc(sizeof(char) * 255);//MUST FREE (is freed at top of function)
 			memcpy(*levelName, word, strlen(word));
 
 		}

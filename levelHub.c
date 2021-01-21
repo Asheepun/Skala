@@ -140,16 +140,29 @@ void World_initLevelHub(World *world_p){
 	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "all-from-top-3");
 	allFromTopLevelPosX += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "point-pikaboo");
-	allFromTopLevelPosX += normalLevelDistance;
-
 	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "get-under-cup");
 	allFromTopLevelPosX += normalLevelDistance;
 
+	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "point-pikaboo");
+	allFromTopLevelPosX += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "key-obstacle-course");
+	allFromTopLevelPosX += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "key-in-cage-all-from-top");
+	allFromTopLevelPosX += normalLevelDistance;
 
 	//add obstacles
 
 	World_addObstacle(world_p, getVec2f(firstLevelPosX + 10, 170), getVec2f(coolerScalingLevelPosX - firstLevelPosX, 100), NONE);
+
+	World_addObstacle(world_p, getVec2f(firstLevelPosX - 100, 0), getVec2f(makeItBiggerLevelPosX - firstLevelPosX + 100, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(firstLevelPosX - 100, 20), getVec2f(makeItBiggerLevelPosX - firstLevelPosX - 250, 85), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 65), getVec2f(180, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(180, 105), getVec2f(20, 20), NONE);
 
 	World_addObstacle(world_p, getVec2f(firstLevelPosX - 10, 190), getVec2f(20, 80), NONE);
 
@@ -157,13 +170,19 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10, 265), getVec2f(60, 5), NONE);
 
-	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60, 240), getVec2f(1000, 30), NONE);
+	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60, 240), getVec2f(doorKeyLevelPosX - coolerScalingLevelPosX + 20 + 160, 30), NONE);
+
+	World_addObstacle(world_p, getVec2f(doorKeyLevelPosX + 10 + 80 + 80, 0), getVec2f(80, 240), NONE);
 
 	//World_addDoor(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60 + 160, 180), getVec2f(20, 60), NONE);
 
-	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60, 100), getVec2f(1000, 80), NONE);
+	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60, 100), getVec2f(doorKeyLevelPosX - coolerScalingLevelPosX + 20, 80), NONE);
 
-	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10, 0), getVec2f(1000, 30), NONE);
+	//World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60, 170), getVec2f(210, 10), NONE);
+
+	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10, 0), getVec2f(doorKeyLevelPosX - coolerScalingLevelPosX + 80, 30), NONE);
+
+	World_addObstacle(world_p, getVec2f(doorKeyLevelPosX + 10, 30), getVec2f(80, 70), NONE);
 
 	World_addObstacle(world_p, getVec2f(firstScalingLevelPosX + 30, makeItBiggerLevelPosY + 40), getVec2f(coolerScalingLevelPosX - firstScalingLevelPosX - 20, 20), NONE);
 

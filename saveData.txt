@@ -1,19 +1,16 @@
 :playerPos
-1267 68
+1907 197
 :doorKeys
 :doors
 :levelsWithDoorKey
 :completedLevels
-floor-is-door
 get-key-up-2
 all-from-top-1
 all-from-top-2
 all-from-top-3
+point-pikaboo
 all-from-top-3
+get-under-cup
 point-pikaboo
-point-pikaboo
-get-under-cup
-get-under-cup
-get-under-cup
-get-under-cup
-get-under-cup
+key-obstacle-course
+key-in-cage-all-from-top

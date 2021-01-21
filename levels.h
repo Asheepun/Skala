@@ -41,8 +41,10 @@ World_generateLevel32(World *);
 World_generateLevel33(World *);
 World_generateLevel34(World *);
 World_generateLevel35(World *);
+World_generateLevel36(World *);
+World_generateLevel37(World *);
 
-static const size_t LEVELS_LENGTH = 35;
+static const size_t LEVELS_LENGTH = 37;
 
 static Level levels[255] = {
 	"level-1",
@@ -115,6 +117,10 @@ static Level levels[255] = {
 	World_generateLevel34,
 	"get-under-cup",
 	World_generateLevel35,
+	"key-obstacle-course",
+	World_generateLevel36,
+	"key-in-cage-all-from-top",
+	World_generateLevel37,
 };
 
 #endif

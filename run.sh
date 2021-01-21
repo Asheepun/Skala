@@ -2,7 +2,7 @@
 
 #make && ./main
 
-#mv saveData-origin.txt saveData.txt
+#cp saveData-origin.txt saveData.txt
 
 ./compile.sh && ./main
 

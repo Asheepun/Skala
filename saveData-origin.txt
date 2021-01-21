@@ -1,0 +1,10 @@
+:playerPos
+30 150
+:doorKeys
+:doors
+1400 180 20 60
+2000 180 20 60
+:levelsWithDoorKey
+get-key-up-2
+key-in-cage-all-from-top
+:completedLevels
