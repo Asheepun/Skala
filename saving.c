@@ -42,8 +42,6 @@ void SaveData_init(SaveData *saveData_p){
 
 void SaveData_read(SaveData *saveData_p){
 
-	//printf("CHANKADOO\n");
-
 	//free strings
 	for(int i = 0; i < saveData_p->completedLevels.length; i++){
 		free(*((char **)Array_getItemPointerByIndex(&saveData_p->completedLevels, i)));
@@ -54,8 +52,6 @@ void SaveData_read(SaveData *saveData_p){
 
 	Array_clear(&saveData_p->completedLevels);
 	Array_clear(&saveData_p->levelsWithDoorKey);
-
-	//printf("MUNGUSCHUNGUS\n");
 
 	enum CurrentReadMode currentReadMode;
 	currentReadMode = SEARCHING;
@@ -70,11 +66,12 @@ void SaveData_read(SaveData *saveData_p){
 	while(fgets(line, 255, file) != NULL){
 
 		memset(word, 0, strlen(word));
-		strncpy(word, line, strlen(line) - 1);
 
-		if(strcmp(word, "//") == 0){
+		if(strcmp(strncpy(word, line, 2), "\/\/") == 0){
 			continue;
 		}
+
+		strncpy(word, line, strlen(line) - 1);
 
 		if(strcmp(word, ":playerPos") == 0){
 			currentReadMode = PLAYER_POS;
@@ -114,8 +111,6 @@ void SaveData_read(SaveData *saveData_p){
 		}
 
 		if(currentReadMode == DOORS){
-
-			printf("reading a door\n");
 
 			Body *doorBody_p = Array_addItem(&saveData_p->doors);
 
@@ -190,7 +185,7 @@ void SaveData_write(SaveData *saveData_p){
 
 		for(int i = 0; i < saveData_p->doorKeys.length; i++){
 
-			Vec2f *doorKeyPos_p = Array_getItemPointerByIndex(&saveData_p->doorKeys, i++);
+			Vec2f *doorKeyPos_p = Array_getItemPointerByIndex(&saveData_p->doorKeys, i);
 
 			char buff[255];
 			sprintf(buff, "%i %i\n", (int)doorKeyPos_p->x, (int)doorKeyPos_p->y);
@@ -205,7 +200,7 @@ void SaveData_write(SaveData *saveData_p){
 
 		for(int i = 0; i < saveData_p->doors.length; i++){
 
-			Body *doorBody_p = Array_getItemPointerByIndex(&saveData_p->doors, i++);
+			Body *doorBody_p = Array_getItemPointerByIndex(&saveData_p->doors, i);
 
 			char buff[255];
 			sprintf(buff, "%i %i %i %i\n", (int)doorBody_p->pos.x, (int)doorBody_p->pos.y, (int)doorBody_p->size.x, (int)doorBody_p->size.y);

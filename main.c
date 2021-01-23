@@ -40,9 +40,10 @@ void mainLoop(){
 			|| e.type == SDL_KEYDOWN
 			&& e.key.keysym.sym == SDLK_q){
 
-				SaveData_write(&world.saveData);
-
 				world.quit = true;
+
+				return;
+
 			}
 
 			if(e.type == SDL_KEYDOWN){
@@ -414,6 +415,9 @@ int main(int argc, char *argv[]){
 	}
 
 	mainLoop();
+
+	//quit the game
+	SaveData_write(&world.saveData);
 
 	return 0;
 

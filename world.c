@@ -51,6 +51,9 @@ void World_init(World *world_p){
 
 	}
 
+	world_p->cameraPos = getVec2f(0, 0);
+	world_p->cameraTarget = getVec2f(0, 0);
+
 	world_p->quit = false;
 
 	World_restore(world_p);

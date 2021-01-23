@@ -16,177 +16,251 @@ void World_initLevelHub(World *world_p){
 
 	World_initPlayer(world_p, world_p->saveData.playerPos, NONE);
 
-	//add level doors
 	int normalLevelDistance = 70;
 	int widerLevelDistance = 100;
 
-	int firstLevelPosX = 70;
-	int firstLevelPosY = 165;
+	int houseX = 0;
+	int houseWidth = 0;
+	int firstFloorY = 0;
+	int secondFloorY = -HEIGHT;
 
-	World_addLevelDoor(world_p, getVec2f(firstLevelPosX, firstLevelPosY), "level-1");
-	firstLevelPosX += normalLevelDistance;
+	int firstLevelsRoomX = 0;
+	int firstLevelsRoomWidth = 0;
 
-	World_addLevelDoor(world_p, getVec2f(firstLevelPosX, firstLevelPosY), "level-2");
-	firstLevelPosX += normalLevelDistance;
+	int firstScalingLevelsRoomX = 0;
+	int firstScalingLevelsRoomWidth = 0;
 
-	World_addLevelDoor(world_p, getVec2f(firstLevelPosX, firstLevelPosY), "level-3");
-	firstLevelPosX += normalLevelDistance;
+	int coolerScalingLevelsRoomX = 0;
+	int coolerScalingLevelsRoomWidth = 0;
 
-	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(firstLevelPosX - 10, 60), NONE);
+	int makeItBiggerLevelsRoomX = 0;
+	int makeItBiggerLevelsRoomWidth = 0;
 
-	int firstScalingLevelPosX = firstLevelPosX + 50;
-	int firstScalingLevelPosY = firstLevelPosY - 40;
+	int elevatorRoomX = 0;
+	int elevatorRoomWidth = 0;
 
-	World_addLevelDoor(world_p, getVec2f(firstScalingLevelPosX, firstScalingLevelPosY), "first-scaling-level-1");
-	firstScalingLevelPosX += normalLevelDistance;
+	int doorKeyLevelsRoomX = 0;
+	int doorKeyLevelsRoomWidth = 0;
 
-	World_addLevelDoor(world_p, getVec2f(firstScalingLevelPosX, firstScalingLevelPosY), "first-scaling-level-2");
-	firstScalingLevelPosX += normalLevelDistance;
+	int allFromTopLevelsRoomX = 0;
+	int allFromTopLevelsRoomWidth = 0;
 
-	World_addLevelDoor(world_p, getVec2f(firstScalingLevelPosX, firstScalingLevelPosY), "first-scaling-level-3");
-	firstScalingLevelPosX += normalLevelDistance;
+	int *currentRoomX;
+	int *currentRoomWidth;
+	int *currentFloorY;
 
-	World_addLevelDoor(world_p, getVec2f(firstScalingLevelPosX, firstScalingLevelPosY), "first-scaling-level-4");
-	firstScalingLevelPosX += normalLevelDistance;
+	//add level doors
 
-	World_addLevelDoor(world_p, getVec2f(firstScalingLevelPosX, firstScalingLevelPosY), "cooler-scaling-level-1");
-	firstScalingLevelPosX += normalLevelDistance;
+	//first room levels
+	currentRoomX = &firstLevelsRoomX;
+	currentRoomWidth = &firstLevelsRoomWidth;
 
-	int makeItBiggerLevelPosX = firstScalingLevelPosX + 50;
-	int makeItBiggerLevelPosY = firstScalingLevelPosY - 80;
-	int makeItBiggerLevelWidth = 0;
+	*currentRoomX = houseX;
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(makeItBiggerLevelPosX, makeItBiggerLevelPosY), "make-it-bigger-1");
-	makeItBiggerLevelPosX += normalLevelDistance;
-	makeItBiggerLevelWidth += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "level-1");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(makeItBiggerLevelPosX, makeItBiggerLevelPosY), "make-it-bigger-2");
-	makeItBiggerLevelPosX += widerLevelDistance;
-	makeItBiggerLevelWidth += widerLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "level-2");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(makeItBiggerLevelPosX, makeItBiggerLevelPosY), "point-cage");
-	makeItBiggerLevelPosX += widerLevelDistance;
-	makeItBiggerLevelWidth += widerLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "level-3");
+	*currentRoomWidth += normalLevelDistance;
 
-	int coolerScalingLevelPosX = firstScalingLevelPosX + normalLevelDistance;
-	int coolerScalingLevelPosY = firstScalingLevelPosY;
+	*currentRoomWidth += 20;
 
-	World_addLevelDoor(world_p, getVec2f(coolerScalingLevelPosX, coolerScalingLevelPosY), "cooler-scaling-level-2");
-	coolerScalingLevelPosX += normalLevelDistance;
+	houseWidth += *currentRoomWidth;
 
-	World_addLevelDoor(world_p, getVec2f(coolerScalingLevelPosX, coolerScalingLevelPosY), "cooler-scaling-level-3");
-	coolerScalingLevelPosX += normalLevelDistance;
+	//first scaling room levels
+	currentRoomX = &firstScalingLevelsRoomX;
+	currentRoomWidth = &firstScalingLevelsRoomWidth;
 
-	World_addLevelDoor(world_p, getVec2f(coolerScalingLevelPosX, coolerScalingLevelPosY), "cooler-scaling-level-4");
-	coolerScalingLevelPosX += normalLevelDistance;
+	*currentRoomX = houseX + houseWidth;
+	*currentRoomWidth += 40;
 
-	World_addLevelDoor(world_p, getVec2f(coolerScalingLevelPosX, coolerScalingLevelPosY), "cooler-scaling-level-5");
-	coolerScalingLevelPosX += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 125), "first-scaling-level-1");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(coolerScalingLevelPosX, coolerScalingLevelPosY), "high-jump-1");
-	coolerScalingLevelPosX += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 125), "first-scaling-level-3");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(coolerScalingLevelPosX, coolerScalingLevelPosY), "high-jump-2");
-	coolerScalingLevelPosX += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 125), "first-scaling-level-4");
+	*currentRoomWidth += normalLevelDistance;
 
-	int doorKeyLevelPosX = coolerScalingLevelPosX + 10 + 60 + 40;
-	int doorKeyLevelPosY = coolerScalingLevelPosY - 70;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 125), "cooler-scaling-level-1");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "door-key-level-1");
-	doorKeyLevelPosX += normalLevelDistance;
+	*currentRoomWidth += 40;
 
-	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "door-key-level-2");
-	doorKeyLevelPosX += normalLevelDistance;
+	houseWidth += *currentRoomWidth;
 
-	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "door-key-level-3");
-	doorKeyLevelPosX += normalLevelDistance;
+	//cooler scaling levels
+	currentRoomX = &coolerScalingLevelsRoomX;
+	currentRoomWidth = &coolerScalingLevelsRoomWidth;
 
-	//World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "door-key-level-4");
-	//doorKeyLevelPosX += normalLevelDistance;
+	*currentRoomX = houseX + houseWidth;
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "floor-is-door");
-	doorKeyLevelPosX += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 125), "cooler-scaling-level-2");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "get-key-up-1");
-	doorKeyLevelPosX += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 125), "cooler-scaling-level-3");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "get-key-up-2");
-	doorKeyLevelPosX += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 125), "cooler-scaling-level-4");
+	*currentRoomWidth += normalLevelDistance;
 
-	//World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "door-key-level-with-key");
-	//doorKeyLevelPosX += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 125), "cooler-scaling-level-5");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "push-key-with-point");
-	doorKeyLevelPosX += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 125), "high-jump-1");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "maybe-key-should-fly");
-	doorKeyLevelPosX += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 125), "high-jump-2");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "flying-key-1");
-	doorKeyLevelPosX += normalLevelDistance;
+	houseWidth += *currentRoomWidth;
 
-	World_addLevelDoor(world_p, getVec2f(doorKeyLevelPosX, doorKeyLevelPosY), "flying-key-2-trickshot-edition");
-	doorKeyLevelPosX += normalLevelDistance;
+	//make it bigger room levels
+	currentRoomX = &makeItBiggerLevelsRoomX;
+	currentRoomWidth = &makeItBiggerLevelsRoomWidth;
 
-	int allFromTopLevelPosX = coolerScalingLevelPosX + 330;
-	int allFromTopLevelPosY = 195;
+	*currentRoomX = firstScalingLevelsRoomX + firstScalingLevelsRoomWidth;
+	*currentRoomWidth += 40;
 
-	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "all-from-top-1");
-	allFromTopLevelPosX += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 35), "make-it-bigger-1");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "all-from-top-2");
-	allFromTopLevelPosX += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 35), "make-it-bigger-2");
+	*currentRoomWidth += widerLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "all-from-top-3");
-	allFromTopLevelPosX += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 35), "point-cage");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "get-under-cup");
-	allFromTopLevelPosX += normalLevelDistance;
+	//elevator room
+	currentRoomX = &elevatorRoomX;
+	currentRoomWidth = &elevatorRoomWidth;
 
-	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "point-pikaboo");
-	allFromTopLevelPosX += normalLevelDistance;
+	*currentRoomX = houseX + houseWidth;
+	*currentRoomWidth += 60;
 
-	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "key-obstacle-course");
-	allFromTopLevelPosX += normalLevelDistance;
+	houseWidth += *currentRoomWidth;
 
-	World_addLevelDoor(world_p, getVec2f(allFromTopLevelPosX, allFromTopLevelPosY), "key-in-cage-all-from-top");
-	allFromTopLevelPosX += normalLevelDistance;
+	//door key room levels
+	currentRoomX = &doorKeyLevelsRoomX;
+	currentRoomWidth = &doorKeyLevelsRoomWidth;
 
-	//add obstacles
+	*currentRoomX = elevatorRoomX + elevatorRoomWidth;
+	*currentRoomWidth += 40;
 
-	World_addObstacle(world_p, getVec2f(firstLevelPosX + 10, 170), getVec2f(coolerScalingLevelPosX - firstLevelPosX, 100), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "door-key-level-1");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addObstacle(world_p, getVec2f(firstLevelPosX - 100, 0), getVec2f(makeItBiggerLevelPosX - firstLevelPosX + 100, 20), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "door-key-level-2");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addObstacle(world_p, getVec2f(firstLevelPosX - 100, 20), getVec2f(makeItBiggerLevelPosX - firstLevelPosX - 250, 85), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "door-key-level-3");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addObstacle(world_p, getVec2f(0, 65), getVec2f(180, 60), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "floor-is-door");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addObstacle(world_p, getVec2f(180, 105), getVec2f(20, 20), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "get-key-up-1");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addObstacle(world_p, getVec2f(firstLevelPosX - 10, 190), getVec2f(20, 80), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "get-key-up-2");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10, 170), getVec2f(60, 50), ALL);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "push-key-with-point");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10, 265), getVec2f(60, 5), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "maybe-key-should-fly");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60, 240), getVec2f(doorKeyLevelPosX - coolerScalingLevelPosX + 20 + 160, 30), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "flying-key-1");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addObstacle(world_p, getVec2f(doorKeyLevelPosX + 10 + 80 + 80, 0), getVec2f(80, 240), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "flying-key-2-trickshot-edition");
+	*currentRoomWidth += normalLevelDistance;
 
-	//World_addDoor(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60 + 160, 180), getVec2f(20, 60), NONE);
+	//all from top room levels
+	currentRoomX = &allFromTopLevelsRoomX;
+	currentRoomWidth = &allFromTopLevelsRoomWidth;
 
-	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60, 100), getVec2f(doorKeyLevelPosX - coolerScalingLevelPosX + 20, 80), NONE);
+	*currentRoomX = elevatorRoomX + elevatorRoomWidth;
+	*currentRoomWidth += 60 + 200;
 
-	//World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10 + 60, 170), getVec2f(210, 10), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 195), "all-from-top-1");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addObstacle(world_p, getVec2f(coolerScalingLevelPosX + 10, 0), getVec2f(doorKeyLevelPosX - coolerScalingLevelPosX + 80, 30), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 195), "all-from-top-2");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addObstacle(world_p, getVec2f(doorKeyLevelPosX + 10, 30), getVec2f(80, 70), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 195), "all-from-top-3");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addObstacle(world_p, getVec2f(firstScalingLevelPosX + 30, makeItBiggerLevelPosY + 40), getVec2f(coolerScalingLevelPosX - firstScalingLevelPosX - 20, 20), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 195), "get-under-cup");
+	*currentRoomWidth += normalLevelDistance;
 
-	World_addObstacle(world_p, getVec2f(makeItBiggerLevelPosX, makeItBiggerLevelPosY - 50), getVec2f(coolerScalingLevelPosX - makeItBiggerLevelPosX + 10, 90), NONE);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 195), "point-pikaboo");
+	*currentRoomWidth += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 195), "key-obstacle-course");
+	*currentRoomWidth += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 195), "key-in-cage-all-from-top");
+	*currentRoomWidth += normalLevelDistance;
+
+	*currentRoomWidth += 200;
+
+	houseWidth += *currentRoomWidth;
+
+	houseWidth += 60;
+
+	//obstacles
+	World_addObstacle(world_p, getVec2f(firstLevelsRoomX, HEIGHT - 60), getVec2f(firstLevelsRoomWidth, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(firstLevelsRoomX, 0), getVec2f(firstLevelsRoomWidth, 100), NONE);
+
+	World_addObstacle(world_p, getVec2f(firstLevelsRoomX, 100), getVec2f(firstLevelsRoomWidth - 80, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(firstLevelsRoomX + firstLevelsRoomWidth - 20, HEIGHT - 80), getVec2f(20, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(firstScalingLevelsRoomX, HEIGHT - 100), getVec2f(firstScalingLevelsRoomWidth, 100), NONE);
+
+	World_addObstacle(world_p, getVec2f(firstScalingLevelsRoomX, 0), getVec2f(firstScalingLevelsRoomWidth - 50, 100), NONE);
+
+	World_addObstacle(world_p, getVec2f(firstScalingLevelsRoomX + firstScalingLevelsRoomWidth - 50, 0), getVec2f(50, 10), NONE);
+
+	World_addObstacle(world_p, getVec2f(makeItBiggerLevelsRoomX, 80), getVec2f(makeItBiggerLevelsRoomWidth, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(makeItBiggerLevelsRoomX, 0), getVec2f(makeItBiggerLevelsRoomWidth, 10), NONE);
+
+	World_addObstacle(world_p, getVec2f(makeItBiggerLevelsRoomX + makeItBiggerLevelsRoomWidth, 0), getVec2f(coolerScalingLevelsRoomWidth - makeItBiggerLevelsRoomWidth, 100), NONE);
+
+	World_addObstacle(world_p, getVec2f(coolerScalingLevelsRoomX, HEIGHT - 100), getVec2f(coolerScalingLevelsRoomWidth, 100), NONE);
+
+	World_addObstacle(world_p, getVec2f(elevatorRoomX, HEIGHT - 5), getVec2f(elevatorRoomWidth, 5), NONE);
+
+	World_addObstacle(world_p, getVec2f(elevatorRoomX, 0), getVec2f(elevatorRoomWidth, 30), NONE);
+
+	World_addObstacle(world_p, getVec2f(elevatorRoomX, HEIGHT - 100), getVec2f(elevatorRoomWidth, 50), ALL);
+
+	World_addObstacle(world_p, getVec2f(doorKeyLevelsRoomX, 100), getVec2f(doorKeyLevelsRoomWidth, 80), NONE);
+
+	World_addObstacle(world_p, getVec2f(doorKeyLevelsRoomX, 0), getVec2f(doorKeyLevelsRoomWidth, 30), NONE);
+
+	World_addObstacle(world_p, getVec2f(allFromTopLevelsRoomX, HEIGHT - 30), getVec2f(allFromTopLevelsRoomWidth, 30), NONE);
+
+	World_addObstacle(world_p, getVec2f(doorKeyLevelsRoomX + doorKeyLevelsRoomWidth, 0), getVec2f(allFromTopLevelsRoomWidth - doorKeyLevelsRoomWidth - 80, 180), NONE);
+
+	World_addObstacle(world_p, getVec2f(houseX + houseWidth - 60, 0), getVec2f(60, HEIGHT), NONE);
+
+	//set level hub level size
+	world_p->levelWidth = houseWidth;
+	world_p->levelHeight = HEIGHT * 2;
+
+	//World_addObstacle(world_p, getVec2f(doorKeyLevelPosX, 150), getVec2f(40, 40), ALL);
 
 	//mark completed levels and doors with keys
 	for(int i = 0; i < world_p->levelDoors.length; i++){

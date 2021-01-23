@@ -49,6 +49,9 @@ void World_initMenu(World *world_p){
 	buttonsTopOffset += buttonsMargin;
 
 	currentButton = activeButtonIDsLength - 2;
+
+	world_p->renderer.offset.x = 0;
+	world_p->renderer.offset.y = 0;
 	
 }
 

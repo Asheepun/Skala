@@ -22,6 +22,9 @@ void World_initLevel(World *world_p){
 		}
 	}
 
+	world_p->levelWidth = WIDTH;
+	world_p->levelHeight = HEIGHT;
+
 	world_p->renderer.offset = getVec2f(0, 0);
 
 }
@@ -61,11 +64,11 @@ void World_levelState(World *world_p){
 		//control scale
 
 		if(world_p->actions[LEFT_ACTION].down){
-			world_p->scale.x *= 1 + world_p->scaleSpeed * (float)HEIGHT / (float)WIDTH * sqrt(sqrt(world_p->scale.x));
+			world_p->scale.x *= 1 + world_p->scaleSpeed * world_p->levelHeight / world_p->levelWidth * sqrt(sqrt(world_p->scale.x));
 			//world_p->scale.x += world_p->scaleSpeed * HEIGHT / WIDTH;
 		}
 		if(world_p->actions[RIGHT_ACTION].down){
-			world_p->scale.x /= 1 + world_p->scaleSpeed * (float)HEIGHT / (float)WIDTH * sqrt(sqrt(world_p->scale.x));
+			world_p->scale.x /= 1 + world_p->scaleSpeed * world_p->levelHeight / world_p->levelWidth * sqrt(sqrt(world_p->scale.x));
 			//world_p->scale.x *= 1 - world_p->scaleSpeed * HEIGHT / WIDTH;
 			//world_p->scale.x -= world_p->scaleSpeed * HEIGHT / WIDTH;
 		}
@@ -81,12 +84,12 @@ void World_levelState(World *world_p){
 			//world_p->scale.y -= world_p->scaleSpeed;
 		}
 
-		if(world_p->scale.x < 1 / WIDTH / 100
-		|| world_p->scale.x >= WIDTH * 100){
+		if(world_p->scale.x < 1 / world_p->levelWidth / 100
+		|| world_p->scale.x >= world_p->levelWidth * 100){
 			world_p->scale.x = world_p->lastScale.x;
 		}
-		if(world_p->scale.y < 1 / HEIGHT / 100
-		|| world_p->scale.y >= HEIGHT * 100){
+		if(world_p->scale.y < 1 / world_p->levelHeight / 100
+		|| world_p->scale.y >= world_p->levelHeight * 100){
 			world_p->scale.y = world_p->lastScale.y;
 		}
 
@@ -418,8 +421,6 @@ void World_levelState(World *world_p){
 			&& bodyPair1_p->collisionWeight == MOVABLE
 			&& bodyPair2_p->collisionWeight == STATIC){
 
-				printf("HANDLED X COLLISION!\n");
-
 				float bodyPair1CenterX = bodyPair1_p->lastBody.pos.x + bodyPair1_p->lastBody.size.x / 2;
 				float bodyPair2CenterX = bodyPair2_p->lastBody.pos.x + bodyPair2_p->lastBody.size.x / 2;
 
@@ -742,24 +743,27 @@ void World_levelState(World *world_p){
 
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
 
-		world_p->renderer.offset.x = round(WIDTH / 2 - playerBodyPair_p->body.pos.x);
+		world_p->cameraPos.x = round(WIDTH / 2 - playerBodyPair_p->body.pos.x);
+
+		//world_p->renderer.offset.y = round(HEIGHT / 2 - playerBodyPair_p->body.pos.y);
+
+		if(playerBodyPair_p->body.pos.y > 0){
+			world_p->cameraTarget.y = 0;
+		}
+		if(playerBodyPair_p->body.pos.y < 0){
+			world_p->cameraTarget.y = HEIGHT;
+		}
+
+		world_p->cameraPos.y += -(world_p->cameraPos.y - world_p->cameraTarget.y) / 20;
+
+		world_p->renderer.offset.x = world_p->cameraPos.x;
+		world_p->renderer.offset.y = world_p->cameraPos.y;
+		//world_p->renderer.offset.y = world_p->cameraPos.y;
 
 		if(world_p->renderer.offset.x > 0){
 			world_p->renderer.offset.x = 0;
 		}
 	
-	}
-
-	//checking for bug
-	if(world_p->doorKeys.length >= 1){
-		DoorKey *doorKey_p = Array_getItemPointerByIndex(&world_p->doorKeys, 0);
-		BodyPair *firstKeyBodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
-
-		//printf("pos\n");
-		//Vec2f_log(firstKeyBodyPair_p->body.pos);
-		//printf("size\n");
-		//Vec2f_log(firstKeyBodyPair_p->body.size);
-		//printf("%f\n", world_p->scale.y);
 	}
 
 }

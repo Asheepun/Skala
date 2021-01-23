@@ -235,6 +235,11 @@ typedef struct World{
 	Array shaderPrograms;
 
 	OpenglUtils_Renderer renderer;
+	Vec2f cameraPos;
+	Vec2f cameraTarget;
+
+	float levelWidth;
+	float levelHeight;
 
 	bool quit;
 
