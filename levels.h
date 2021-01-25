@@ -43,8 +43,13 @@ World_generateLevel34(World *);
 World_generateLevel35(World *);
 World_generateLevel36(World *);
 World_generateLevel37(World *);
+World_generateLevel38(World *);
+World_generateLevel39(World *);
+World_generateLevel40(World *);
+World_generateLevel41(World *);
+World_generateLevel42(World *);
 
-static const size_t LEVELS_LENGTH = 37;
+static const size_t LEVELS_LENGTH = 42;
 
 static Level levels[255] = {
 	"level-1",
@@ -121,6 +126,16 @@ static Level levels[255] = {
 	World_generateLevel36,
 	"key-in-cage-all-from-top",
 	World_generateLevel37,
+	"scale-field-1",
+	World_generateLevel38,
+	"scale-field-2",
+	World_generateLevel39,
+	"scale-field-3",
+	World_generateLevel40,
+	"get-over-the-field",
+	World_generateLevel41,
+	"layers-of-fields",
+	World_generateLevel42,
 };
 
 #endif

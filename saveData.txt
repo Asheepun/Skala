@@ -1,8 +1,29 @@
 :playerPos
-1744 208
+1788 -140
 :doorKeys
 :doors
 :levelsWithDoorKey
 :completedLevels
 get-key-up-2
 key-in-cage-all-from-top
+xy-switch-1
+scale-field-1
+scale-field-1
+scale-field-1
+scale-field-1
+scale-field-2
+scale-field-2
+scale-field-3
+scale-field-3
+scale-field-3
+scale-field-3
+get-over-the-field
+get-over-the-field
+get-over-the-field
+scale-field-3
+scale-field-1
+scale-field-2
+scale-field-3
+scale-field-experiments
+layers-of-fields
+get-over-the-field

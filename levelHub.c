@@ -45,6 +45,9 @@ void World_initLevelHub(World *world_p){
 	int allFromTopLevelsRoomX = 0;
 	int allFromTopLevelsRoomWidth = 0;
 
+	int xySwitchLevelsRoomX = 0;
+	int xySwitchLevelsRoomWidth = 0;
+
 	int *currentRoomX;
 	int *currentRoomWidth;
 	int *currentFloorY;
@@ -215,6 +218,31 @@ void World_initLevelHub(World *world_p){
 
 	houseWidth += *currentRoomWidth;
 
+	//x y switch room levels
+
+	currentRoomX = &xySwitchLevelsRoomX;
+	currentRoomWidth = &xySwitchLevelsRoomWidth;
+
+	*currentRoomX = houseX + houseWidth - 500;
+	*currentRoomWidth += 40;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT + 125), "layers-of-fields");
+	*currentRoomWidth += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT + 125), "get-over-the-field");
+	*currentRoomWidth += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT + 125), "scale-field-3");
+	*currentRoomWidth += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT + 125), "scale-field-2");
+	*currentRoomWidth += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT + 125), "scale-field-1");
+	*currentRoomWidth += normalLevelDistance;
+
+
+
 	houseWidth += 60;
 
 	//obstacles
@@ -256,11 +284,14 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(houseX + houseWidth - 60, 0), getVec2f(60, HEIGHT), NONE);
 
+	//second floor
+	World_addObstacle(world_p, getVec2f(xySwitchLevelsRoomX, -100), getVec2f(xySwitchLevelsRoomWidth, 100), NONE);
+
 	//set level hub level size
 	world_p->levelWidth = houseWidth;
 	world_p->levelHeight = HEIGHT * 2;
 
-	//World_addObstacle(world_p, getVec2f(doorKeyLevelPosX, 150), getVec2f(40, 40), ALL);
+	World_addObstacle(world_p, getVec2f(houseX + houseWidth - 120, 150), getVec2f(40, 40), ALL);
 
 	//mark completed levels and doors with keys
 	for(int i = 0; i < world_p->levelDoors.length; i++){

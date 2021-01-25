@@ -326,7 +326,7 @@ size_t World_addScaleField(World *world_p, Vec2f pos, Vec2f size, enum ScaleType
 
 	scaleField_p->scaleType = scaleType;
 
-	scaleField_p->spriteID = World_addSprite(world_p, pos, scaleField_p->body.size, SCALE_TYPE_COLORS[scaleField_p->scaleType], "obstacle", 0.5, GAME_LAYER_FOREGROUND);
+	scaleField_p->spriteID = World_addSprite(world_p, pos, scaleField_p->body.size, SCALE_TYPE_COLORS[scaleField_p->scaleType], "obstacle", 0.4, GAME_LAYER_FOREGROUND);
 
 	return scaleField_p->entityHeader.ID;
 

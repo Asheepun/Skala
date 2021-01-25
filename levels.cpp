@@ -34,8 +34,6 @@ level-3
 
 	World_restore(world_p);
 
-	World_restore(world_p);
-
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(380, 170), NONE);
@@ -47,8 +45,6 @@ level-3
 :levelName
 first-scaling-level-1
 :levelCode
-
-	World_restore(world_p);
 
 	World_restore(world_p);
 
@@ -68,8 +64,6 @@ first-scaling-level-2
 
 	World_restore(world_p);
 
-	World_restore(world_p);
-
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(380, 70), NONE);
@@ -84,20 +78,15 @@ first-scaling-level-3
 
 	World_restore(world_p);
 
-	World_restore(world_p);
-
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(380, 170), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(150, 60), ALL);
 
-
 :levelName
 first-scaling-level-4
 :levelCode
-
-	World_restore(world_p);
 
 	World_restore(world_p);
 
@@ -110,8 +99,6 @@ first-scaling-level-4
 :levelName
 make-it-bigger-1
 :levelCode
-
-	World_restore(world_p);
 
 	World_restore(world_p);
 
@@ -129,8 +116,6 @@ make-it-bigger-2
 
 	World_restore(world_p);
 
-	World_restore(world_p);
-
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(380, 90), NONE);
@@ -142,8 +127,6 @@ make-it-bigger-2
 :levelName
 point-cage
 :levelCode
-
-	World_restore(world_p);
 
 	World_restore(world_p);
 
@@ -165,8 +148,6 @@ high-jump-1
 
 	World_restore(world_p);
 
-	World_restore(world_p);
-
 	World_initPlayer(world_p, getVec2f(70, 100), ALL);
 
 	World_addPoint(world_p, getVec2f(400, 40), NONE);
@@ -178,8 +159,6 @@ high-jump-1
 :levelName
 high-jump-2
 :levelCode
-
-	World_restore(world_p);
 
 	World_restore(world_p);
 
@@ -199,8 +178,6 @@ cooler-scaling-level-1
 
 	World_restore(world_p);
 
-	World_restore(world_p);
-
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(380, 170), ALL);
@@ -210,8 +187,6 @@ cooler-scaling-level-1
 :levelName
 cooler-scaling-level-2
 :levelCode
-
-	World_restore(world_p);
 
 	World_restore(world_p);
 
@@ -229,8 +204,6 @@ cooler-scaling-level-3
 
 	World_restore(world_p);
 
-	World_restore(world_p);
-
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(400, 170), ALL);
@@ -245,8 +218,6 @@ cooler-scaling-level-4
 
 	World_restore(world_p);
 
-	World_restore(world_p);
-
 	World_initPlayer(world_p, getVec2f(70, 100), ALL);
 
 	World_addPoint(world_p, getVec2f(380, 170), NONE);
@@ -256,8 +227,6 @@ cooler-scaling-level-4
 :levelName
 cooler-scaling-level-5
 :levelCode
-
-	World_restore(world_p);
 
 	World_restore(world_p);
 
@@ -563,8 +532,6 @@ all-from-top-1
 
 	World_restore(world_p);
 
-	World_restore(world_p);
-
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(380, 70), NONE);
@@ -577,8 +544,6 @@ all-from-top-2
 
 	World_restore(world_p);
 
-	World_restore(world_p);
-
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(380, 70), ALL_FROM_TOP);
@@ -588,8 +553,6 @@ all-from-top-2
 :levelName
 all-from-top-3
 :levelCode
-
-	World_restore(world_p);
 
 	World_restore(world_p);
 
@@ -609,8 +572,6 @@ point-pikaboo
 
 	World_restore(world_p);
 
-	World_restore(world_p);
-
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(70, 210), ALL);
@@ -620,8 +581,6 @@ point-pikaboo
 :levelName
 get-under-cup
 :levelCode
-
-	World_restore(world_p);
 
 	World_restore(world_p);
 
@@ -638,8 +597,6 @@ get-under-cup
 :levelName
 key-obstacle-course
 :levelCode
-
-	World_restore(world_p);
 
 	World_restore(world_p);
 
@@ -673,8 +630,6 @@ key-in-cage-all-from-top
 
 	World_restore(world_p);
 
-	World_restore(world_p);
-
 	World_initPlayer(world_p, getVec2f(110, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(30, 170), NONE);
@@ -694,4 +649,98 @@ key-in-cage-all-from-top
 	World_addObstacle(world_p, getVec2f(WIDTH - 120, 20), getVec2f(20, HEIGHT - 20), NONE);
 
 	World_addDoorKey(world_p, getVec2f(WIDTH - 50, 150), ALL_FROM_TOP);
+
+
+:levelName
+scale-field-1
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(70, 100), NONE);
+
+	World_addPoint(world_p, getVec2f(400, 120), ALL);
+
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(150, 60), NONE);
+
+	World_addScaleField(world_p, getVec2f(280, 50), getVec2f(50, HEIGHT - 50), NONE);
+
+
+:levelName
+scale-field-2
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(70, 100), NONE);
+
+	World_addPoint(world_p, getVec2f(400, 120), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(150, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 10, 0), getVec2f(10, HEIGHT), NONE);
+
+	World_addScaleField(world_p, getVec2f(330, 0), getVec2f(140, HEIGHT), ALL);
+
+:levelName
+scale-field-3
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(70, 100), NONE);
+
+	World_addPoint(world_p, getVec2f(420, 50), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 150, 70), getVec2f(150, HEIGHT - 130), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 100, 0), getVec2f(100, 40), NONE);
+
+	World_addScaleField(world_p, getVec2f(220, 180), getVec2f(40, 30), ALL);
+
+	World_addScaleField(world_p, getVec2f(0, 30), getVec2f(60, 40), ALL);
+
+:levelName
+get-over-the-field
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(70, 200), NONE);
+
+	World_addPoint(world_p, getVec2f(420, 50), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 250), getVec2f(WIDTH, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(20, HEIGHT - 40), NONE);
+
+	World_addScaleField(world_p, getVec2f(0, 230), getVec2f(WIDTH, 40), ALL);
+
+:levelName
+layers-of-fields
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(70, 200), NONE);
+
+	World_addPoint(world_p, getVec2f(420, 10), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 250), getVec2f(WIDTH, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(340, 210), getVec2f(20, 30), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 210), getVec2f(20, 40), NONE);
+
+	World_addScaleField(world_p, getVec2f(360, 0), getVec2f(100, 50), ALL);
+
+	World_addScaleField(world_p, getVec2f(360, 50), getVec2f(100, 50), ALL_FROM_TOP);
+
+	World_addScaleField(world_p, getVec2f(360, 100), getVec2f(100, 50), ALL);
+
+	World_addScaleField(world_p, getVec2f(360, 150), getVec2f(100, 50), ALL_FROM_TOP);
+
+	World_addScaleField(world_p, getVec2f(360, 200), getVec2f(100, 50), ALL);
 
