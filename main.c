@@ -206,7 +206,7 @@ void drawGame(){
 
 				unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
 
-				OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, sprite_p->facing, texture.ID, shaderProgram);
+				OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, sprite_p->facing, sprite_p->borderSize, texture.ID, shaderProgram);
 			
 			}
 			else if(sprite_p->type == TEXT_SPRITE){
@@ -246,7 +246,7 @@ void drawGame(){
 
 				unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
 
-				OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, 1, world.renderer.textTextureID, shaderProgram);
+				OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, 1, getVec2f(0, 0), world.renderer.textTextureID, shaderProgram);
 			
 			}
 		
@@ -276,7 +276,7 @@ void drawGame(){
 
 		unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
 
-		OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, 1, textureID, shaderProgram);
+		OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, 1, getVec2f(0, 0), textureID, shaderProgram);
 
 	}
 

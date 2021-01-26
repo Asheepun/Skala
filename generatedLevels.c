@@ -733,3 +733,21 @@ World_generateLevel42(World *world_p){
 	World_addScaleField(world_p, getVec2f(360, 200), getVec2f(100, 50), ALL);
 
 }
+
+World_generateLevel43(World *world_p){
+
+	World_restore(world_p);
+
+	world_p->scalingByPlayerPosition = true;
+
+	World_initPlayer(world_p, getVec2f(50, 190), NONE);
+
+	World_addPoint(world_p, getVec2f(250, 170), ALL);
+
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT - 105), NONE);
+
+	//World_addObstacle(world_p, getVec2f(0, 190), getVec2f(100, 20), NONE);
+
+}

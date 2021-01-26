@@ -63,6 +63,7 @@ enum SpriteType{
 };
 
 enum SpriteLayer{
+	GAME_LAYER_WALLS,
 	GAME_LAYER_BACKGROUND,
 	GAME_LAYER_FOREGROUND,
 	GAME_LAYER_TEXT,
@@ -101,6 +102,7 @@ typedef struct Sprite{
 	Vec4f color;
 	float alpha;
 	enum Facing facing;
+	Vec2f borderSize;
 
 	//regular sprite
 	Body body;
@@ -259,6 +261,7 @@ typedef struct World{
 
 	bool scaling;
 	float scaleSpeed;
+	bool scalingByPlayerPosition;
 
 	Player player;
 
@@ -301,14 +304,19 @@ static int windowHeight = HEIGHT * 3;
 //static int lastWindowWidth = 320 * 2;
 //static int lastWindowHeight = 180 * 2;
 
-static const Vec4f COLOR_BLACK 		= { 0.00, 		0.00, 		0.00, 		1 };
-static const Vec4f COLOR_WHITE 		= { 1.00, 		1.00, 		1.00, 		1 };
-static const Vec4f COLOR_GREY 		= { 0.50, 		0.50, 		0.50, 		1 };
-static const Vec4f COLOR_BROWN 		= { 0.60, 		0.30, 		0.20, 		1 };
-static const Vec4f COLOR_GREEN 		= { 0.30, 		0.90, 		0.10, 		1 };
-static const Vec4f COLOR_PURPLE 	= { 1.00, 		0.00, 		1.00, 		1 };
-static const Vec4f COLOR_BLUE 		= { 0.00, 		0.00, 		1.00, 		1 };
-static const Vec4f COLOR_YELLOW 	= { 1.00, 		1.00, 		0.00, 		1 };
+static const Vec4f COLOR_BLACK 				= { 0.00, 		0.00, 		0.00, 		1 };
+static const Vec4f COLOR_WHITE 				= { 1.00, 		1.00, 		1.00, 		1 };
+static const Vec4f COLOR_GREY 				= { 0.50, 		0.50, 		0.50, 		1 };
+static const Vec4f COLOR_BROWN 				= { 0.60, 		0.30, 		0.20, 		1 };
+static const Vec4f COLOR_GREEN 				= { 0.00, 		1.00, 		0.00, 		1 };
+static const Vec4f COLOR_PURPLE 			= { 1.00, 		0.00, 		1.00, 		1 };
+static const Vec4f COLOR_BLUE 				= { 0.00, 		0.00, 		1.00, 		1 };
+static const Vec4f COLOR_YELLOW 			= { 1.00, 		1.00, 		0.00, 		1 };
+
+static const Vec4f COLOR_GREY_BACKGROUND 	= { 0.00, 		0.00, 		0.00, 		1 };
+static const Vec4f COLOR_GREEN_BACKGROUND 	= { 0.00, 		0.5, 		0.00, 		1 };
+static const Vec4f COLOR_YELLOW_BACKGROUND 	= { 0.5, 		0.5, 		0.00, 		1 };
+static const Vec4f COLOR_PURPLE_BACKGROUND 	= { 0.5, 		0.00, 		0.5, 		1 };
 
 static const Vec4f SCALE_TYPE_COLORS[] = {
 	COLOR_WHITE, 	//none scalable

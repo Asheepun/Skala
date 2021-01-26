@@ -60,8 +60,15 @@ void World_levelState(World *world_p){
 
 	Vec2f_set(&player_p->physics.acceleration, 0, 0);
 
-	if(world_p->scaling){
-		//control scale
+	//control scale
+	if(world_p->scalingByPlayerPosition){
+
+		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
+
+		world_p->scale.x = playerBodyPair_p->originBody.pos.x / playerBodyPair_p->body.pos.x;
+		world_p->scale.y = playerBodyPair_p->body.pos.y / playerBodyPair_p->originBody.pos.y;
+	
+	}else if(world_p->scaling){
 
 		if(world_p->actions[LEFT_ACTION].down){
 			world_p->scale.x *= 1 + world_p->scaleSpeed * world_p->levelHeight / world_p->levelWidth * sqrt(sqrt(world_p->scale.x));
@@ -84,17 +91,21 @@ void World_levelState(World *world_p){
 			//world_p->scale.y -= world_p->scaleSpeed;
 		}
 
-		if(world_p->scale.x < 1 / world_p->levelWidth / 100
-		|| world_p->scale.x >= world_p->levelWidth * 100){
-			world_p->scale.x = world_p->lastScale.x;
-		}
-		if(world_p->scale.y < 1 / world_p->levelHeight / 100
-		|| world_p->scale.y >= world_p->levelHeight * 100){
-			world_p->scale.y = world_p->lastScale.y;
-		}
+	}
 
-	}else{
-		//control player
+	//limit scale
+	if(world_p->scale.x < 1 / world_p->levelWidth / 100
+	|| world_p->scale.x >= world_p->levelWidth * 100){
+		world_p->scale.x = world_p->lastScale.x;
+	}
+	if(world_p->scale.y < 1 / world_p->levelHeight / 100
+	|| world_p->scale.y >= world_p->levelHeight * 100){
+		world_p->scale.y = world_p->lastScale.y;
+	}
+
+	//control player
+	if(!world_p->scaling
+	|| world_p->scalingByPlayerPosition){
 
 		Physics *playerPhysics_p = &World_getBodyPairByID(world_p, player_p->bodyPairID)->physics;
 
@@ -659,6 +670,11 @@ void World_levelState(World *world_p){
 		sprite_p->body = obstacleBodyPair_p->body;
 
 		sprite_p->color = SCALE_TYPE_COLORS[obstacleBodyPair_p->scaleType];
+
+		Vec2f scale = BodyPair_getPhysicsScale(obstacleBodyPair_p);
+
+		//sprite_p->borderSize.x = 7 / scale.x;
+		//sprite_p->borderSize.y = 7 / scale.y;
 
 	}
 

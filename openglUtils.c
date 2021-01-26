@@ -89,7 +89,7 @@ void OpenglUtils_Renderer_init(OpenglUtils_Renderer *renderer_p, float width, fl
 
 }
 
-unsigned int OpenglUtils_Renderer_drawTexture(OpenglUtils_Renderer renderer, Vec2f pos, Vec2f size, Vec4f color, unsigned int facing, unsigned int textureID, unsigned int shaderProgramID){
+unsigned int OpenglUtils_Renderer_drawTexture(OpenglUtils_Renderer renderer, Vec2f pos, Vec2f size, Vec4f color, unsigned int facing, Vec2f borderSize, unsigned int textureID, unsigned int shaderProgramID){
 
 	Mat4f transformations = {
 		1, 0, 0, 0,
@@ -118,6 +118,15 @@ unsigned int OpenglUtils_Renderer_drawTexture(OpenglUtils_Renderer renderer, Vec
 
 	unsigned int facingLocation = glGetUniformLocation(shaderProgramID, "facing");
 	glUniform1iv(facingLocation, 1, &facing);
+
+	float adjustedBorderSizeX = borderSize.x * size.y / size.x / size.y;
+	float adjustedBorderSizeY = borderSize.y / size.y;
+
+	unsigned int borderSizeXLocation = glGetUniformLocation(shaderProgramID, "borderSizeX");
+	glUniform1fv(borderSizeXLocation, 1, &adjustedBorderSizeX);
+
+	unsigned int borderSizeYLocation = glGetUniformLocation(shaderProgramID, "borderSizeY");
+	glUniform1fv(borderSizeYLocation, 1, &adjustedBorderSizeY);
 
 	glBindTexture(GL_TEXTURE_2D, textureID);
 

@@ -48,8 +48,9 @@ World_generateLevel39(World *);
 World_generateLevel40(World *);
 World_generateLevel41(World *);
 World_generateLevel42(World *);
+World_generateLevel43(World *);
 
-static const size_t LEVELS_LENGTH = 42;
+static const size_t LEVELS_LENGTH = 43;
 
 static Level levels[255] = {
 	"level-1",
@@ -136,6 +137,8 @@ static Level levels[255] = {
 	World_generateLevel41,
 	"layers-of-fields",
 	World_generateLevel42,
+	"player-position-1",
+	World_generateLevel43,
 };
 
 #endif

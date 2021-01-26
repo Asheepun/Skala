@@ -73,6 +73,7 @@ void World_restore(World *world_p){
 	//world_p->scaleSpeed = 0.05;
 	//world_p->scaleSpeed = 0.045;
 	world_p->scaleSpeed = 0.035;
+	world_p->scalingByPlayerPosition = false;
 
 	Array_clear(&world_p->buttons);
 	Array_clear(&world_p->bodyPairs);
@@ -155,6 +156,7 @@ size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Vec4f color, char 
 	sprite_p->alpha = alpha;
 
 	sprite_p->facing = RIGHT;
+	sprite_p->borderSize = getVec2f(0, 0);
 
 	return sprite_p->entityHeader.ID;
 
@@ -245,6 +247,9 @@ size_t World_addObstacle(World *world_p, Vec2f pos, Vec2f size, enum ScaleType s
 	Physics_init(&obstacle_p->physics);
 
 	obstacle_p->spriteID = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[scaleType], "obstacle", 1, GAME_LAYER_BACKGROUND);
+
+	Sprite *sprite_p = World_getSpriteByID(world_p, obstacle_p->spriteID);
+	//sprite_p->borderSize = getVec2f(5, 5);
 
 	return obstacle_p->entityHeader.ID;
 

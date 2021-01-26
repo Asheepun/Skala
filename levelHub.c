@@ -48,6 +48,9 @@ void World_initLevelHub(World *world_p){
 	int xySwitchLevelsRoomX = 0;
 	int xySwitchLevelsRoomWidth = 0;
 
+	int playerPositionLevelsRoomX = 0;
+	int playerPositionLevelsRoomWidth = 0;
+
 	int *currentRoomX;
 	int *currentRoomWidth;
 	int *currentFloorY;
@@ -241,7 +244,16 @@ void World_initLevelHub(World *world_p){
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT + 125), "scale-field-1");
 	*currentRoomWidth += normalLevelDistance;
 
+	//player position room levels
 
+	currentRoomX = &playerPositionLevelsRoomX;
+	currentRoomWidth = &playerPositionLevelsRoomWidth;
+
+	*currentRoomX = houseX + houseWidth;
+	*currentRoomWidth += 40;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT + 125), "player-position-1");
+	*currentRoomWidth += normalLevelDistance;
 
 	houseWidth += 60;
 
@@ -286,6 +298,30 @@ void World_initLevelHub(World *world_p){
 
 	//second floor
 	World_addObstacle(world_p, getVec2f(xySwitchLevelsRoomX, -100), getVec2f(xySwitchLevelsRoomWidth, 100), NONE);
+
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX, -100), getVec2f(playerPositionLevelsRoomWidth, 100), NONE);
+
+	//walls
+
+	int greenWallX = firstLevelsRoomX;
+	int greenWallWidth = firstLevelsRoomWidth + firstScalingLevelsRoomWidth + coolerScalingLevelsRoomWidth;
+
+	int elevatorWallX = elevatorRoomX;
+	int elevatorWallWidth = elevatorRoomWidth;
+
+	int yellowWallX = doorKeyLevelsRoomX;
+	int yellowWallWidth = doorKeyLevelsRoomWidth;
+
+	int purpleWallX = allFromTopLevelsRoomX;
+	int purpleWallWidth = allFromTopLevelsRoomWidth;
+
+	//World_addSprite(world_p, getVec2f(greenWallX, 0), getVec2f(greenWallWidth, HEIGHT), COLOR_GREEN_BACKGROUND, "obstacle", 1, GAME_LAYER_WALLS);
+
+	//World_addSprite(world_p, getVec2f(elevatorWallX, 0), getVec2f(elevatorWallWidth, HEIGHT), COLOR_GREY_BACKGROUND, "obstacle", 1, GAME_LAYER_WALLS);
+
+	//World_addSprite(world_p, getVec2f(purpleWallX, 0), getVec2f(purpleWallWidth, HEIGHT), COLOR_PURPLE_BACKGROUND, "obstacle", 1, GAME_LAYER_WALLS);
+
+	//World_addSprite(world_p, getVec2f(yellowWallX, 0), getVec2f(yellowWallWidth, HEIGHT / 2), COLOR_YELLOW_BACKGROUND, "obstacle", 1, GAME_LAYER_WALLS);
 
 	//set level hub level size
 	world_p->levelWidth = houseWidth;
