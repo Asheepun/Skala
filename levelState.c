@@ -38,6 +38,10 @@ void World_levelState(World *world_p){
 
 	printf("---\n");
 
+	//printf("obstaclesLength: %i\n", world_p->obstacles.length);
+	//printf("spritesLength: %i\n", world_p->sprites.length);
+	//printf("bodyPairsLength: %i\n", world_p->bodyPairs.length);
+
 	if(world_p->actions[MENU_ACTION].downed){
 
 		world_p->stateBeforeOpeningMenu = world_p->currentState;
@@ -66,7 +70,7 @@ void World_levelState(World *world_p){
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
 
 		world_p->scale.x = playerBodyPair_p->originBody.pos.x / playerBodyPair_p->body.pos.x;
-		world_p->scale.y = playerBodyPair_p->body.pos.y / playerBodyPair_p->originBody.pos.y;
+		world_p->scale.y = (world_p->levelHeight - playerBodyPair_p->originBody.pos.y - playerBodyPair_p->originBody.size.y) / (world_p->levelHeight - playerBodyPair_p->body.pos.y - playerBodyPair_p->body.size.y);
 	
 	}else if(world_p->scaling){
 
@@ -761,6 +765,8 @@ void World_levelState(World *world_p){
 
 		world_p->cameraPos.x = round(WIDTH / 2 - playerBodyPair_p->body.pos.x);
 
+		//world_p->cameraPos.y = round(HEIGHT / 2 - playerBodyPair_p->body.pos.y);
+
 		//world_p->renderer.offset.y = round(HEIGHT / 2 - playerBodyPair_p->body.pos.y);
 
 		if(playerBodyPair_p->body.pos.y > 0){
@@ -768,6 +774,28 @@ void World_levelState(World *world_p){
 		}
 		if(playerBodyPair_p->body.pos.y < 0){
 			world_p->cameraTarget.y = HEIGHT;
+		}
+		if(playerBodyPair_p->body.pos.y < -HEIGHT){
+			world_p->cameraTarget.y = 2 * HEIGHT;
+		}
+		if(playerBodyPair_p->body.pos.y < -HEIGHT * 2){
+			world_p->cameraTarget.y = 2.8 * HEIGHT;
+		}
+
+		if(playerBodyPair_p->body.pos.x < 400){
+
+			world_p->cameraTarget.y = HEIGHT + 70;
+
+			if(playerBodyPair_p->body.pos.y > 140 - HEIGHT){
+				world_p->cameraTarget.y = HEIGHT - 70;
+			}
+			if(playerBodyPair_p->body.pos.y > 270 - HEIGHT){
+				world_p->cameraTarget.y = 30;
+			}
+			if(playerBodyPair_p->body.pos.y > 150){
+				world_p->cameraTarget.y = 0;
+			}
+
 		}
 
 		world_p->cameraPos.y += -(world_p->cameraPos.y - world_p->cameraTarget.y) / 20;

@@ -14,9 +14,15 @@ void World_init(World *world_p){
 
 	memset(world_p, 0, sizeof(World));
 
+	printf("checcka\n");
+
 	SaveData_init(&world_p->saveData);
 
+	printf("cinka\n");
+
 	SaveData_read(&world_p->saveData);
+
+	printf("chonka\n");
 
 	Array_init(&world_p->fonts, sizeof(Font));
 
