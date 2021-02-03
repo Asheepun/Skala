@@ -18,6 +18,10 @@ void Array_init(Array *array_p,  unsigned int itemSize){
 
 }
 
+void Array_free(Array *array_p){
+	free(array_p->items);
+}
+
 void EntityHeader_init(EntityHeader *entityHeader_p){
 
 	entityHeader_p->ID = availableID;

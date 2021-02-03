@@ -1,0 +1,20 @@
+:playerPos
+3399 208
+:doorKeys
+:doors
+3500 180 20 60
+:levelsWithDoorKey
+key-in-cage-all-from-top
+:completedLevels
+first-scaling-level-1
+door-key-level-1
+first-scaling-level-4
+level-3
+make-it-bigger-1
+make-it-bigger-2
+point-cage
+door-key-level-1
+get-key-up-2
+all-from-top-1
+all-from-top-2
+all-from-top-3

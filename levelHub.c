@@ -310,6 +310,8 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(startingAreaX + 240, 140), getVec2f(40, 90), NONE);
 
+	World_addSprite(world_p, getVec2f(startingAreaX, HEIGHT), getVec2f(houseX + houseWidth, 40), COLOR_WHITE, "obstacle", 1, GAME_LAYER_BACKGROUND);
+
 	//add house obstacles
 	World_addObstacle(world_p, getVec2f(houseX, 120), getVec2f(30, 50), NONE);
 
@@ -325,9 +327,14 @@ void World_initLevelHub(World *world_p){
 	World_addObstacle(world_p, getVec2f(houseX - 50, 20), getVec2f(50, 10), NONE);
 	World_addObstacle(world_p, getVec2f(houseX - 40, 10), getVec2f(40, 10), NONE);
 	World_addObstacle(world_p, getVec2f(houseX - 30, 0), getVec2f(30, 10), NONE);
-	World_addObstacle(world_p, getVec2f(houseX - 20, -10), getVec2f(20, 10), NONE);
-	World_addObstacle(world_p, getVec2f(houseX - 10, -20), getVec2f(10, 10), NONE);
-	World_addObstacle(world_p, getVec2f(houseX, -20), getVec2f(xySwitchLevelsRoomX - houseX, 20), NONE);
+	World_addObstacle(world_p, getVec2f(houseX - 20, -10), getVec2f(xySwitchLevelsRoomX - houseX + 20, 10), NONE);
+	World_addObstacle(world_p, getVec2f(houseX - 10, -20), getVec2f(xySwitchLevelsRoomX - houseX + 10, 10), NONE);
+	World_addObstacle(world_p, getVec2f(houseX, -30), getVec2f(xySwitchLevelsRoomX - houseX, 10), NONE);
+	World_addObstacle(world_p, getVec2f(houseX + 10, -40), getVec2f(xySwitchLevelsRoomX - houseX - 10, 10), NONE);
+	World_addObstacle(world_p, getVec2f(houseX + 20, -50), getVec2f(xySwitchLevelsRoomX - houseX - 20, 10), NONE);
+	//World_addObstacle(world_p, getVec2f(houseX + 30, -60), getVec2f(xySwitchLevelsRoomX - houseX - 30, 10), NONE);
+
+	//World_addObstacle(world_p, getVec2f(houseX, -20), getVec2f(xySwitchLevelsRoomX - houseX, 20), NONE);
 
 	World_addObstacle(world_p, getVec2f(firstLevelsRoomX, HEIGHT - 60), getVec2f(firstLevelsRoomWidth, 60), NONE);
 

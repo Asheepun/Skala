@@ -1,4 +1,28 @@
 :levelName
+bug-testing-level
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(270, 100), NONE);
+
+	World_addPoint(world_p, getVec2f(1380, 170), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 100), getVec2f(40, 100), NONE);
+
+	World_addObstacle(world_p, getVec2f(100, 100), getVec2f(40, 60), ALL);
+
+	World_addObstacle(world_p, getVec2f(200, 100), getVec2f(40, 100), ALL_FROM_TOP);
+
+	World_addObstacle(world_p, getVec2f(300, 100), getVec2f(40, 100), ALL);
+
+	//World_addObstacle(world_p, getVec2f(300, 100), getVec2f(40, 80), ALL);
+
+	World_addObstacle(world_p, getVec2f(400, 100), getVec2f(40, 100), NONE);
+
+:levelName
 level-1
 :levelCode
 
@@ -426,7 +450,7 @@ push-key-with-point
 
 	World_addObstacle(world_p, getVec2f(150, 210), getVec2f(180, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(150, 230), getVec2f(195, 40), NONE);
+	World_addObstacle(world_p, getVec2f(150, 230), getVec2f(200, 40), NONE);
 
 	World_addObstacle(world_p, getVec2f(150, 110), getVec2f(180, 40), NONE);
 

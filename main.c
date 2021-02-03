@@ -317,7 +317,7 @@ int main(int argc, char *argv[]){
 	Action_addBinding(&world.actions[MENU_ACTION], SDL_SCANCODE_ESCAPE);
 	Action_addBinding(&world.actions[RESTART_ACTION], SDL_SCANCODE_R);
 
-	world.currentLevel = "make-it-bigger-1";
+	world.currentLevel = "bug-testing-level";
 
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
 	//World_switchToAndInitState(&world, LEVEL_STATE);

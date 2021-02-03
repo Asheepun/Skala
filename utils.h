@@ -18,6 +18,8 @@ typedef struct String{
 
 void Array_init(Array *, unsigned int);
 
+void Array_free(Array *);
+
 void EntityHeader_init(EntityHeader *);
 
 void *Array_addItem(Array *);

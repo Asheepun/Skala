@@ -12,6 +12,30 @@ World_generateLevel1(World *world_p){
 
 	World_restore(world_p);
 
+	World_initPlayer(world_p, getVec2f(270, 100), NONE);
+
+	World_addPoint(world_p, getVec2f(1380, 170), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 100), getVec2f(40, 100), NONE);
+
+	World_addObstacle(world_p, getVec2f(100, 100), getVec2f(40, 60), ALL);
+
+	World_addObstacle(world_p, getVec2f(200, 100), getVec2f(40, 100), ALL_FROM_TOP);
+
+	World_addObstacle(world_p, getVec2f(300, 100), getVec2f(40, 100), ALL);
+
+	//World_addObstacle(world_p, getVec2f(300, 100), getVec2f(40, 80), ALL);
+
+	World_addObstacle(world_p, getVec2f(400, 100), getVec2f(40, 100), NONE);
+
+}
+
+World_generateLevel2(World *world_p){
+
+	World_restore(world_p);
+
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(380, 170), NONE);
@@ -20,7 +44,7 @@ World_generateLevel1(World *world_p){
 
 }
 
-World_generateLevel2(World *world_p){
+World_generateLevel3(World *world_p){
 
 	World_restore(world_p);
 
@@ -38,7 +62,7 @@ World_generateLevel2(World *world_p){
 
 }
 
-World_generateLevel3(World *world_p){
+World_generateLevel4(World *world_p){
 
 	World_restore(world_p);
 
@@ -52,7 +76,7 @@ World_generateLevel3(World *world_p){
 
 }
 
-World_generateLevel4(World *world_p){
+World_generateLevel5(World *world_p){
 
 	World_restore(world_p);
 
@@ -68,7 +92,7 @@ World_generateLevel4(World *world_p){
 
 }
 
-World_generateLevel5(World *world_p){
+World_generateLevel6(World *world_p){
 
 	World_restore(world_p);
 
@@ -82,7 +106,7 @@ World_generateLevel5(World *world_p){
 
 }
 
-World_generateLevel6(World *world_p){
+World_generateLevel7(World *world_p){
 
 	World_restore(world_p);
 
@@ -94,7 +118,7 @@ World_generateLevel6(World *world_p){
 
 }
 
-World_generateLevel7(World *world_p){
+World_generateLevel8(World *world_p){
 
 	World_restore(world_p);
 
@@ -103,20 +127,6 @@ World_generateLevel7(World *world_p){
 	World_addPoint(world_p, getVec2f(380, 170), ALL);
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(150, 60), NONE);
-
-}
-
-World_generateLevel8(World *world_p){
-
-	World_restore(world_p);
-
-	World_initPlayer(world_p, getVec2f(70, 100), NONE);
-
-	World_addPoint(world_p, getVec2f(380, 90), NONE);
-
-	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(150, 60), NONE);
-
-	World_addObstacle(world_p, getVec2f(340, 140), getVec2f(80, 130), ALL);
 
 }
 
@@ -130,11 +140,25 @@ World_generateLevel9(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(150, 60), NONE);
 
-	World_addObstacle(world_p, getVec2f(420, 140), getVec2f(1.5, 130), ALL);
+	World_addObstacle(world_p, getVec2f(340, 140), getVec2f(80, 130), ALL);
 
 }
 
 World_generateLevel10(World *world_p){
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(70, 100), NONE);
+
+	World_addPoint(world_p, getVec2f(380, 90), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(150, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(420, 140), getVec2f(1.5, 130), ALL);
+
+}
+
+World_generateLevel11(World *world_p){
 
 	World_restore(world_p);
 
@@ -152,7 +176,7 @@ World_generateLevel10(World *world_p){
 
 }
 
-World_generateLevel11(World *world_p){
+World_generateLevel12(World *world_p){
 
 	World_restore(world_p);
 
@@ -172,7 +196,7 @@ World_generateLevel11(World *world_p){
 
 }
 
-World_generateLevel12(World *world_p){
+World_generateLevel13(World *world_p){
 
 	World_restore(world_p);
 
@@ -186,7 +210,7 @@ World_generateLevel12(World *world_p){
 
 }
 
-World_generateLevel13(World *world_p){
+World_generateLevel14(World *world_p){
 
 	World_restore(world_p);
 
@@ -202,7 +226,7 @@ World_generateLevel13(World *world_p){
 
 }
 
-World_generateLevel14(World *world_p){
+World_generateLevel15(World *world_p){
 
 	World_restore(world_p);
 
@@ -214,7 +238,7 @@ World_generateLevel14(World *world_p){
 
 }
 
-World_generateLevel15(World *world_p){
+World_generateLevel16(World *world_p){
 
 	World_restore(world_p);
 
@@ -228,7 +252,7 @@ World_generateLevel15(World *world_p){
 
 }
 
-World_generateLevel16(World *world_p){
+World_generateLevel17(World *world_p){
 
 	World_restore(world_p);
 
@@ -242,7 +266,7 @@ World_generateLevel16(World *world_p){
 
 }
 
-World_generateLevel17(World *world_p){
+World_generateLevel18(World *world_p){
 
 	World_restore(world_p);
 
@@ -254,7 +278,7 @@ World_generateLevel17(World *world_p){
 
 }
 
-World_generateLevel18(World *world_p){
+World_generateLevel19(World *world_p){
 
 	World_restore(world_p);
 
@@ -266,7 +290,7 @@ World_generateLevel18(World *world_p){
 
 }
 
-World_generateLevel19(World *world_p){
+World_generateLevel20(World *world_p){
 
 	World_restore(world_p);
 
@@ -284,7 +308,7 @@ World_generateLevel19(World *world_p){
 
 }
 
-World_generateLevel20(World *world_p){
+World_generateLevel21(World *world_p){
 
 	World_restore(world_p);
 
@@ -304,10 +328,10 @@ World_generateLevel20(World *world_p){
 
 }
 
-World_generateLevel21(World *world_p){
+World_generateLevel22(World *world_p){
 }
 
-World_generateLevel22(World *world_p){
+World_generateLevel23(World *world_p){
 
 	World_restore(world_p);
 
@@ -331,10 +355,10 @@ World_generateLevel22(World *world_p){
 
 }
 
-World_generateLevel23(World *world_p){
+World_generateLevel24(World *world_p){
 }
 
-World_generateLevel24(World *world_p){
+World_generateLevel25(World *world_p){
 
 	World_restore(world_p);
 
@@ -358,7 +382,7 @@ World_generateLevel24(World *world_p){
 
 }
 
-World_generateLevel25(World *world_p){
+World_generateLevel26(World *world_p){
 
 	World_restore(world_p);
 
@@ -384,7 +408,7 @@ World_generateLevel25(World *world_p){
 
 }
 
-World_generateLevel26(World *world_p){
+World_generateLevel27(World *world_p){
 
 	World_restore(world_p);
 
@@ -404,7 +428,7 @@ World_generateLevel26(World *world_p){
 
 }
 
-World_generateLevel27(World *world_p){
+World_generateLevel28(World *world_p){
 
 	World_restore(world_p);
 
@@ -414,7 +438,7 @@ World_generateLevel27(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(150, 210), getVec2f(180, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(150, 230), getVec2f(195, 40), NONE);
+	World_addObstacle(world_p, getVec2f(150, 230), getVec2f(200, 40), NONE);
 
 	World_addObstacle(world_p, getVec2f(150, 110), getVec2f(180, 40), NONE);
 
@@ -426,7 +450,7 @@ World_generateLevel27(World *world_p){
 
 }
 
-World_generateLevel28(World *world_p){
+World_generateLevel29(World *world_p){
 
 	World_restore(world_p);
 
@@ -452,7 +476,7 @@ World_generateLevel28(World *world_p){
 
 }
 
-World_generateLevel29(World *world_p){
+World_generateLevel30(World *world_p){
 
 	World_restore(world_p);
 
@@ -478,7 +502,7 @@ World_generateLevel29(World *world_p){
 
 }
 
-World_generateLevel30(World *world_p){
+World_generateLevel31(World *world_p){
 
 	World_restore(world_p);
 
@@ -502,7 +526,7 @@ World_generateLevel30(World *world_p){
 
 }
 
-World_generateLevel31(World *world_p){
+World_generateLevel32(World *world_p){
 
 	World_restore(world_p);
 
@@ -536,7 +560,7 @@ World_generateLevel31(World *world_p){
 
 }
 
-World_generateLevel32(World *world_p){
+World_generateLevel33(World *world_p){
 
 	World_restore(world_p);
 
@@ -548,7 +572,7 @@ World_generateLevel32(World *world_p){
 
 }
 
-World_generateLevel33(World *world_p){
+World_generateLevel34(World *world_p){
 
 	World_restore(world_p);
 
@@ -560,7 +584,7 @@ World_generateLevel33(World *world_p){
 
 }
 
-World_generateLevel34(World *world_p){
+World_generateLevel35(World *world_p){
 
 	World_restore(world_p);
 
@@ -576,7 +600,7 @@ World_generateLevel34(World *world_p){
 
 }
 
-World_generateLevel35(World *world_p){
+World_generateLevel36(World *world_p){
 
 	World_restore(world_p);
 
@@ -588,7 +612,7 @@ World_generateLevel35(World *world_p){
 
 }
 
-World_generateLevel36(World *world_p){
+World_generateLevel37(World *world_p){
 
 	World_restore(world_p);
 
@@ -604,7 +628,7 @@ World_generateLevel36(World *world_p){
 
 }
 
-World_generateLevel37(World *world_p){
+World_generateLevel38(World *world_p){
 
 	World_restore(world_p);
 
@@ -634,7 +658,7 @@ World_generateLevel37(World *world_p){
 
 }
 
-World_generateLevel38(World *world_p){
+World_generateLevel39(World *world_p){
 
 	World_restore(world_p);
 
@@ -661,7 +685,7 @@ World_generateLevel38(World *world_p){
 
 }
 
-World_generateLevel39(World *world_p){
+World_generateLevel40(World *world_p){
 
 	World_restore(world_p);
 
@@ -676,7 +700,7 @@ World_generateLevel39(World *world_p){
 
 }
 
-World_generateLevel40(World *world_p){
+World_generateLevel41(World *world_p){
 
 	World_restore(world_p);
 
@@ -692,7 +716,7 @@ World_generateLevel40(World *world_p){
 
 }
 
-World_generateLevel41(World *world_p){
+World_generateLevel42(World *world_p){
 
 	World_restore(world_p);
 
@@ -712,7 +736,7 @@ World_generateLevel41(World *world_p){
 
 }
 
-World_generateLevel42(World *world_p){
+World_generateLevel43(World *world_p){
 
 	World_restore(world_p);
 
@@ -728,7 +752,7 @@ World_generateLevel42(World *world_p){
 
 }
 
-World_generateLevel43(World *world_p){
+World_generateLevel44(World *world_p){
 
 	World_restore(world_p);
 
@@ -754,7 +778,7 @@ World_generateLevel43(World *world_p){
 
 }
 
-World_generateLevel44(World *world_p){
+World_generateLevel45(World *world_p){
 
 	World_restore(world_p);
 
@@ -770,7 +794,7 @@ World_generateLevel44(World *world_p){
 
 }
 
-World_generateLevel45(World *world_p){
+World_generateLevel46(World *world_p){
 
 	World_restore(world_p);
 
@@ -788,7 +812,7 @@ World_generateLevel45(World *world_p){
 
 }
 
-World_generateLevel46(World *world_p){
+World_generateLevel47(World *world_p){
 
 	World_restore(world_p);
 
@@ -802,7 +826,7 @@ World_generateLevel46(World *world_p){
 
 }
 
-World_generateLevel47(World *world_p){
+World_generateLevel48(World *world_p){
 
 	World_restore(world_p);
 
@@ -820,7 +844,7 @@ World_generateLevel47(World *world_p){
 
 }
 
-World_generateLevel48(World *world_p){
+World_generateLevel49(World *world_p){
 
 	World_restore(world_p);
 
@@ -838,7 +862,7 @@ World_generateLevel48(World *world_p){
 
 }
 
-World_generateLevel49(World *world_p){
+World_generateLevel50(World *world_p){
 
 	World_restore(world_p);
 
@@ -868,7 +892,7 @@ World_generateLevel49(World *world_p){
 
 }
 
-World_generateLevel50(World *world_p){
+World_generateLevel51(World *world_p){
 
 	World_restore(world_p);
 

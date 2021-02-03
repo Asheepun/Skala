@@ -8,6 +8,12 @@
 #include "game.h"
 #include "levels.h"
 
+typedef struct Collision{
+	unsigned int lighterBodyPairIndex;
+	unsigned int heavierBodyPairIndex;
+	bool equal;
+}Collision;
+
 int blockerAnimationCount = 25;
 
 size_t levelStateFadeTransitionID = 6900;//så att det inte krockar första gången
@@ -37,10 +43,6 @@ void World_levelState(World *world_p){
 	}
 
 	printf("---\n");
-
-	//printf("obstaclesLength: %i\n", world_p->obstacles.length);
-	//printf("spritesLength: %i\n", world_p->sprites.length);
-	//printf("bodyPairsLength: %i\n", world_p->bodyPairs.length);
 
 	if(world_p->actions[MENU_ACTION].downed){
 
@@ -132,7 +134,8 @@ void World_levelState(World *world_p){
 
 	}
 
-	Vec2f_sub(&world_p->deltaScale, &world_p->scale);
+	world_p->deltaScale = world_p->scale;
+	Vec2f_sub(&world_p->deltaScale, &world_p->lastScale);
 
 	//logic
 
@@ -206,85 +209,171 @@ void World_levelState(World *world_p){
 	
 	}
 
-	//stop small things from appearing inside new objects x
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-		for(int j = 0; j < world_p->bodyPairs.length; j++){
+	//handle scale collisions x
+	Array collisions;
+	Array_init(&collisions, sizeof(Collision));
 
-			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
+	Array lastCollisions;
+	Array_init(&lastCollisions, sizeof(Collision));
 
-			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
-			&& i != j
-			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
-			&& bodyPair1_p->lastBody.size.x < 1
-			&& !(bodyPair1_p->collisionWeight == STATIC
-			&& bodyPair2_p->collisionWeight == MOVABLE)){
-					bodyPair1_p->body.pos.x = bodyPair1_p->lastBody.pos.x;
-					bodyPair1_p->body.size.x = bodyPair1_p->lastBody.size.x;
-			}
-		
-		}
-	}
-
-	//handle col x scaling
-	World_checkAndHandleBodyPairCollisionsX(world_p, STATIC, ALL, STATIC, NONE);
-
-	World_checkAndHandleBodyPairCollisionsX(world_p, STATIC, ALL, STATIC, NONE);
-	World_checkAndHandleBodyPairCollisionsX(world_p, STATIC, ALL_FROM_TOP, STATIC, NONE);
-	World_checkAndHandleBodyPairCollisionsX(world_p, STATIC, ALL_SWITCH_X_Y, STATIC, NONE);
-
-	World_checkAndHandleBodyPairCollisionsX(world_p, -1, ALL_FROM_TOP, -1, ALL);
-
-	World_checkAndHandleBodyPairCollisionsX(world_p, -1, ALL_SWITCH_X_Y, -1, ALL_FROM_TOP);
-
-	World_checkAndHandleBodyPairCollisionsX(world_p, -1, ALL_SWITCH_X_Y, STATIC, -1);
-
-	World_checkAndHandleBodyPairCollisionsX(world_p, MOVABLE, -1, STATIC, -1);
-
-	//check oub x
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-
-		if(bodyPair_p->body.pos.x < 0){
-			bodyPair_p->body.pos.x = 0;
-		}
-	
-	}
-
-	//check if x needs rescaling
-	bool rescaleX = false;
-
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-		for(int j = 0; j < world_p->bodyPairs.length; j++){
-
-			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
-
-			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
-			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
-			&& i != j){
-				rescaleX = true;
-			}
-		
-		}
-	}
-
-	//rescale x
-	if(rescaleX){
-
-		printf("RESCALED X\n");
+	for(int k = 0; k < 10; k++){
 
 		for(int i = 0; i < world_p->bodyPairs.length; i++){
+			for(int j = 0; j < world_p->bodyPairs.length; j++){
 
-			BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+				BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+				BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
-			bodyPair_p->body.pos.x = bodyPair_p->lastBody.pos.x;
-			bodyPair_p->body.size.x = bodyPair_p->lastBody.size.x;
+				if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+				&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
+				&& i != j){
 
+					if(bodyPair1_p->lastBody.size.x < 1
+					&& !(bodyPair1_p->collisionWeight == STATIC
+					&& bodyPair2_p->collisionWeight == MOVABLE)){
+						bodyPair1_p->body.size.x = bodyPair1_p->lastBody.size.x;
+						bodyPair1_p->body.pos.x = bodyPair1_p->lastBody.pos.x;
+						continue;
+					}
+
+					int weakBodyPair = 1;
+
+					bool bodyPair1IsMovable = false;
+					bool bodyPair2IsMovable = false;
+
+					if(bodyPair1_p->collisionWeight == MOVABLE){
+						bodyPair1IsMovable = true;
+					}
+					if(bodyPair2_p->collisionWeight == MOVABLE){
+						bodyPair2IsMovable = true;
+					}
+
+					for(int h = 0; h < lastCollisions.length; h++){
+
+						Collision *collision_p = Array_getItemPointerByIndex(&lastCollisions, h);
+						BodyPair *bodyPair3_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision_p->heavierBodyPairIndex);
+
+						if(bodyPair3_p->collisionWeight == STATIC){
+							if(collision_p->lighterBodyPairIndex == i){
+								bodyPair1IsMovable = false;
+							}
+							if(collision_p->lighterBodyPairIndex == j){
+								bodyPair2IsMovable = false;
+							}
+						}
+					
+					}
+
+					if(bodyPair1_p->collisionWeight == MOVABLE
+					&& BodyPair_isScalable(bodyPair1_p)){
+						bodyPair1IsMovable = true;
+					}
+					if(bodyPair2_p->collisionWeight == MOVABLE
+					&& BodyPair_isScalable(bodyPair2_p)){
+						bodyPair2IsMovable = true;
+					}
+
+					if(bodyPair1_p->body.pos.x + bodyPair1_p->body.size.x < bodyPair2_p->body.pos.x + bodyPair2_p->body.size.x
+					&& world_p->deltaScale.x < 0
+					|| bodyPair1_p->body.pos.x + bodyPair1_p->body.size.x > bodyPair2_p->body.pos.x + bodyPair2_p->body.size.x
+					&& world_p->deltaScale.x > 0){
+						weakBodyPair = 1;
+					}else{
+						weakBodyPair = 2;
+					}
+
+					if(bodyPair1IsMovable){
+						weakBodyPair = 1;
+					}
+					if(bodyPair2IsMovable){
+						weakBodyPair = 2;
+					}
+
+					if(!bodyPair1IsMovable
+					&& !BodyPair_isScalable(bodyPair1_p)){
+						weakBodyPair = 2;
+					}
+					if(!bodyPair2IsMovable
+					&& !BodyPair_isScalable(bodyPair2_p)){
+						weakBodyPair = 1;
+					}
+					
+					Collision *collision_p = Array_addItem(&collisions);
+
+					if(weakBodyPair == 1){
+						collision_p->lighterBodyPairIndex = i;
+						collision_p->heavierBodyPairIndex = j;
+					}
+					if(weakBodyPair == 2){
+						collision_p->lighterBodyPairIndex = j;
+						collision_p->heavierBodyPairIndex = i;
+					}
+
+				}
+
+			}
 		}
 
-		world_p->scale.x = world_p->lastScale.x;
+		if(collisions.length == 0){
+			break;
+		}
+
+		for(int i = 0; i < collisions.length; i++){
+
+			Collision *collision_p = Array_getItemPointerByIndex(&collisions, i);
+
+			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision_p->lighterBodyPairIndex);
+			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision_p->heavierBodyPairIndex);
+
+			float bodyPairCenterX = bodyPair1_p->lastBody.pos.x + bodyPair1_p->lastBody.size.x / 2;
+			float bodyPair2CenterX = bodyPair2_p->lastBody.pos.x + bodyPair2_p->lastBody.size.x / 2;
+
+			if(bodyPairCenterX < bodyPair2CenterX){
+				bodyPair1_p->body.pos.x = bodyPair2_p->body.pos.x - bodyPair1_p->body.size.x;
+			}
+			if(bodyPairCenterX > bodyPair2CenterX){
+				bodyPair1_p->body.pos.x = bodyPair2_p->body.pos.x + bodyPair2_p->body.size.x;
+			}
+
+			if(!BodyPair_isScalable(bodyPair1_p)){
+				continue;
+			}
+
+			for(int j = 0; j < lastCollisions.length; j++){
+
+				Collision *collision2_p = Array_getItemPointerByIndex(&lastCollisions, j);
+
+				if(collision_p->lighterBodyPairIndex == collision2_p->lighterBodyPairIndex
+				&& collision_p->heavierBodyPairIndex != collision2_p->heavierBodyPairIndex){
+
+					BodyPair *bodyPair3_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision2_p->heavierBodyPairIndex);
+
+					BodyPair *leftBodyPair_p;
+					BodyPair *rightBodyPair_p;
+
+					if(bodyPair2_p->body.pos.x < bodyPair3_p->body.pos.x){
+						leftBodyPair_p = bodyPair2_p;
+						rightBodyPair_p = bodyPair3_p;
+					}else{
+						leftBodyPair_p = bodyPair3_p;
+						rightBodyPair_p = bodyPair2_p;
+					}
+
+					bodyPair1_p->body.pos.x = leftBodyPair_p->body.pos.x + leftBodyPair_p->body.size.x;
+					bodyPair1_p->body.size.x = rightBodyPair_p->body.pos.x - (leftBodyPair_p->body.pos.x + leftBodyPair_p->body.size.x);
+
+				}
+			
+			}
+			
+		}
+
+		if(k > 0){
+			Array_free(&lastCollisions);
+		}
+
+		lastCollisions = collisions;
+		Array_init(&collisions, sizeof(Collision));
 	
 	}
 
@@ -303,95 +392,173 @@ void World_levelState(World *world_p){
 	
 	}
 
-	//stop small things from appearing inside new objects y
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-		for(int j = 0; j < world_p->bodyPairs.length; j++){
+	//handle scale collisions y
+	Array_clear(&collisions);
+	Array_clear(&lastCollisions);
 
-			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
-
-			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
-			&& i != j
-			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
-			&& bodyPair1_p->lastBody.size.y < 1){
-					bodyPair1_p->body.pos.y = bodyPair1_p->lastBody.pos.y;
-					bodyPair1_p->body.size.y = bodyPair1_p->lastBody.size.y;
-			}
-		
-		}
-	}
-
-	//handle col x scaling
-	World_checkAndHandleBodyPairCollisionsY(world_p, STATIC, ALL, STATIC, NONE);
-	World_checkAndHandleBodyPairCollisionsY(world_p, STATIC, ALL_FROM_TOP, STATIC, NONE);
-	World_checkAndHandleBodyPairCollisionsY(world_p, STATIC, ALL_SWITCH_X_Y, STATIC, NONE);
-
-	World_checkAndHandleBodyPairCollisionsY(world_p, -1, ALL_FROM_TOP, -1, ALL);
-
-	World_checkAndHandleBodyPairCollisionsY(world_p, -1, ALL_SWITCH_X_Y, -1, ALL_FROM_TOP);
-
-	World_checkAndHandleBodyPairCollisionsY(world_p, -1, ALL_SWITCH_X_Y, STATIC, -1);
-
-	World_checkAndHandleBodyPairCollisionsY(world_p, MOVABLE, -1, STATIC, -1);
-
-	//check oub y
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-
-		//player dies if he falls down so he should not col with the bottom of the screen
-		if(bodyPair_p->entityHeader.ID == player_p->bodyPairID){
-			continue;
-		}
-
-		if(bodyPair_p->scaleType == ALL_FROM_TOP
-		&& bodyPair_p->body.pos.y < 0){
-			bodyPair_p->body.pos.y = 0;
-		}
-
-		if((bodyPair_p->scaleType == ALL
-		|| bodyPair_p->scaleType == ALL_SWITCH_X_Y)
-		&& bodyPair_p->body.pos.y + bodyPair_p->body.size.y > HEIGHT){
-			bodyPair_p->body.pos.y = HEIGHT - bodyPair_p->body.size.y;
-		}
-	
-	}
-
-	//check if y needs rescaling
-	bool rescaleY = false;
-
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-		for(int j = 0; j < world_p->bodyPairs.length; j++){
-
-			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
-
-			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
-			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
-			&& i != j){
-				rescaleY = true;
-			}
-		
-		}
-	}
-
-	//rescale y
-	if(rescaleY){
-
-		printf("RESCALED Y\n");
+	for(int k = 0; k < 10; k++){
 
 		for(int i = 0; i < world_p->bodyPairs.length; i++){
+			for(int j = 0; j < world_p->bodyPairs.length; j++){
 
-			BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+				BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+				BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
-			bodyPair_p->body.pos.y = bodyPair_p->lastBody.pos.y;
-			bodyPair_p->body.size.y = bodyPair_p->lastBody.size.y;
+				if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+				&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
+				&& i != j){
 
+					if(bodyPair1_p->lastBody.size.y < 1
+					&& !(bodyPair1_p->collisionWeight == STATIC
+					&& bodyPair2_p->collisionWeight == MOVABLE)){
+						bodyPair1_p->body.size.y = bodyPair1_p->lastBody.size.y;
+						bodyPair1_p->body.pos.y = bodyPair1_p->lastBody.pos.y;
+						continue;
+					}
+
+					int weakBodyPair = 1;
+
+					bool bodyPair1IsMovable = false;
+					bool bodyPair2IsMovable = false;
+
+					if(bodyPair1_p->collisionWeight == MOVABLE){
+						bodyPair1IsMovable = true;
+					}
+					if(bodyPair2_p->collisionWeight == MOVABLE){
+						bodyPair2IsMovable = true;
+					}
+
+					for(int h = 0; h < lastCollisions.length; h++){
+
+						Collision *collision_p = Array_getItemPointerByIndex(&lastCollisions, h);
+						BodyPair *bodyPair3_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision_p->heavierBodyPairIndex);
+
+						if(bodyPair3_p->collisionWeight == STATIC){
+							if(collision_p->lighterBodyPairIndex == i){
+								bodyPair1IsMovable = false;
+							}
+							if(collision_p->lighterBodyPairIndex == j){
+								bodyPair2IsMovable = false;
+							}
+						}
+					
+					}
+
+					if(bodyPair1_p->collisionWeight == MOVABLE
+					&& BodyPair_isScalable(bodyPair1_p)){
+						bodyPair1IsMovable = true;
+					}
+					if(bodyPair2_p->collisionWeight == MOVABLE
+					&& BodyPair_isScalable(bodyPair2_p)){
+						bodyPair2IsMovable = true;
+					}
+
+					if(bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y > bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y
+					&& world_p->deltaScale.y < 0
+					|| bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y < bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y
+					&& world_p->deltaScale.y > 0){
+						weakBodyPair = 1;
+					}else{
+						weakBodyPair = 2;
+					}
+
+					if(bodyPair1IsMovable){
+						weakBodyPair = 1;
+					}
+					if(bodyPair2IsMovable){
+						weakBodyPair = 2;
+					}
+
+					if(!bodyPair1IsMovable
+					&& !BodyPair_isScalable(bodyPair1_p)){
+						weakBodyPair = 2;
+					}
+					if(!bodyPair2IsMovable
+					&& !BodyPair_isScalable(bodyPair2_p)){
+						weakBodyPair = 1;
+					}
+					
+					Collision *collision_p = Array_addItem(&collisions);
+
+					if(weakBodyPair == 1){
+						collision_p->lighterBodyPairIndex = i;
+						collision_p->heavierBodyPairIndex = j;
+					}
+					if(weakBodyPair == 2){
+						collision_p->lighterBodyPairIndex = j;
+						collision_p->heavierBodyPairIndex = i;
+					}
+
+				}
+
+			}
 		}
 
-		world_p->scale.y = world_p->lastScale.y;
+		if(collisions.length == 0){
+			break;
+		}
+
+		for(int i = 0; i < collisions.length; i++){
+
+			Collision *collision_p = Array_getItemPointerByIndex(&collisions, i);
+
+			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision_p->lighterBodyPairIndex);
+			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision_p->heavierBodyPairIndex);
+
+			float bodyPairCenterY = bodyPair1_p->lastBody.pos.y + bodyPair1_p->lastBody.size.y / 2;
+			float bodyPair2CenterY = bodyPair2_p->lastBody.pos.y + bodyPair2_p->lastBody.size.y / 2;
+
+			if(bodyPairCenterY < bodyPair2CenterY){
+				bodyPair1_p->body.pos.y = bodyPair2_p->body.pos.y - bodyPair1_p->body.size.y;
+			}
+			if(bodyPairCenterY > bodyPair2CenterY){
+				bodyPair1_p->body.pos.y = bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y;
+			}
+
+			if(!BodyPair_isScalable(bodyPair1_p)){
+				continue;
+			}
+
+			for(int j = 0; j < lastCollisions.length; j++){
+
+				Collision *collision2_p = Array_getItemPointerByIndex(&lastCollisions, j);
+
+				if(collision_p->lighterBodyPairIndex == collision2_p->lighterBodyPairIndex
+				&& collision_p->heavierBodyPairIndex != collision2_p->heavierBodyPairIndex){
+
+					BodyPair *bodyPair3_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision2_p->heavierBodyPairIndex);
+
+					BodyPair *upBodyPair_p;
+					BodyPair *downBodyPair_p;
+
+					if(bodyPair2_p->body.pos.y < bodyPair3_p->body.pos.y){
+						upBodyPair_p = bodyPair2_p;
+						downBodyPair_p = bodyPair3_p;
+					}else{
+						upBodyPair_p = bodyPair3_p;
+						downBodyPair_p = bodyPair2_p;
+					}
+
+					bodyPair1_p->body.pos.y = upBodyPair_p->body.pos.y + upBodyPair_p->body.size.y;
+					bodyPair1_p->body.size.y = downBodyPair_p->body.pos.y - (upBodyPair_p->body.pos.y + upBodyPair_p->body.size.y);
+
+				}
+			
+			}
+			
+		}
+
+		if(k > 0){
+			Array_free(&lastCollisions);
+		}
+
+		lastCollisions = collisions;
+		Array_init(&collisions, sizeof(Collision));
 	
 	}
+
+	Array_free(&collisions);
+	Array_free(&lastCollisions);
 
 	//apply physics
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
