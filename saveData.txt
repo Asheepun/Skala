@@ -1,5 +1,5 @@
 :playerPos
-2978 56
+4896 167
 :doorKeys
 :doors
 :levelsWithDoorKey
@@ -16,3 +16,8 @@ layers-of-fields
 get-over-the-field
 key-in-cage-all-from-top
 point-pikaboo
+door-key-level-3
+cooler-scaling-level-2
+player-position-1
+player-position-2
+player-position-3
