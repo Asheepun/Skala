@@ -1,23 +1,12 @@
 :playerPos
-4896 167
+30 -270
 :doorKeys
 :doors
+2800 180 20 60
+3500 180 20 60
+:flags
+hello
 :levelsWithDoorKey
-:completedLevels
 get-key-up-2
 key-in-cage-all-from-top
-scale-field-2
-scale-field-1
-scale-field-3
-get-over-the-field
-layers-of-fields
-bug-testing-level
-layers-of-fields
-get-over-the-field
-key-in-cage-all-from-top
-point-pikaboo
-door-key-level-3
-cooler-scaling-level-2
-player-position-1
-player-position-2
-player-position-3
+:completedLevels

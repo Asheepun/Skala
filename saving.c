@@ -10,6 +10,7 @@
 
 enum CurrentReadMode{
 	SEARCHING,
+	FLAGS,
 	PLAYER_POS,
 	COMPLETED_LEVELS,
 	DOORS,
@@ -24,6 +25,7 @@ void SaveData_init(SaveData *saveData_p){
 	saveData_p->playerPos = getVec2f(1850, 50);
 	//saveData_p->playerHubPos = getVec2f(100, 50);
 
+	Array_init(&saveData_p->flags, sizeof(char *));
 	Array_init(&saveData_p->completedLevels, sizeof(char *));
 	Array_init(&saveData_p->levelsWithDoorKey, sizeof(char *));
 	Array_init(&saveData_p->doorKeys, sizeof(Vec2f));
@@ -44,12 +46,16 @@ void SaveData_read(SaveData *saveData_p){
 
 	//free strings
 	for(int i = 0; i < saveData_p->completedLevels.length; i++){
+		free(*((char **)Array_getItemPointerByIndex(&saveData_p->flags, i)));
+	}
+	for(int i = 0; i < saveData_p->completedLevels.length; i++){
 		free(*((char **)Array_getItemPointerByIndex(&saveData_p->completedLevels, i)));
 	}
 	for(int i = 0; i < saveData_p->levelsWithDoorKey.length; i++){
 		free(*((char **)Array_getItemPointerByIndex(&saveData_p->levelsWithDoorKey, i)));
 	}
 
+	Array_clear(&saveData_p->flags);
 	Array_clear(&saveData_p->completedLevels);
 	Array_clear(&saveData_p->levelsWithDoorKey);
 
@@ -72,6 +78,11 @@ void SaveData_read(SaveData *saveData_p){
 		}
 
 		strncpy(word, line, strlen(line) - 1);
+
+		if(strcmp(word, ":flags") == 0){
+			currentReadMode = FLAGS;
+			continue;
+		}
 
 		if(strcmp(word, ":playerPos") == 0){
 			currentReadMode = PLAYER_POS;
@@ -137,6 +148,15 @@ void SaveData_read(SaveData *saveData_p){
 
 			doorKeyPos_p->x = x;
 			doorKeyPos_p->y = y;
+
+		}
+
+		if(currentReadMode == FLAGS){
+
+			char **levelName = Array_addItem(&saveData_p->flags);
+
+			*levelName = malloc(sizeof(char) * 255);//MUST FREE (is freed at top of function)
+			memcpy(*levelName, word, strlen(word));
 
 		}
 
@@ -209,6 +229,20 @@ void SaveData_write(SaveData *saveData_p){
 		
 		}
 	}
+	
+	{
+		fputs(":flags\n", file);
+
+		for(int i = 0; i < saveData_p->flags.length; i++){
+
+			char *flag = *((char **)Array_getItemPointerByIndex(&saveData_p->flags, i));
+
+			fputs(flag, file);
+
+			fputs("\n", file);
+		
+		}
+	}
 
 	{
 		fputs(":levelsWithDoorKey\n", file);
@@ -240,4 +274,20 @@ void SaveData_write(SaveData *saveData_p){
 
 	fclose(file);
 	
+}
+
+bool SaveData_hasFlag(SaveData *saveData_p, char *flag){
+
+	for(int i = 0; i < saveData_p->flags.length; i++){
+
+		char *checkFlag = *((char **)Array_getItemPointerByIndex(&saveData_p->flags, i));
+
+		if(strcmp(checkFlag, flag) == 0){
+			return true;
+		}
+
+	}
+
+	return false;
+
 }

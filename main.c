@@ -29,8 +29,6 @@ int getPixelIndex(int x, int y){
 
 void mainLoop(){
 
-	printf("started main loop\n");
-
 	SDL_Event e;
 
 	while(!world.quit){
@@ -288,8 +286,6 @@ void drawGame(){
 
 int main(int argc, char *argv[]){
 
-	printf("started running program\n");
-
 	//set up world and game
 	World_init(&world);
 
@@ -322,8 +318,6 @@ int main(int argc, char *argv[]){
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
 	//World_switchToAndInitState(&world, LEVEL_STATE);
 
-	printf("inited world\n");
-
 	//setup SDL
 	SDL_Init(SDL_INIT_VIDEO);
 
@@ -345,8 +339,6 @@ int main(int argc, char *argv[]){
 	if(!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)){
 		printf("ERROR LOADING WITH GLAD\n");
 	}
-
-	printf("made window\n");
 
 	//set up opengl
 	glViewport(0, 0, windowWidth, windowHeight);
@@ -370,8 +362,6 @@ int main(int argc, char *argv[]){
 	glAttachShader(*shaderProgram, vertexShader);
 	glAttachShader(*shaderProgram, fragmentShader);
 	glLinkProgram(*shaderProgram);
-
-	printf("made opengl\n");
 
 	//load textures
 	char *assets[] = {
@@ -423,8 +413,6 @@ int main(int argc, char *argv[]){
 		stbi_image_free(imageData);
 	
 	}
-
-	printf("loaded textures\n");
 
 	mainLoop();
 

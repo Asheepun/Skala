@@ -10,8 +10,6 @@
 
 void World_initLevelHub(World *world_p){
 
-	printf("started generating level hub!\n");
-
 	World_restore(world_p);
 
 	world_p->playerHasLanded = false;
@@ -470,7 +468,5 @@ void World_initLevelHub(World *world_p){
 	}
 
 	SaveData_write(&world_p->saveData);
-
-	printf("done generating level hub!\n");
 
 }

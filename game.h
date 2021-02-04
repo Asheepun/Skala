@@ -216,6 +216,7 @@ typedef struct Action{
 
 typedef struct SaveData{
 	Vec2f playerPos;
+	Array flags;
 	Array completedLevels;
 	Array levelsWithDoorKey;
 	Array doorKeys;
@@ -430,5 +431,11 @@ void World_menuState(World *);
 //FILE saving.c
 
 void SaveData_init(SaveData *);
+
+void SaveData_read(SaveData *);
+
+void SaveData_write(SaveData *);
+
+bool SaveData_hasFlag(SaveData *, char *);
 
 #endif

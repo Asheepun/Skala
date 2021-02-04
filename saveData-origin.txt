@@ -4,6 +4,7 @@
 :doors
 2800 180 20 60
 3500 180 20 60
+:flags
 :levelsWithDoorKey
 get-key-up-2
 key-in-cage-all-from-top
