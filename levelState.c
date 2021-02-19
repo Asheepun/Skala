@@ -154,15 +154,44 @@ void World_levelState(World *world_p){
 
 	}
 
+	//control restart
+	if(world_p->actions[RESTART_ACTION].downed){
+
+		if(world_p->currentState == LEVEL_STATE){
+			playerBody_p->pos.y = HEIGHT * 2;
+		}
+
+		if(world_p->currentState == LEVEL_HUB_STATE){
+			playerBody_p->pos = world_p->saveData.playerPos;
+			World_initLevelHub(world_p);
+		}
+
+	}
+
 	//check if level is completed
 	if(world_p->points.length == 0
 	&& world_p->currentState == LEVEL_STATE){
 
 		//add completed level to save data
-		char **completedLevel_p = Array_addItem(&world_p->saveData.completedLevels);
-		*completedLevel_p = world_p->currentLevel;
+		{
+			bool alreadyCompleted = false;
+			for(int i = 0; i < world_p->saveData.completedLevels.length; i++){
 
-		//check if player has unlocked a door key, and if so att to save data
+				char *checkLevelName = *((char **)Array_getItemPointerByIndex(&world_p->saveData.completedLevels, i));
+
+				if(strcmp(checkLevelName, world_p->currentLevel) == 0){
+					alreadyCompleted = true;
+				}
+
+			}
+
+			if(!alreadyCompleted){
+				char **completedLevel_p = Array_addItem(&world_p->saveData.completedLevels);
+				*completedLevel_p = world_p->currentLevel;
+			}
+		}
+
+		//check if player has unlocked a door key, and if so add to save data
 		for(int i = 0; i < world_p->saveData.levelsWithDoorKey.length; i++){
 			
 			char *levelName_p = *((char **)Array_getItemPointerByIndex(&world_p->saveData.levelsWithDoorKey, i));
@@ -521,10 +550,11 @@ void World_levelState(World *world_p){
 
 			}
 
-			if(bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y > HEIGHT
+			if((bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y > HEIGHT
 			&& bodyPair1_p->scaleType != ALL_FROM_TOP
 			|| bodyPair1_p->body.pos.y < 0
-			&& bodyPair1_p->scaleType == ALL_FROM_TOP){
+			&& bodyPair1_p->scaleType == ALL_FROM_TOP)
+			&& bodyPair1_p->entityHeader.ID != world_p->player.bodyPairID){
 				printf("OUB COLLISION Y!\n");
 				printf("%f, %f\n", bodyPair1_p->body.pos.y, bodyPair1_p->body.size.y);
 				Collision *collision_p = Array_addItem(&collisions);
@@ -549,9 +579,9 @@ void World_levelState(World *world_p){
 			if(collision_p->oub){
 				BodyPair oubBodyPair;
 				Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, 0));
-				if(bodyPair1_p->scaleType == ALL_FROM_TOP){
-					oubBodyPair.body.pos.y = 0;
-				}
+				//if(bodyPair1_p->scaleType == ALL_FROM_TOP){
+					//oubBodyPair.body.pos.y = 0;
+				//}
 				oubBodyPair.lastBody = oubBodyPair.body;
 				bodyPair2_p = &oubBodyPair;
 			}
@@ -579,12 +609,12 @@ void World_levelState(World *world_p){
 
 					BodyPair *bodyPair3_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision2_p->heavierBodyPairIndex);
 
-					if(collision_p->oub){
+					if(collision2_p->oub){
 						BodyPair oubBodyPair;
 						Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, 0));
-						if(bodyPair1_p->scaleType == ALL_FROM_TOP){
-							oubBodyPair.body.pos.y = 0;
-						}
+						//if(bodyPair1_p->scaleType == ALL_FROM_TOP){
+							//oubBodyPair.body.pos.y = 0;
+						//}
 						oubBodyPair.lastBody = oubBodyPair.body;
 						bodyPair3_p = &oubBodyPair;
 					}
@@ -997,6 +1027,8 @@ void World_levelState(World *world_p){
 
 		//world_p->renderer.offset.y = round(HEIGHT / 2 - playerBodyPair_p->body.pos.y);
 
+		float cameraSpeedY = 20;
+
 		if(playerBodyPair_p->body.pos.y > 0){
 			world_p->cameraTarget.y = 0;
 		}
@@ -1014,6 +1046,13 @@ void World_levelState(World *world_p){
 
 			world_p->cameraTarget.y = HEIGHT + 70;
 
+			if(playerBodyPair_p->body.pos.y < -HEIGHT * 1.5){
+				world_p->cameraTarget.y = HEIGHT * 2;
+			}
+			if(playerBodyPair_p->body.pos.y < -HEIGHT * 2){
+				world_p->cameraTarget.y = HEIGHT * 2.8;
+			}
+
 			if(playerBodyPair_p->body.pos.y > 140 - HEIGHT){
 				world_p->cameraTarget.y = HEIGHT - 70;
 			}
@@ -1026,7 +1065,23 @@ void World_levelState(World *world_p){
 
 		}
 
-		world_p->cameraPos.y += -(world_p->cameraPos.y - world_p->cameraTarget.y) / 20;
+		if(playerBodyPair_p->body.pos.y < -HEIGHT * 2.8 + 100){
+			world_p->cameraTarget.y = -playerBodyPair_p->body.pos.y + HEIGHT - 100;
+			cameraSpeedY = 10;
+		}
+		if(playerBodyPair_p->body.pos.y < -HEIGHT * 3.8 + 100){
+			cameraSpeedY = 5;
+		}
+		/*
+		if(playerBodyPair_p->body.pos.y < -HEIGHT * 3){
+			world_p->cameraTarget.y = HEIGHT * 4;
+		}
+		if(playerBodyPair_p->body.pos.y < -HEIGHT * 4){
+			world_p->cameraTarget.y = HEIGHT * 5;
+		}
+		*/
+
+		world_p->cameraPos.y += -(world_p->cameraPos.y - world_p->cameraTarget.y) / cameraSpeedY;
 
 		world_p->renderer.offset.x = world_p->cameraPos.x;
 		world_p->renderer.offset.y = world_p->cameraPos.y;

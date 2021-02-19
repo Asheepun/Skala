@@ -329,6 +329,21 @@ World_generateLevel21(World *world_p){
 }
 
 World_generateLevel22(World *world_p){
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(140, 100), NONE);
+
+	World_addPoint(world_p, getVec2f(380, 170), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(300, 0), getVec2f(20, 150), NONE);
+
+	World_addDoor(world_p, getVec2f(300, 150), getVec2f(20, 60), NONE);
+
+	World_addDoorKey(world_p, getVec2f(50, 0), ALL);
+
 }
 
 World_generateLevel23(World *world_p){
@@ -454,25 +469,25 @@ World_generateLevel29(World *world_p){
 
 	World_restore(world_p);
 
-	World_initPlayer(world_p, getVec2f(30, 50), NONE);
+	World_initPlayer(world_p, getVec2f(50, 150), NONE);
 
-	World_addPoint(world_p, getVec2f(420, 230), ALL);
+	World_addPoint(world_p, getVec2f(445, 230), ALL);
 
-	World_addObstacle(world_p, getVec2f(0, 250), getVec2f(WIDTH - 100, 20), NONE);
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 60), getVec2f(120, 60), NONE);
 
-	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(WIDTH - 130, 50), NONE);
+	World_addDoorKey(world_p, getVec2f(0, 100), ALL);
 
-	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH, 20), NONE);
+	World_addDoor(world_p, getVec2f(440, HEIGHT - 70), getVec2f(20, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 100, 260), getVec2f(WIDTH - 100, 10), NONE);
+	//World_addObstacle(world_p, getVec2f(WIDTH - 60, HEIGHT - 20), getVec2f(60, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 130, 60), getVec2f(30, HEIGHT - 80), NONE);
+	//World_addObstacle(world_p, getVec2f(WIDTH - 60, HEIGHT - 20), getVec2f(60, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 20, 20), getVec2f(20, HEIGHT - 30), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 60, HEIGHT - 80), getVec2f(20, 80), NONE);
 
-	World_addDoor(world_p, getVec2f(WIDTH - 120, 20), getVec2f(20, 40), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, HEIGHT - 80), getVec2f(20, 80), NONE);
 
-	World_addDoorKey(world_p, getVec2f(200, 150), ALL);
+	World_addObstacle(world_p, getVec2f(120, HEIGHT - 10), getVec2f(WIDTH - 180, 10), NONE);
 
 }
 
@@ -486,7 +501,7 @@ World_generateLevel30(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(0, 250), getVec2f(WIDTH - 100, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(100, 50), NONE);
+	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(WIDTH - 130, 50), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH, 20), NONE);
 
@@ -512,6 +527,8 @@ World_generateLevel31(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(0, 250), getVec2f(WIDTH - 100, 20), NONE);
 
+	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(100, 50), NONE);
+
 	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH, 20), NONE);
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 100, 260), getVec2f(WIDTH - 100, 10), NONE);
@@ -527,6 +544,30 @@ World_generateLevel31(World *world_p){
 }
 
 World_generateLevel32(World *world_p){
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(30, 50), NONE);
+
+	World_addPoint(world_p, getVec2f(420, 230), ALL);
+
+	World_addObstacle(world_p, getVec2f(0, 250), getVec2f(WIDTH - 100, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 100, 260), getVec2f(WIDTH - 100, 10), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 130, 60), getVec2f(30, HEIGHT - 80), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 20), getVec2f(20, HEIGHT - 30), NONE);
+
+	World_addDoor(world_p, getVec2f(WIDTH - 120, 20), getVec2f(20, 40), NONE);
+
+	World_addDoorKey(world_p, getVec2f(200, 150), ALL);
+
+}
+
+World_generateLevel33(World *world_p){
 
 	World_restore(world_p);
 
@@ -560,7 +601,7 @@ World_generateLevel32(World *world_p){
 
 }
 
-World_generateLevel33(World *world_p){
+World_generateLevel34(World *world_p){
 
 	World_restore(world_p);
 
@@ -572,7 +613,7 @@ World_generateLevel33(World *world_p){
 
 }
 
-World_generateLevel34(World *world_p){
+World_generateLevel35(World *world_p){
 
 	World_restore(world_p);
 
@@ -584,7 +625,7 @@ World_generateLevel34(World *world_p){
 
 }
 
-World_generateLevel35(World *world_p){
+World_generateLevel36(World *world_p){
 
 	World_restore(world_p);
 
@@ -600,7 +641,7 @@ World_generateLevel35(World *world_p){
 
 }
 
-World_generateLevel36(World *world_p){
+World_generateLevel37(World *world_p){
 
 	World_restore(world_p);
 
@@ -612,7 +653,7 @@ World_generateLevel36(World *world_p){
 
 }
 
-World_generateLevel37(World *world_p){
+World_generateLevel38(World *world_p){
 
 	World_restore(world_p);
 
@@ -628,7 +669,7 @@ World_generateLevel37(World *world_p){
 
 }
 
-World_generateLevel38(World *world_p){
+World_generateLevel39(World *world_p){
 
 	World_restore(world_p);
 
@@ -658,7 +699,7 @@ World_generateLevel38(World *world_p){
 
 }
 
-World_generateLevel39(World *world_p){
+World_generateLevel40(World *world_p){
 
 	World_restore(world_p);
 
@@ -685,7 +726,7 @@ World_generateLevel39(World *world_p){
 
 }
 
-World_generateLevel40(World *world_p){
+World_generateLevel41(World *world_p){
 
 	World_restore(world_p);
 
@@ -700,7 +741,7 @@ World_generateLevel40(World *world_p){
 
 }
 
-World_generateLevel41(World *world_p){
+World_generateLevel42(World *world_p){
 
 	World_restore(world_p);
 
@@ -716,7 +757,7 @@ World_generateLevel41(World *world_p){
 
 }
 
-World_generateLevel42(World *world_p){
+World_generateLevel43(World *world_p){
 
 	World_restore(world_p);
 
@@ -736,7 +777,7 @@ World_generateLevel42(World *world_p){
 
 }
 
-World_generateLevel43(World *world_p){
+World_generateLevel44(World *world_p){
 
 	World_restore(world_p);
 
@@ -752,7 +793,7 @@ World_generateLevel43(World *world_p){
 
 }
 
-World_generateLevel44(World *world_p){
+World_generateLevel45(World *world_p){
 
 	World_restore(world_p);
 
@@ -778,7 +819,7 @@ World_generateLevel44(World *world_p){
 
 }
 
-World_generateLevel45(World *world_p){
+World_generateLevel46(World *world_p){
 
 	World_restore(world_p);
 
@@ -794,7 +835,7 @@ World_generateLevel45(World *world_p){
 
 }
 
-World_generateLevel46(World *world_p){
+World_generateLevel47(World *world_p){
 
 	World_restore(world_p);
 
@@ -812,7 +853,7 @@ World_generateLevel46(World *world_p){
 
 }
 
-World_generateLevel47(World *world_p){
+World_generateLevel48(World *world_p){
 
 	World_restore(world_p);
 
@@ -820,13 +861,15 @@ World_generateLevel47(World *world_p){
 
 	World_initPlayer(world_p, getVec2f(50, 190), ALL);
 
-	World_addPoint(world_p, getVec2f(380, 150), NONE);
+	World_addPoint(world_p, getVec2f(WIDTH / 2 + 100, 50), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
 
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT - 60), NONE);
+
 }
 
-World_generateLevel48(World *world_p){
+World_generateLevel49(World *world_p){
 
 	World_restore(world_p);
 
@@ -844,7 +887,7 @@ World_generateLevel48(World *world_p){
 
 }
 
-World_generateLevel49(World *world_p){
+World_generateLevel50(World *world_p){
 
 	World_restore(world_p);
 
@@ -862,7 +905,7 @@ World_generateLevel49(World *world_p){
 
 }
 
-World_generateLevel50(World *world_p){
+World_generateLevel51(World *world_p){
 
 	World_restore(world_p);
 
@@ -892,7 +935,7 @@ World_generateLevel50(World *world_p){
 
 }
 
-World_generateLevel51(World *world_p){
+World_generateLevel52(World *world_p){
 
 	World_restore(world_p);
 
@@ -900,9 +943,9 @@ World_generateLevel51(World *world_p){
 
 	World_initPlayer(world_p, getVec2f(1, 150), NONE);
 
-	World_addPoint(world_p, getVec2f(WIDTH - 20, 160), NONE);
+	World_addPoint(world_p, getVec2f(WIDTH - 20, 150), NONE);
 
-	World_addObstacle(world_p, getVec2f(60, 170), getVec2f(140, 20), NONE);
+	World_addObstacle(world_p, getVec2f(70, 170), getVec2f(190, 20), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 230), getVec2f(260, 40), NONE);
 
@@ -910,15 +953,108 @@ World_generateLevel51(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(40, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(240, 190), getVec2f(20, 20), NONE);
+	//World_addObstacle(world_p, getVec2f(240, 190), getVec2f(20, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(220, 210), getVec2f(40, 20), NONE);
+	//World_addObstacle(world_p, getVec2f(220, 210), getVec2f(40, 20), NONE);
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 40, 190), getVec2f(40, 100), NONE);
 
-	World_addScaleField(world_p, getVec2f(100, 150), getVec2f(60, 20), ALL);
+	World_addScaleField(world_p, getVec2f(130, 150), getVec2f(40, 20), ALL);
 
-	World_addScaleField(world_p, getVec2f(100, 210), getVec2f(20, 20), ALL);
+	World_addObstacle(world_p, getVec2f(130, 130), getVec2f(40, 20), NONE);
+
+	//World_addScaleField(world_p, getVec2f(100, 210), getVec2f(20, 20), ALL);
+
+}
+
+World_generateLevel53(World *world_p){
+
+	World_restore(world_p);
+
+	world_p->scalingByPlayerPosition = true;
+
+	World_initPlayer(world_p, getVec2f(50, 0), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 50), getVec2f(100, 40), NONE);
+
+	World_addPoint(world_p, getVec2f(10, 190), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 150), getVec2f(60, 20), NONE);
+
+	World_addDoor(world_p, getVec2f(40, 170), getVec2f(20, 60), NONE);
+
+	World_addDoorKey(world_p, getVec2f(400, 150), ALL_FROM_TOP);
+
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 40), getVec2f(WIDTH, 40), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT - 40), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 140, 60), getVec2f(20, HEIGHT - 100), NONE);
+
+}
+
+World_generateLevel54(World *world_p){
+
+	World_restore(world_p);
+
+	world_p->scalingByPlayerPosition = true;
+
+	World_initPlayer(world_p, getVec2f(50, 0), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 50), getVec2f(100, 40), NONE);
+
+	World_addPoint(world_p, getVec2f(10, 190), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 150), getVec2f(60, 20), NONE);
+
+	World_addDoor(world_p, getVec2f(40, 170), getVec2f(20, 60), NONE);
+
+	World_addDoorKey(world_p, getVec2f(400, 150), ALL_FROM_TOP);
+
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 40), getVec2f(WIDTH, 40), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT - 40), NONE);
+
+	World_addDoor(world_p, getVec2f(WIDTH - 300, 0), getVec2f(20, 180), NONE);
+
+	World_addDoor(world_p, getVec2f(WIDTH - 140, 110), getVec2f(20, 120), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 140, 70), getVec2f(20, 40), NONE);
+
+}
+
+World_generateLevel55(World *world_p){
+
+	World_restore(world_p);
+
+	world_p->scalingByPlayerPosition = true;
+
+	World_initPlayer(world_p, getVec2f(50, 0), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 50), getVec2f(100, 40), NONE);
+
+	World_addPoint(world_p, getVec2f(10, 190), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 150), getVec2f(60, 20), NONE);
+
+	World_addDoor(world_p, getVec2f(40, 170), getVec2f(20, 60), NONE);
+
+	World_addDoorKey(world_p, getVec2f(400, 150), ALL_FROM_TOP);
+
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 40), getVec2f(WIDTH, 40), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT - 40), NONE);
+
+	//World_addDoor(world_p, getVec2f(WIDTH - 300, 0), getVec2f(20, 180), NONE);
+
+	//World_addDoor(world_p, getVec2f(WIDTH - 140, 110), getVec2f(20, 120), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 120, 70), getVec2f(20, HEIGHT - 110), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 170, 0), getVec2f(10, 150), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 240, 120), getVec2f(20, HEIGHT - 160), NONE);
+
 
 
 	//World_restore(world_p);

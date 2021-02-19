@@ -291,3 +291,10 @@ bool SaveData_hasFlag(SaveData *saveData_p, char *flag){
 	return false;
 
 }
+
+void SaveData_addFlag(SaveData *saveData_p, char *flag){
+	if(!SaveData_hasFlag(saveData_p, flag)){
+		char **flag_p = Array_addItem(&saveData_p->flags);
+		*flag_p = flag;
+	}
+}

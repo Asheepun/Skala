@@ -63,10 +63,12 @@ enum SpriteType{
 };
 
 enum SpriteLayer{
-	GAME_LAYER_WALLS,
 	GAME_LAYER_BACKGROUND,
+	GAME_LAYER_WALLS,
+	GAME_LAYER_OBSTACLES,
 	GAME_LAYER_FOREGROUND,
 	GAME_LAYER_TEXT,
+	GAME_LAYER_PARTICLES,
 	MENU_LAYER_BACKGROUND,
 	MENU_LAYER_FOREGROUND,
 	MENU_LAYER_TEXT,
@@ -77,6 +79,14 @@ enum WorldState{
 	LEVEL_SELECT_STATE,
 	LEVEL_HUB_STATE,
 	MENU_STATE,
+};
+
+enum LevelHubRoom{
+	FIRST_SCALE_ROOM,
+	DOOR_KEY_ROOM,
+	ALL_FROM_TOP_ROOM,
+	SCALE_FIELD_ROOM,
+	PLAYER_POSITION_ROOM,
 };
 
 //structs
@@ -199,6 +209,13 @@ typedef struct LevelDoor{
 	size_t spriteID;
 }LevelDoor;
 
+typedef struct Particle{
+	EntityHeader entityHeader;
+	Body body;
+	Physics physics;
+	size_t spriteID;
+}Particle;
+
 typedef struct Key{
 	bool down;
 	bool downed;
@@ -230,6 +247,8 @@ typedef struct World{
 	Action actions[16];
 
 	SaveData saveData;
+	Array roomLevels[5];
+	bool addedRoomLevels;
 
 	//Font fonts[16];
 	Array fonts;
@@ -274,6 +293,7 @@ typedef struct World{
 	Array doorKeys;
 	Array scaleFields;
 	Array levelDoors;
+	Array particles;
 
 	Array spriteLayers[NUMBER_OF_SPRITE_LAYERS];
 
@@ -319,6 +339,8 @@ static const Vec4f COLOR_GREEN_BACKGROUND 	= { 0.00, 		0.5, 		0.00, 		1 };
 static const Vec4f COLOR_YELLOW_BACKGROUND 	= { 0.5, 		0.5, 		0.00, 		1 };
 static const Vec4f COLOR_PURPLE_BACKGROUND 	= { 0.5, 		0.00, 		0.5, 		1 };
 
+static const Vec4f COLOR_BLACK_WALL 		= { 0.05, 		0.05, 		0.05, 		1 };
+
 static const Vec4f SCALE_TYPE_COLORS[] = {
 	COLOR_WHITE, 	//none scalable
 	COLOR_GREEN, 	//scalable all
@@ -355,7 +377,8 @@ size_t World_addPoint(World *, Vec2f, enum ScaleType);
 size_t World_addDoor(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addDoorKey(World *, Vec2f, enum ScaleType);
 size_t World_addScaleField(World *, Vec2f, Vec2f, enum ScaleType);
-size_t World_addLevelDoor(World *, Vec2f, char *);
+size_t World_addLevelDoor(World *, Vec2f, char *, enum LevelHubRoom);
+size_t World_addParticle(World *, Vec2f, Vec2f, char *);
 
 void World_removeSpriteByID(World *, size_t);
 void World_removeButtonByID(World *, size_t);
@@ -437,5 +460,7 @@ void SaveData_read(SaveData *);
 void SaveData_write(SaveData *);
 
 bool SaveData_hasFlag(SaveData *, char *);
+
+void SaveData_addFlag(SaveData *, char *);
 
 #endif

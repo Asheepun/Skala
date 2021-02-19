@@ -168,6 +168,12 @@ void drawGame(){
 
 	//draw sprite layers
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
+
+		if(i == GAME_LAYER_PARTICLES){
+
+			continue;
+		}
+
 		for(int j = 0; j < world.spriteLayers[i].length; j++){
 
 			Sprite *sprite_p = Array_getItemPointerByIndex(&world.spriteLayers[i], j);
@@ -412,6 +418,63 @@ int main(int argc, char *argv[]){
 
 		stbi_image_free(imageData);
 	
+	}
+
+	//make star background texture
+	{
+
+		OpenglUtils_Texture *texture_p = Array_addItem(&world.textures);
+
+		texture_p->name = "star-background";
+
+		int width = 5000;
+		int height = HEIGHT * 3;
+
+		unsigned char *data = malloc((width * height) * sizeof(char) * 4);
+		memset(data, 0, (width * height) * sizeof(char) * 4);
+
+		int x = 1;
+		int a = 65521;
+		int c = 0;
+		int m = 17364;
+
+		for(int i = 0; i < 100000; i++){
+
+			x = (a * x + c) % m;
+			float r = (float)x;
+			r /= m;
+
+			Vec2f pos;
+			pos.x = (int)(r * width);
+
+			x = (a * x + c) % m;
+			r = (float)x;
+			r /= m;
+
+			pos.y = (int)(r * height);
+
+			int index = width * pos.y + pos.x;
+
+			data[index * 4] = 255;
+			data[index * 4 + 1] = 255;
+			data[index * 4 + 2] = 255;
+			data[index * 4 + 3] = 255;
+
+		}
+
+		glGenTextures(1, &texture_p->ID);
+
+		glBindTexture(GL_TEXTURE_2D, texture_p->ID);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		free(data);
+		
 	}
 
 	mainLoop();

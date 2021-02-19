@@ -18,6 +18,11 @@ void World_init(World *world_p){
 
 	SaveData_read(&world_p->saveData);
 
+	for(int i = 0; i < 5; i++){
+		Array_init(&world_p->roomLevels[i], sizeof(char *));
+	}
+	world_p->addedRoomLevels = false;
+
 	Array_init(&world_p->fonts, sizeof(Font));
 
 	Array_init(&world_p->textures, sizeof(OpenglUtils_Texture));
@@ -30,6 +35,7 @@ void World_init(World *world_p){
 	Array_init(&world_p->doorKeys, sizeof(DoorKey));
 	Array_init(&world_p->scaleFields, sizeof(ScaleField));
 	Array_init(&world_p->levelDoors, sizeof(LevelDoor));
+	Array_init(&world_p->particles, sizeof(Particle));
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 		Array_init(&world_p->spriteLayers[i], sizeof(Sprite));
@@ -83,6 +89,7 @@ void World_restore(World *world_p){
 	Array_clear(&world_p->doorKeys);
 	Array_clear(&world_p->scaleFields);
 	Array_clear(&world_p->levelDoors);
+	Array_clear(&world_p->particles);
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 		Array_clear(&world_p->spriteLayers[i]);
@@ -246,7 +253,7 @@ size_t World_addObstacle(World *world_p, Vec2f pos, Vec2f size, enum ScaleType s
 
 	Physics_init(&obstacle_p->physics);
 
-	obstacle_p->spriteID = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[scaleType], "obstacle", 1, GAME_LAYER_BACKGROUND);
+	obstacle_p->spriteID = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[scaleType], "obstacle", 1, GAME_LAYER_OBSTACLES);
 
 	Sprite *sprite_p = World_getSpriteByID(world_p, obstacle_p->spriteID);
 	//sprite_p->borderSize = getVec2f(5, 5);
@@ -337,7 +344,7 @@ size_t World_addScaleField(World *world_p, Vec2f pos, Vec2f size, enum ScaleType
 
 }
 
-size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName){
+size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum LevelHubRoom levelHubRoom){
 
 	LevelDoor *levelDoor_p = Array_addItem(&world_p->levelDoors);
 
@@ -349,7 +356,29 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName){
 
 	levelDoor_p->spriteID = World_addSprite(world_p, pos, levelDoor_p->body.size, COLOR_WHITE, "level-door", 1, GAME_LAYER_FOREGROUND);
 
+	if(!world_p->addedRoomLevels){
+
+		char **roomName_p = Array_addItem(&world_p->roomLevels[levelHubRoom]);
+		*roomName_p = levelName;
+		
+	}
+
 	return levelDoor_p->entityHeader.ID;
+
+}
+
+size_t World_addParticle(World *world_p, Vec2f pos, Vec2f size, char *spriteName){
+
+	Particle *particle_p = Array_addItem(&world_p->particles);
+
+	EntityHeader_init(&particle_p->entityHeader);
+
+	Body_init(&particle_p->body, pos, size);
+
+	particle_p->spriteID = World_addSprite(world_p, particle_p->body.pos, particle_p->body.size, COLOR_WHITE, spriteName, 1, GAME_LAYER_PARTICLES);
+
+	return particle_p->entityHeader.ID;
+
 
 }
 
@@ -420,6 +449,10 @@ BodyPair *World_getBodyPairByID(World *world_p, size_t ID){
 Sprite *World_getSpriteByID(World *world_p, size_t ID){
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
+
+		if(i == GAME_LAYER_PARTICLES){
+			continue;
+		}
 
 		Sprite *sprite_p = Array_getItemPointerByID(&world_p->spriteLayers[i], ID);
 
@@ -559,11 +592,34 @@ Body BodyPair_getDeltaBody(BodyPair bodyPair){
 
 }
 
+bool isBetween(float a, float b, float c){
+	return a > b && a < c
+		|| a > c && a < b;
+}
+
 bool checkBodyPairToBodyPairCollision(BodyPair bodyPair1, BodyPair bodyPair2){
 	
 	if(/*checkBodyToBodyColCastToInt(BodyPair_getDeltaBody(bodyPair1), BodyPair_getDeltaBody(bodyPair2))*/true){
 
-		if(checkBodyToBodyColRoundFloats(bodyPair1.body, bodyPair2.body)){
+		if(checkBodyToBodyColRoundFloats(bodyPair1.body, bodyPair2.body)
+
+		//|| checkBodyToBodyColRoundFloats(BodyPair_getDeltaBody(bodyPair1), BodyPair_getDeltaBody(bodyPair2))
+
+		//&& !(
+			
+		//)
+
+		//&& !(bodyPair1.lastBody.pos.x < 
+		
+		//|| (bodyPair1.body.pos.x + bodyPair1.body.size.x > bodyPair2.body.pos.x
+		//&& bodyPair1.body.pos.x < bodyPair2.body.pos.x + bodyPair2.body.size.x
+		//&& bodyPair1.body.size.x >= 1 && bodyPair2.body.size.x >= 1
+		//&& bodyPair1.body.size.y >= 1 && bodyPair2.body.size.y >= 1)
+//
+		//&& (bodyPair1.body.pos.y > bodyPair2.body.pos.y && bodyPair1.body.pos.y > bodyPair2.lastBody.pos.y
+			//
+		//)
+			){
 		//&& bodyPair1.lastBody.size.x >= 1 && bodyPair2.lastBody.size.x >= 1//make it so that small things don't appear on the wrong side when they are scaled up
 		//&& bodyPair1.lastBody.size.y >= 1 && bodyPair2.lastBody.size.y >= 1){
 			return true;

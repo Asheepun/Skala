@@ -319,9 +319,25 @@ door-key-level-2
 	World_addObstacle(world_p, getVec2f(0, 50), getVec2f(120, 20), NONE);
 
 :levelName
+door-key-level-3
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(140, 100), NONE);
+
+	World_addPoint(world_p, getVec2f(380, 170), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(300, 0), getVec2f(20, 150), NONE);
+
+	World_addDoor(world_p, getVec2f(300, 150), getVec2f(20, 60), NONE);
+
+	World_addDoorKey(world_p, getVec2f(50, 0), ALL);
 
 :levelName
-door-key-level-3
+key-in-box
 :levelCode
 
 	World_restore(world_p);
@@ -459,6 +475,32 @@ push-key-with-point
 	World_addDoor(world_p, getVec2f(310, 150), getVec2f(20, 60), NONE);
 
 	World_addDoorKey(world_p, getVec2f(220, 50), NONE);
+
+:levelName
+throw-key
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(50, 150), NONE);
+
+	World_addPoint(world_p, getVec2f(445, 230), ALL);
+
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 60), getVec2f(120, 60), NONE);
+
+	World_addDoorKey(world_p, getVec2f(0, 100), ALL);
+
+	World_addDoor(world_p, getVec2f(440, HEIGHT - 70), getVec2f(20, 20), NONE);
+
+	//World_addObstacle(world_p, getVec2f(WIDTH - 60, HEIGHT - 20), getVec2f(60, 20), NONE);
+
+	//World_addObstacle(world_p, getVec2f(WIDTH - 60, HEIGHT - 20), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 60, HEIGHT - 80), getVec2f(20, 80), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, HEIGHT - 80), getVec2f(20, 80), NONE);
+
+	World_addObstacle(world_p, getVec2f(120, HEIGHT - 10), getVec2f(WIDTH - 180, 10), NONE);
 
 :levelName
 maybe-key-should-fly
@@ -832,9 +874,11 @@ player-position-3
 
 	World_initPlayer(world_p, getVec2f(50, 190), ALL);
 
-	World_addPoint(world_p, getVec2f(380, 150), NONE);
+	World_addPoint(world_p, getVec2f(WIDTH / 2 + 100, 50), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT - 60), NONE);
 
 :levelName
 slide-slide-slide
@@ -912,9 +956,9 @@ airport-control
 
 	World_initPlayer(world_p, getVec2f(1, 150), NONE);
 
-	World_addPoint(world_p, getVec2f(WIDTH - 20, 160), NONE);
+	World_addPoint(world_p, getVec2f(WIDTH - 20, 150), NONE);
 
-	World_addObstacle(world_p, getVec2f(60, 170), getVec2f(140, 20), NONE);
+	World_addObstacle(world_p, getVec2f(70, 170), getVec2f(190, 20), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 230), getVec2f(260, 40), NONE);
 
@@ -922,15 +966,108 @@ airport-control
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(40, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(240, 190), getVec2f(20, 20), NONE);
+	//World_addObstacle(world_p, getVec2f(240, 190), getVec2f(20, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(220, 210), getVec2f(40, 20), NONE);
+	//World_addObstacle(world_p, getVec2f(220, 210), getVec2f(40, 20), NONE);
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 40, 190), getVec2f(40, 100), NONE);
 
-	World_addScaleField(world_p, getVec2f(100, 150), getVec2f(60, 20), ALL);
+	World_addScaleField(world_p, getVec2f(130, 150), getVec2f(40, 20), ALL);
 
-	World_addScaleField(world_p, getVec2f(100, 210), getVec2f(20, 20), ALL);
+	World_addObstacle(world_p, getVec2f(130, 130), getVec2f(40, 20), NONE);
+
+	//World_addScaleField(world_p, getVec2f(100, 210), getVec2f(20, 20), ALL);
+
+:levelName
+player-position-jumping-key-1
+:levelCode
+
+	World_restore(world_p);
+
+	world_p->scalingByPlayerPosition = true;
+
+	World_initPlayer(world_p, getVec2f(50, 0), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 50), getVec2f(100, 40), NONE);
+
+	World_addPoint(world_p, getVec2f(10, 190), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 150), getVec2f(60, 20), NONE);
+
+	World_addDoor(world_p, getVec2f(40, 170), getVec2f(20, 60), NONE);
+
+	World_addDoorKey(world_p, getVec2f(400, 150), ALL_FROM_TOP);
+
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 40), getVec2f(WIDTH, 40), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT - 40), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 140, 60), getVec2f(20, HEIGHT - 100), NONE);
+
+:levelName
+player-position-jumping-key-2
+:levelCode
+
+	World_restore(world_p);
+
+	world_p->scalingByPlayerPosition = true;
+
+	World_initPlayer(world_p, getVec2f(50, 0), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 50), getVec2f(100, 40), NONE);
+
+	World_addPoint(world_p, getVec2f(10, 190), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 150), getVec2f(60, 20), NONE);
+
+	World_addDoor(world_p, getVec2f(40, 170), getVec2f(20, 60), NONE);
+
+	World_addDoorKey(world_p, getVec2f(400, 150), ALL_FROM_TOP);
+
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 40), getVec2f(WIDTH, 40), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT - 40), NONE);
+
+	World_addDoor(world_p, getVec2f(WIDTH - 300, 0), getVec2f(20, 180), NONE);
+
+	World_addDoor(world_p, getVec2f(WIDTH - 140, 110), getVec2f(20, 120), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 140, 70), getVec2f(20, 40), NONE);
+
+:levelName
+player-position-jumping-key-3
+:levelCode
+
+	World_restore(world_p);
+
+	world_p->scalingByPlayerPosition = true;
+
+	World_initPlayer(world_p, getVec2f(50, 0), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 50), getVec2f(100, 40), NONE);
+
+	World_addPoint(world_p, getVec2f(10, 190), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 150), getVec2f(60, 20), NONE);
+
+	World_addDoor(world_p, getVec2f(40, 170), getVec2f(20, 60), NONE);
+
+	World_addDoorKey(world_p, getVec2f(400, 150), ALL_FROM_TOP);
+
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 40), getVec2f(WIDTH, 40), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT - 40), NONE);
+
+	//World_addDoor(world_p, getVec2f(WIDTH - 300, 0), getVec2f(20, 180), NONE);
+
+	//World_addDoor(world_p, getVec2f(WIDTH - 140, 110), getVec2f(20, 120), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 120, 70), getVec2f(20, HEIGHT - 110), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 170, 0), getVec2f(10, 150), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 240, 120), getVec2f(20, HEIGHT - 160), NONE);
+
 
 //:levelName
 //shrinking-death-dive
