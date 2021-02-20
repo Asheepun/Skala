@@ -169,10 +169,12 @@ void drawGame(){
 	//draw sprite layers
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 
+		/*
 		if(i == GAME_LAYER_PARTICLES){
 
 			continue;
 		}
+		*/
 
 		for(int j = 0; j < world.spriteLayers[i].length; j++){
 

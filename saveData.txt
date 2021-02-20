@@ -1,5 +1,5 @@
 :playerPos
-30 -270
+2148 136
 :doorKeys
 :doors
 2800 180 20 60
@@ -9,3 +9,4 @@
 get-key-up-2
 key-in-cage-all-from-top
 :completedLevels
+level-3

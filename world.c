@@ -367,13 +367,18 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 
 }
 
-size_t World_addParticle(World *world_p, Vec2f pos, Vec2f size, char *spriteName){
+size_t World_addParticle(World *world_p, Vec2f pos, Vec2f size, char *spriteName, int activationTime){
 
 	Particle *particle_p = Array_addItem(&world_p->particles);
 
 	EntityHeader_init(&particle_p->entityHeader);
 
 	Body_init(&particle_p->body, pos, size);
+	Physics_init(&particle_p->physics, pos, size);
+
+	particle_p->physics.velocity.y = -2;
+	particle_p->targeting = false;
+	particle_p->activationCounter = activationTime;
 
 	particle_p->spriteID = World_addSprite(world_p, particle_p->body.pos, particle_p->body.size, COLOR_WHITE, spriteName, 1, GAME_LAYER_PARTICLES);
 
@@ -442,6 +447,16 @@ void World_removeDoorKeyByID(World *world_p, size_t ID){
 
 }
 
+void World_removeParticleByID(World *world_p, size_t ID){
+
+	Particle *particle_p = Array_getItemPointerByID(&world_p->particles, ID);
+	
+	World_removeSpriteByID(world_p, particle_p->spriteID);
+
+	Array_removeItemByID(&world_p->particles, ID);
+
+}
+
 BodyPair *World_getBodyPairByID(World *world_p, size_t ID){
 	return Array_getItemPointerByID(&world_p->bodyPairs, ID);
 }
@@ -450,9 +465,9 @@ Sprite *World_getSpriteByID(World *world_p, size_t ID){
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 
-		if(i == GAME_LAYER_PARTICLES){
-			continue;
-		}
+		//if(i == GAME_LAYER_PARTICLES){
+			//continue;
+		//}
 
 		Sprite *sprite_p = Array_getItemPointerByID(&world_p->spriteLayers[i], ID);
 

@@ -213,6 +213,8 @@ typedef struct Particle{
 	EntityHeader entityHeader;
 	Body body;
 	Physics physics;
+	bool targeting;
+	int activationCounter;
 	size_t spriteID;
 }Particle;
 
@@ -378,13 +380,14 @@ size_t World_addDoor(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addDoorKey(World *, Vec2f, enum ScaleType);
 size_t World_addScaleField(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addLevelDoor(World *, Vec2f, char *, enum LevelHubRoom);
-size_t World_addParticle(World *, Vec2f, Vec2f, char *);
+size_t World_addParticle(World *, Vec2f, Vec2f, char *, int);
 
 void World_removeSpriteByID(World *, size_t);
 void World_removeButtonByID(World *, size_t);
 void World_removePointByID(World *, size_t);
 void World_removeDoorByID(World *, size_t);
 void World_removeDoorKeyByID(World *, size_t);
+void World_removeParticleByID(World *, size_t);
 
 BodyPair *World_getBodyPairByID(World *, size_t);
 Sprite *World_getSpriteByID(World *, size_t);

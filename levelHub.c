@@ -572,4 +572,22 @@ void World_initLevelHub(World *world_p){
 
 	world_p->addedRoomLevels = true;
 
+	
+
+	//open gate particle effect
+	for(int i = 0; i < world_p->levelDoors.length; i++){
+
+		LevelDoor *levelDoor_p = Array_getItemPointerByIndex(&world_p->levelDoors, i);
+
+		World_getSpriteByID(world_p, levelDoor_p->spriteID)->texture = "level-door";
+		World_getSpriteByID(world_p, levelDoor_p->spriteID)->color = COLOR_GREY;
+
+		Vec2f pos = levelDoor_p->body.pos;
+		//pos.x += 5;
+		//pos.y += 3;
+
+		World_addParticle(world_p, pos, getVec2f(20, 15), "level-door-completed", i * 10);
+		
+	}
+
 }

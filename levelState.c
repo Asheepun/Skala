@@ -918,6 +918,61 @@ void World_levelState(World *world_p){
 	
 	}
 
+	//update particles
+	for(int i = 0; i < world_p->particles.length; i++){
+
+		Particle *particle_p = Array_getItemPointerByIndex(&world_p->particles, i);
+
+		if(particle_p->activationCounter == 0){
+			particle_p->body.pos.x += 5;
+			particle_p->body.pos.y += 3;
+			particle_p->body.size.x = 10;
+			particle_p->body.size.y = 10;
+			World_getSpriteByID(world_p, particle_p->spriteID)->texture = "point";
+		}
+
+		particle_p->activationCounter--;
+
+		if(particle_p->activationCounter > 0){
+			continue;
+		}
+
+		particle_p->physics.acceleration.y = 0.05;
+
+		if(particle_p->physics.velocity.y > 1.5){
+
+			if(!particle_p->targeting){
+				particle_p->physics.velocity.x += 7;
+				particle_p->physics.velocity.y -= 2.5;
+			}
+
+			particle_p->targeting = true;
+
+		}
+
+		if(particle_p->targeting){
+
+			Vec2f target = { 0, 250 };
+
+			particle_p->physics.acceleration = target;
+			Vec2f_sub(&particle_p->physics.acceleration, &particle_p->body.pos);
+			Vec2f_normalize(&particle_p->physics.acceleration);
+			Vec2f_mulByFactor(&particle_p->physics.acceleration, 0.8);
+		
+		}
+
+		Vec2f_add(&particle_p->physics.velocity, &particle_p->physics.acceleration);
+
+		particle_p->body.pos.y += particle_p->physics.velocity.y;
+		particle_p->body.pos.x += particle_p->physics.velocity.x;
+
+		if(particle_p->body.pos.x < 0){
+			World_removeParticleByID(world_p, particle_p->entityHeader.ID);
+			i--;
+		}
+	
+	}
+
 	//update sprites
 
 	//update obstacle sprites
@@ -992,14 +1047,30 @@ void World_levelState(World *world_p){
 
 		ScaleField *scaleField_p = Array_getItemPointerByIndex(&world_p->scaleFields, i);
 
-		//BodyPair *scaleFieldBodyPair_p = World_getBodyPairByID(world_p, scaleField_p->bodyPairID);
-
 		Sprite *sprite_p = World_getSpriteByID(world_p, scaleField_p->spriteID);
 
-		//sprite_p->body = scaleFieldBodyPair_p->body;
 		sprite_p->body = scaleField_p->body;
 
 		sprite_p->color = SCALE_TYPE_COLORS[scaleField_p->scaleType];
+
+	}
+
+	//update particle sprites
+	for(int i = 0; i < world_p->particles.length; i++){
+
+		Particle *particle_p = Array_getItemPointerByIndex(&world_p->particles, i);
+
+		Sprite *sprite_p = World_getSpriteByID(world_p, particle_p->spriteID);
+
+		sprite_p->body = particle_p->body;
+
+		//sprite_p->alpha = 1;
+
+		//if(particle_p->activationCounter > 0){
+			//sprite_p->alpha = 0;
+		//}
+
+		//sprite_p->color = SCALE_TYPE_COLORS[particle_p->scaleType];
 
 	}
 
