@@ -353,6 +353,7 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 	Body_init(&levelDoor_p->body, pos, getVec2f(20, 15));
 
 	levelDoor_p->levelName = levelName;
+	levelDoor_p->levelHubRoom = levelHubRoom;
 
 	levelDoor_p->spriteID = World_addSprite(world_p, pos, levelDoor_p->body.size, COLOR_WHITE, "level-door", 1, GAME_LAYER_FOREGROUND);
 
@@ -367,7 +368,7 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 
 }
 
-size_t World_addParticle(World *world_p, Vec2f pos, Vec2f size, char *spriteName, int activationTime){
+size_t World_addParticle(World *world_p, Vec2f pos, Vec2f size, char *spriteName, int activationTime, Vec4f color, Vec4f targetColor){
 
 	Particle *particle_p = Array_addItem(&world_p->particles);
 
@@ -379,8 +380,9 @@ size_t World_addParticle(World *world_p, Vec2f pos, Vec2f size, char *spriteName
 	particle_p->physics.velocity.y = -2;
 	particle_p->targeting = false;
 	particle_p->activationCounter = activationTime;
+	particle_p->targetColor = targetColor;
 
-	particle_p->spriteID = World_addSprite(world_p, particle_p->body.pos, particle_p->body.size, COLOR_WHITE, spriteName, 1, GAME_LAYER_PARTICLES);
+	particle_p->spriteID = World_addSprite(world_p, particle_p->body.pos, particle_p->body.size, color, spriteName, 1, GAME_LAYER_PARTICLES);
 
 	return particle_p->entityHeader.ID;
 

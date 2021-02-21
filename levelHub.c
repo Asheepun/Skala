@@ -274,6 +274,9 @@ void World_initLevelHub(World *world_p){
 	*currentRoomX = houseX + houseWidth + 1000;
 	*currentRoomWidth += 40;
 
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 73), getVec2f(14, 73), COLOR_WHITE, "lamp-post", 1, GAME_LAYER_FURNITURE);
+	*currentRoomWidth += 50;
+
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "player-position-1", PLAYER_POSITION_ROOM);
 	*currentRoomWidth += normalLevelDistance;
 
@@ -293,7 +296,14 @@ void World_initLevelHub(World *world_p){
 	*currentRoomWidth += normalLevelDistance;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "grow-through-jumping", PLAYER_POSITION_ROOM);
-	*currentRoomWidth += normalLevelDistance;
+	//*currentRoomWidth += normalLevelDistance;
+	*currentRoomWidth += 50;
+
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 16), getVec2f(36, 16), COLOR_WHITE, "bench", 1, GAME_LAYER_FURNITURE);
+	*currentRoomWidth += 50;
+
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 73), getVec2f(14, 73), COLOR_WHITE, "lamp-post", 1, GAME_LAYER_FURNITURE);
+	*currentRoomWidth += 40;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "player-position-jumping-key-1", PLAYER_POSITION_ROOM);
 	*currentRoomWidth += normalLevelDistance;
@@ -388,6 +398,8 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(houseX + houseWidth, 210), getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth - houseX - houseWidth, 60), NONE);
 
+	World_addSprite(world_p, getVec2f(houseX + houseWidth + 140, HEIGHT - 60 - 73), getVec2f(14, 73), COLOR_WHITE, "lamp-post", 1, GAME_LAYER_FURNITURE);
+
 	//second floor
 	World_addObstacle(world_p, getVec2f(xySwitchLevelsRoomX, -100), getVec2f(xySwitchLevelsRoomWidth, 100), NONE);
 
@@ -444,6 +456,9 @@ void World_initLevelHub(World *world_p){
 
 	//World_addObstacle(world_p, getVec2f(houseX + houseWidth - 120, 150), getVec2f(40, 40), ALL);
 
+	bool doOpenGateParticleEffect = false;
+	enum LevelHubRoom openGateParticleEffectRoom;
+
 	//check if rooms are totally completed
 	for(int i = 0; i < 5; i++){
 
@@ -466,22 +481,52 @@ void World_initLevelHub(World *world_p){
 		if(completedLevelsInRoom == world_p->roomLevels[i].length){
 
 			if(i == FIRST_SCALE_ROOM){
+
+				if(!SaveData_hasFlag(&world_p->saveData, "completed-first-scale-levels")){
+					doOpenGateParticleEffect = true;
+					openGateParticleEffectRoom = FIRST_SCALE_ROOM;
+				}
+
 				SaveData_addFlag(&world_p->saveData, "completed-first-scale-levels");
+
 			}
 			if(i == DOOR_KEY_ROOM){
+
+				if(!SaveData_hasFlag(&world_p->saveData, "completed-door-key-levels")){
+					doOpenGateParticleEffect = true;
+					openGateParticleEffectRoom = DOOR_KEY_ROOM;
+				}
+
 				SaveData_addFlag(&world_p->saveData, "completed-door-key-levels");
 			}
 			if(i == ALL_FROM_TOP_ROOM){
+
+				if(!SaveData_hasFlag(&world_p->saveData, "completed-all-from-top-levels")){
+					doOpenGateParticleEffect = true;
+					openGateParticleEffectRoom = ALL_FROM_TOP_ROOM;
+				}
+
 				SaveData_addFlag(&world_p->saveData, "completed-all-from-top-levels");
 			}
 			if(i == SCALE_FIELD_ROOM){
+
+				if(!SaveData_hasFlag(&world_p->saveData, "completed-scale-field-levels")){
+					doOpenGateParticleEffect = true;
+					openGateParticleEffectRoom = SCALE_FIELD_ROOM;
+				}
+
 				SaveData_addFlag(&world_p->saveData, "completed-scale-field-levels");
 			}
 			if(i == PLAYER_POSITION_ROOM){
 
 				if(!SaveData_hasFlag(&world_p->saveData, "completed-player-position-levels")){
+
+					//doOpenGateParticleEffect = true;
+					//openGateParticleEffectRoom = FIRST_SCALE_ROOM;
+
 					Vec2f *doorKeyPos_p = Array_addItem(&world_p->saveData.doorKeys);
 					*doorKeyPos_p = world_p->saveData.playerPos;
+
 				}
 
 				SaveData_addFlag(&world_p->saveData, "completed-player-position-levels");
@@ -496,16 +541,13 @@ void World_initLevelHub(World *world_p){
 	for(int i = 0; i < world_p->levelDoors.length; i++){
 
 		LevelDoor *levelDoor_p = Array_getItemPointerByIndex(&world_p->levelDoors, i);
+		Sprite *sprite_p = World_getSpriteByID(world_p, levelDoor_p->spriteID);
 
 		for(int j = 0; j < world_p->saveData.completedLevels.length; j++){
 			char *completedLevelName = *((char **)Array_getItemPointerByIndex(&world_p->saveData.completedLevels, j));
 
 			if(strcmp(levelDoor_p->levelName, completedLevelName) == 0){
-
-				Sprite *sprite_p = World_getSpriteByID(world_p, levelDoor_p->spriteID);
-
 				sprite_p->texture = "level-door-completed";
-
 			}
 		}
 
@@ -513,12 +555,22 @@ void World_initLevelHub(World *world_p){
 			char *levelWithDoorKeyName = *((char **)Array_getItemPointerByIndex(&world_p->saveData.levelsWithDoorKey, j));
 
 			if(strcmp(levelDoor_p->levelName, levelWithDoorKeyName) == 0){
-
-				Sprite *sprite_p = World_getSpriteByID(world_p, levelDoor_p->spriteID);
-
 				sprite_p->texture = "level-door-with-key";
-
 			}
+		}
+
+		if(levelDoor_p->levelHubRoom == FIRST_SCALE_ROOM
+		&& SaveData_hasFlag(&world_p->saveData, "completed-first-scale-levels")
+		|| levelDoor_p->levelHubRoom == DOOR_KEY_ROOM
+		&& SaveData_hasFlag(&world_p->saveData, "completed-door-key-levels")
+		|| levelDoor_p->levelHubRoom == ALL_FROM_TOP_ROOM
+		&& SaveData_hasFlag(&world_p->saveData, "completed-all-from-top-levels")
+		|| levelDoor_p->levelHubRoom == SCALE_FIELD_ROOM
+		&& SaveData_hasFlag(&world_p->saveData, "completed-scale-field-levels")
+		|| levelDoor_p->levelHubRoom == PLAYER_POSITION_ROOM
+		&& SaveData_hasFlag(&world_p->saveData, "completed-player-position-levels")){
+			sprite_p->texture = "level-door";
+			sprite_p->color = COLOR_GREY;
 		}
 
 	}
@@ -572,22 +624,49 @@ void World_initLevelHub(World *world_p){
 
 	world_p->addedRoomLevels = true;
 
-	
-
 	//open gate particle effect
-	for(int i = 0; i < world_p->levelDoors.length; i++){
+	if(doOpenGateParticleEffect){
 
-		LevelDoor *levelDoor_p = Array_getItemPointerByIndex(&world_p->levelDoors, i);
+		int counter = 0;
 
-		World_getSpriteByID(world_p, levelDoor_p->spriteID)->texture = "level-door";
-		World_getSpriteByID(world_p, levelDoor_p->spriteID)->color = COLOR_GREY;
+		for(int i = 0; i < world_p->levelDoors.length; i++){
 
-		Vec2f pos = levelDoor_p->body.pos;
-		//pos.x += 5;
-		//pos.y += 3;
+			LevelDoor *levelDoor_p = Array_getItemPointerByIndex(&world_p->levelDoors, i);
 
-		World_addParticle(world_p, pos, getVec2f(20, 15), "level-door-completed", i * 10);
-		
+			if(levelDoor_p->levelHubRoom != openGateParticleEffectRoom){
+				continue;
+			}
+
+			Vec4f targetColor;
+			if(openGateParticleEffectRoom == FIRST_SCALE_ROOM){
+				targetColor = COLOR_GREEN;
+			}
+			if(openGateParticleEffectRoom == DOOR_KEY_ROOM){
+				targetColor = COLOR_GREY;
+			}
+			if(openGateParticleEffectRoom == ALL_FROM_TOP_ROOM){
+				targetColor = COLOR_PURPLE;
+			}
+			if(openGateParticleEffectRoom == SCALE_FIELD_ROOM){
+				targetColor = COLOR_YELLOW;
+			}
+			if(openGateParticleEffectRoom == PLAYER_POSITION_ROOM){
+				targetColor = COLOR_BLUE;
+			}
+
+			World_getSpriteByID(world_p, levelDoor_p->spriteID)->texture = "level-door";
+			World_getSpriteByID(world_p, levelDoor_p->spriteID)->color = COLOR_GREY;
+
+			Vec2f pos = levelDoor_p->body.pos;
+			//pos.x += 5;
+			//pos.y += 3;
+
+			World_addParticle(world_p, pos, getVec2f(20, 15), "level-door-completed", counter * 10, COLOR_WHITE, targetColor);
+
+			counter++;
+			
+		}
+	
 	}
 
 }

@@ -937,6 +937,21 @@ void World_levelState(World *world_p){
 			continue;
 		}
 
+		Sprite *sprite_p = World_getSpriteByID(world_p, particle_p->spriteID);
+
+		//change to target color
+		float colorChangeSpeed = 0.02;
+		if(colorChangeSpeed < fabs(sprite_p->color.x - particle_p->targetColor.x)){
+			sprite_p->color.x += colorChangeSpeed * Number_normalize(particle_p->targetColor.x - sprite_p->color.x);
+		}
+		if(colorChangeSpeed < fabs(sprite_p->color.y - particle_p->targetColor.y)){
+			sprite_p->color.y += colorChangeSpeed * Number_normalize(particle_p->targetColor.y - sprite_p->color.y);
+		}
+		if(colorChangeSpeed < fabs(sprite_p->color.z - particle_p->targetColor.z)){
+			sprite_p->color.z += colorChangeSpeed * Number_normalize(particle_p->targetColor.z - sprite_p->color.z);
+		}
+
+		//handle particle physics
 		particle_p->physics.acceleration.y = 0.05;
 
 		if(particle_p->physics.velocity.y > 1.5){
@@ -987,6 +1002,7 @@ void World_levelState(World *world_p){
 		sprite_p->body = obstacleBodyPair_p->body;
 
 		sprite_p->color = SCALE_TYPE_COLORS[obstacleBodyPair_p->scaleType];
+		//sprite_p->color = COLOR_HOUSE;
 
 		Vec2f scale = BodyPair_getPhysicsScale(obstacleBodyPair_p);
 

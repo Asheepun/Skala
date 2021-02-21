@@ -385,6 +385,8 @@ int main(int argc, char *argv[]){
 		"level-door",
 		"level-door-completed",
 		"level-door-with-key",
+		"lamp-post",
+		"bench",
 	};
 
 	int texturesLength = sizeof(assets) / sizeof(char *);
