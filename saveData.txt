@@ -1,10 +1,13 @@
 :playerPos
-4736 178
+5045 178
 :doorKeys
 :doors
+2800 180 20 60
+3500 180 20 60
 :flags
 :levelsWithDoorKey
-:completedLevels
 get-key-up-2
 key-in-cage-all-from-top
-player-position-1
+:completedLevels
+airport-control
+grow-through-jumping

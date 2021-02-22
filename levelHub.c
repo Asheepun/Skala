@@ -12,13 +12,7 @@ void World_initLevelHub(World *world_p){
 
 	World_restore(world_p);
 
-	World_addSprite(world_p, getVec2f(0, -HEIGHT * 2), getVec2f(5000, HEIGHT * 3), COLOR_WHITE, "star-background", 1, GAME_LAYER_BACKGROUND);
-
-	//for(int i = 0; i < 10000; i++){
-
-		//World_addParticle(world_p, getVec2f(100 + i * 10, 100 - HEIGHT * 1.5), getVec2f(1, 1), "obstacle");
-	
-	//}
+	world_p->starBackgroundSpriteID = World_addSprite(world_p, getVec2f(0, 0), getVec2f(5000, HEIGHT * 4), COLOR_WHITE, "star-background", 1, GAME_LAYER_BACKGROUND);
 
 	world_p->playerHasLanded = false;
 

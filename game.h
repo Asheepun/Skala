@@ -306,6 +306,8 @@ typedef struct World{
 
 	bool playerHasLanded;
 
+	unsigned int starBackgroundSpriteID;
+
 }World;
 
 //global variables

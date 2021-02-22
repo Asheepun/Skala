@@ -135,3 +135,26 @@ unsigned int OpenglUtils_Renderer_drawTexture(OpenglUtils_Renderer renderer, Vec
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 }
+
+Mat4f OpenglUtils_Renderer_getBodyTransformations(OpenglUtils_Renderer renderer, Vec2f pos, Vec2f size){
+
+	Mat4f transformations = {
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1
+	};
+
+	Mat4f_translate(&transformations, -1, 1, 0);
+
+	Mat4f_translate(&transformations, size.x / renderer.width, -size.y / renderer.height, 0);
+
+	Mat4f_translate(&transformations, 2 * pos.x / renderer.width, 2 * -pos.y / renderer.height, 0);
+
+	Mat4f_translate(&transformations, 2 * renderer.offset.x / renderer.width, 2 * -renderer.offset.y / renderer.height, 0);
+
+	Mat4f_scale(&transformations, size.x / renderer.width, size.y / renderer.height, 1);
+
+	return transformations;
+
+}

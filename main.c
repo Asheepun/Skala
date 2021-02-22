@@ -207,6 +207,9 @@ void drawGame(){
 				size.x = round(sprite_p->body.size.x);
 				size.y = round(sprite_p->body.size.y);
 
+				Vec4f color = sprite_p->color;
+				color.w = sprite_p->alpha;
+
 				if(sprite_p->body.size.x < 1
 				|| sprite_p->body.size.y < 1){
 					size = getVec2f(0, 0);
@@ -214,7 +217,24 @@ void drawGame(){
 
 				unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
 
-				OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, sprite_p->facing, sprite_p->borderSize, texture.ID, shaderProgram);
+				Mat4f transformations = OpenglUtils_Renderer_getBodyTransformations(world.renderer, pos, size);
+
+				glUseProgram(shaderProgram);
+
+				unsigned int transformationsLocation = glGetUniformLocation(shaderProgram, "transformations");
+				glUniformMatrix4fv(transformationsLocation, 1, GL_TRUE, transformations.values);
+
+				unsigned int colorLocation = glGetUniformLocation(shaderProgram, "color");
+				glUniform4fv(colorLocation, 1, &color);
+
+				unsigned int facingLocation = glGetUniformLocation(shaderProgram, "facing");
+				glUniform1iv(facingLocation, 1, &sprite_p->facing);
+
+				glBindTexture(GL_TEXTURE_2D, texture.ID);
+
+				glBindVertexArray(world.renderer.VAO);
+
+				glDrawArrays(GL_TRIANGLES, 0, 6);
 			
 			}
 			else if(sprite_p->type == TEXT_SPRITE){
@@ -432,7 +452,7 @@ int main(int argc, char *argv[]){
 		texture_p->name = "star-background";
 
 		int width = 5000;
-		int height = HEIGHT * 3;
+		int height = HEIGHT * 4;
 
 		unsigned char *data = malloc((width * height) * sizeof(char) * 4);
 		memset(data, 0, (width * height) * sizeof(char) * 4);
@@ -442,7 +462,7 @@ int main(int argc, char *argv[]){
 		int c = 0;
 		int m = 17364;
 
-		for(int i = 0; i < 100000; i++){
+		for(int i = 0; i < 200000; i++){
 
 			x = (a * x + c) % m;
 			float r = (float)x;

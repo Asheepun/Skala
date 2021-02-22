@@ -1180,4 +1180,14 @@ void World_levelState(World *world_p){
 	
 	}
 
+	//update star background sprite
+	if(world_p->currentState == LEVEL_HUB_STATE){
+
+		Sprite *sprite_p = World_getSpriteByID(world_p, world_p->starBackgroundSpriteID);
+
+		sprite_p->body.pos.x = -world_p->renderer.offset.x * 0.3;
+		sprite_p->body.pos.y = (-world_p->renderer.offset.y - HEIGHT * 8) * 0.4;
+
+	}
+
 }
