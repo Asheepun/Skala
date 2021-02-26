@@ -251,8 +251,6 @@ void World_levelState(World *world_p){
 
 			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
-			bool foundCollision = false;
-
 			for(int j = 0; j < world_p->bodyPairs.length; j++){
 
 				BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
@@ -352,15 +350,8 @@ void World_levelState(World *world_p){
 						collision_p->heavierBodyPairIndex = i;
 					}
 
-					foundCollision = true;
-					break;
-
 				}
 
-			}
-
-			if(foundCollision){
-				continue;
 			}
 
 			if(bodyPair1_p->body.pos.x < 0){
@@ -374,31 +365,6 @@ void World_levelState(World *world_p){
 
 		if(collisions.length == 0){
 			break;
-		}
-
-		printf("***\n");
-		for(int i = 0; i < collisions.length; i++){
-
-			Collision *collision1_p = Array_getItemPointerByIndex(&collisions, i);
-
-			printf("COLLISION X!\n");
-
-			/*
-			for(int j = 0; j < collisions.length; j++){
-			
-				Collision *collision2_p = Array_getItemPointerByIndex(&collisions, j);
-
-				if(i != j
-				&& collision1_p->lighterBodyPairIndex == collision2_p->lighterBodyPairIndex
-				&& collision1_p->heavierBodyPairIndex == collision2_p->heavierBodyPairIndex){
-					printf("CHOKASG\n");
-					Array_removeItemByIndex(&collisions, j);
-					j--;
-				}
-
-			}
-			*/
-
 		}
 
 		for(int i = 0; i < collisions.length; i++){
@@ -504,8 +470,6 @@ void World_levelState(World *world_p){
 
 			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
-			bool foundCollision = false;
-
 			for(int j = 0; j < world_p->bodyPairs.length; j++){
 
 				BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
@@ -605,15 +569,8 @@ void World_levelState(World *world_p){
 						collision_p->heavierBodyPairIndex = i;
 					}
 
-					foundCollision = true;
-					break;
-
 				}
 
-			}
-
-			if(foundCollision){
-				continue;
 			}
 
 			if((bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y > HEIGHT)

@@ -12,7 +12,7 @@ void World_initLevelHub(World *world_p){
 
 	World_restore(world_p);
 
-	World_addObstacle(world_p, getVec2f(3500, -250), getVec2f(50, 50), ALL);
+	//World_addObstacle(world_p, getVec2f(3500, -250), getVec2f(50, 50), ALL);
 
 	world_p->starBackgroundSpriteID = World_addSprite(world_p, getVec2f(0, 0), getVec2f(5000, HEIGHT * 4), COLOR_WHITE, "star-background", 1, GAME_LAYER_BACKGROUND);
 
