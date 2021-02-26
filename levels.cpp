@@ -80,7 +80,7 @@ first-scaling-level-1
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 160, 210), getVec2f(160, 60), ALL);
 
-	World_addTextSprite(world_p, getVec2f(140, 140), "Use the \"X\" key", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+	World_addTextSprite(world_p, getVec2f(140, 140), "X key to scale ", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
 :levelName
 first-scaling-level-2
@@ -167,6 +167,48 @@ point-cage
 	World_addObstacle(world_p, getVec2f(370, 0), getVec2f(90, 20), NONE);
 
 :levelName
+point-cage-2
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(70, 100), NONE);
+
+	World_addPoint(world_p, getVec2f(410, 90), ALL);
+
+	World_addObstacle(world_p, getVec2f(0, 190), getVec2f(WIDTH - 130, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(350, 0), getVec2f(20, HEIGHT), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT), NONE);
+
+	World_addObstacle(world_p, getVec2f(370, 0), getVec2f(90, 20), NONE);
+
+:levelName
+point-cage-3
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(150, 100), NONE);
+
+	World_addPoint(world_p, getVec2f(410, 90), ALL);
+
+	World_addObstacle(world_p, getVec2f(110, 190), getVec2f(WIDTH - 240, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(350, 0), getVec2f(20, HEIGHT), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT), NONE);
+
+	World_addObstacle(world_p, getVec2f(370, 0), getVec2f(90, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(110, 0), getVec2f(WIDTH - 240, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(90, 0), getVec2f(20, HEIGHT - 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(90, HEIGHT - 20), getVec2f(40, 20), NONE);
+
+:levelName
 slow-fall-squeeze
 :levelCode
 
@@ -210,11 +252,33 @@ high-jump-2
 
 	World_addPoint(world_p, getVec2f(400, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
+	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(WIDTH, 70), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH, 10), NONE);
 
-	World_addObstacle(world_p, getVec2f(300, 40), getVec2f(WIDTH, HEIGHT - 100), NONE);
+	World_addObstacle(world_p, getVec2f(300, 40), getVec2f(WIDTH, HEIGHT - 110), NONE);
+
+:levelName
+high-jump-3
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(50, 100), ALL);
+
+	World_addPoint(world_p, getVec2f(430, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(250, 70), NONE);
+
+	World_addObstacle(world_p, getVec2f(250, 250), getVec2f(230, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH, 10), NONE);
+
+	World_addObstacle(world_p, getVec2f(100, 40), getVec2f(60, HEIGHT - 110), NONE);
+
+	World_addObstacle(world_p, getVec2f(220, 10), getVec2f(30, HEIGHT - 160), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 80, 40), getVec2f(80, HEIGHT - 60), NONE);
 
 :levelName
 cooler-scaling-level-1

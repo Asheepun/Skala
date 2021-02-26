@@ -295,7 +295,7 @@ size_t World_addDoor(World *world_p, Vec2f pos, Vec2f size, enum ScaleType scale
 
 	door_p->bodyPairID = World_addBodyPair(world_p, body, scaleType, STATIC, DOOR);
 
-	door_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "door", 1, GAME_LAYER_FOREGROUND);
+	door_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "door", 1, GAME_LAYER_OBSTACLES);
 
 	return door_p->entityHeader.ID;
 
@@ -387,6 +387,14 @@ size_t World_addParticle(World *world_p, Vec2f pos, Vec2f size, char *spriteName
 	return particle_p->entityHeader.ID;
 
 
+}
+
+size_t World_addShadow(World *world_p, Vec2f pos, Vec2f size){
+
+	World_addSprite(world_p, pos, size, COLOR_BLACK, "obstacle", 0.7, GAME_LAYER_SHADOWS);
+
+	//Sprite *sprite_p = 
+	
 }
 
 void World_removeSpriteByID(World *world_p, size_t ID){

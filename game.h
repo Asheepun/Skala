@@ -66,8 +66,9 @@ enum SpriteLayer{
 	GAME_LAYER_BACKGROUND,
 	GAME_LAYER_WALLS,
 	GAME_LAYER_FURNITURE,
-	GAME_LAYER_OBSTACLES,
 	GAME_LAYER_FOREGROUND,
+	GAME_LAYER_OBSTACLES,
+	GAME_LAYER_SHADOWS,
 	GAME_LAYER_TEXT,
 	GAME_LAYER_PARTICLES,
 	MENU_LAYER_BACKGROUND,
@@ -336,6 +337,7 @@ static const Vec4f COLOR_BLACK 				= { 0.00, 		0.00, 		0.00, 		1 };
 static const Vec4f COLOR_WHITE 				= { 1.00, 		1.00, 		1.00, 		1 };
 static const Vec4f COLOR_GREY 				= { 0.50, 		0.50, 		0.50, 		1 };
 static const Vec4f COLOR_BROWN 				= { 0.60, 		0.30, 		0.20, 		1 };
+static const Vec4f COLOR_RED 				= { 1.00, 		0.00, 		0.00, 		1 };
 static const Vec4f COLOR_GREEN 				= { 0.00, 		1.00, 		0.00, 		1 };
 static const Vec4f COLOR_PURPLE 			= { 1.00, 		0.00, 		1.00, 		1 };
 static const Vec4f COLOR_BLUE 				= { 0.00, 		0.00, 		1.00, 		1 };
@@ -347,6 +349,11 @@ static const Vec4f COLOR_YELLOW_BACKGROUND 	= { 0.5, 		0.5, 		0.00, 		1 };
 static const Vec4f COLOR_PURPLE_BACKGROUND 	= { 0.5, 		0.00, 		0.5, 		1 };
 
 static const Vec4f COLOR_BLACK_WALL 		= { 0.05, 		0.05, 		0.05, 		1 };
+static const Vec4f COLOR_RED_WALL 		= { 0.15, 		0.00, 		0.00, 		1 };
+static const Vec4f COLOR_GREEN_WALL 		= { 0.03, 		0.10, 		0.00, 		1 };
+static const Vec4f COLOR_BLUE_WALL 		= { 0.02, 		0.04, 		0.10, 		1 };
+static const Vec4f COLOR_PURPLE_WALL 		= { 0.07, 		0.00, 		0.07, 		1 };
+static const Vec4f COLOR_YELLOW_WALL 		= { 0.20, 		0.20, 		0.00, 		1 };
 
 static const Vec4f COLOR_HOUSE 				= { 0.90, 		0.90, 		0.90, 		1 };
 
@@ -388,6 +395,7 @@ size_t World_addDoorKey(World *, Vec2f, enum ScaleType);
 size_t World_addScaleField(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addLevelDoor(World *, Vec2f, char *, enum LevelHubRoom);
 size_t World_addParticle(World *, Vec2f, Vec2f, char *, int, Vec4f, Vec4f);
+size_t World_addShadow(World *, Vec2f, Vec2f);
 
 void World_removeSpriteByID(World *, size_t);
 void World_removeButtonByID(World *, size_t);

@@ -2,10 +2,10 @@
 30 -270
 :doorKeys
 :doors
-2800 180 20 60
-3500 180 20 60
+3050 180 20 60
+3970 180 20 60
 :flags
 :levelsWithDoorKey
+point-cage-3
 get-key-up-2
-key-in-cage-all-from-top
 :completedLevels

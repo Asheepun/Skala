@@ -1,13 +1,16 @@
 :playerPos
-5045 178
+3500 -200
 :doorKeys
 :doors
-2800 180 20 60
-3500 180 20 60
+3050 180 20 60
+3970 180 20 60
 :flags
 :levelsWithDoorKey
+point-cage-3
 get-key-up-2
-key-in-cage-all-from-top
 :completedLevels
-airport-control
-grow-through-jumping
+level-1
+level-2
+level-3
+first-scaling-level-1
+push-key-with-point

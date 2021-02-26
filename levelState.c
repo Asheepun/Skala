@@ -251,6 +251,8 @@ void World_levelState(World *world_p){
 
 			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
+			bool foundCollision = false;
+
 			for(int j = 0; j < world_p->bodyPairs.length; j++){
 
 				BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
@@ -328,7 +330,16 @@ void World_levelState(World *world_p){
 					&& !BodyPair_isScalable(bodyPair2_p)){
 						weakBodyPair = 1;
 					}
-					
+
+					if(bodyPair1_p->collisionWeight == STATIC
+					&& !BodyPair_isScalable(bodyPair1_p)){
+						weakBodyPair = 2;
+					}
+					if(bodyPair2_p->collisionWeight == STATIC
+					&& !BodyPair_isScalable(bodyPair2_p)){
+						weakBodyPair = 1;
+					}
+
 					Collision *collision_p = Array_addItem(&collisions);
 					collision_p->oub = false;
 
@@ -341,8 +352,15 @@ void World_levelState(World *world_p){
 						collision_p->heavierBodyPairIndex = i;
 					}
 
+					foundCollision = true;
+					break;
+
 				}
 
+			}
+
+			if(foundCollision){
+				continue;
 			}
 
 			if(bodyPair1_p->body.pos.x < 0){
@@ -356,6 +374,31 @@ void World_levelState(World *world_p){
 
 		if(collisions.length == 0){
 			break;
+		}
+
+		printf("***\n");
+		for(int i = 0; i < collisions.length; i++){
+
+			Collision *collision1_p = Array_getItemPointerByIndex(&collisions, i);
+
+			printf("COLLISION X!\n");
+
+			/*
+			for(int j = 0; j < collisions.length; j++){
+			
+				Collision *collision2_p = Array_getItemPointerByIndex(&collisions, j);
+
+				if(i != j
+				&& collision1_p->lighterBodyPairIndex == collision2_p->lighterBodyPairIndex
+				&& collision1_p->heavierBodyPairIndex == collision2_p->heavierBodyPairIndex){
+					printf("CHOKASG\n");
+					Array_removeItemByIndex(&collisions, j);
+					j--;
+				}
+
+			}
+			*/
+
 		}
 
 		for(int i = 0; i < collisions.length; i++){
@@ -413,6 +456,11 @@ void World_levelState(World *world_p){
 						rightBodyPair_p = bodyPair2_p;
 					}
 
+					if(bodyPair1_p->body.pos.x < leftBodyPair_p->body.pos.x
+					|| bodyPair1_p->body.pos.x > rightBodyPair_p->body.pos.x){
+						continue;
+					}
+
 					bodyPair1_p->body.pos.x = leftBodyPair_p->body.pos.x + leftBodyPair_p->body.size.x;
 					bodyPair1_p->body.size.x = rightBodyPair_p->body.pos.x - (leftBodyPair_p->body.pos.x + leftBodyPair_p->body.size.x);
 
@@ -455,6 +503,8 @@ void World_levelState(World *world_p){
 		for(int i = 0; i < world_p->bodyPairs.length; i++){
 
 			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+			bool foundCollision = false;
 
 			for(int j = 0; j < world_p->bodyPairs.length; j++){
 
@@ -533,6 +583,15 @@ void World_levelState(World *world_p){
 					&& !BodyPair_isScalable(bodyPair2_p)){
 						weakBodyPair = 1;
 					}
+
+					if(bodyPair1_p->collisionWeight == STATIC
+					&& !BodyPair_isScalable(bodyPair1_p)){
+						weakBodyPair = 2;
+					}
+					if(bodyPair2_p->collisionWeight == STATIC
+					&& !BodyPair_isScalable(bodyPair2_p)){
+						weakBodyPair = 1;
+					}
 					
 					Collision *collision_p = Array_addItem(&collisions);
 					collision_p->oub = false;
@@ -546,15 +605,24 @@ void World_levelState(World *world_p){
 						collision_p->heavierBodyPairIndex = i;
 					}
 
+					foundCollision = true;
+					break;
+
 				}
 
 			}
 
-			if((bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y > HEIGHT
-			&& bodyPair1_p->scaleType != ALL_FROM_TOP
-			|| bodyPair1_p->body.pos.y < 0
-			&& bodyPair1_p->scaleType == ALL_FROM_TOP)
-			&& bodyPair1_p->entityHeader.ID != world_p->player.bodyPairID){
+			if(foundCollision){
+				continue;
+			}
+
+			if((bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y > HEIGHT)
+			&& bodyPair1_p->entityType != DOOR_KEY
+			&& bodyPair1_p->entityType != PLAYER){
+			//&& bodyPair1_p->scaleType != ALL_FROM_TOP
+			//|| bodyPair1_p->body.pos.y < 0
+			//&& bodyPair1_p->scaleType == ALL_FROM_TOP)
+			//&& bodyPair1_p->entityHeader.ID != world_p->player.bodyPairID){
 				printf("OUB COLLISION Y!\n");
 				printf("%f, %f\n", bodyPair1_p->body.pos.y, bodyPair1_p->body.size.y);
 				Collision *collision_p = Array_addItem(&collisions);
@@ -610,6 +678,7 @@ void World_levelState(World *world_p){
 					BodyPair *bodyPair3_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision2_p->heavierBodyPairIndex);
 
 					if(collision2_p->oub){
+						continue;
 						BodyPair oubBodyPair;
 						Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, 0));
 						//if(bodyPair1_p->scaleType == ALL_FROM_TOP){
@@ -628,6 +697,11 @@ void World_levelState(World *world_p){
 					}else{
 						upBodyPair_p = bodyPair3_p;
 						downBodyPair_p = bodyPair2_p;
+					}
+
+					if(bodyPair1_p->body.pos.y < upBodyPair_p->body.pos.y
+					|| bodyPair1_p->body.pos.y > downBodyPair_p->body.pos.y){
+						continue;
 					}
 
 					bodyPair1_p->body.pos.y = upBodyPair_p->body.pos.y + upBodyPair_p->body.size.y;
@@ -1108,7 +1182,22 @@ void World_levelState(World *world_p){
 
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
 
-		world_p->cameraPos.x = round(WIDTH / 2 - playerBodyPair_p->body.pos.x);
+		float cameraSpeedX = 1;
+
+		world_p->cameraTarget.x = (WIDTH / 2 - playerBodyPair_p->body.pos.x);
+		float distX = fabs(world_p->cameraTarget.x - world_p->cameraPos.x);
+
+		//printf("%f\n", distX);
+		//cameraSpeedX = 10;
+
+		cameraSpeedX = 5;
+
+		if(playerBodyPair_p->body.pos.x > 4800
+		&& playerBodyPair_p->body.pos.x < 4800 + WIDTH / 2){
+			world_p->cameraTarget.x = -4800;
+			//cameraSpeedX = 40;
+			cameraSpeedX = 35;
+		}
 
 		//world_p->cameraPos.y = round(HEIGHT / 2 - playerBodyPair_p->body.pos.y);
 
@@ -1168,11 +1257,25 @@ void World_levelState(World *world_p){
 		}
 		*/
 
+		world_p->cameraPos.x += -(world_p->cameraPos.x - world_p->cameraTarget.x) / cameraSpeedX;
 		world_p->cameraPos.y += -(world_p->cameraPos.y - world_p->cameraTarget.y) / cameraSpeedY;
 
-		world_p->renderer.offset.x = world_p->cameraPos.x;
-		world_p->renderer.offset.y = world_p->cameraPos.y;
+		if(fabs(world_p->cameraPos.x - world_p->cameraTarget.x) < 1){
+			//world_p->cameraPos.x = world_p->cameraTarget.x;
+		}
+
+		//printf("%f\n", (world_p->cameraPos.x - world_p->cameraTarget.x) / cameraSpeedX);
+
+		//if(round(fabs(world_p->cameraPos.x + playerBodyPair_p->body.pos.x - WIDTH / 2)) == 10){
+			//world_p->cameraPos.x = WIDTH / 2 - playerBodyPair_p->body.pos.x + Number_normalize(world_p->cameraPos.x + playerBodyPair_p->body.pos.x - WIDTH / 2) * 10;
+			////world_p->cameraTarget.x = round();
+		//}
+
+		world_p->renderer.offset.x = round(world_p->cameraPos.x);
+		world_p->renderer.offset.y = round(world_p->cameraPos.y);
 		//world_p->renderer.offset.y = world_p->cameraPos.y;
+
+		//printf("%f\n", );
 
 		if(world_p->renderer.offset.x > 0){
 			world_p->renderer.offset.x = 0;

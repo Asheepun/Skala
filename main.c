@@ -405,8 +405,26 @@ int main(int argc, char *argv[]){
 		"level-door",
 		"level-door-completed",
 		"level-door-with-key",
-		"lamp-post",
-		"bench",
+
+		//furniture
+		"furniture/hat-shelf",
+		"furniture/coat-hanger",
+		"furniture/living-room-lamp",
+		"furniture/sofa",
+		"furniture/book-shelf",
+		"furniture/stove",
+		"furniture/kitchen-table",
+		"furniture/kitchen-shelf",
+		"furniture/bed",
+		"furniture/bedside-table",
+		"furniture/washing-machine",
+		"furniture/wash-basket",
+		"furniture/lamp-post",
+		"furniture/bench",
+
+		"furniture/lamp-1",
+		"furniture/lamp-2",
+		"furniture/lamp-3",
 	};
 
 	int texturesLength = sizeof(assets) / sizeof(char *);
