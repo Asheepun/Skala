@@ -354,6 +354,7 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 
 	levelDoor_p->levelName = levelName;
 	levelDoor_p->levelHubRoom = levelHubRoom;
+	levelDoor_p->hoverTextSpriteID = -1;
 
 	levelDoor_p->spriteID = World_addSprite(world_p, pos, levelDoor_p->body.size, COLOR_WHITE, "level-door", 1, GAME_LAYER_FOREGROUND);
 
@@ -764,5 +765,33 @@ Vec2f BodyPair_getPhysicsScale(BodyPair *bodyPair_p){
 	Vec2f_div(&physicsScale, &bodyPair_p->body.size);
 
 	return physicsScale;
+
+}
+
+Body World_TextSprite_getBody(World *world_p, Sprite *textSprite_p){
+
+	Body body;
+	body.pos = textSprite_p->pos;
+
+	Font font;
+	for(int i = 0; i < world_p->fonts.length; i++){
+
+		Font *font_p = Array_getItemPointerByIndex(&world_p->fonts, i);
+
+		if(strcmp(font_p->name, textSprite_p->fontName) == 0){
+			font = *font_p;
+			break;
+		}
+	
+	}
+
+	int width, height;
+	char *data = getImageDataFromFontAndString_mustFree(font, textSprite_p->text, &width, &height);
+	free(data);
+
+	body.size.x = (float)width;
+	body.size.y = (float)height;
+
+	return body;
 
 }

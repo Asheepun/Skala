@@ -210,6 +210,7 @@ typedef struct LevelDoor{
 	char *levelName;
 	enum LevelHubRoom levelHubRoom;
 	size_t spriteID;
+	size_t hoverTextSpriteID;
 }LevelDoor;
 
 typedef struct Particle{
@@ -403,6 +404,8 @@ void World_removePointByID(World *, size_t);
 void World_removeDoorByID(World *, size_t);
 void World_removeDoorKeyByID(World *, size_t);
 void World_removeParticleByID(World *, size_t);
+
+Body World_TextSprite_getBody(World *, Sprite *);
 
 BodyPair *World_getBodyPairByID(World *, size_t);
 Sprite *World_getSpriteByID(World *, size_t);

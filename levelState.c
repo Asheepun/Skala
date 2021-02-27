@@ -422,8 +422,8 @@ void World_levelState(World *world_p){
 						rightBodyPair_p = bodyPair2_p;
 					}
 
-					if(bodyPair1_p->body.pos.x < leftBodyPair_p->body.pos.x
-					|| bodyPair1_p->body.pos.x > rightBodyPair_p->body.pos.x){
+					if(bodyPair1_p->body.pos.x <= leftBodyPair_p->body.pos.x
+					|| bodyPair1_p->body.pos.x >= rightBodyPair_p->body.pos.x){
 						continue;
 					}
 
@@ -635,7 +635,6 @@ void World_levelState(World *world_p){
 					BodyPair *bodyPair3_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision2_p->heavierBodyPairIndex);
 
 					if(collision2_p->oub){
-						continue;
 						BodyPair oubBodyPair;
 						Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, 0));
 						//if(bodyPair1_p->scaleType == ALL_FROM_TOP){
@@ -656,8 +655,8 @@ void World_levelState(World *world_p){
 						downBodyPair_p = bodyPair2_p;
 					}
 
-					if(bodyPair1_p->body.pos.y < upBodyPair_p->body.pos.y
-					|| bodyPair1_p->body.pos.y > downBodyPair_p->body.pos.y){
+					if(bodyPair1_p->body.pos.y <= upBodyPair_p->body.pos.y
+					|| bodyPair1_p->body.pos.y >= downBodyPair_p->body.pos.y){
 						continue;
 					}
 
@@ -924,6 +923,32 @@ void World_levelState(World *world_p){
 
 			World_fadeTransitionToState(world_p, LEVEL_STATE);
 
+		}
+
+		//check if player is below level door
+		if(playerBodyPair_p->body.pos.x + playerBodyPair_p->body.size.x > levelDoor_p->body.pos.x
+		&& playerBodyPair_p->body.pos.x < levelDoor_p->body.pos.x + levelDoor_p->body.size.x
+		&& playerBodyPair_p->body.pos.y > levelDoor_p->body.pos.y
+		&& playerBodyPair_p->body.pos.y < levelDoor_p->body.pos.y + 70){
+			if(levelDoor_p->hoverTextSpriteID == -1){
+
+				levelDoor_p->hoverTextSpriteID = World_addTextSprite(world_p, levelDoor_p->body.pos, levelDoor_p->levelName, "times15", COLOR_WHITE, GAME_LAYER_TEXT);
+				Sprite *hoverTextSprite_p = World_getSpriteByID(world_p, levelDoor_p->hoverTextSpriteID);
+
+				hoverTextSprite_p->pos.y -= 20;
+				hoverTextSprite_p->pos.x += 10;
+
+				Body hoverTextSpriteBody = World_TextSprite_getBody(world_p, hoverTextSprite_p);
+				hoverTextSprite_p->pos.x -= hoverTextSpriteBody.size.x / 2;
+
+			}
+		}else{
+
+			if(levelDoor_p->hoverTextSpriteID != -1){
+				World_removeSpriteByID(world_p, levelDoor_p->hoverTextSpriteID);
+			}
+
+			levelDoor_p->hoverTextSpriteID = -1;
 		}
 
 	}
