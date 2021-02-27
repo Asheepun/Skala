@@ -396,6 +396,12 @@ void World_initLevelHub(World *world_p){
 
 	//World_addSprite(world_p, getVec2f(startingAreaX, HEIGHT), getVec2f(houseX + houseWidth, 40), COLOR_WHITE, "obstacle", 1, GAME_LAYER_BACKGROUND);
 
+	World_addTextSprite(world_p, getVec2f(startingAreaX + 250, -HEIGHT - 50), "Skala ", "times80", COLOR_WHITE, GAME_LAYER_TEXT);
+
+	World_addTextSprite(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 30), "Arrow keys to move ", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+
+	World_addTextSprite(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 50), "Esc key to open menu ", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+
 	//add house obstacles
 	World_addObstacle(world_p, getVec2f(houseX, 120), getVec2f(30, 50), NONE);
 

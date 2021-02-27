@@ -318,11 +318,11 @@ typedef struct World{
 static const int WIDTH = 480;
 static const int HEIGHT = 270;
 
-static int windowWidth = WIDTH * 3;
-static int windowHeight = HEIGHT * 3;
+//static int windowWidth = WIDTH * 3;
+//static int windowHeight = HEIGHT * 3;
 
-//static int windowWidth = WIDTH * 2.5;
-//static int windowHeight = HEIGHT * 2.5;
+static int windowWidth = WIDTH * 2.5;
+static int windowHeight = HEIGHT * 2.5;
 
 //static int windowWidth = 1366;
 //static int windowHeight = 768;

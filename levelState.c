@@ -1144,21 +1144,16 @@ void World_levelState(World *world_p){
 		world_p->cameraTarget.x = (WIDTH / 2 - playerBodyPair_p->body.pos.x);
 		float distX = fabs(world_p->cameraTarget.x - world_p->cameraPos.x);
 
-		//printf("%f\n", distX);
-		//cameraSpeedX = 10;
-
 		cameraSpeedX = 5;
 
-		if(playerBodyPair_p->body.pos.x > 4800
-		&& playerBodyPair_p->body.pos.x < 4800 + WIDTH / 2){
-			world_p->cameraTarget.x = -4800;
+		float playerPositionAreaX = 5150;
+
+		if(playerBodyPair_p->body.pos.x > playerPositionAreaX
+		&& playerBodyPair_p->body.pos.x < playerPositionAreaX + WIDTH / 2){
+			world_p->cameraTarget.x = -playerPositionAreaX;
 			//cameraSpeedX = 40;
 			cameraSpeedX = 35;
 		}
-
-		//world_p->cameraPos.y = round(HEIGHT / 2 - playerBodyPair_p->body.pos.y);
-
-		//world_p->renderer.offset.y = round(HEIGHT / 2 - playerBodyPair_p->body.pos.y);
 
 		float cameraSpeedY = 20;
 
@@ -1205,34 +1200,12 @@ void World_levelState(World *world_p){
 		if(playerBodyPair_p->body.pos.y < -HEIGHT * 3.8 + 100){
 			cameraSpeedY = 5;
 		}
-		/*
-		if(playerBodyPair_p->body.pos.y < -HEIGHT * 3){
-			world_p->cameraTarget.y = HEIGHT * 4;
-		}
-		if(playerBodyPair_p->body.pos.y < -HEIGHT * 4){
-			world_p->cameraTarget.y = HEIGHT * 5;
-		}
-		*/
 
 		world_p->cameraPos.x += -(world_p->cameraPos.x - world_p->cameraTarget.x) / cameraSpeedX;
 		world_p->cameraPos.y += -(world_p->cameraPos.y - world_p->cameraTarget.y) / cameraSpeedY;
 
-		if(fabs(world_p->cameraPos.x - world_p->cameraTarget.x) < 1){
-			//world_p->cameraPos.x = world_p->cameraTarget.x;
-		}
-
-		//printf("%f\n", (world_p->cameraPos.x - world_p->cameraTarget.x) / cameraSpeedX);
-
-		//if(round(fabs(world_p->cameraPos.x + playerBodyPair_p->body.pos.x - WIDTH / 2)) == 10){
-			//world_p->cameraPos.x = WIDTH / 2 - playerBodyPair_p->body.pos.x + Number_normalize(world_p->cameraPos.x + playerBodyPair_p->body.pos.x - WIDTH / 2) * 10;
-			////world_p->cameraTarget.x = round();
-		//}
-
-		world_p->renderer.offset.x = round(world_p->cameraPos.x);
-		world_p->renderer.offset.y = round(world_p->cameraPos.y);
-		//world_p->renderer.offset.y = world_p->cameraPos.y;
-
-		//printf("%f\n", );
+		world_p->renderer.offset.x = (world_p->cameraPos.x);
+		world_p->renderer.offset.y = (world_p->cameraPos.y);
 
 		if(world_p->renderer.offset.x > 0){
 			world_p->renderer.offset.x = 0;

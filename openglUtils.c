@@ -151,7 +151,7 @@ Mat4f OpenglUtils_Renderer_getBodyTransformations(OpenglUtils_Renderer renderer,
 
 	Mat4f_translate(&transformations, 2 * pos.x / renderer.width, 2 * -pos.y / renderer.height, 0);
 
-	Mat4f_translate(&transformations, 2 * round(renderer.offset.x) / renderer.width, 2 * -round(renderer.offset.y) / renderer.height, 0);
+	Mat4f_translate(&transformations, 2 * renderer.offset.x / renderer.width, 2 * -renderer.offset.y / renderer.height, 0);
 
 	Mat4f_scale(&transformations, size.x / renderer.width, size.y / renderer.height, 1);
 

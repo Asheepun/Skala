@@ -1,5 +1,5 @@
 :playerPos
-2716 131
+30 -270
 :doorKeys
 :doors
 3050 180 20 60
@@ -9,8 +9,3 @@
 point-cage-3
 get-key-up-2
 :completedLevels
-level-1
-level-2
-level-3
-first-scaling-level-1
-push-key-with-point

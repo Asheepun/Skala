@@ -201,8 +201,8 @@ void drawGame(){
 
 				}
 
-				pos.x = round(sprite_p->body.pos.x);
-				pos.y = round(sprite_p->body.pos.y);
+				pos.x = (sprite_p->body.pos.x);
+				pos.y = (sprite_p->body.pos.y);
 
 				size.x = round(sprite_p->body.size.x);
 				size.y = round(sprite_p->body.size.y);
