@@ -1,13 +1,11 @@
 :playerPos
-5789 178
+30 -270
 :doorKeys
 :doors
+3050 180 20 60
+3970 180 20 60
 :flags
 :levelsWithDoorKey
-:completedLevels
-get-key-up-2
 point-cage-3
-point-field-cage
-player-position-jumping-key-1
-player-position-jumping-key-2
-player-position-jumping-key-3
+get-key-up-2
+:completedLevels

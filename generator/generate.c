@@ -13,8 +13,6 @@ typedef struct Level{
 	char name[255];
 	char screenName[255];
 	char code[4 * 1024];
-	//int x;
-	//int y;
 }Level;
 
 int getWordCount(char *str, int len){
@@ -47,11 +45,15 @@ int main(){
 
 	while(fgets(line, 255, file) != NULL){
 
+		memset(word, 0, 255);
+
 		if(strcmp(strncpy(word, line, 2), "//") == 0){
 			continue;
 		}
 
-		if(strcmp(strncpy(word, line, 10), ":levelName") == 0){
+		strncpy(word, line, strlen(line) - 1);
+
+		if(strcmp(word, ":levelName") == 0){
 
 			currentReadMode = LEVEL_NAME;
 			levelsLength++;
@@ -60,7 +62,7 @@ int main(){
 
 		}
 
-		if(strcmp(strncpy(word, line, 11), ":screenName") == 0){
+		if(strcmp(word, ":screenName") == 0){
 
 			currentReadMode = LEVEL_SCREEN_NAME;
 
@@ -68,7 +70,7 @@ int main(){
 
 		}
 
-		if(strcmp(strncpy(word, line, 10), ":levelCode") == 0){
+		if(strcmp(word, ":levelCode") == 0){
 
 			currentReadMode = LEVEL_CODE;
 

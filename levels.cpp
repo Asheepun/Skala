@@ -24,6 +24,8 @@ bug-testing-level
 
 :levelName
 level-1
+:screenName
+Star
 :levelCode
 
 	World_restore(world_p);
@@ -36,6 +38,8 @@ level-1
 
 :levelName
 level-2
+:screenName
+Steps
 :levelCode
 
 	World_restore(world_p);
@@ -54,6 +58,8 @@ level-2
 
 :levelName
 level-3
+:screenName
+Pit
 :levelCode
 
 	World_restore(world_p);
@@ -68,6 +74,8 @@ level-3
 
 :levelName
 first-scaling-level-1
+:screenName
+Gap
 :levelCode
 
 	World_restore(world_p);
@@ -98,6 +106,8 @@ first-scaling-level-2
 
 :levelName
 first-scaling-level-3
+:screenName
+Green Ledge
 :levelCode
 
 	World_restore(world_p);
@@ -110,6 +120,8 @@ first-scaling-level-3
 
 :levelName
 first-scaling-level-4
+:screenName
+Green Star
 :levelCode
 
 	World_restore(world_p);
@@ -122,6 +134,8 @@ first-scaling-level-4
 
 :levelName
 make-it-bigger-1
+:screenName
+Platform
 :levelCode
 
 	World_restore(world_p);
@@ -136,6 +150,8 @@ make-it-bigger-1
 
 :levelName
 make-it-bigger-2
+:screenName
+Bridge
 :levelCode
 
 	World_restore(world_p);
@@ -150,6 +166,8 @@ make-it-bigger-2
 
 :levelName
 point-cage
+:screenName
+Filter
 :levelCode
 
 	World_restore(world_p);
@@ -168,6 +186,8 @@ point-cage
 
 :levelName
 point-cage-2
+:screenName
+Filter 2
 :levelCode
 
 	World_restore(world_p);
@@ -186,6 +206,8 @@ point-cage-2
 
 :levelName
 point-cage-3
+:screenName
+Filter 3
 :levelCode
 
 	World_restore(world_p);
@@ -210,6 +232,8 @@ point-cage-3
 
 :levelName
 slow-fall-squeeze
+:screenName
+Dive
 :levelCode
 
 	World_restore(world_p);
@@ -230,6 +254,8 @@ slow-fall-squeeze
 
 :levelName
 high-jump-1
+:screenName
+Doorstep
 :levelCode
 
 	World_restore(world_p);
@@ -244,6 +270,8 @@ high-jump-1
 
 :levelName
 high-jump-2
+:screenName
+Cliff Tunnel
 :levelCode
 
 	World_restore(world_p);
@@ -260,6 +288,8 @@ high-jump-2
 
 :levelName
 high-jump-3
+:screenName
+Cliff Tunnel 2
 :levelCode
 
 	World_restore(world_p);
@@ -282,6 +312,8 @@ high-jump-3
 
 :levelName
 cooler-scaling-level-1
+:screenName
+Green Pair
 :levelCode
 
 	World_restore(world_p);
@@ -294,6 +326,8 @@ cooler-scaling-level-1
 
 :levelName
 cooler-scaling-level-2
+:screenName
+Mousehole
 :levelCode
 
 	World_restore(world_p);
@@ -308,6 +342,8 @@ cooler-scaling-level-2
 
 :levelName
 cooler-scaling-level-3
+:screenName
+Hedge
 :levelCode
 
 	World_restore(world_p);
@@ -322,6 +358,8 @@ cooler-scaling-level-3
 
 :levelName
 cooler-scaling-level-4
+:screenName
+Green suit
 :levelCode
 
 	World_restore(world_p);
@@ -334,6 +372,8 @@ cooler-scaling-level-4
 
 :levelName
 cooler-scaling-level-5
+:screenName
+Green Couple
 :levelCode
 
 	World_restore(world_p);
@@ -346,6 +386,8 @@ cooler-scaling-level-5
 
 :levelName
 door-key-level-1
+:screenName
+Door
 :levelCode
 
 	World_restore(world_p);
@@ -364,6 +406,8 @@ door-key-level-1
 
 :levelName
 door-key-level-2
+:screenName
+Shelf
 :levelCode
 
 	World_restore(world_p);
@@ -402,6 +446,8 @@ door-key-level-3
 
 :levelName
 key-in-box
+:screenName
+Box
 :levelCode
 
 	World_restore(world_p);
@@ -450,6 +496,8 @@ key-in-box
 
 :levelName
 get-key-up-1
+:screenName
+Key Hole
 :levelCode
 
 	World_restore(world_p);
@@ -474,6 +522,8 @@ get-key-up-1
 
 :levelName
 get-key-up-2
+:screenName
+Key Hole 2
 :levelCode
 
 	World_restore(world_p);
@@ -500,6 +550,8 @@ get-key-up-2
 
 :levelName
 floor-is-door
+:screenName
+Trapdoor
 :levelCode
 
 	World_restore(world_p);
@@ -520,6 +572,8 @@ floor-is-door
 
 :levelName
 push-key-with-point
+:screenName
+Cell
 :levelCode
 
 	World_restore(world_p);
@@ -568,6 +622,8 @@ throw-key
 
 :levelName
 maybe-key-should-fly
+:screenName
+Locker
 :levelCode
 
 	World_restore(world_p);
@@ -594,6 +650,8 @@ maybe-key-should-fly
 
 :levelName
 flying-key-1
+:screenName
+Locker 2
 :levelCode
 
 	World_restore(world_p);
@@ -620,6 +678,8 @@ flying-key-1
 
 :levelName
 flying-key-2-trickshot-edition
+:screenName
+Locker 3
 :levelCode
 
 	World_restore(world_p);
@@ -678,6 +738,8 @@ door-key-level-with-key
 
 :levelName
 all-from-top-1
+:screenName
+Purple Ledge
 :levelCode
 
 	World_restore(world_p);
@@ -690,6 +752,8 @@ all-from-top-1
 
 :levelName
 all-from-top-2
+:screenName
+Purple Star
 :levelCode
 
 	World_restore(world_p);
@@ -702,6 +766,8 @@ all-from-top-2
 
 :levelName
 all-from-top-3
+:screenName
+Cancellation
 :levelCode
 
 	World_restore(world_p);
@@ -718,6 +784,8 @@ all-from-top-3
 
 :levelName
 point-pikaboo
+:screenName
+Faith
 :levelCode
 
 	World_restore(world_p);
@@ -730,6 +798,8 @@ point-pikaboo
 
 :levelName
 get-under-cup
+:screenName
+Cup
 :levelCode
 
 	World_restore(world_p);
@@ -746,6 +816,8 @@ get-under-cup
 
 :levelName
 key-obstacle-course
+:screenName
+Opening
 :levelCode
 
 	World_restore(world_p);
@@ -776,6 +848,8 @@ key-obstacle-course
 
 :levelName
 key-in-cage-all-from-top
+:screenName
+Lock
 :levelCode
 
 	World_restore(world_p);
@@ -803,6 +877,8 @@ key-in-cage-all-from-top
 
 :levelName
 scale-field-1
+:screenName
+Coldness
 :levelCode
 
 	World_restore(world_p);
@@ -818,6 +894,8 @@ scale-field-1
 
 :levelName
 scale-field-2
+:screenName
+Comfort
 :levelCode
 
 	World_restore(world_p);
@@ -834,6 +912,8 @@ scale-field-2
 
 :levelName
 scale-field-3
+:screenName
+Spots
 :levelCode
 
 	World_restore(world_p);
@@ -854,6 +934,8 @@ scale-field-3
 
 :levelName
 get-over-the-field
+:screenName
+Swamp
 :levelCode
 
 	World_restore(world_p);
@@ -870,6 +952,8 @@ get-over-the-field
 
 :levelName
 layers-of-fields
+:screenName
+Transfers
 :levelCode
 
 	World_restore(world_p);
@@ -896,6 +980,8 @@ layers-of-fields
 
 :levelName
 player-position-1
+:screenName
+Coordination
 :levelCode
 
 	World_restore(world_p);
@@ -912,6 +998,8 @@ player-position-1
 
 :levelName
 player-position-2
+:screenName
+Mirror
 :levelCode
 
 	World_restore(world_p);
@@ -930,6 +1018,8 @@ player-position-2
 
 :levelName
 player-position-3
+:screenName
+Acceleration
 :levelCode
 
 	World_restore(world_p);
@@ -964,6 +1054,8 @@ slide-slide-slide
 
 :levelName
 grow-through-jumping
+:screenName
+Magic Bean
 :levelCode
 
 	World_restore(world_p);
@@ -1012,6 +1104,8 @@ player-pos-key
 
 :levelName
 airport-control
+:screenName
+Tunnel
 :levelCode
 
 	World_restore(world_p);
@@ -1140,6 +1234,8 @@ Puppet 3
 
 :levelName
 point-field-cage
+:screenName
+Tangible
 :levelCode
 
 	World_restore(world_p);
