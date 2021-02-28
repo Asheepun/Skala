@@ -5,11 +5,13 @@
 enum CurrentReadMode{
 	NONE,
 	LEVEL_NAME,
+	LEVEL_SCREEN_NAME,
 	LEVEL_CODE,
 };
 
 typedef struct Level{
 	char name[255];
+	char screenName[255];
 	char code[4 * 1024];
 	//int x;
 	//int y;
@@ -58,6 +60,14 @@ int main(){
 
 		}
 
+		if(strcmp(strncpy(word, line, 11), ":screenName") == 0){
+
+			currentReadMode = LEVEL_SCREEN_NAME;
+
+			continue;
+
+		}
+
 		if(strcmp(strncpy(word, line, 10), ":levelCode") == 0){
 
 			currentReadMode = LEVEL_CODE;
@@ -69,6 +79,19 @@ int main(){
 		if(currentReadMode == LEVEL_NAME){
 
 			strncpy(levels[levelsLength - 1].name, line, strlen(line) - 1);
+
+			strncpy(levels[levelsLength - 1].screenName, line, strlen(line) - 1);
+
+			currentReadMode = NONE;
+
+		}
+
+		if(currentReadMode == LEVEL_SCREEN_NAME){
+
+			memset(levels[levelsLength - 1].screenName, 0, 255 * sizeof(char));
+			strncpy(levels[levelsLength - 1].screenName, line, strlen(line) - 1);
+
+			currentReadMode = NONE;
 
 		}
 
@@ -103,7 +126,7 @@ int main(){
 
 	fputs("#ifndef LEVELS_H_\n#define LEVELS_H_\n", file);
 
-	fputs("\ntypedef struct Level{\n\tchar *name;\n\tvoid (*generate)(World *);\n}Level;\n\n", file);
+	fputs("\ntypedef struct Level{\n\tchar *name;\n\tchar *screenName;\n\tvoid (*generate)(World *);\n}Level;\n\n", file);
 
 	for(int i = 0; i < levelsLength; i++){
 
@@ -127,6 +150,10 @@ int main(){
 
 		fputs("\t\"", file);
 		fputs(levels[i].name, file);
+		fputs("\",\n", file);
+
+		fputs("\t\"", file);
+		fputs(levels[i].screenName, file);
 		fputs("\",\n", file);
 
 		char buffer[255];

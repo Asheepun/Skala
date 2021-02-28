@@ -1044,6 +1044,8 @@ airport-control
 
 :levelName
 player-position-jumping-key-1
+:screenName
+Puppet
 :levelCode
 
 	World_restore(world_p);
@@ -1070,6 +1072,8 @@ player-position-jumping-key-1
 
 :levelName
 player-position-jumping-key-2
+:screenName
+Puppet 2
 :levelCode
 
 	World_restore(world_p);
@@ -1100,6 +1104,8 @@ player-position-jumping-key-2
 
 :levelName
 player-position-jumping-key-3
+:screenName
+Puppet 3
 :levelCode
 
 	World_restore(world_p);
@@ -1132,31 +1138,24 @@ player-position-jumping-key-3
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 240, 120), getVec2f(20, HEIGHT - 160), NONE);
 
+:levelName
+point-field-cage
+:levelCode
 
-//:levelName
-//shrinking-death-dive
-//:levelCode
+	World_restore(world_p);
 
-	//World_restore(world_p);
+	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
-	//world_p->scalingByPlayerPosition = true;
+	World_addPoint(world_p, getVec2f(410, 90), NONE);
 
-	//World_initPlayer(world_p, getVec2f(100, 0), NONE);
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(150, 60), NONE);
 
-	//World_addPoint(world_p, getVec2f(360, 260), NONE);
+	World_addObstacle(world_p, getVec2f(350, 0), getVec2f(20, HEIGHT), NONE);
 
-	//World_addObstacle(world_p, getVec2f(0, 140), getVec2f(350, 130), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT - 180), NONE);
 
-	//World_addObstacle(world_p, getVec2f(200, 130), getVec2f(150, 10), NONE);
+	World_addObstacle(world_p, getVec2f(370, 0), getVec2f(90, 20), NONE);
 
-	//World_addObstacle(world_p, getVec2f(210, 120), getVec2f(140, 10), NONE);
+	World_addScaleField(world_p, getVec2f(370, 60), getVec2f(90, HEIGHT - 60), ALL);
 
-	//World_addObstacle(world_p, getVec2f(220, 110), getVec2f(130, 10), NONE);
-
-	//World_addObstacle(world_p, getVec2f(230, 100), getVec2f(120, 10), NONE);
-
-	//World_addObstacle(world_p, getVec2f(380, 100), getVec2f(100, 170), NONE);
-
-	//World_addScaleField(world_p, getVec2f(350, 80), getVec2f(30, 180), ALL);
-
-	//World_addScaleField(world_p, getVec2f(100, 0), getVec2f(20, 110), ALL);
+	World_addScaleField(world_p, getVec2f(240, 60), getVec2f(90, HEIGHT - 60), ALL);

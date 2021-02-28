@@ -326,6 +326,11 @@ void World_initLevelHub(World *world_p){
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX - *currentRoomWidth, -HEIGHT + 125), "layers-of-fields", SCALE_FIELD_ROOM);
 	*currentRoomWidth += normalLevelDistance;
 
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX - *currentRoomWidth, -HEIGHT + 125), "point-field-cage", SCALE_FIELD_ROOM);
+	*currentRoomWidth += normalLevelDistance;
+
+	*currentRoomWidth += 20;
+
 	*currentRoomX -= *currentRoomWidth;
 
 	//player position room levels

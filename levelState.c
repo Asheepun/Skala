@@ -932,7 +932,14 @@ void World_levelState(World *world_p){
 		&& playerBodyPair_p->body.pos.y < levelDoor_p->body.pos.y + 70){
 			if(levelDoor_p->hoverTextSpriteID == -1){
 
-				levelDoor_p->hoverTextSpriteID = World_addTextSprite(world_p, levelDoor_p->body.pos, levelDoor_p->levelName, "times15", COLOR_WHITE, GAME_LAYER_TEXT);
+				char *screenName;
+				for(int i = 0; i < LEVELS_LENGTH; i++){
+					if(strcmp(levels[i].name, levelDoor_p->levelName) == 0){
+						screenName = levels[i].screenName;
+					}
+				}
+
+				levelDoor_p->hoverTextSpriteID = World_addTextSprite(world_p, levelDoor_p->body.pos, screenName, "times15", COLOR_WHITE, GAME_LAYER_TEXT);
 				Sprite *hoverTextSprite_p = World_getSpriteByID(world_p, levelDoor_p->hoverTextSpriteID);
 
 				hoverTextSprite_p->pos.y -= 20;
@@ -964,7 +971,12 @@ void World_levelState(World *world_p){
 
 			ScaleField *scaleField_p = Array_getItemPointerByIndex(&world_p->scaleFields, j);
 
-			if(checkBodyToBodyColCastToInt(bodyPair_p->body, scaleField_p->body)){
+			if(floor(bodyPair_p->body.pos.x + bodyPair_p->body.size.x) > floor(scaleField_p->body.pos.x)
+			&& floor(bodyPair_p->body.pos.x) < floor(scaleField_p->body.pos.x + scaleField_p->body.size.x)
+			&& floor(bodyPair_p->body.pos.y + bodyPair_p->body.size.y) > floor(scaleField_p->body.pos.y)
+			&& floor(bodyPair_p->body.pos.y) < floor(scaleField_p->body.pos.y + scaleField_p->body.size.y)
+					//checkBodyToBodyColCastToInt(bodyPair_p->body, scaleField_p->body)
+			){
 
 				bodyPair_p->scaleType = scaleField_p->scaleType;
 				
