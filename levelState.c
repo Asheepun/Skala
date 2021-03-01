@@ -930,32 +930,30 @@ void World_levelState(World *world_p){
 		&& playerBodyPair_p->body.pos.x < levelDoor_p->body.pos.x + levelDoor_p->body.size.x
 		&& playerBodyPair_p->body.pos.y > levelDoor_p->body.pos.y
 		&& playerBodyPair_p->body.pos.y < levelDoor_p->body.pos.y + 70){
-			if(levelDoor_p->hoverTextSpriteID == -1){
 
-				char *screenName;
-				for(int i = 0; i < LEVELS_LENGTH; i++){
-					if(strcmp(levels[i].name, levelDoor_p->levelName) == 0){
-						screenName = levels[i].screenName;
-					}
-				}
+			if(!levelDoor_p->hasPlayerBelow){
 
-				levelDoor_p->hoverTextSpriteID = World_addTextSprite(world_p, levelDoor_p->body.pos, screenName, "times15", COLOR_WHITE, GAME_LAYER_TEXT);
-				Sprite *hoverTextSprite_p = World_getSpriteByID(world_p, levelDoor_p->hoverTextSpriteID);
+				Particle *hoverTextParticle_p = World_getParticleByID(world_p, levelDoor_p->hoverTextParticleID);
 
-				hoverTextSprite_p->pos.y -= 20;
-				hoverTextSprite_p->pos.x += 10;
-
-				Body hoverTextSpriteBody = World_TextSprite_getBody(world_p, hoverTextSprite_p);
-				hoverTextSprite_p->pos.x -= hoverTextSpriteBody.size.x / 2;
+				union ParticleProperty targetAlpha;
+				targetAlpha.alpha = 1;
+				Particle_addEvent(hoverTextParticle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, targetAlpha, 0, 900 / 60);
 
 			}
+
+			levelDoor_p->hasPlayerBelow = true;
+
 		}else{
 
-			if(levelDoor_p->hoverTextSpriteID != -1){
-				World_removeSpriteByID(world_p, levelDoor_p->hoverTextSpriteID);
+			if(!levelDoor_p->hasPlayerBelow){
+				Particle *hoverTextParticle_p = World_getParticleByID(world_p, levelDoor_p->hoverTextParticleID);
+
+				union ParticleProperty targetAlpha;
+				targetAlpha.alpha = 0;
+				Particle_addEvent(hoverTextParticle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, targetAlpha, 0, 300 / 60);
 			}
 
-			levelDoor_p->hoverTextSpriteID = -1;
+			levelDoor_p->hasPlayerBelow = false;
 		}
 
 	}
@@ -990,69 +988,129 @@ void World_levelState(World *world_p){
 	for(int i = 0; i < world_p->particles.length; i++){
 
 		Particle *particle_p = Array_getItemPointerByIndex(&world_p->particles, i);
-
-		if(particle_p->activationCounter == 0){
-			particle_p->body.pos.x += 5;
-			particle_p->body.pos.y += 3;
-			particle_p->body.size.x = 10;
-			particle_p->body.size.y = 10;
-			World_getSpriteByID(world_p, particle_p->spriteID)->texture = "point";
-		}
-
-		particle_p->activationCounter--;
-
-		if(particle_p->activationCounter > 0){
-			continue;
-		}
-
 		Sprite *sprite_p = World_getSpriteByID(world_p, particle_p->spriteID);
 
-		//change to target color
-		float colorChangeSpeed = 0.02;
-		if(colorChangeSpeed < fabs(sprite_p->color.x - particle_p->targetColor.x)){
-			sprite_p->color.x += colorChangeSpeed * Number_normalize(particle_p->targetColor.x - sprite_p->color.x);
-		}
-		if(colorChangeSpeed < fabs(sprite_p->color.y - particle_p->targetColor.y)){
-			sprite_p->color.y += colorChangeSpeed * Number_normalize(particle_p->targetColor.y - sprite_p->color.y);
-		}
-		if(colorChangeSpeed < fabs(sprite_p->color.z - particle_p->targetColor.z)){
-			sprite_p->color.z += colorChangeSpeed * Number_normalize(particle_p->targetColor.z - sprite_p->color.z);
-		}
+		for(int j = 0; j < particle_p->events.length; j++){
 
-		//handle particle physics
-		particle_p->physics.acceleration.y = 0.05;
+			ParticleEvent *particleEvent_p = Array_getItemPointerByIndex(&particle_p->events, j);
 
-		if(particle_p->physics.velocity.y > 1.5){
+			if(particle_p->counter > particleEvent_p->activationTime + particleEvent_p->duration){
 
-			if(!particle_p->targeting){
-				particle_p->physics.velocity.x += 7;
-				particle_p->physics.velocity.y -= 2.5;
+				Array_removeItemByIndex(&particle_p->events, j);
+				j--;
+
 			}
 
-			particle_p->targeting = true;
+			if(particle_p->counter >= particleEvent_p->activationTime
+			&& particle_p->counter <= particleEvent_p->activationTime + particleEvent_p->duration){
 
-		}
+				if(particleEvent_p->propertyType == PARTICLE_ALPHA){
 
-		if(particle_p->targeting){
+					if(particle_p->counter == particleEvent_p->activationTime){
+						particleEvent_p->startValue.alpha = sprite_p->alpha;
+					}
 
-			Vec2f target = { 0, 250 };
+					if(particleEvent_p->type == PARTICLE_SET_EVENT){
+						sprite_p->alpha = particleEvent_p->targetValue.alpha;
+					}
 
-			particle_p->physics.acceleration = target;
-			Vec2f_sub(&particle_p->physics.acceleration, &particle_p->body.pos);
-			Vec2f_normalize(&particle_p->physics.acceleration);
-			Vec2f_mulByFactor(&particle_p->physics.acceleration, 0.8);
+					if(particleEvent_p->type == PARTICLE_LINEAR_FADE_EVENT){
+						sprite_p->alpha = particleEvent_p->startValue.alpha + (particleEvent_p->targetValue.alpha - particleEvent_p->startValue.alpha) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
+					}
+				
+				}
+				
+			}
 		
 		}
 
 		Vec2f_add(&particle_p->physics.velocity, &particle_p->physics.acceleration);
+		Vec2f_add(&particle_p->body.pos, &particle_p->physics.acceleration);
 
-		particle_p->body.pos.y += particle_p->physics.velocity.y;
-		particle_p->body.pos.x += particle_p->physics.velocity.x;
+		particle_p->counter++;
 
-		if(particle_p->body.pos.x < 0){
-			World_removeParticleByID(world_p, particle_p->entityHeader.ID);
-			i--;
+		/*
+		if(particle_p->type == FADE_IN_PARTICLE){
+
+			Sprite *sprite_p = World_getSpriteByID(world_p, particle_p->spriteID);
+
+			sprite_p->alpha += 0.01;
+
+			if(sprite_p->alpha > 1){
+				sprite_p->alpha = 1;
+			}
+
+			particle_p->counter++;
+		
 		}
+
+		if(particle_p->type == LEVEL_COMPLETE_PARTICLE){
+
+			if(particle_p->activationCounter == 0){
+				particle_p->body.pos.x += 5;
+				particle_p->body.pos.y += 3;
+				particle_p->body.size.x = 10;
+				particle_p->body.size.y = 10;
+				World_getSpriteByID(world_p, particle_p->spriteID)->texture = "point";
+			}
+
+			particle_p->activationCounter--;
+
+			if(particle_p->activationCounter > 0){
+				continue;
+			}
+
+			Sprite *sprite_p = World_getSpriteByID(world_p, particle_p->spriteID);
+
+			//change to target color
+			float colorChangeSpeed = 0.02;
+			if(colorChangeSpeed < fabs(sprite_p->color.x - particle_p->targetColor.x)){
+				sprite_p->color.x += colorChangeSpeed * Number_normalize(particle_p->targetColor.x - sprite_p->color.x);
+			}
+			if(colorChangeSpeed < fabs(sprite_p->color.y - particle_p->targetColor.y)){
+				sprite_p->color.y += colorChangeSpeed * Number_normalize(particle_p->targetColor.y - sprite_p->color.y);
+			}
+			if(colorChangeSpeed < fabs(sprite_p->color.z - particle_p->targetColor.z)){
+				sprite_p->color.z += colorChangeSpeed * Number_normalize(particle_p->targetColor.z - sprite_p->color.z);
+			}
+
+			//handle particle physics
+			particle_p->physics.acceleration.y = 0.05;
+
+			if(particle_p->physics.velocity.y > 1.5){
+
+				if(!particle_p->targeting){
+					particle_p->physics.velocity.x += 7;
+					particle_p->physics.velocity.y -= 2.5;
+				}
+
+				particle_p->targeting = true;
+
+			}
+
+			if(particle_p->targeting){
+
+				Vec2f target = { 0, 250 };
+
+				particle_p->physics.acceleration = target;
+				Vec2f_sub(&particle_p->physics.acceleration, &particle_p->body.pos);
+				Vec2f_normalize(&particle_p->physics.acceleration);
+				Vec2f_mulByFactor(&particle_p->physics.acceleration, 0.8);
+			
+			}
+
+			Vec2f_add(&particle_p->physics.velocity, &particle_p->physics.acceleration);
+
+			particle_p->body.pos.y += particle_p->physics.velocity.y;
+			particle_p->body.pos.x += particle_p->physics.velocity.x;
+
+			if(particle_p->body.pos.x < 0){
+				World_removeParticleByID(world_p, particle_p->entityHeader.ID);
+				i--;
+			}
+		
+		}
+	*/
 	
 	}
 

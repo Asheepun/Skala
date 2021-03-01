@@ -134,7 +134,7 @@ static Level levels[255] = {
 	"Green suit",
 	World_generateLevel21,
 	"cooler-scaling-level-5",
-	"green Couple",
+	"Green Couple",
 	World_generateLevel22,
 	"door-key-level-1",
 	"Door",

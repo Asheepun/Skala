@@ -401,11 +401,19 @@ void World_initLevelHub(World *world_p){
 
 	//World_addSprite(world_p, getVec2f(startingAreaX, HEIGHT), getVec2f(houseX + houseWidth, 40), COLOR_WHITE, "obstacle", 1, GAME_LAYER_BACKGROUND);
 
-	World_addTextSprite(world_p, getVec2f(startingAreaX + 250, -HEIGHT - 50), "Skala ", "times80", COLOR_WHITE, GAME_LAYER_TEXT);
+	//World_addTextSprite(world_p, getVec2f(startingAreaX + 250, -HEIGHT - 50), "Skala ", "times80", COLOR_WHITE, GAME_LAYER_TEXT);
+	{
 
-	World_addTextSprite(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 30), "Arrow keys to move ", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+		int activationTime = 0;
+		int duration = 3000 / 60;
 
-	World_addTextSprite(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 50), "Esc key to open menu ", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+		World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 250, -HEIGHT - 50), "Skala ", "times80", COLOR_WHITE, activationTime, duration);
+
+		World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 30), "Arrow keys to move ", "times20", COLOR_WHITE, activationTime, duration);
+
+		World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 50), "Esc key to open menu ", "times20", COLOR_WHITE, activationTime, duration);
+	
+	}
 
 	//add house obstacles
 	World_addObstacle(world_p, getVec2f(houseX, 120), getVec2f(30, 50), NONE);
@@ -752,7 +760,7 @@ void World_initLevelHub(World *world_p){
 			//pos.x += 5;
 			//pos.y += 3;
 
-			World_addParticle(world_p, pos, getVec2f(20, 15), "level-door-completed", counter * 10, COLOR_WHITE, targetColor);
+			//World_addParticle(world_p, pos, getVec2f(20, 15), "level-door-completed", counter * 10, COLOR_WHITE, targetColor);
 
 			counter++;
 			

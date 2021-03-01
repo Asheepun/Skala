@@ -11,6 +11,13 @@
 
 //enums
 
+//*temoporary
+enum ParticleType{
+	LEVEL_COMPLETE_PARTICLE,
+	FADE_IN_PARTICLE,
+};
+//*temporary
+
 enum Actions{
 	UP_ACTION,
 	DOWN_ACTION,
@@ -89,6 +96,34 @@ enum LevelHubRoom{
 	ALL_FROM_TOP_ROOM,
 	SCALE_FIELD_ROOM,
 	PLAYER_POSITION_ROOM,
+};
+
+enum ParticlePropertyType{
+	PARTICLE_POS,
+	PARTICLE_SIZE,
+	PARTICLE_VELOCITY,
+	PARTICLE_ACCELERATION,
+	PARTICLE_COLOR,
+	PARTICLE_ALPHA,
+	PARTICLE_TEXTURE,
+	PARTICLE_TEXT,
+};
+
+enum ParticleEventType{
+	PARTICLE_SET_EVENT,
+	PARTICLE_REMOVE_EVENT,
+	PARTICLE_LINEAR_FADE_EVENT,
+	PARTICLE_LERP_EVENT,
+};
+
+union ParticleProperty{
+	Vec2f pos;
+	Vec2f size;
+	Vec2f velocity;
+	Vec2f acceleration;
+	float alpha;
+	char *texture;
+	char *text;
 };
 
 //structs
@@ -211,17 +246,37 @@ typedef struct LevelDoor{
 	enum LevelHubRoom levelHubRoom;
 	size_t spriteID;
 	size_t hoverTextSpriteID;
+	size_t hoverTextParticleID;
+	bool hasPlayerBelow;
 }LevelDoor;
 
 typedef struct Particle{
 	EntityHeader entityHeader;
 	Body body;
 	Physics physics;
+	Array events;
+	int counter;
+	size_t spriteID;
+
+	//temp stuff
+	Vec4f targetColor;
 	bool targeting;
 	int activationCounter;
-	Vec4f targetColor;
-	size_t spriteID;
+	enum ParticleType type;
+
 }Particle;
+
+typedef struct ParticleEvent{
+	enum ParticlePropertyType propertyType;
+	enum ParticleEventType type;
+	union ParticleProperty startValue;
+	union ParticleProperty targetValue;
+	int activationTime;
+	int duration;
+	float a;
+	float b;
+	float c;
+}ParticleEvent;
 
 typedef struct Key{
 	bool down;
@@ -395,8 +450,11 @@ size_t World_addDoor(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addDoorKey(World *, Vec2f, enum ScaleType);
 size_t World_addScaleField(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addLevelDoor(World *, Vec2f, char *, enum LevelHubRoom);
-size_t World_addParticle(World *, Vec2f, Vec2f, char *, int, Vec4f, Vec4f);
+//size_t World_addParticle(World *, Vec2f, Vec2f, char *, int, Vec4f, Vec4f);
 size_t World_addShadow(World *, Vec2f, Vec2f);
+
+Particle *World_addParticle(World *, size_t);
+size_t World_addFadeInTextParticle(World *, Vec2f, char *, char *, Vec4f, int, int);
 
 void World_removeSpriteByID(World *, size_t);
 void World_removeButtonByID(World *, size_t);
@@ -410,6 +468,7 @@ Body World_TextSprite_getBody(World *, Sprite *);
 BodyPair *World_getBodyPairByID(World *, size_t);
 Sprite *World_getSpriteByID(World *, size_t);
 Button *World_getButtonByID(World *, size_t);
+Particle *World_getParticleByID(World *, size_t);
 
 void Action_init(Action *);
 
@@ -429,6 +488,9 @@ void World_checkAndHandleBodyPairCollisionsX(World *, enum CollisionWeight, enum
 void World_checkAndHandleBodyPairCollisionsY(World *, enum CollisionWeight, enum ScaleType, enum CollisionWeight, enum ScaleType);
 
 Vec2f BodyPair_getPhysicsScale(BodyPair *);
+
+void Particle_addEvent(Particle *, enum ParticleEventType, enum ParticlePropertyType, union ParticleProperty, int, int);
+void Particle_addRemoveEvent(Particle *, int);
 
 //FILE: components.c
 

@@ -180,6 +180,10 @@ void drawGame(){
 
 			Sprite *sprite_p = Array_getItemPointerByIndex(&world.spriteLayers[i], j);
 
+			if(sprite_p->alpha == 0){
+				continue;
+			}
+
 			Vec4f color = sprite_p->color;
 			color.w = sprite_p->alpha;
 

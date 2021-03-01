@@ -9,6 +9,7 @@
 #include "text.h"
 #include "utils.h"
 #include "game.h"
+#include "levels.h"
 
 void World_init(World *world_p){
 
@@ -354,9 +355,32 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 
 	levelDoor_p->levelName = levelName;
 	levelDoor_p->levelHubRoom = levelHubRoom;
-	levelDoor_p->hoverTextSpriteID = -1;
+	//levelDoor_p->hoverTextParticleID = -1;
 
 	levelDoor_p->spriteID = World_addSprite(world_p, pos, levelDoor_p->body.size, COLOR_WHITE, "level-door", 1, GAME_LAYER_FOREGROUND);
+
+	char *screenName;
+	for(int i = 0; i < LEVELS_LENGTH; i++){
+		if(strcmp(levels[i].name, levelDoor_p->levelName) == 0){
+			screenName = levels[i].screenName;
+		}
+	}
+
+	levelDoor_p->hoverTextParticleID = World_addFadeInTextParticle(world_p, levelDoor_p->body.pos, screenName, "times15", COLOR_WHITE, 0, 0);
+	Particle *hoverTextParticle_p = World_getParticleByID(world_p, levelDoor_p->hoverTextParticleID);
+	Sprite *hoverTextSprite_p = World_getSpriteByID(world_p, hoverTextParticle_p->spriteID);
+
+	hoverTextSprite_p->pos.y -= 20;
+	hoverTextSprite_p->pos.x += 10;
+
+	Body hoverTextSpriteBody = World_TextSprite_getBody(world_p, hoverTextSprite_p);
+	hoverTextSprite_p->pos.x -= hoverTextSpriteBody.size.x / 2;
+
+	levelDoor_p->hasPlayerBelow = false;
+
+	union ParticleProperty startAlpha;
+	startAlpha.alpha = 0;
+	Particle_addEvent(hoverTextParticle_p, PARTICLE_SET_EVENT, PARTICLE_ALPHA, startAlpha, 0, 0);
 
 	if(!world_p->addedRoomLevels){
 
@@ -369,6 +393,7 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 
 }
 
+/*
 size_t World_addParticle(World *world_p, Vec2f pos, Vec2f size, char *spriteName, int activationTime, Vec4f color, Vec4f targetColor){
 
 	Particle *particle_p = Array_addItem(&world_p->particles);
@@ -376,17 +401,77 @@ size_t World_addParticle(World *world_p, Vec2f pos, Vec2f size, char *spriteName
 	EntityHeader_init(&particle_p->entityHeader);
 
 	Body_init(&particle_p->body, pos, size);
-	Physics_init(&particle_p->physics, pos, size);
+	Physics_init(&particle_p->physics);
 
 	particle_p->physics.velocity.y = -2;
 	particle_p->targeting = false;
 	particle_p->activationCounter = activationTime;
 	particle_p->targetColor = targetColor;
 
+	particle_p->type = LEVEL_COMPLETE_PARTICLE;
+
 	particle_p->spriteID = World_addSprite(world_p, particle_p->body.pos, particle_p->body.size, color, spriteName, 1, GAME_LAYER_PARTICLES);
 
 	return particle_p->entityHeader.ID;
 
+
+}
+*/
+
+Particle *World_addParticle(World *world_p, size_t spriteID){
+	
+	Particle *particle_p = Array_addItem(&world_p->particles);
+
+	EntityHeader_init(&particle_p->entityHeader);
+
+	Physics_init(&particle_p->physics);
+
+	particle_p->spriteID = spriteID;
+
+	particle_p->counter = 0;
+
+	Array_init(&particle_p->events, sizeof(ParticleEvent));
+
+	return particle_p;
+
+}
+
+void Particle_addEvent(Particle *particle_p, enum ParticleEventType eventType, enum ParticlePropertyType propertyType, union ParticleProperty targetValue, int activationTime, int duration){
+
+	ParticleEvent *particleEvent_p = Array_addItem(&particle_p->events);
+
+	particleEvent_p->activationTime = particle_p->counter + activationTime;
+	particleEvent_p->duration = duration;
+	particleEvent_p->type = eventType;
+	particleEvent_p->propertyType = propertyType;
+	particleEvent_p->targetValue = targetValue;
+	
+}
+
+void Particle_addRemoveEvent(Particle *particle_p, int activationTime){
+
+	ParticleEvent *particleEvent_p = Array_addItem(&particle_p->events);
+
+	particleEvent_p->activationTime = activationTime;
+	particleEvent_p->type = PARTICLE_REMOVE_EVENT;
+
+}
+
+size_t World_addFadeInTextParticle(World *world_p, Vec2f pos, char *text, char *fontName, Vec4f color, int activationTime, int durationTime){
+	
+	size_t spriteID = World_addTextSprite(world_p, pos, text, fontName, color, GAME_LAYER_PARTICLES);
+
+	Particle *particle_p = World_addParticle(world_p, spriteID);
+
+	union ParticleProperty startAlpha;
+	startAlpha.alpha = 0;
+	Particle_addEvent(particle_p, PARTICLE_SET_EVENT, PARTICLE_ALPHA, startAlpha, 0, 0);
+
+	union ParticleProperty targetAlpha;
+	targetAlpha.alpha = 1;
+	Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, targetAlpha, activationTime, durationTime);
+
+	return particle_p->entityHeader.ID;
 
 }
 
@@ -464,6 +549,8 @@ void World_removeParticleByID(World *world_p, size_t ID){
 	
 	World_removeSpriteByID(world_p, particle_p->spriteID);
 
+	Array_free(&particle_p->events);
+
 	Array_removeItemByID(&world_p->particles, ID);
 
 }
@@ -494,6 +581,10 @@ Sprite *World_getSpriteByID(World *world_p, size_t ID){
 
 Button *World_getButtonByID(World *world_p, size_t ID){
 	return Array_getItemPointerByID(&world_p->buttons, ID);
+}
+
+Particle *World_getParticleByID(World *world_p, size_t ID){
+	return Array_getItemPointerByID(&world_p->particles, ID);
 }
 
 Vec2f World_getOriginFromScaleType(World *world_p, enum ScaleType scaleType){
