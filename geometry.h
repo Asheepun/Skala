@@ -101,4 +101,6 @@ void Mat4f_translate(Mat4f *, float, float, float);
 
 void Mat4f_perspective(Mat4f *m, float fov, float aspectRatio, float n, float f);
 
+float getRandom();
+
 #endif

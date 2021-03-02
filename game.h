@@ -237,6 +237,7 @@ typedef struct ScaleField{
 	enum ScaleType scaleType;
 	size_t bodyPairID;
 	size_t spriteID;
+	int particleCounter;
 }ScaleField;
 
 typedef struct LevelDoor{

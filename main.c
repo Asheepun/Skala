@@ -12,6 +12,7 @@
 #include "utils.h"
 #include "game.h"
 #include "levels.h"
+#include "audio.h"
 
 static World world;
 
@@ -465,6 +466,19 @@ int main(int argc, char *argv[]){
 		stbi_image_free(imageData);
 	
 	}
+
+	//load audio
+	char *soundAssets[] = {
+		"sound",
+		"enemy",
+	};
+
+	int soundAssetsLength = sizeof(soundAssets) / sizeof(char *);
+
+	initSounds(soundAssets, soundAssetsLength);
+
+	//playSound("sound");
+	//playSound("enemy");
 
 	//make star background texture
 	{

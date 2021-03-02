@@ -984,10 +984,50 @@ void World_levelState(World *world_p){
 	
 	}
 
+	//add particles to scale fields
+	for(int i = 0; i < world_p->scaleFields.length; i++){
+
+		ScaleField *scaleField_p = Array_getItemPointerByIndex(&world_p->scaleFields, i);
+
+		scaleField_p->particleCounter++;
+
+		float area = scaleField_p->body.size.x * scaleField_p->body.size.y;
+		int frequency = 10;
+
+		if(scaleField_p->particleCounter % frequency == 0){
+
+			Vec2f pos = scaleField_p->body.pos;
+			Vec2f size = getVec2f(round(3 + getRandom() * 2), 3 + round(getRandom() * 2));
+
+			pos.x += 5 + getRandom() * (scaleField_p->body.size.x - 12);
+			pos.y += 5 + getRandom() * (scaleField_p->body.size.y - 12);
+
+			size_t spriteID = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[scaleField_p->scaleType], "obstacle", 0, GAME_LAYER_PARTICLES);
+			Particle *particle_p = World_addParticle(world_p, spriteID);
+
+			union ParticleProperty targetAlpha1;
+			union ParticleProperty targetAlpha2;
+			targetAlpha1.alpha = 0.5 + getRandom() * 0.3;
+			targetAlpha2.alpha = 0;
+
+			Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, targetAlpha1, 0, 2000 / 60);
+			Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, targetAlpha2, 5000 / 60, 2000 / 60);
+			Particle_addRemoveEvent(particle_p, 7000 / 60);
+
+		}
+
+	}
+
 	//update particles
 	for(int i = 0; i < world_p->particles.length; i++){
 
 		Particle *particle_p = Array_getItemPointerByIndex(&world_p->particles, i);
+
+		//little optimization
+		if(particle_p->events.length == 0){
+			continue;
+		}
+
 		Sprite *sprite_p = World_getSpriteByID(world_p, particle_p->spriteID);
 
 		for(int j = 0; j < particle_p->events.length; j++){
@@ -1003,6 +1043,11 @@ void World_levelState(World *world_p){
 
 			if(particle_p->counter >= particleEvent_p->activationTime
 			&& particle_p->counter <= particleEvent_p->activationTime + particleEvent_p->duration){
+
+				if(particleEvent_p->type == PARTICLE_REMOVE_EVENT){
+					World_removeParticleByID(world_p, particle_p->entityHeader.ID);
+					i--;
+				}
 
 				if(particleEvent_p->propertyType == PARTICLE_ALPHA){
 
@@ -1204,7 +1249,7 @@ void World_levelState(World *world_p){
 
 		Sprite *sprite_p = World_getSpriteByID(world_p, particle_p->spriteID);
 
-		sprite_p->body = particle_p->body;
+		//sprite_p->body = particle_p->body;
 
 		//sprite_p->alpha = 1;
 

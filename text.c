@@ -65,8 +65,8 @@ Font getFont(char *fontPath, int fontSize){
 			font.scale,
 			&glyph->west,
 			&glyph->north,
-			&glyph->east,
-			&glyph->south
+		&glyph->east,
+		&glyph->south
 		);
 
 		int hej = stbtt_GetCodepointKernAdvance(&font.info, "a", "b");
@@ -96,6 +96,10 @@ char *getImageDataFromFontAndString_mustFree(Font font, char *string, int *outWi
 
 		int kern;
 		kern = stbtt_GetCodepointKernAdvance(&font.info, string[i], string[i + 1]);
+		if(i == strlen(string) - 1){
+			kern = stbtt_GetCodepointKernAdvance(&font.info, string[i], " ");
+			width += 1;
+		}
 
 		width += roundf(kern * font.scale);
 	

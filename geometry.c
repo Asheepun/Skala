@@ -318,3 +318,18 @@ void Mat4f_perspective(Mat4f *m, float fov, float aspectRatio, float nearViewDis
 	Mat4f_mul(m, &perspectiveMatrix);
 
 }
+
+int x = 1;
+int a = 65521;
+int c = 0;
+int m = 17364;
+
+float getRandom(){
+
+	x = (a * x + c) % m;
+	float r = (float)x;
+	r /= m;
+
+	return r;
+	
+}
