@@ -1,6 +1,10 @@
 #ifndef OPENGL_UTILS_H_
 #define OPENGL_UTILS_H_
 
+#include "glad/glad.h"
+#include "SDL2/SDL.h"
+#include "geometry.h"
+
 typedef struct OpenglUtils_Renderer{
 
 	Vec2f offset;

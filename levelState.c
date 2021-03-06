@@ -1,12 +1,13 @@
-#include "stdbool.h"
+//#include "stdbool.h"
+#include "game.h"
 #include "math.h"
 #include "stdio.h"
-#include "geometry.h"
-#include "stb_truetype.h"
-#include "text.h"
-#include "utils.h"
-#include "game.h"
+//#include "geometry.h"
+//#include "stb_truetype.h"
+//#include "text.h"
+//#include "utils.h"
 #include "levels.h"
+#include "audio.h"
 
 typedef struct Collision{
 	unsigned int lighterBodyPairIndex;
@@ -15,8 +16,6 @@ typedef struct Collision{
 }Collision;
 
 int blockerAnimationCount = 25;
-
-size_t levelStateFadeTransitionID = 6900;//så att det inte krockar första gången
 
 void World_initLevel(World *world_p){
 
@@ -125,6 +124,7 @@ void World_levelState(World *world_p){
 		if((world_p->actions[JUMP_ACTION].down)
 		&& playerPhysics_p->onGround){
 			playerPhysics_p->velocity.y += player_p->jumpSpeed;
+			playSound("player-jump");
 		}
 
 		if(!world_p->actions[JUMP_ACTION].down
@@ -937,7 +937,7 @@ void World_levelState(World *world_p){
 
 				union ParticleProperty targetAlpha;
 				targetAlpha.alpha = 1;
-				Particle_addEvent(hoverTextParticle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, targetAlpha, 0, 900 / 60);
+				Particle_addEvent(hoverTextParticle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, targetAlpha, 0, 500 / 60);
 
 			}
 
@@ -1047,6 +1047,7 @@ void World_levelState(World *world_p){
 				if(particleEvent_p->type == PARTICLE_REMOVE_EVENT){
 					World_removeParticleByID(world_p, particle_p->entityHeader.ID);
 					i--;
+					break;
 				}
 
 				if(particleEvent_p->propertyType == PARTICLE_ALPHA){
@@ -1268,10 +1269,37 @@ void World_levelState(World *world_p){
 		Sprite *sprite_p = World_getSpriteByID(world_p, world_p->player.spriteID);
 
 		sprite_p->body = playerBodyPair_p->body;
+		sprite_p->body.pos.y = round(sprite_p->body.pos.y);
 
 		sprite_p->color = SCALE_TYPE_COLORS[playerBodyPair_p->scaleType];
 
 		sprite_p->facing = world_p->player.facing;
+	}
+
+	//fade out title text
+	BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
+	if(playerBodyPair_p->body.pos.x > 180
+	&& !SaveData_hasFlag(&world_p->saveData, "removed-title-text")){
+
+		int duration = 1000 / 60;
+
+		union ParticleProperty targetAlpha;
+		targetAlpha.alpha = 0;
+
+		Particle *titleTextParticle_p = World_getParticleByID(world_p, world_p->titleTextParticleID);
+		Particle *movementKeysTextParticle_p = World_getParticleByID(world_p, world_p->movementKeysTextParticleID);
+		Particle *menuKeyTextParticle_p = World_getParticleByID(world_p, world_p->menuKeyTextParticleID);
+
+		Particle_addEvent(titleTextParticle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, targetAlpha, 0, duration);
+		Particle_addEvent(movementKeysTextParticle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, targetAlpha, 0, duration);
+		Particle_addEvent(menuKeyTextParticle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, targetAlpha, 0, duration);
+
+		Particle_addRemoveEvent(titleTextParticle_p, duration);
+		Particle_addRemoveEvent(movementKeysTextParticle_p, duration);
+		Particle_addRemoveEvent(menuKeyTextParticle_p, duration);
+
+		SaveData_addFlag(&world_p->saveData, "removed-title-text");
+
 	}
 
 	//update offset
@@ -1343,6 +1371,12 @@ void World_levelState(World *world_p){
 
 		world_p->cameraPos.x += -(world_p->cameraPos.x - world_p->cameraTarget.x) / cameraSpeedX;
 		world_p->cameraPos.y += -(world_p->cameraPos.y - world_p->cameraTarget.y) / cameraSpeedY;
+
+		if(world_p->snapCamera){
+			world_p->cameraPos = world_p->cameraTarget;
+			world_p->cameraPos.y -= 250;
+			world_p->snapCamera = false;
+		}
 
 		world_p->renderer.offset.x = (world_p->cameraPos.x);
 		world_p->renderer.offset.y = (world_p->cameraPos.y);

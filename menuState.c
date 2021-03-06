@@ -1,11 +1,11 @@
-#include "stdbool.h"
+//#include "stdbool.h"
+#include "game.h"
 #include "math.h"
 #include "stdio.h"
-#include "geometry.h"
-#include "stb_truetype.h"
-#include "text.h"
-#include "utils.h"
-#include "game.h"
+//#include "geometry.h"
+//#include "stb_truetype.h"
+//#include "text.h"
+//#include "utils.h"
 #include "levels.h"
 
 size_t exitLevelButtonID;

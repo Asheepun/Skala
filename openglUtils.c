@@ -1,11 +1,11 @@
-#include "glad/glad.h"
-#include "SDL2/SDL.h"
+//#include "glad/glad.h"
+////#define SDL_DISABLE_IMMINTRIN_H
+#include "openglUtils.h"
+//#include "SDL2/SDL.h"
 #include "stdbool.h"
 #include "math.h"
 #include "stdio.h"
-#include "geometry.h"
 #include "utils.h"
-#include "openglUtils.h"
 
 char *readFile_mustFree(char *filePath){
 

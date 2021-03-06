@@ -1,14 +1,14 @@
-#include "glad/glad.h"
-#include "SDL2/SDL.h"
-#include "stdbool.h"
+//#include "glad/glad.h"
+//#include "SDL2/SDL.h"
+//#include "stdbool.h"
+#include "game.h"
 #include "math.h"
 #include "stdio.h"
-#include "geometry.h"
-#include "openglUtils.h"
-#include "stb_truetype.h"
-#include "text.h"
-#include "utils.h"
-#include "game.h"
+//#include "geometry.h"
+//#include "openglUtils.h"
+//#include "stb_truetype.h"
+//#include "text.h"
+//#include "utils.h"
 #include "levels.h"
 
 void World_init(World *world_p){
@@ -60,6 +60,7 @@ void World_init(World *world_p){
 
 	world_p->cameraPos = getVec2f(0, 0);
 	world_p->cameraTarget = getVec2f(0, 0);
+	world_p->snapCamera = false;
 
 	world_p->quit = false;
 
@@ -393,31 +394,6 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 
 }
 
-/*
-size_t World_addParticle(World *world_p, Vec2f pos, Vec2f size, char *spriteName, int activationTime, Vec4f color, Vec4f targetColor){
-
-	Particle *particle_p = Array_addItem(&world_p->particles);
-
-	EntityHeader_init(&particle_p->entityHeader);
-
-	Body_init(&particle_p->body, pos, size);
-	Physics_init(&particle_p->physics);
-
-	particle_p->physics.velocity.y = -2;
-	particle_p->targeting = false;
-	particle_p->activationCounter = activationTime;
-	particle_p->targetColor = targetColor;
-
-	particle_p->type = LEVEL_COMPLETE_PARTICLE;
-
-	particle_p->spriteID = World_addSprite(world_p, particle_p->body.pos, particle_p->body.size, color, spriteName, 1, GAME_LAYER_PARTICLES);
-
-	return particle_p->entityHeader.ID;
-
-
-}
-*/
-
 Particle *World_addParticle(World *world_p, size_t spriteID){
 	
 	Particle *particle_p = Array_addItem(&world_p->particles);
@@ -449,10 +425,14 @@ void Particle_addEvent(Particle *particle_p, enum ParticleEventType eventType, e
 }
 
 void Particle_addRemoveEvent(Particle *particle_p, int activationTime){
+	//printf("%i\n", particle_p->entityHeader.ID);
 
 	ParticleEvent *particleEvent_p = Array_addItem(&particle_p->events);
 
-	particleEvent_p->activationTime = activationTime;
+	//printf("%i\n", particle_p->events.length);
+
+	particleEvent_p->activationTime = particle_p->counter + activationTime;
+	particleEvent_p->duration = 0;
 	particleEvent_p->type = PARTICLE_REMOVE_EVENT;
 
 }

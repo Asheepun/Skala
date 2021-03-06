@@ -5,4 +5,6 @@ void initSounds(char **, int);
 
 void playSound(char *);
 
+void setVolume(float);
+
 #endif

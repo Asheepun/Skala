@@ -1,6 +1,9 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+#include "stdbool.h"
+#include "stddef.h"
+
 typedef struct Array{
 	void *items;
 	unsigned int length;

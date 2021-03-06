@@ -1,3 +1,9 @@
 tcc generator/generate.c -o generator/generate && ./generator/generate
 
-gcc *.c -I ./include/ -ggdb -w -L ./lib/ -lSDL2 -lGL -ldl -lm -lpthread -o main
+#for headerFile in *.h
+#do
+	#echo "$headerFile -> ${headerFile}.gcf"
+	#gcc -c "$headerFile" -I ./include/ -w -O0 -lSDL2 -lGL -ldl -lm -lpthread -o "${headerFile}.gcf"
+#done
+
+gcc *.c -I ./include/ -w -O0 -L ./lib -lSDL2 -lSDL2_mixer -lGL -ldl -lm -lpthread -o main

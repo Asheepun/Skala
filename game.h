@@ -1,9 +1,14 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#include "glad/glad.h"
-#include "SDL2/SDL.h"
+//#include "glad/glad.h"
+//#define SDL_DISABLE_IMMINTRIN_H
+//#include "SDL2/SDL.h"
 #include "openglUtils.h"
+#include "geometry.h"
+#include "utils.h"
+#include "text.h"
+#include "stdbool.h"
 
 //definitions
 
@@ -322,6 +327,7 @@ typedef struct World{
 	OpenglUtils_Renderer renderer;
 	Vec2f cameraPos;
 	Vec2f cameraTarget;
+	bool snapCamera;
 
 	float levelWidth;
 	float levelHeight;
@@ -364,7 +370,11 @@ typedef struct World{
 
 	bool playerHasLanded;
 
-	unsigned int starBackgroundSpriteID;
+	size_t starBackgroundSpriteID;
+
+	size_t titleTextParticleID;
+	size_t movementKeysTextParticleID;
+	size_t menuKeyTextParticleID;
 
 }World;
 
@@ -375,11 +385,11 @@ typedef struct World{
 static const int WIDTH = 480;
 static const int HEIGHT = 270;
 
-//static int windowWidth = WIDTH * 3;
-//static int windowHeight = HEIGHT * 3;
+static int windowWidth = WIDTH * 3;
+static int windowHeight = HEIGHT * 3;
 
-static int windowWidth = WIDTH * 2.5;
-static int windowHeight = HEIGHT * 2.5;
+//static int windowWidth = 480 * 2.5;
+//static int windowHeight = 270 * 2.5;
 
 //static int windowWidth = 1366;
 //static int windowHeight = 768;
@@ -415,10 +425,14 @@ static const Vec4f COLOR_YELLOW_WALL 		= { 0.20, 		0.20, 		0.00, 		1 };
 static const Vec4f COLOR_HOUSE 				= { 0.90, 		0.90, 		0.90, 		1 };
 
 static const Vec4f SCALE_TYPE_COLORS[] = {
-	COLOR_WHITE, 	//none scalable
-	COLOR_GREEN, 	//scalable all
-	COLOR_PURPLE, 	//scalable origin top all
-	COLOR_BLUE, 	//scalable x y switch
+	1, 1, 1, 1,
+	0, 1, 0, 1,
+	1, 0, 1, 1,
+	0, 0, 1, 1,
+	//COLOR_WHITE, 	//none scalable
+	//COLOR_GREEN, 	//scalable all
+	//COLOR_PURPLE, 	//scalable origin top all
+	//COLOR_BLUE, 	//scalable x y switch
 };
 
 static int FADE_TRANSITION_TIME = 60;

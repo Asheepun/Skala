@@ -1,10 +1,5 @@
-#include "stdbool.h"
 #include "math.h"
 #include "stdio.h"
-#include "geometry.h"
-#include "utils.h"
-#include "stb_truetype.h"
-#include "text.h"
 #include "game.h"
 #include "levels.h"
 

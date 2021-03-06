@@ -1,10 +1,10 @@
-#include "stdbool.h"
+//#include "stdbool.h"
 #include "math.h"
 #include "stdio.h"
-#include "geometry.h"
-#include "stb_truetype.h"
-#include "text.h"
-#include "utils.h"
+//#include "geometry.h"
+//#include "stb_truetype.h"
+//#include "text.h"
+//#include "utils.h"
 #include "game.h"
 #include "levels.h"
 
@@ -19,6 +19,11 @@ void World_initLevelHub(World *world_p){
 	world_p->playerHasLanded = false;
 
 	World_initPlayer(world_p, world_p->saveData.playerPos, NONE);
+	world_p->snapCamera = true;
+
+	//BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
+	//world_p->cameraPos.x = WIDTH / 2 - playerBodyPair_p->body.pos.x;
+	//world_p->cameraPos.y = HEIGHT / 2 - playerBodyPair_p->body.pos.y;
 
 	int normalLevelDistance = 70;
 	int widerLevelDistance = 100;
@@ -399,19 +404,17 @@ void World_initLevelHub(World *world_p){
 
 	//World_addObstacle(world_p, getVec2f(startingAreaX + 300, -HEIGHT), getVec2f(100, 100), ALL);
 
-	//World_addSprite(world_p, getVec2f(startingAreaX, HEIGHT), getVec2f(houseX + houseWidth, 40), COLOR_WHITE, "obstacle", 1, GAME_LAYER_BACKGROUND);
+	if(!SaveData_hasFlag(&world_p->saveData, "removed-title-text")){
 
-	//World_addTextSprite(world_p, getVec2f(startingAreaX + 250, -HEIGHT - 50), "Skala ", "times80", COLOR_WHITE, GAME_LAYER_TEXT);
-	{
+		int activationTime = 4000 / 60;
+		int secondActivationTime = 0;
+		int duration = 5000 / 60;
 
-		int activationTime = 0;
-		int duration = 3000 / 60;
+		world_p->titleTextParticleID = World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 250, -HEIGHT - 50), "Skala ", "times80", COLOR_WHITE, activationTime, duration);
 
-		World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 250, -HEIGHT - 50), "Skala ", "times80", COLOR_WHITE, activationTime, duration);
+		world_p->movementKeysTextParticleID = World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 30), "Arrow keys to move ", "times20", COLOR_WHITE, activationTime + secondActivationTime, duration);
 
-		World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 30), "Arrow keys to move ", "times20", COLOR_WHITE, activationTime, duration);
-
-		World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 50), "Esc key to open menu ", "times20", COLOR_WHITE, activationTime, duration);
+		world_p->menuKeyTextParticleID = World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 50), "Esc key to open menu ", "times20", COLOR_WHITE, activationTime + secondActivationTime, duration);
 	
 	}
 

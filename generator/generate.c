@@ -104,7 +104,8 @@ int main(){
 	}
 
 	//write to output file generatedLevels.c
-	char *topOfFile = "#include \"stdbool.h\"\n#include \"math.h\"\n#include \"stdio.h\"\n#include \"geometry.h\"\n#include \"utils.h\"\n#include \"stb_truetype.h\"\n#include \"text.h\"\n#include \"game.h\"\n#include \"levels.h\"\n";
+	//char *topOfFile = "#include \"stdbool.h\"\n#include \"math.h\"\n#include \"stdio.h\"\n#include \"geometry.h\"\n#include \"utils.h\"\n#include \"stb_truetype.h\"\n#include \"text.h\"\n#include \"game.h\"\n#include \"levels.h\"\n";
+	char *topOfFile = "#include \"math.h\"\n#include \"stdio.h\"\n#include \"game.h\"\n#include \"levels.h\"\n";
 
 	file = fopen("generatedLevels.c", "w");
 
@@ -127,6 +128,8 @@ int main(){
 	file = fopen("levels.h", "w");
 
 	fputs("#ifndef LEVELS_H_\n#define LEVELS_H_\n", file);
+
+	fputs("\n#include \"game.h\"\n", file);
 
 	fputs("\ntypedef struct Level{\n\tchar *name;\n\tchar *screenName;\n\tvoid (*generate)(World *);\n}Level;\n\n", file);
 

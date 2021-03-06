@@ -1,10 +1,10 @@
+#include "text.h"
 #include "stdbool.h"
 #include "math.h"
 #include "stdio.h"
+#include "geometry.h"
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "stb_truetype.h"
-#include "geometry.h"
-#include "text.h"
 
 Font getFont(char *fontPath, int fontSize){
 

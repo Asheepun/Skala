@@ -1,18 +1,22 @@
-#include "glad/glad.h"
-#include "SDL2/SDL.h"
+//#include "glad/glad.h"
+//#define SDL_DISABLE_IMMINTRIN_H
+//#include "SDL2/SDL.h"
 #include "stdbool.h"
 #include "math.h"
 #include "stdio.h"
-#include "geometry.h"
-#include "openglUtils.h"
+//#include "geometry.h"
+//#include "openglUtils.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_truetype.h"
+//#define STBI_NO_SIMD
+//#include "stb_truetype.h"
 #include "stb_image.h"
-#include "text.h"
+//#include "text.h"
 #include "utils.h"
 #include "game.h"
 #include "levels.h"
 #include "audio.h"
+
+void drawGame();
 
 static World world;
 
@@ -352,7 +356,7 @@ int main(int argc, char *argv[]){
 	//World_switchToAndInitState(&world, LEVEL_STATE);
 
 	//setup SDL
-	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 
 	window = SDL_CreateWindow("Scale", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_OPENGL);
 
@@ -469,16 +473,14 @@ int main(int argc, char *argv[]){
 
 	//load audio
 	char *soundAssets[] = {
-		"sound",
-		"enemy",
+		"player-jump",
 	};
 
 	int soundAssetsLength = sizeof(soundAssets) / sizeof(char *);
 
-	initSounds(soundAssets, soundAssetsLength);
+	initAudio(soundAssets, soundAssetsLength);
 
-	//playSound("sound");
-	//playSound("enemy");
+	setVolume(0.5);
 
 	//make star background texture
 	{
