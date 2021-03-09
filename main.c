@@ -61,6 +61,7 @@ void mainLoop(){
 
 			if(e.type == SDL_KEYUP){
 				world.keys[SDL_GetScancodeFromKey(e.key.keysym.sym)].down = false;
+				world.keys[SDL_GetScancodeFromKey(e.key.keysym.sym)].upped = true;
 			}
 
 		}
@@ -94,6 +95,7 @@ void mainLoop(){
 				world.actions[i].down = false;
 				world.actions[i].downed = false;
 				world.actions[i].downedNoRepeat = false;
+				world.actions[i].upped = false;
 
 				for(int j = 0; j < world.actions[i].bindingsLength; j++){
 					if(world.keys[world.actions[i].bindings[j]].down){
@@ -104,6 +106,9 @@ void mainLoop(){
 					}
 					if(world.keys[world.actions[i].bindings[j]].downedNoRepeat){
 						world.actions[i].downedNoRepeat = true;
+					}
+					if(world.keys[world.actions[i].bindings[j]].upped){
+						world.actions[i].upped = true;
 					}
 				}
 			}
@@ -149,10 +154,12 @@ void mainLoop(){
 			for(int i = 0; i < 255; i++){
 				world.keys[i].downed = false;
 				world.keys[i].downedNoRepeat = false;
+				world.keys[i].upped = false;
 			}
 			for(int i = 0; i < 16; i++){
 				world.actions[i].downed = false;
 				world.actions[i].downedNoRepeat = false;
+				world.actions[i].upped = false;
 			}
 
 			elapsedTime -= 1000 / 60;
@@ -479,6 +486,9 @@ int main(int argc, char *argv[]){
 		"pickup-star",
 		"pickup-key",
 		"open-door",
+		"begin-scaling",
+		"end-scaling",
+		"scaling",
 	};
 
 	int soundAssetsLength = sizeof(soundAssets) / sizeof(char *);

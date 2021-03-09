@@ -1,11 +1,17 @@
 :playerPos
-3809 -131
+3667 -140
 :doorKeys
+5786 176
 :doors
 :flags
 removed-title-textÄF
 removed-title-textˆ–@8è+
 removed-title-text
+completed-all-from-top-levels
+completed-door-key-levels
+completed-player-position-levels
+completed-first-scale-levels
+completed-scale-field-levels
 :levelsWithDoorKey
 :completedLevels
 level-1
@@ -37,3 +43,25 @@ scale-field-1
 scale-field-2
 scale-field-3
 get-over-the-field
+get-under-cup
+all-from-top-3
+all-from-top-2
+key-in-box
+maybe-key-should-fly
+flying-key-1
+flying-key-2-trickshot-edition
+player-position-1
+player-position-2
+player-position-3
+airport-control
+grow-through-jumping
+player-position-jumping-key-1
+player-position-jumping-key-2
+player-position-jumping-key-3
+first-scaling-level-4
+make-it-bigger-1
+make-it-bigger-2
+point-cage
+point-cage-2
+layers-of-fields
+point-field-cage

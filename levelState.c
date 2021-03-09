@@ -32,7 +32,13 @@ void World_initLevel(World *world_p){
 
 	world_p->renderer.offset = getVec2f(0, 0);
 
+	if(world_p->scalingByPlayerPosition){
+		playSound("begin-scaling");
+	}
+
 }
+
+int scalingSoundCounter = 0;
 
 void World_levelState(World *world_p){
 
@@ -56,6 +62,15 @@ void World_levelState(World *world_p){
 	world_p->scaling = false;
 	if(world_p->actions[SCALE_ACTION].down){
 		world_p->scaling = true;
+	}
+	if(!world_p->scalingByPlayerPosition){
+		if(world_p->actions[SCALE_ACTION].downedNoRepeat){
+			playSound("begin-scaling");
+			scalingSoundCounter = 0;
+		}
+		if(world_p->actions[SCALE_ACTION].upped){
+			playSound("end-scaling");
+		}
 	}
 
 	world_p->lastScale = world_p->scale;
@@ -124,8 +139,8 @@ void World_levelState(World *world_p){
 		if((world_p->actions[JUMP_ACTION].down)
 		&& playerPhysics_p->onGround){
 			playerPhysics_p->velocity.y += player_p->jumpSpeed;
-			//playSound("player-jump");
-			playSound("player-land");
+			playSound("player-jump");
+			//playSound("player-land");
 		}
 
 		if(!world_p->actions[JUMP_ACTION].down
@@ -137,6 +152,15 @@ void World_levelState(World *world_p){
 
 	world_p->deltaScale = world_p->scale;
 	Vec2f_sub(&world_p->deltaScale, &world_p->lastScale);
+
+	//play scaling sound
+	//if(fabs(world_p->deltaScale.x) > 0
+	//|| fabs(world_p->deltaScale.y) > 0){
+		//if(scalingSoundCounter % 20 == 0){
+			//playSound("scaling");
+		//}
+		//scalingSoundCounter++;
+	//}
 
 	//logic
 
@@ -810,9 +834,9 @@ void World_levelState(World *world_p){
 
 		if(bodyPair1_p->physics.landed
 		&& world_p->playerHasLanded
-		&& bodyPair1_p->entityType == PLAYER
-		&& !(world_p->actions[JUMP_ACTION].down
-		&& !world_p->scaling)){
+		&& bodyPair1_p->entityType == PLAYER){
+		//&& !(world_p->actions[JUMP_ACTION].down
+		//&& !world_p->scaling)){
 			playSound("player-land");
 		}
 

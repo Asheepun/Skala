@@ -289,6 +289,7 @@ typedef struct Key{
 	bool down;
 	bool downed;
 	bool downedNoRepeat;
+	bool upped;
 	int downCounter;
 }Key;
 
@@ -296,6 +297,7 @@ typedef struct Action{
 	bool down;
 	bool downed;
 	bool downedNoRepeat;
+	bool upped;
 	int bindings[16];
 	int bindingsLength;
 }Action;
