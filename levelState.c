@@ -124,7 +124,8 @@ void World_levelState(World *world_p){
 		if((world_p->actions[JUMP_ACTION].down)
 		&& playerPhysics_p->onGround){
 			playerPhysics_p->velocity.y += player_p->jumpSpeed;
-			playSound("player-jump");
+			//playSound("player-jump");
+			playSound("player-land");
 		}
 
 		if(!world_p->actions[JUMP_ACTION].down
@@ -376,7 +377,7 @@ void World_levelState(World *world_p){
 
 			if(collision_p->oub){
 				BodyPair oubBodyPair;
-				Body_init(&oubBodyPair.body, getVec2f(0, 0), getVec2f(0, 0));
+				Body_init(&oubBodyPair.body, getVec2f(-200, 0), getVec2f(200, 0));
 				oubBodyPair.lastBody = oubBodyPair.body;
 				bodyPair2_p = &oubBodyPair;
 			}
@@ -406,7 +407,7 @@ void World_levelState(World *world_p){
 
 					if(collision2_p->oub){
 						BodyPair oubBodyPair;
-						Body_init(&oubBodyPair.body, getVec2f(0, 0), getVec2f(0, 0));
+						Body_init(&oubBodyPair.body, getVec2f(-200, 0), getVec2f(200, 0));
 						oubBodyPair.lastBody = oubBodyPair.body;
 						bodyPair3_p = &oubBodyPair;
 					}
@@ -603,7 +604,7 @@ void World_levelState(World *world_p){
 
 			if(collision_p->oub){
 				BodyPair oubBodyPair;
-				Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, 0));
+				Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, 200));
 				//if(bodyPair1_p->scaleType == ALL_FROM_TOP){
 					//oubBodyPair.body.pos.y = 0;
 				//}
@@ -636,7 +637,7 @@ void World_levelState(World *world_p){
 
 					if(collision2_p->oub){
 						BodyPair oubBodyPair;
-						Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, 0));
+						Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, 200));
 						//if(bodyPair1_p->scaleType == ALL_FROM_TOP){
 							//oubBodyPair.body.pos.y = 0;
 						//}
@@ -691,8 +692,6 @@ void World_levelState(World *world_p){
 		Vec2f_add(&bodyPair_p->physics.velocity, &bodyPair_p->physics.acceleration);
 
 		Vec2f_mul(&bodyPair_p->physics.velocity, &bodyPair_p->physics.resistance);
-
-		bodyPair_p->physics.onGround = false;
 
 		//reset acceleration
 		bodyPair_p->physics.acceleration = getVec2f(0, 0);
@@ -767,14 +766,18 @@ void World_levelState(World *world_p){
 
 	//handle collisions y moving
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
+
+		BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+		bool touchedGround = false;
+		bodyPair1_p->physics.landed = false;
+
 		for(int j = 0; j < world_p->bodyPairs.length; j++){
 
-			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
 			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
 			&& i != j
-			//&& (bodyPair1_p->canCollideWithPlayer || bodyPair2_p->canCollideWithPlayer)
 			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
 			&& bodyPair1_p->collisionWeight == MOVABLE
 			&& bodyPair2_p->collisionWeight == STATIC){
@@ -784,7 +787,7 @@ void World_levelState(World *world_p){
 
 				if(bodyPair1CenterY < bodyPair2CenterY){
 					bodyPair1_p->body.pos.y = bodyPair2_p->body.pos.y - bodyPair1_p->body.size.y;
-					bodyPair1_p->physics.onGround = true;
+					touchedGround = true;
 				}
 				if(bodyPair1CenterY > bodyPair2CenterY){
 					bodyPair1_p->body.pos.y = bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y;
@@ -795,6 +798,24 @@ void World_levelState(World *world_p){
 			}
 
 		}
+
+		if(touchedGround){
+			if(!bodyPair1_p->physics.onGround){
+				bodyPair1_p->physics.landed = true;
+			}
+			bodyPair1_p->physics.onGround = true;
+		}else{
+			bodyPair1_p->physics.onGround = false;
+		}
+
+		if(bodyPair1_p->physics.landed
+		&& world_p->playerHasLanded
+		&& bodyPair1_p->entityType == PLAYER
+		&& !(world_p->actions[JUMP_ACTION].down
+		&& !world_p->scaling)){
+			playSound("player-land");
+		}
+
 	}
 
 	//update player facing
@@ -815,8 +836,7 @@ void World_levelState(World *world_p){
 	}
 
 	//check if player collides with door keys
-	player_p->holdingKey = false;
-
+	bool playerGotKey = false;
 	for(int i = 0; i < world_p->doorKeys.length; i++){
 
 		DoorKey *doorKey_p = Array_getItemPointerByIndex(&world_p->doorKeys, i);
@@ -849,15 +869,24 @@ void World_levelState(World *world_p){
 		//Vec2f_divByFactor(&velocity, 3);
 
 		if(checkBodyToBodyCol(playerBodyPair_p->body, doorKeyBodyPair_p->body)
-		&& !player_p->holdingKey){
+		&& !playerGotKey){
 
-			player_p->holdingKey = true;
+			playerGotKey = true;
 
 			doorKeyBodyPair_p->physics.velocity = velocity;
 			doorKey_p->facing = player_p->facing;
 
 		}
 
+	}
+
+	if(playerGotKey){
+		if(!player_p->holdingKey){
+			playSound("pickup-key");
+		}
+		player_p->holdingKey = true;
+	}else{
+		player_p->holdingKey = false;
 	}
 
 	//check if door keys collide with doors
@@ -870,6 +899,8 @@ void World_levelState(World *world_p){
 			BodyPair *doorKeyBodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
 
 			if(checkBodyPairToBodyPairCollision(*doorBodyPair_p, *doorKeyBodyPair_p)){
+
+				playSound("open-door");
 
 				World_removeDoorByID(world_p, door_p->entityHeader.ID);
 				World_removeDoorKeyByID(world_p, doorKey_p->entityHeader.ID);
@@ -903,6 +934,8 @@ void World_levelState(World *world_p){
 			World_removePointByID(world_p, point_p->entityHeader.ID);
 
 			i--;
+			
+			playSound("pickup-star");
 
 		}
 
@@ -922,6 +955,8 @@ void World_levelState(World *world_p){
 			world_p->saveData.playerPos = playerBodyPair_p->body.pos;
 
 			World_fadeTransitionToState(world_p, LEVEL_STATE);
+
+			playSound("enter-level-door");
 
 		}
 
@@ -1269,7 +1304,7 @@ void World_levelState(World *world_p){
 		Sprite *sprite_p = World_getSpriteByID(world_p, world_p->player.spriteID);
 
 		sprite_p->body = playerBodyPair_p->body;
-		sprite_p->body.pos.y = round(sprite_p->body.pos.y);
+		sprite_p->body.pos.y = (sprite_p->body.pos.y);
 
 		sprite_p->color = SCALE_TYPE_COLORS[playerBodyPair_p->scaleType];
 
@@ -1374,7 +1409,9 @@ void World_levelState(World *world_p){
 
 		if(world_p->snapCamera){
 			world_p->cameraPos = world_p->cameraTarget;
-			world_p->cameraPos.y -= 250;
+			if(!SaveData_hasFlag(&world_p->saveData, "removed-title-text")){
+				world_p->cameraPos.y -= 250;
+			}
 			world_p->snapCamera = false;
 		}
 

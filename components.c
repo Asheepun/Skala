@@ -120,6 +120,19 @@ bool checkBodyToBodyColCastToInt(Body b1, Body b2){
 		&& b1.size.y >= 1 && b2.size.y >= 1;
 }
 
+float roundTo2Dec(float a){
+	return round(a * 100) / 100;
+}
+
+bool checkBodyToBodyColRoundTo2Dec(Body b1, Body b2){
+	return roundTo2Dec(b1.pos.x + b1.size.x) > roundTo2Dec(b2.pos.x)
+		&& roundTo2Dec(b1.pos.x) < roundTo2Dec(b2.pos.x + b2.size.x)
+		&& roundTo2Dec(b1.pos.y + b1.size.y) > roundTo2Dec(b2.pos.y)
+		&& roundTo2Dec(b1.pos.y) < roundTo2Dec(b2.pos.y + b2.size.y)
+		&& b1.size.x >= 1 && b2.size.x >= 1
+		&& b1.size.y >= 1 && b2.size.y >= 1;
+}
+
 bool checkBodyToBodyCol(Body b1, Body b2){
 	return (b1.pos.x + b1.size.x) > b2.pos.x
 		&& b1.pos.x < (b2.pos.x + b2.size.x)

@@ -1,16 +1,39 @@
 :playerPos
-1676 178
+3809 -131
 :doorKeys
 :doors
-3050 180 20 60
-3970 180 20 60
 :flags
-:levelsWithDoorKeyÄF
-point-cage-3
-get-key-up-2
+removed-title-textÄF
+removed-title-textˆ–@8è+
 removed-title-text
 :levelsWithDoorKey
 :completedLevels
 level-1
 level-2
 level-3
+first-scaling-level-1
+first-scaling-level-3
+door-key-level-1
+cooler-scaling-level-1
+cooler-scaling-level-2
+cooler-scaling-level-3
+cooler-scaling-level-4
+cooler-scaling-level-5
+high-jump-1
+slow-fall-squeeze
+high-jump-2
+high-jump-3
+door-key-level-2
+floor-is-door
+get-key-up-1
+get-key-up-2
+all-from-top-1
+push-key-with-point
+key-in-cage-all-from-top
+key-obstacle-course
+point-cage-3
+point-pikaboo
+scale-field-1
+scale-field-2
+scale-field-3
+get-over-the-field

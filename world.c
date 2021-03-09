@@ -698,7 +698,9 @@ bool checkBodyPairToBodyPairCollision(BodyPair bodyPair1, BodyPair bodyPair2){
 	
 	if(/*checkBodyToBodyColCastToInt(BodyPair_getDeltaBody(bodyPair1), BodyPair_getDeltaBody(bodyPair2))*/true){
 
-		if(checkBodyToBodyColRoundFloats(bodyPair1.body, bodyPair2.body)
+		//if(checkBodyToBodyColRoundFloats(bodyPair1.body, bodyPair2.body)
+		//if(checkBodyToBodyCol(bodyPair1.body, bodyPair2.body)
+		if(checkBodyToBodyColRoundTo2Dec(bodyPair1.body, bodyPair2.body)
 
 		//|| checkBodyToBodyColRoundFloats(BodyPair_getDeltaBody(bodyPair1), BodyPair_getDeltaBody(bodyPair2))
 

@@ -144,6 +144,7 @@ typedef struct Physics{
 	Vec2f resistance;
 	float gravity;
 	bool onGround;
+	bool landed;
 }Physics;
 
 typedef struct Sprite{
@@ -530,6 +531,8 @@ bool Body_checkOub(Body);
 bool checkBodyToBodyColRoundFloats(Body, Body);
 
 bool checkBodyToBodyColCastToInt(Body, Body);
+
+bool checkBodyToBodyColRoundTo2Dec(Body, Body);
 
 bool checkBodyToBodyCol(Body, Body);
 

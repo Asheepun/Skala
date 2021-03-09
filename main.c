@@ -474,6 +474,11 @@ int main(int argc, char *argv[]){
 	//load audio
 	char *soundAssets[] = {
 		"player-jump",
+		"player-land",
+		"enter-level-door",
+		"pickup-star",
+		"pickup-key",
+		"open-door",
 	};
 
 	int soundAssetsLength = sizeof(soundAssets) / sizeof(char *);
