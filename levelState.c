@@ -32,6 +32,13 @@ void World_initLevel(World *world_p){
 
 	world_p->renderer.offset = getVec2f(0, 0);
 
+	Vec4f backgroundColor = COLOR_BLACK;
+	if(world_p->scalingByPlayerPosition){
+		backgroundColor = COLOR_DARK_GREY;
+	}
+
+	World_addSprite(world_p, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), backgroundColor, "obstacle", 1, GAME_LAYER_BACKGROUND);
+
 	if(world_p->scalingByPlayerPosition){
 		playSound("begin-scaling");
 	}
@@ -1233,12 +1240,13 @@ void World_levelState(World *world_p){
 		sprite_p->body = obstacleBodyPair_p->body;
 
 		sprite_p->color = SCALE_TYPE_COLORS[obstacleBodyPair_p->scaleType];
+		if(world_p->scaling
+		|| world_p->scalingByPlayerPosition){
+			sprite_p->color = SCALING_SCALE_TYPE_COLORS[obstacleBodyPair_p->scaleType];
+		}
 		//sprite_p->color = COLOR_HOUSE;
 
 		Vec2f scale = BodyPair_getPhysicsScale(obstacleBodyPair_p);
-
-		//sprite_p->borderSize.x = 7 / scale.x;
-		//sprite_p->borderSize.y = 7 / scale.y;
 
 	}
 
@@ -1254,6 +1262,10 @@ void World_levelState(World *world_p){
 		sprite_p->body = pointBodyPair_p->body;
 
 		sprite_p->color = SCALE_TYPE_COLORS[pointBodyPair_p->scaleType];
+		if(world_p->scaling
+		|| world_p->scalingByPlayerPosition){
+			sprite_p->color = SCALING_SCALE_TYPE_COLORS[pointBodyPair_p->scaleType];
+		}
 
 	}
 
@@ -1269,6 +1281,10 @@ void World_levelState(World *world_p){
 		sprite_p->body = doorBodyPair_p->body;
 
 		sprite_p->color = SCALE_TYPE_COLORS[doorBodyPair_p->scaleType];
+		if(world_p->scaling
+		|| world_p->scalingByPlayerPosition){
+			sprite_p->color = SCALING_SCALE_TYPE_COLORS[doorBodyPair_p->scaleType];
+		}
 
 	}
 
@@ -1284,6 +1300,10 @@ void World_levelState(World *world_p){
 		sprite_p->body = doorKeyBodyPair_p->body;
 
 		sprite_p->color = SCALE_TYPE_COLORS[doorKeyBodyPair_p->scaleType];
+		if(world_p->scaling
+		|| world_p->scalingByPlayerPosition){
+			sprite_p->color = SCALING_SCALE_TYPE_COLORS[doorKeyBodyPair_p->scaleType];
+		}
 
 		sprite_p->facing = doorKey_p->facing;
 
@@ -1331,13 +1351,18 @@ void World_levelState(World *world_p){
 		sprite_p->body.pos.y = (sprite_p->body.pos.y);
 
 		sprite_p->color = SCALE_TYPE_COLORS[playerBodyPair_p->scaleType];
+		if(world_p->scaling
+		|| world_p->scalingByPlayerPosition){
+			sprite_p->color = SCALING_SCALE_TYPE_COLORS[playerBodyPair_p->scaleType];
+		}
 
 		sprite_p->facing = world_p->player.facing;
 	}
 
 	//fade out title text
 	BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
-	if(playerBodyPair_p->body.pos.x > 180
+	if(playerBodyPair_p->body.pos.x > 200
+	&& playerBodyPair_p->physics.onGround
 	&& !SaveData_hasFlag(&world_p->saveData, "removed-title-text")){
 
 		int duration = 1000 / 60;

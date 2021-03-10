@@ -419,19 +419,32 @@ static const Vec4f COLOR_YELLOW_BACKGROUND 	= { 0.5, 		0.5, 		0.00, 		1 };
 static const Vec4f COLOR_PURPLE_BACKGROUND 	= { 0.5, 		0.00, 		0.5, 		1 };
 
 static const Vec4f COLOR_BLACK_WALL 		= { 0.05, 		0.05, 		0.05, 		1 };
-static const Vec4f COLOR_RED_WALL 		= { 0.15, 		0.00, 		0.00, 		1 };
+static const Vec4f COLOR_RED_WALL 			= { 0.15, 		0.00, 		0.00, 		1 };
 static const Vec4f COLOR_GREEN_WALL 		= { 0.03, 		0.10, 		0.00, 		1 };
-static const Vec4f COLOR_BLUE_WALL 		= { 0.02, 		0.04, 		0.10, 		1 };
+static const Vec4f COLOR_BLUE_WALL 			= { 0.02, 		0.04, 		0.10, 		1 };
 static const Vec4f COLOR_PURPLE_WALL 		= { 0.07, 		0.00, 		0.07, 		1 };
 static const Vec4f COLOR_YELLOW_WALL 		= { 0.20, 		0.20, 		0.00, 		1 };
 
 static const Vec4f COLOR_HOUSE 				= { 0.90, 		0.90, 		0.90, 		1 };
+
+static const Vec4f COLOR_DARK_GREY 			= { 0.10, 		0.10, 		0.15, 		1 };
 
 static const Vec4f SCALE_TYPE_COLORS[] = {
 	1, 1, 1, 1,
 	0, 1, 0, 1,
 	1, 0, 1, 1,
 	0, 0, 1, 1,
+	//COLOR_WHITE, 	//none scalable
+	//COLOR_GREEN, 	//scalable all
+	//COLOR_PURPLE, 	//scalable origin top all
+	//COLOR_BLUE, 	//scalable x y switch
+};
+
+static const Vec4f SCALING_SCALE_TYPE_COLORS[] = {
+	1, 1, 1, 1,
+	0.5, 1, 0.5, 1,
+	1, 0.5, 1, 1,
+	0.5, 0.5, 1, 1,
 	//COLOR_WHITE, 	//none scalable
 	//COLOR_GREEN, 	//scalable all
 	//COLOR_PURPLE, 	//scalable origin top all
