@@ -39,6 +39,12 @@ void Array_removeItemByID(Array *, size_t);
 
 void Array_clear(Array *);
 
+void initTmpArrays();
+
+void Array_addToTmpArrays(Array *);
+
+void freeTmpArrays();
+
 void String_init(String *, char *);
 
 void String_setText(String *, char *);

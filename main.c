@@ -162,6 +162,8 @@ void mainLoop(){
 				world.actions[i].upped = false;
 			}
 
+			freeTmpArrays();
+
 			elapsedTime -= 1000 / 60;
 
 		}
@@ -332,6 +334,8 @@ int main(int argc, char *argv[]){
 
 	//set up world and game
 	World_init(&world);
+
+	initTmpArrays();
 
 	for(int i = 0; i < 16; i++){
 		Action_init(&world.actions[i]);

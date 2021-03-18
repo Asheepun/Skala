@@ -64,6 +64,39 @@ void World_init(World *world_p){
 
 	world_p->quit = false;
 
+	//init scales
+	
+	//world_p->scaleSpeed = 0.05;
+	//world_p->scaleSpeed = 0.045;
+	//world_p->scaleSpeed = 0.035;
+	world_p->scaleSpeed = 0.025;
+	//world_p->scaleSpeed = 10;
+
+	//world_p->scaleSpeed = 0.035 * HEIGHT;
+
+	world_p->scalesX[ORIGIN_SCALE_INDEX] = 1;
+	world_p->scalesY[ORIGIN_SCALE_INDEX] = 1;
+
+	printf("%f\n", (float)HEIGHT / (float)WIDTH);
+
+	for(int i = ORIGIN_SCALE_INDEX + 1; i < NUMBER_OF_SCALES; i++){
+		float lastScaleX = world_p->scalesX[i - 1];
+		float lastScaleY = world_p->scalesY[i - 1];
+		world_p->scalesX[i] = lastScaleX * (1 + world_p->scaleSpeed * sqrt(sqrt(lastScaleX) * (float)HEIGHT / (float)WIDTH));
+		world_p->scalesY[i] = lastScaleY * (1 + world_p->scaleSpeed * sqrt(sqrt(lastScaleY)));
+	}
+	for(int i = ORIGIN_SCALE_INDEX - 1; i >= 0; i--){
+		float lastScaleX = world_p->scalesX[i + 1];
+		float lastScaleY = world_p->scalesY[i + 1];
+		world_p->scalesX[i] = lastScaleX / (1 + world_p->scaleSpeed * sqrt(sqrt(lastScaleX)) * (float)HEIGHT / (float)WIDTH);
+		world_p->scalesY[i] = lastScaleY / (1 + world_p->scaleSpeed * sqrt(sqrt(lastScaleY)));
+	}
+	for(int i = 0; i < NUMBER_OF_SCALES; i++){
+		float accuracy = 1000000;
+		//world_p->scalesX[i] = round(world_p->scalesX[i] * accuracy) / accuracy;
+		//world_p->scalesY[i] = round(world_p->scalesY[i] * accuracy) / accuracy;
+	}
+
 	World_restore(world_p);
 
 }
@@ -78,9 +111,6 @@ void World_restore(World *world_p){
 	Vec2f_set(&world_p->origin, 0, HEIGHT);
 
 	world_p->scaling = false;
-	//world_p->scaleSpeed = 0.05;
-	//world_p->scaleSpeed = 0.045;
-	world_p->scaleSpeed = 0.035;
 	world_p->scalingByPlayerPosition = false;
 
 	Array_clear(&world_p->buttons);
@@ -163,6 +193,7 @@ size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Vec4f color, char 
 	sprite_p->color = color;
 	sprite_p->texture = texture;
 	sprite_p->alpha = alpha;
+	sprite_p->currentLayer = layer;
 
 	sprite_p->facing = RIGHT;
 	sprite_p->borderSize = getVec2f(0, 0);
@@ -233,6 +264,14 @@ size_t World_addBodyPair(World *world_p, Body body, enum ScaleType scaleType, en
 	bodyPair_p->originScaleType = scaleType;
 	bodyPair_p->collisionWeight = collisionWeight;
 	bodyPair_p->entityType = entityType;
+
+	//bodyPair_p->scaleIndexX = ORIGIN_SCALE_INDEX;
+	//bodyPair_p->scaleIndexY = ORIGIN_SCALE_INDEX;
+	//bodyPair_p->lastScaleIndexX = ORIGIN_SCALE_INDEX;
+	//bodyPair_p->lastScaleIndexY = ORIGIN_SCALE_INDEX;
+
+	bodyPair_p->scale = getVec2f(1, 1);
+	bodyPair_p->lastScale = getVec2f(1, 1);
 
 	//bodyPair_p->canCollideWithPlayer = canCollideWithPlayer;
 
@@ -317,7 +356,7 @@ size_t World_addDoorKey(World *world_p, Vec2f pos, enum ScaleType scaleType){
 
 	doorKey_p->bodyPairID = World_addBodyPair(world_p, body, scaleType, MOVABLE, DOOR_KEY);
 
-	doorKey_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "door-key", 1, GAME_LAYER_FOREGROUND);
+	doorKey_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "door-key", 1, GAME_LAYER_DOOR_KEYS);
 
 	Physics *physics_p = &World_getBodyPairByID(world_p, doorKey_p->bodyPairID)->physics;
 
@@ -868,3 +907,111 @@ Body World_TextSprite_getBody(World *world_p, Sprite *textSprite_p){
 	return body;
 
 }
+
+Sprite *World_Sprite_setToLayer_returnsNewPointer(World *world_p, Sprite *sprite_p, enum SpriteLayer newLayer){
+
+	if(sprite_p->currentLayer != newLayer){
+
+		Sprite spriteCopy = *sprite_p;
+		spriteCopy.currentLayer = newLayer;
+
+		World_removeSpriteByID(world_p, sprite_p->entityHeader.ID);
+
+		Sprite *newSprite_p = Array_addItem(&world_p->spriteLayers[newLayer]);
+		*newSprite_p = spriteCopy;
+
+		return newSprite_p;
+
+	}
+
+	return sprite_p;
+
+}
+
+/*
+void BodyPair_World_setBodyFromScaleX(BodyPair *bodyPair_p, World *world_p){
+
+	Vec2f scale = bodyPair_p->scale;
+	//Vec2f lastScale = bodyPair_p->lastScale;
+	Vec2f origin = world_p->origin;
+
+	if(bodyPair_p->scaleType == NONE){
+		scale = getVec2f(1, 1);
+		//lastScale = getVec2f(1, 1);
+	}
+	if(bodyPair_p->scaleType == ALL_FROM_TOP){
+		origin = getVec2f(world_p->origin.x, world_p->origin.y - world_p->levelHeight);
+	}
+
+	float lastScaleX = bodyPair_p->originBody.size.x / bodyPair_p->body.size.x;
+
+	Body_unScaleX(&bodyPair_p->body, origin, getVec2f(lastScaleX, 1));
+	//Body_unScaleX(&bodyPair_p->body, origin, lastScale);
+
+	Body_scaleX(&bodyPair_p->body, origin, scale);
+
+}
+
+void BodyPair_World_setBodyFromScaleY(BodyPair *bodyPair_p, World *world_p){
+
+	Vec2f scale = bodyPair_p->scale;
+	Vec2f origin = world_p->origin;
+
+	if(bodyPair_p->scaleType == NONE){
+		scale = getVec2f(1, 1);
+	}
+	if(bodyPair_p->scaleType == ALL_FROM_TOP){
+		origin = getVec2f(world_p->origin.x, world_p->origin.y - world_p->levelHeight);
+	}
+
+	float lastScaleY = bodyPair_p->originBody.size.y / bodyPair_p->body.size.y;
+
+	Body_unScaleY(&bodyPair_p->body, origin, getVec2f(1, lastScaleY));
+
+	Body_scaleY(&bodyPair_p->body, origin, scale);
+
+}
+
+float BodyPair_getScaleFromBodyX(BodyPair *bodyPair_p){
+	return bodyPair_p->originBody.size.x / bodyPair_p->body.size.x;
+}
+
+float BodyPair_getScaleFromBodyY(BodyPair *bodyPair_p){
+	return bodyPair_p->originBody.size.y / bodyPair_p->body.size.y;
+}
+*/
+
+//float exponent1 = 1.035;
+float exponent1 = 1.040;
+float exponent2 = 1.000001;
+
+Vec2f BodyPair_getScale(BodyPair *bodyPair_p){
+
+	Vec2f scale = { 
+   		pow(1 + (exponent1 - 1) * (float)HEIGHT / (float)WIDTH, bodyPair_p->scale.x * pow(exponent2, bodyPair_p->scale.x)),
+   		pow(exponent1, bodyPair_p->scale.y * pow(exponent2, bodyPair_p->scale.y)),
+	};
+
+	if(bodyPair_p->scaleType == NONE){
+		scale = getVec2f(1, 1);
+	}
+
+	return scale;
+
+}
+
+Vec2f BodyPair_getLastScale(BodyPair *bodyPair_p){
+
+	Vec2f scale = { 
+   		pow(1 + (exponent1 - 1) * (float)HEIGHT / (float)WIDTH, bodyPair_p->lastScale.x * pow(exponent2, bodyPair_p->lastScale.x)),
+   		pow(exponent1, 											bodyPair_p->lastScale.y * pow(exponent2, bodyPair_p->lastScale.y)),
+	};
+
+	if(bodyPair_p->scaleType == NONE){
+		scale = getVec2f(1, 1);
+	}
+
+	return scale;
+
+}
+

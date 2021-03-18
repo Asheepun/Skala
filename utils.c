@@ -8,6 +8,8 @@
 
 static size_t availableID = 0;
 
+static Array tmpArrayPointers;
+
 void Array_init(Array *array_p,  unsigned int itemSize){
 
 	//array_p->items = malloc(maxLength * itemSize);
@@ -123,6 +125,22 @@ void Array_clear(Array *array_p){
 		Array_removeItemByIndex(array_p, 0);
 	}
 
+}
+
+void initTmpArrays(){
+	Array_init(&tmpArrayPointers, sizeof(Array *));
+}
+
+void Array_addToTmpArrays(Array *array_p){
+	Array **tmpArrayPointer_p = Array_addItem(&tmpArrayPointers);
+	*tmpArrayPointer_p = array_p;
+}
+
+void freeTmpArrays(){
+	while(tmpArrayPointers.length > 0){
+		Array *tmpArrayPointer_p = Array_getItemPointerByIndex(&tmpArrayPointers, 0);
+		Array_free(tmpArrayPointer_p);
+	}
 }
 
 void String_init(String *string_p, char *text){

@@ -268,7 +268,7 @@ void World_initLevelHub(World *world_p){
 	currentRoomWidth = &allFromTopLevelsRoomWidth;
 
 	*currentRoomX = elevatorRoomX + elevatorRoomWidth;
-	*currentRoomWidth += 60 + 200;
+	*currentRoomWidth += 60 + 200 + 10;
 
 	//World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth - 120, 180), getVec2f(11, 11), COLOR_WHITE, "furniture/lamp-1", 1, GAME_LAYER_FURNITURE);
 
@@ -418,7 +418,7 @@ void World_initLevelHub(World *world_p){
 	
 	}
 
-	//add house obstacles
+	//add obstacles house 
 	World_addObstacle(world_p, getVec2f(houseX, 120), getVec2f(30, 50), NONE);
 
 	World_addObstacle(world_p, getVec2f(houseX, 0), getVec2f(30, 120), NONE);
@@ -470,11 +470,15 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(elevatorRoomX, HEIGHT - 100), getVec2f(elevatorRoomWidth, 50), ALL);
 
-	World_addObstacle(world_p, getVec2f(doorKeyLevelsRoomX, 100), getVec2f(doorKeyLevelsRoomWidth, 80), NONE);
+	World_addObstacle(world_p, getVec2f(doorKeyLevelsRoomX, 100), getVec2f(doorKeyLevelsRoomWidth, 70), NONE);
 
 	World_addObstacle(world_p, getVec2f(doorKeyLevelsRoomX, 0), getVec2f(doorKeyLevelsRoomWidth, 30), NONE);
 
 	World_addObstacle(world_p, getVec2f(allFromTopLevelsRoomX, HEIGHT - 30), getVec2f(allFromTopLevelsRoomWidth, 30), NONE);
+
+	World_addObstacle(world_p, getVec2f(allFromTopLevelsRoomX, 170), getVec2f(220, 10), NONE);
+
+	World_addObstacle(world_p, getVec2f(allFromTopLevelsRoomX + doorKeyLevelsRoomWidth - 280, 170), getVec2f(280, 10), NONE);
 
 	World_addObstacle(world_p, getVec2f(doorKeyLevelsRoomX + doorKeyLevelsRoomWidth, 0), getVec2f(allFromTopLevelsRoomWidth - doorKeyLevelsRoomWidth - 80, 180), NONE);
 
@@ -770,5 +774,7 @@ void World_initLevelHub(World *world_p){
 		}
 	
 	}
+
+	printf("obstaclesLength: %i", world_p->obstacles.length);
 
 }

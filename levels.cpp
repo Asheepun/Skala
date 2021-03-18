@@ -184,6 +184,8 @@ Filter
 
 	World_addObstacle(world_p, getVec2f(370, 0), getVec2f(90, 20), NONE);
 
+	World_addObstacle(world_p, getVec2f(370, HEIGHT - 20), getVec2f(90, 20), NONE);
+
 :levelName
 point-cage-2
 :screenName
@@ -198,11 +200,17 @@ Filter 2
 
 	World_addObstacle(world_p, getVec2f(0, 190), getVec2f(WIDTH - 130, 20), NONE);
 
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(20, 40), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 20), getVec2f(WIDTH - 130, 20), NONE);
+
 	World_addObstacle(world_p, getVec2f(350, 0), getVec2f(20, HEIGHT), NONE);
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT), NONE);
 
 	World_addObstacle(world_p, getVec2f(370, 0), getVec2f(90, 20), NONE);
+	
+	World_addObstacle(world_p, getVec2f(370, HEIGHT - 20), getVec2f(90, 20), NONE);
 
 :levelName
 point-cage-3
@@ -224,11 +232,19 @@ Filter 3
 
 	World_addObstacle(world_p, getVec2f(370, 0), getVec2f(90, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(110, 0), getVec2f(WIDTH - 240, 20), NONE);
+	World_addObstacle(world_p, getVec2f(370, HEIGHT - 20), getVec2f(90, 20), NONE);
+
+	//World_addObstacle(world_p, getVec2f(110, 0), getVec2f(WIDTH - 240, 20), NONE);
 
 	World_addObstacle(world_p, getVec2f(90, 0), getVec2f(20, HEIGHT - 60), NONE);
 
-	World_addObstacle(world_p, getVec2f(90, HEIGHT - 20), getVec2f(40, 20), NONE);
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 20), getVec2f(WIDTH - 110, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(20, HEIGHT - 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(20, 0), getVec2f(70, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(90, HEIGHT - 40), getVec2f(20, 20), NONE);
 
 :levelName
 slow-fall-squeeze
@@ -276,7 +292,7 @@ Cliff Tunnel
 
 	World_restore(world_p);
 
-	World_initPlayer(world_p, getVec2f(70, 100), ALL);
+	World_initPlayer(world_p, getVec2f(150, 100), ALL);
 
 	World_addPoint(world_p, getVec2f(400, 20), NONE);
 
@@ -285,6 +301,8 @@ Cliff Tunnel
 	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH, 10), NONE);
 
 	World_addObstacle(world_p, getVec2f(300, 40), getVec2f(WIDTH, HEIGHT - 110), NONE);
+
+	World_addObstacle(world_p, getVec2f(50, 10), getVec2f(30, HEIGHT - 85), NONE);
 
 :levelName
 high-jump-3
@@ -298,9 +316,9 @@ Cliff Tunnel 2
 
 	World_addPoint(world_p, getVec2f(430, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(250, 70), NONE);
+	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(290, 70), NONE);
 
-	World_addObstacle(world_p, getVec2f(250, 250), getVec2f(230, 20), NONE);
+	World_addObstacle(world_p, getVec2f(290, 250), getVec2f(190, 20), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH, 10), NONE);
 
@@ -468,7 +486,9 @@ Box
 
 	World_addObstacle(world_p, getVec2f(110, 0), getVec2f(10, 50), NONE);
 
-	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(110, 10), NONE);
+	World_addObstacle(world_p, getVec2f(0, -HEIGHT), getVec2f(110, HEIGHT + 10), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 10), getVec2f(10, 40), NONE);
 
 :levelName
 

@@ -49,10 +49,10 @@ void Body_unScale(Body *b, Vec2f origin, Vec2f scale){
 	*/
 }
 
-void Body_scaleX(Body *b, Vec2f origin, Vec2f scale){
-	b->pos.x = origin.x + b->pos.x / scale.x;
+void Body_scaleX(Body *b, float origin, float scale){
+	b->pos.x = origin + b->pos.x / scale;
 
-	b->size.x /= scale.x;
+	b->size.x /= scale;
 
 	/*
 	b->pos.x = (int)b->pos.x;
@@ -60,10 +60,10 @@ void Body_scaleX(Body *b, Vec2f origin, Vec2f scale){
 	*/
 }
 
-void Body_scaleY(Body *b, Vec2f origin, Vec2f scale){
-	b->pos.y = origin.y - b->pos.y / scale.y;
+void Body_scaleY(Body *b, float origin, float scale){
+	b->pos.y = origin - b->pos.y / scale;
 
-	b->size.y /= scale.y;
+	b->size.y /= scale;
 
 	/*
 	b->pos.y = (int)b->pos.y;
@@ -71,10 +71,10 @@ void Body_scaleY(Body *b, Vec2f origin, Vec2f scale){
 	*/
 }
 
-void Body_unScaleX(Body *b, Vec2f origin, Vec2f scale){
-	b->pos.x = (b->pos.x - origin.x) * scale.x;
+void Body_unScaleX(Body *b, float origin, float scale){
+	b->pos.x = (b->pos.x - origin) * scale;
 
-	b->size.x *= scale.x;
+	b->size.x *= scale;
 
 	/*
 	b->pos.x = (int)b->pos.x;
@@ -82,10 +82,10 @@ void Body_unScaleX(Body *b, Vec2f origin, Vec2f scale){
 	*/
 }
 
-void Body_unScaleY(Body *b, Vec2f origin, Vec2f scale){
-	b->pos.y = -(b->pos.y - origin.y) * scale.y;
+void Body_unScaleY(Body *b, float origin, float scale){
+	b->pos.y = -(b->pos.y - origin) * scale;
 
-	b->size.y *= scale.y;
+	b->size.y *= scale;
 
 	/*
 	b->pos.y = (int)b->pos.y;

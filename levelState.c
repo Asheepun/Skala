@@ -87,6 +87,16 @@ void World_levelState(World *world_p){
 
 	Vec2f_set(&player_p->physics.acceleration, 0, 0);
 
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
+
+		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+		bodyPair_p->lastScale = bodyPair_p->scale;
+		//bodyPair_p->lastScaleIndexX = bodyPair_p->scaleIndexX;
+		//bodyPair_p->lastScaleIndexY = bodyPair_p->scaleIndexY;
+	
+	}
+
 	//control scale
 	if(world_p->scalingByPlayerPosition){
 
@@ -97,29 +107,104 @@ void World_levelState(World *world_p){
 	
 	}else if(world_p->scaling){
 
+		for(int i = 0; i < world_p->bodyPairs.length; i++){
+			
+			BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+			//bodyPair_p->lastScale = bodyPair_p->scale;
+			//Vec2f lastScale = bodyPair_p->scale;
+			//bodyPair_p->lastScaleIndexX = bodyPair_p->scaleIndexX;
+			//bodyPair_p->lastScaleIndexY = bodyPair_p->scaleIndexY;
+
+			if(world_p->actions[LEFT_ACTION].down){
+				bodyPair_p->scale.x++;
+				//bodyPair_p->scale.x -= world_p->scaleSpeed;
+				//bodyPair_p->scale.x *= 1 + world_p->scaleSpeed / world_p->levelWidth;
+				//bodyPair_p->scale.x *= 1 + world_p->scaleSpeed * world_p->levelHeight / world_p->levelWidth * sqrt(sqrt(bodyPair_p->scale.x));
+				//bodyPair_p->scaleIndexX++;
+			}
+			if(world_p->actions[RIGHT_ACTION].down){
+				bodyPair_p->scale.x--;
+				//bodyPair_p->scale.x += world_p->scaleSpeed;
+				//bodyPair_p->scale.x /= 1 + world_p->scaleSpeed / world_p->levelWidth;
+				//bodyPair_p->scale.x /= 1 + world_p->scaleSpeed * world_p->levelHeight / world_p->levelWidth * sqrt(sqrt(bodyPair_p->scale.x));
+				//bodyPair_p->scaleIndexX--;
+			}
+			if(world_p->actions[DOWN_ACTION].down){
+				bodyPair_p->scale.y++;
+				//bodyPair_p->scale.y -= world_p->scaleSpeed;
+				//bodyPair_p->scale.y *= 1 + world_p->scaleSpeed / world_p->levelHeight;
+				//bodyPair_p->scale.y *= 1 + world_p->scaleSpeed * sqrt(sqrt(bodyPair_p->scale.y));
+				//bodyPair_p->scaleIndexY++;
+			}
+			if(world_p->actions[UP_ACTION].down){
+				bodyPair_p->scale.y--;
+				//bodyPair_p->scale.y += world_p->scaleSpeed;
+				//bodyPair_p->scale.y /= 1 + world_p->scaleSpeed / world_p->levelHeight;
+				//bodyPair_p->scale.y /= 1 + world_p->scaleSpeed * sqrt(sqrt(bodyPair_p->scale.y));
+				//bodyPair_p->scaleIndexY--;
+			}
+
+			/*
+			if(bodyPair_p->scaleIndexX < 0){
+				bodyPair_p->scaleIndexX = 0;
+			}
+			if(bodyPair_p->scaleIndexY < 0){
+				bodyPair_p->scaleIndexY = 0;
+			}
+			if(bodyPair_p->scaleIndexX > NUMBER_OF_SCALES - 1){
+				bodyPair_p->scaleIndexX = NUMBER_OF_SCALES - 1;
+			}
+			if(bodyPair_p->scaleIndexY > NUMBER_OF_SCALES - 1){
+				bodyPair_p->scaleIndexY = NUMBER_OF_SCALES - 1;
+			}
+
+			if(bodyPair_p->scaleType == NONE){
+				bodyPair_p->scaleIndexX = ORIGIN_SCALE_INDEX;
+				bodyPair_p->scaleIndexY = ORIGIN_SCALE_INDEX;
+			}
+			*/
+
+			if(bodyPair_p->scale.x < 1 / world_p->levelWidth / 100
+			|| bodyPair_p->scale.x >= world_p->levelWidth * 100){
+				//bodyPair_p->scale.x = bodyPair_p->lastScale.x;
+				//bodyPair_p->scale.x = bodyPair_p->lastScale.x;
+			}
+			if(bodyPair_p->scale.y < 1 / world_p->levelHeight / 100
+			|| bodyPair_p->scale.y >= world_p->levelHeight * 100){
+				//bodyPair_p->scale.y = bodyPair_p->lastScale.y;
+				//bodyPair_p->scale.y = bodyPair_p->lastScale.y;
+			}
+
+		}
+
+		/*
 		if(world_p->actions[LEFT_ACTION].down){
 			world_p->scale.x *= 1 + world_p->scaleSpeed * world_p->levelHeight / world_p->levelWidth * sqrt(sqrt(world_p->scale.x));
-			//world_p->scale.x += world_p->scaleSpeed * HEIGHT / WIDTH;
+			//world_p->scale.x *= 1 + (world_p->scaleSpeed / world_p->levelWidth);
 		}
 		if(world_p->actions[RIGHT_ACTION].down){
+			//world_p->scale.x /= 1 + (world_p->scaleSpeed / world_p->levelWidth);
 			world_p->scale.x /= 1 + world_p->scaleSpeed * world_p->levelHeight / world_p->levelWidth * sqrt(sqrt(world_p->scale.x));
 			//world_p->scale.x *= 1 - world_p->scaleSpeed * HEIGHT / WIDTH;
 			//world_p->scale.x -= world_p->scaleSpeed * HEIGHT / WIDTH;
 		}
 		if(world_p->actions[DOWN_ACTION].down){
 			world_p->scale.y *= 1 + world_p->scaleSpeed * sqrt(sqrt(world_p->scale.y));
-			//world_p->scale.y *= 1 + world_p->scaleSpeed;
+			//world_p->scale.y *= 1 + (world_p->scaleSpeed / world_p->levelHeight);
 			//world_p->scale.y += world_p->scaleSpeed;
 		}
 		if(world_p->actions[UP_ACTION].down){
 			world_p->scale.y /= 1 + world_p->scaleSpeed * sqrt(sqrt(world_p->scale.y));
-			//world_p->scale.y /= 1 + world_p->scaleSpeed;
+			//world_p->scale.y /= 1 + (world_p->scaleSpeed / world_p->levelHeight);
 			//world_p->scale.y *= 1 - world_p->scaleSpeed;
 			//world_p->scale.y -= world_p->scaleSpeed;
 		}
+		*/
 
 	}
 
+	/*
 	//limit scale
 	if(world_p->scale.x < 1 / world_p->levelWidth / 100
 	|| world_p->scale.x >= world_p->levelWidth * 100){
@@ -129,6 +214,7 @@ void World_levelState(World *world_p){
 	|| world_p->scale.y >= world_p->levelHeight * 100){
 		world_p->scale.y = world_p->lastScale.y;
 	}
+	*/
 
 	//control player
 	if(!world_p->scaling
@@ -246,12 +332,14 @@ void World_levelState(World *world_p){
 
 	}
 	
-	//update bodyPairs last bodies
+	//update bodyPairs last bodies and make unstuck
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
 
 		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
 		bodyPair_p->lastBody = bodyPair_p->body;
+
+		bodyPair_p->isStuck = false;
 		
 	}
 
@@ -260,6 +348,31 @@ void World_levelState(World *world_p){
 
 		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
+		//Vec2f scale = 
+		//float scaleX = world_p->scalesX[bodyPair_p->scaleIndexX];
+		//float lastScaleX = world_p->scalesX[bodyPair_p->lastScaleIndexX];
+		Vec2f origin = world_p->origin;
+		Vec2f scale = BodyPair_getScale(bodyPair_p);
+		Vec2f lastScale = BodyPair_getLastScale(bodyPair_p);
+
+		//if(bodyPair_p->scaleType == NONE){
+			//scale = getVec2f(1, 1);
+			//lastScale = getVec2f(1, 1);
+		//}
+		if(bodyPair_p->scaleType == ALL_FROM_TOP){
+			origin = getVec2f(0, 0);
+		}
+
+		//printf("%f\n", scaleX);
+		//printf("%i\n", bodyPair_p->scaleIndexX);
+
+		Body_unScaleX(&bodyPair_p->body, origin.x, lastScale.x);
+
+		Body_scaleX(&bodyPair_p->body, origin.x, scale.x);
+
+		//BodyPair_World_setBodyFromScaleX(bodyPair_p, world_p);
+
+		/*
 		Vec2f scale = World_getScaleFromScaleType(world_p, bodyPair_p->scaleType);
 		Vec2f lastScale = World_getLastScaleFromScaleType(world_p, bodyPair_p->scaleType);
 		Vec2f origin = World_getOriginFromScaleType(world_p, bodyPair_p->scaleType);
@@ -267,6 +380,7 @@ void World_levelState(World *world_p){
 		Body_unScaleX(&bodyPair_p->body, origin, lastScale);
 
 		Body_scaleX(&bodyPair_p->body, origin, scale);
+		*/
 	
 	}
 
@@ -296,6 +410,9 @@ void World_levelState(World *world_p){
 					&& bodyPair2_p->collisionWeight == MOVABLE)){
 						bodyPair1_p->body.size.x = bodyPair1_p->lastBody.size.x;
 						bodyPair1_p->body.pos.x = bodyPair1_p->lastBody.pos.x;
+						bodyPair1_p->scale.x = bodyPair1_p->lastScale.x;
+						//bodyPair1_p->scaleIndexX = bodyPair1_p->lastScaleIndexX;
+						bodyPair1_p->isStuck = true;
 						continue;
 					}
 
@@ -477,18 +594,51 @@ void World_levelState(World *world_p){
 	
 	}
 
+	/*
+	//make scales proper x
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
+
+		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+		bodyPair_p->scale.x = BodyPair_getScaleFromBodyX(bodyPair_p);
+
+	}
+	*/
+
 	//scale y
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
 
 		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
-		Vec2f scale = World_getScaleFromScaleType(world_p, bodyPair_p->scaleType);
-		Vec2f lastScale = World_getLastScaleFromScaleType(world_p, bodyPair_p->scaleType);
-		Vec2f origin = World_getOriginFromScaleType(world_p, bodyPair_p->scaleType);
+		//float scaleY = world_p->scalesX[bodyPair_p->scaleIndexY];
+		//float lastScaleY = world_p->scalesX[bodyPair_p->lastScaleIndexY];
+		//Vec2f origin = world_p->origin;
 
-		Body_unScaleY(&bodyPair_p->body, origin, lastScale);
+		//Body_unScaleY(&bodyPair_p->body, origin.y, lastScaleY);
 
-		Body_scaleY(&bodyPair_p->body, origin, scale);
+		//Body_scaleY(&bodyPair_p->body, origin.y, scaleY);
+
+		//BodyPair_World_setBodyFromScaleY(bodyPair_p, world_p);
+
+		//Vec2f scale = World_getScaleFromScaleType(world_p, bodyPair_p->scaleType);
+		//Vec2f lastScale = World_getLastScaleFromScaleType(world_p, bodyPair_p->scaleType);
+		//Vec2f origin = World_getOriginFromScaleType(world_p, bodyPair_p->scaleType);
+
+		Vec2f scale = BodyPair_getScale(bodyPair_p);
+		Vec2f lastScale = BodyPair_getLastScale(bodyPair_p);
+		Vec2f origin = world_p->origin;
+
+		//if(bodyPair_p->scaleType == NONE){
+			//scale = getVec2f(1, 1);
+			//lastScale = getVec2f(1, 1);
+		//}
+		if(bodyPair_p->scaleType == ALL_FROM_TOP){
+			origin = getVec2f(0, 0);
+		}
+
+		Body_unScaleY(&bodyPair_p->body, origin.y, lastScale.y);
+
+		Body_scaleY(&bodyPair_p->body, origin.y, scale.y);
 	
 	}
 
@@ -515,6 +665,9 @@ void World_levelState(World *world_p){
 					&& bodyPair2_p->collisionWeight == MOVABLE)){
 						bodyPair1_p->body.size.y = bodyPair1_p->lastBody.size.y;
 						bodyPair1_p->body.pos.y = bodyPair1_p->lastBody.pos.y;
+						bodyPair1_p->scale = bodyPair1_p->lastScale;
+						//bodyPair1_p->scaleIndexY = bodyPair1_p->lastScaleIndexY;
+						bodyPair1_p->isStuck = true;
 						continue;
 					}
 
@@ -712,6 +865,17 @@ void World_levelState(World *world_p){
 
 	Array_free(&collisions);
 	Array_free(&lastCollisions);
+
+	/*
+	//make scales proper y
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
+
+		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+		bodyPair_p->scale.y = BodyPair_getScaleFromBodyY(bodyPair_p);
+
+	}
+	*/
 
 	//apply physics
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
@@ -1306,6 +1470,39 @@ void World_levelState(World *world_p){
 		}
 
 		sprite_p->facing = doorKey_p->facing;
+
+		sprite_p->texture = "door-key";
+		sprite_p->alpha = 1;
+
+		sprite_p = World_Sprite_setToLayer_returnsNewPointer(world_p, sprite_p, GAME_LAYER_DOOR_KEYS);
+
+		if(doorKeyBodyPair_p->isStuck){
+
+			Vec2f scale = doorKeyBodyPair_p->scale;
+			Vec2f stuckScale = doorKeyBodyPair_p->scale;
+			Vec2f origin = World_getOriginFromScaleType(world_p, doorKeyBodyPair_p->scaleType);
+
+			stuckScale.x /= 1 + world_p->scaleSpeed / world_p->levelWidth;
+			stuckScale.y /= 1 + world_p->scaleSpeed / world_p->levelHeight;
+
+			//stuckScale.x /= 1 + world_p->scaleSpeed * world_p->levelHeight / world_p->levelWidth * sqrt(sqrt(stuckScale.x));
+			//stuckScale.y /= 1 + world_p->scaleSpeed * sqrt(sqrt(stuckScale.y));
+
+			//float scaleX = world_p->scalesX[doorKeyBodyPair_p->scaleIndexX];
+			//float scaleY = world_p->scalesY[doorKeyBodyPair_p->scaleIndexY];
+			//float stuckScaleX = world_p->scalesX[doorKeyBodyPair_p->scaleIndexX - 1];
+			//float stuckScaleY = world_p->scalesY[doorKeyBodyPair_p->scaleIndexY - 1];
+
+			Body_unScaleX(&sprite_p->body, origin.x, scale.x);
+			Body_unScaleY(&sprite_p->body, origin.y, scale.y);
+			Body_scaleX(&sprite_p->body, origin.x, stuckScale.x);
+			Body_scaleY(&sprite_p->body, origin.y, stuckScale.y);
+
+			sprite_p->color = COLOR_RED;
+			sprite_p->texture = "obstacle";
+			sprite_p = World_Sprite_setToLayer_returnsNewPointer(world_p, sprite_p, GAME_LAYER_BLOCKED_ENTITIES);
+
+		}
 
 	}
 

@@ -68,6 +68,8 @@ void SaveData_read(SaveData *saveData_p){
 
 	char line[255];
 	char word[255];
+	memset(line, 0, 255);
+	memset(word, 0, 255);
 
 	while(fgets(line, 255, file) != NULL){
 
@@ -195,6 +197,7 @@ void SaveData_write(SaveData *saveData_p){
 		fputs(":playerPos\n", file);
 
 		char buff[255];
+		memset(buff, 0, 255);
 		sprintf(buff, "%i %i\n", (int)saveData_p->playerPos.x, (int)saveData_p->playerPos.y);
 
 		fputs(buff, file);
@@ -208,6 +211,7 @@ void SaveData_write(SaveData *saveData_p){
 			Vec2f *doorKeyPos_p = Array_getItemPointerByIndex(&saveData_p->doorKeys, i);
 
 			char buff[255];
+			memset(buff, 0, 255);
 			sprintf(buff, "%i %i\n", (int)doorKeyPos_p->x, (int)doorKeyPos_p->y);
 
 			fputs(buff, file);
@@ -223,6 +227,7 @@ void SaveData_write(SaveData *saveData_p){
 			Body *doorBody_p = Array_getItemPointerByIndex(&saveData_p->doors, i);
 
 			char buff[255];
+			memset(buff, 0, 255);
 			sprintf(buff, "%i %i %i %i\n", (int)doorBody_p->pos.x, (int)doorBody_p->pos.y, (int)doorBody_p->size.x, (int)doorBody_p->size.y);
 
 			fputs(buff, file);

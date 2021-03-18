@@ -14,6 +14,9 @@
 
 #define NUMBER_OF_SPRITE_LAYERS 20
 
+#define NUMBER_OF_SCALES 1000
+#define ORIGIN_SCALE_INDEX 900
+
 //enums
 
 //*temoporary
@@ -80,6 +83,8 @@ enum SpriteLayer{
 	GAME_LAYER_FURNITURE,
 	GAME_LAYER_FOREGROUND,
 	GAME_LAYER_OBSTACLES,
+	GAME_LAYER_DOOR_KEYS,
+	GAME_LAYER_BLOCKED_ENTITIES,
 	GAME_LAYER_SHADOWS,
 	GAME_LAYER_TEXT,
 	GAME_LAYER_PARTICLES,
@@ -151,11 +156,12 @@ typedef struct Sprite{
 
 	//common
 	EntityHeader entityHeader;
-	enum SpriteType type;
 	Vec4f color;
 	float alpha;
-	enum Facing facing;
 	Vec2f borderSize;
+	enum SpriteType type;
+	enum SpriteLayer currentLayer;
+	enum Facing facing;
 
 	//regular sprite
 	Body body;
@@ -187,11 +193,19 @@ typedef struct BodyPair{
 	Vec2f scale;
 	Vec2f lastScale;
 	Vec2f origin;
+	//size_t scaleIndexX;
+	//size_t scaleIndexY;
+	//size_t lastScaleIndexX;
+	//size_t lastScaleIndexY;
 
 	enum ScaleType scaleType;
 	enum ScaleType originScaleType;
 	enum CollisionWeight collisionWeight;
 	enum EntityType entityType;
+
+	//bool isStuckX;
+	//bool isStuckY;
+	bool isStuck;
 }BodyPair;
 
 typedef struct Obstacle{
@@ -351,6 +365,9 @@ typedef struct World{
 	Vec2f deltaScale;
 	Vec2f origin;
 
+	float scalesX[NUMBER_OF_SCALES];
+	float scalesY[NUMBER_OF_SCALES];
+
 	bool scaling;
 	float scaleSpeed;
 	bool scalingByPlayerPosition;
@@ -388,11 +405,11 @@ typedef struct World{
 static const int WIDTH = 480;
 static const int HEIGHT = 270;
 
-static int windowWidth = WIDTH * 3;
-static int windowHeight = HEIGHT * 3;
+//static int windowWidth = WIDTH * 3;
+//static int windowHeight = HEIGHT * 3;
 
-//static int windowWidth = 480 * 2.5;
-//static int windowHeight = 270 * 2.5;
+static int windowWidth = 480 * 2.5;
+static int windowHeight = 270 * 2.5;
 
 //static int windowWidth = 1366;
 //static int windowHeight = 768;
@@ -523,6 +540,17 @@ Vec2f BodyPair_getPhysicsScale(BodyPair *);
 void Particle_addEvent(Particle *, enum ParticleEventType, enum ParticlePropertyType, union ParticleProperty, int, int);
 void Particle_addRemoveEvent(Particle *, int);
 
+Sprite *World_Sprite_setToLayer_returnsNewPointer(World *, Sprite *, enum SpriteLayer);
+
+void BodyPair_World_setBodyFromScaleX(BodyPair *, World *);
+void BodyPair_World_setBodyFromScaleY(BodyPair *, World *);
+
+float BodyPair_getScaleFromBodyX(BodyPair *bodyPair_p);
+float BodyPair_getScaleFromBodyY(BodyPair *bodyPair_p);
+
+Vec2f BodyPair_getScale(BodyPair_p);
+Vec2f BodyPair_getLastScale(BodyPair_p);
+
 //FILE: components.c
 
 void Body_init(Body *, Vec2f, Vec2f);
@@ -533,13 +561,13 @@ void Body_scale(Body *, Vec2f, Vec2f);
 
 void Body_unScale(Body *, Vec2f, Vec2f);
 
-void Body_scaleX(Body *, Vec2f, Vec2f);
+void Body_scaleX(Body *, float, float);
 
-void Body_scaleY(Body *, Vec2f, Vec2f);
+void Body_scaleY(Body *, float, float);
 
-void Body_unScaleX(Body *, Vec2f, Vec2f);
+void Body_unScaleX(Body *, float, float);
 
-void Body_unScaleY(Body *, Vec2f, Vec2f);
+void Body_unScaleY(Body *, float, float);
 
 bool Body_checkOub(Body);
 
