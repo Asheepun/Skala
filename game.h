@@ -189,10 +189,12 @@ typedef struct BodyPair{
 	Body originBody;
 	Physics physics;
 
-	Vec2f scaleForce;
+	//Vec2f scaleForce;
 	Vec2f scale;
 	Vec2f lastScale;
-	Vec2f origin;
+	Vec2f scaleExponent;
+	Vec2f lastScaleExponent;
+	//Vec2f origin;
 	//size_t scaleIndexX;
 	//size_t scaleIndexY;
 	//size_t lastScaleIndexX;
@@ -545,11 +547,11 @@ Sprite *World_Sprite_setToLayer_returnsNewPointer(World *, Sprite *, enum Sprite
 void BodyPair_World_setBodyFromScaleX(BodyPair *, World *);
 void BodyPair_World_setBodyFromScaleY(BodyPair *, World *);
 
-float BodyPair_getScaleFromBodyX(BodyPair *bodyPair_p);
-float BodyPair_getScaleFromBodyY(BodyPair *bodyPair_p);
+float BodyPair_getScaleFromBodyX(BodyPair *);
+float BodyPair_getScaleFromBodyY(BodyPair *);
 
-Vec2f BodyPair_getScale(BodyPair_p);
-Vec2f BodyPair_getLastScale(BodyPair_p);
+Vec2f World_BodyPair_getScaleFromExponent(World *, BodyPair *);
+Vec2f World_BodyPair_getLastScaleFromExponent(World *, BodyPair *);
 
 //FILE: components.c
 

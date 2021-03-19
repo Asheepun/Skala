@@ -272,6 +272,8 @@ size_t World_addBodyPair(World *world_p, Body body, enum ScaleType scaleType, en
 
 	bodyPair_p->scale = getVec2f(1, 1);
 	bodyPair_p->lastScale = getVec2f(1, 1);
+	bodyPair_p->scaleExponent = getVec2f(0, 0);
+	bodyPair_p->lastScaleExponent = getVec2f(0, 0);
 
 	//bodyPair_p->canCollideWithPlayer = canCollideWithPlayer;
 
@@ -985,30 +987,32 @@ float BodyPair_getScaleFromBodyY(BodyPair *bodyPair_p){
 float exponent1 = 1.040;
 float exponent2 = 1.000001;
 
-Vec2f BodyPair_getScale(BodyPair *bodyPair_p){
+float exponent3 = 1.004;
+
+Vec2f World_BodyPair_getScaleFromExponent(World *world_p, BodyPair *bodyPair_p){
 
 	Vec2f scale = { 
-   		pow(1 + (exponent1 - 1) * (float)HEIGHT / (float)WIDTH, bodyPair_p->scale.x * pow(exponent2, bodyPair_p->scale.x)),
-   		pow(exponent1, bodyPair_p->scale.y * pow(exponent2, bodyPair_p->scale.y)),
+   		pow(1 + (exponent1 - 1) * (float)HEIGHT / (float)WIDTH, bodyPair_p->scaleExponent.x * pow(exponent2, bodyPair_p->scaleExponent.x)),
+   		pow(exponent1, bodyPair_p->scaleExponent.y * pow(exponent2, bodyPair_p->scaleExponent.y)),
 	};
 
-	if(bodyPair_p->scaleType == NONE){
-		scale = getVec2f(1, 1);
+	if(world_p->currentState == LEVEL_HUB_STATE){
+		scale.x = pow(exponent3, bodyPair_p->scaleExponent.x * pow(exponent2, bodyPair_p->scaleExponent.x));
 	}
 
 	return scale;
 
 }
 
-Vec2f BodyPair_getLastScale(BodyPair *bodyPair_p){
+Vec2f World_BodyPair_getLastScaleFromExponent(World *world_p, BodyPair *bodyPair_p){
 
 	Vec2f scale = { 
-   		pow(1 + (exponent1 - 1) * (float)HEIGHT / (float)WIDTH, bodyPair_p->lastScale.x * pow(exponent2, bodyPair_p->lastScale.x)),
-   		pow(exponent1, 											bodyPair_p->lastScale.y * pow(exponent2, bodyPair_p->lastScale.y)),
+   		pow(1 + (exponent1 - 1) * (float)HEIGHT / (float)WIDTH, bodyPair_p->lastScaleExponent.x * pow(exponent2, bodyPair_p->lastScaleExponent.x)),
+   		pow(exponent1, 											bodyPair_p->lastScaleExponent.y * pow(exponent2, bodyPair_p->lastScaleExponent.y)),
 	};
 
-	if(bodyPair_p->scaleType == NONE){
-		scale = getVec2f(1, 1);
+	if(world_p->currentState == LEVEL_HUB_STATE){
+		scale.x = pow(exponent3, bodyPair_p->lastScaleExponent.x * pow(exponent2, bodyPair_p->lastScaleExponent.x));
 	}
 
 	return scale;

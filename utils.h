@@ -15,6 +15,15 @@ typedef struct EntityHeader{
 	size_t ID;
 }EntityHeader;
 
+typedef struct IndexSafeArray{
+	void *items;
+	unsigned int length;
+	//unsigned int spaces;
+	unsigned int itemSize;
+	unsigned int indexSize;
+	unsigned int maxLength;
+}IndexSafeArray;
+
 typedef struct String{
 	char *characters;
 }String;

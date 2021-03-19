@@ -186,3 +186,57 @@ void String_free(String *string_p){
 bool compareFloatToFloat(float a, float b){
 	return fabs(a - b) < 0.000001;
 }
+
+void IndexSafeArray_init(IndexSafeArray *indexSafeArray_p, unsigned int itemSize, unsigned int maxLength){
+
+	indexSafeArray_p->itemSize = itemSize;
+	indexSafeArray_p->indexSize = itemSize + sizeof(bool);
+	indexSafeArray_p->length = 0;
+	//indexSafeArray_p->spaces = 0;
+	indexSafeArray_p->maxLength = maxLength;
+	
+	indexSafeArray->items = malloc(maxLength * indexSize);
+
+	for(int i = 0; i < maxLength; i++){
+		bool *flag = indexSafeArray_p->items + i * indexSafeArray_p->indexSize;
+		*flag = false;
+	}
+
+}
+
+void *IndexSafeArray_addItem(IndexSafeArray *indexSafeArray_p, unsigned int index){
+	for(int i = 0; i < indexSafeArray_p->maxLength; i++){
+
+		bool *flag = indexSafeArray_p->items + i * indexSafeArray_p->indexSize;
+
+		if(!*flag){
+
+			*flag = true;
+			indexSafeArray_p->length++;
+
+			return (void *)flag + sizeof(bool);
+
+		}
+		
+	}
+}
+
+void *IndexSafeArray_getItemPointer(IndexSafeArray *indexSafeArray_p, unsigned int index){
+
+	bool *flag = indexSafeArray_p->items + index * indexSafeArray_p->indexSize;
+
+	if(*flag){
+		return (void *)flag + sizeof(bool);
+	}
+
+	return NULL;
+
+}
+
+void *IndexSafeArray_removeItem(IndexSafeArray *indexSafeArray_p, unsigned int index){
+
+	bool *flag = indexSafeArray_p->items + index * indexSafeArray_p->indexSize;
+
+	*flag = false;
+	
+}
