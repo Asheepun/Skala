@@ -155,7 +155,7 @@ typedef struct Physics{
 typedef struct Sprite{
 
 	//common
-	EntityHeader entityHeader;
+	//EntityHeader entityHeader;
 	Vec4f color;
 	float alpha;
 	Vec2f borderSize;
@@ -177,7 +177,8 @@ typedef struct Sprite{
 
 typedef struct Button{
 	EntityHeader entityHeader;
-	size_t spriteID;
+	//size_t spriteID;
+	unsigned int spriteIndex;
 	enum ButtonType buttonType;
 }Button;
 
@@ -214,7 +215,8 @@ typedef struct Obstacle{
 	EntityHeader entityHeader;
 	Physics physics;
 	size_t bodyPairID;
-	size_t spriteID;
+	//size_t spriteID;
+	unsigned int spriteIndex;
 }Obstacle;
 
 typedef struct Player{
@@ -222,7 +224,8 @@ typedef struct Player{
 	Physics physics;
 	Vec2f resistance;
 	size_t bodyPairID;
-	size_t spriteID;
+	//size_t spriteID;
+	unsigned int spriteIndex;
 	float runAcceleration;
 	float jumpSpeed;
 	bool holdingKey;
@@ -235,21 +238,24 @@ typedef struct Point{
 	Body body;
 	Physics physics;
 	size_t bodyPairID;
-	size_t spriteID;
+	//size_t spriteID;
+	unsigned int spriteIndex;
 }Point;
 
 typedef struct Door{
 	EntityHeader entityHeader;
 	size_t bodyPairIndex;
 	size_t bodyPairID;
-	size_t spriteID;
+	//size_t spriteID;
+	unsigned int spriteIndex;
 }Door;
 
 typedef struct DoorKey{
 	EntityHeader entityHeader;
 	Physics physics;
 	size_t bodyPairID;
-	size_t spriteID;
+	//size_t spriteID;
+	unsigned int spriteIndex;
 	enum Facing facing;
 }DoorKey;
 
@@ -258,7 +264,8 @@ typedef struct ScaleField{
 	Body body;
 	enum ScaleType scaleType;
 	size_t bodyPairID;
-	size_t spriteID;
+	//size_t spriteID;
+	unsigned int spriteIndex;
 	int particleCounter;
 }ScaleField;
 
@@ -267,7 +274,8 @@ typedef struct LevelDoor{
 	Body body;
 	char *levelName;
 	enum LevelHubRoom levelHubRoom;
-	size_t spriteID;
+	//size_t spriteID;
+	unsigned int spriteIndex;
 	size_t hoverTextSpriteID;
 	size_t hoverTextParticleID;
 	bool hasPlayerBelow;
@@ -279,7 +287,8 @@ typedef struct Particle{
 	Physics physics;
 	Array events;
 	int counter;
-	size_t spriteID;
+	//size_t spriteID;
+	unsigned int spriteIndex;
 
 	//temp stuff
 	Vec4f targetColor;
@@ -386,13 +395,13 @@ typedef struct World{
 	Array levelDoors;
 	Array particles;
 
-	Array spriteLayers[NUMBER_OF_SPRITE_LAYERS];
+	IndexSafeArray spriteLayers[NUMBER_OF_SPRITE_LAYERS];
 
 	size_t fpsTextID;
 
 	bool playerHasLanded;
 
-	size_t starBackgroundSpriteID;
+	size_t starBackgroundSpriteIndex;
 
 	size_t titleTextParticleID;
 	size_t movementKeysTextParticleID;
@@ -504,10 +513,10 @@ size_t World_addLevelDoor(World *, Vec2f, char *, enum LevelHubRoom);
 //size_t World_addParticle(World *, Vec2f, Vec2f, char *, int, Vec4f, Vec4f);
 size_t World_addShadow(World *, Vec2f, Vec2f);
 
-Particle *World_addParticle(World *, size_t);
+Particle *World_addParticle(World *, unsigned int);
 size_t World_addFadeInTextParticle(World *, Vec2f, char *, char *, Vec4f, int, int);
 
-void World_removeSpriteByID(World *, size_t);
+void World_removeSpriteByIndex(World *, unsigned);
 void World_removeButtonByID(World *, size_t);
 void World_removePointByID(World *, size_t);
 void World_removeDoorByID(World *, size_t);
@@ -517,7 +526,8 @@ void World_removeParticleByID(World *, size_t);
 Body World_TextSprite_getBody(World *, Sprite *);
 
 BodyPair *World_getBodyPairByID(World *, size_t);
-Sprite *World_getSpriteByID(World *, size_t);
+//Sprite *World_getSpriteByID(World *, size_t);
+Sprite *World_getSpriteByIndex(World *, unsigned int);
 Button *World_getButtonByID(World *, size_t);
 Particle *World_getParticleByID(World *, size_t);
 
@@ -543,7 +553,7 @@ Vec2f BodyPair_getPhysicsScale(BodyPair *);
 void Particle_addEvent(Particle *, enum ParticleEventType, enum ParticlePropertyType, union ParticleProperty, int, int);
 void Particle_addRemoveEvent(Particle *, int);
 
-Sprite *World_Sprite_setToLayer_returnsNewPointer(World *, Sprite *, enum SpriteLayer);
+Sprite *World_Sprite_setToLayer_returnsNewPointer(World *, Sprite *, unsigned int, enum SpriteLayer);
 
 bool BodyPair_isScalable(BodyPair *);
 

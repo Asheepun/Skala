@@ -72,7 +72,7 @@ bool compareFloatToFloat(float, float);
 
 void IndexSafeArray_init(IndexSafeArray *, unsigned int, unsigned int);
 
-void *IndexSafeArray_addItem(IndexSafeArray *, unsigned int);
+unsigned int IndexSafeArray_addItem(IndexSafeArray *);
 
 void *IndexSafeArray_getItemPointer(IndexSafeArray *, unsigned int);
 

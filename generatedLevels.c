@@ -514,11 +514,15 @@ void World_generateLevel30(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(100, 30), getVec2f(WIDTH - 100, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 50, 90), getVec2f(50, 20), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 60, 90), getVec2f(60, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 110, 50), getVec2f(20, 135), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 120, 50), getVec2f(20, 135), NONE);
 
-	World_addDoorKey(world_p, getVec2f(WIDTH - 30, 70), ALL);
+	World_addObstacle(world_p, getVec2f(WIDTH - 10, 0), getVec2f(10, 30), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 10, 50), getVec2f(10, 40), NONE);
+
+	World_addDoorKey(world_p, getVec2f(WIDTH - 40, 70), ALL);
 
 }
 

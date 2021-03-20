@@ -206,7 +206,7 @@ void IndexSafeArray_init(IndexSafeArray *indexSafeArray_p, unsigned int itemSize
 
 }
 
-void *IndexSafeArray_addItem(IndexSafeArray *indexSafeArray_p, unsigned int index){
+unsigned int IndexSafeArray_addItem(IndexSafeArray *indexSafeArray_p){
 
 	for(int i = 0; i < indexSafeArray_p->maxLength; i++){
 
@@ -217,7 +217,8 @@ void *IndexSafeArray_addItem(IndexSafeArray *indexSafeArray_p, unsigned int inde
 			*flag = true;
 			indexSafeArray_p->length++;
 
-			return (void *)flag + sizeof(bool);
+			return i;
+			//return (void *)flag + sizeof(bool);
 
 		}
 		

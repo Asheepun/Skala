@@ -39,8 +39,16 @@ void World_init(World *world_p){
 	Array_init(&world_p->particles, sizeof(Particle));
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
-		Array_init(&world_p->spriteLayers[i], sizeof(Sprite));
-		//IndexSafeArray_init(&world_p->spriteLayers[i], sizeof(Sprite), 255);
+
+		unsigned int maxLength = 32;
+
+		if(i == GAME_LAYER_FURNITURE
+		|| i == GAME_LAYER_OBSTACLES
+		|| i == GAME_LAYER_PARTICLES){
+			maxLength = 1024;
+		}
+
+		IndexSafeArray_init(&world_p->spriteLayers[i], sizeof(Sprite), 255);
 	}
 
 	world_p->fadeTransitionCounter = 0;
@@ -125,7 +133,8 @@ void World_restore(World *world_p){
 	Array_clear(&world_p->particles);
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
-		Array_clear(&world_p->spriteLayers[i]);
+		//Array_clear(&world_p->spriteLayers[i]);
+		IndexSafeArray_clear(&world_p->spriteLayers[i]);
 	}
 
 	world_p->fpsTextID = World_addTextSprite(world_p, getVec2f(10, 10), "", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
@@ -177,15 +186,17 @@ void World_initPlayer(World *world_p, Vec2f pos, enum ScaleType scaleType){
 
 	player_p->facing = RIGHT;
 
-	player_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "player", 1, GAME_LAYER_FOREGROUND);
+	player_p->spriteIndex = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "player", 1, GAME_LAYER_FOREGROUND);
 
 }
 
 size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Vec4f color, char *texture, float alpha, enum SpriteLayer layer){
 
-	Sprite *sprite_p = Array_addItem(&world_p->spriteLayers[layer]);
+	//Sprite *sprite_p = Array_addItem(&world_p->spriteLayers[layer]);
+	unsigned int index = IndexSafeArray_addItem(&world_p->spriteLayers[layer]);
+	Sprite *sprite_p = IndexSafeArray_getItemPointer(&world_p->spriteLayers[layer], index);
 
-	EntityHeader_init(&sprite_p->entityHeader);
+	//EntityHeader_init(&sprite_p->entityHeader);
 
 	sprite_p->type = REGULAR_SPRITE;
 
@@ -199,15 +210,19 @@ size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Vec4f color, char 
 	sprite_p->facing = RIGHT;
 	sprite_p->borderSize = getVec2f(0, 0);
 
-	return sprite_p->entityHeader.ID;
+	return index + 1000000 * layer;
+	//return sprite_p->entityHeader.ID;
 
 }
 
 size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, char *fontName, Vec4f color, enum SpriteLayer layer){
 	
-	Sprite *sprite_p = Array_addItem(&world_p->spriteLayers[layer]);
+	//Sprite *sprite_p = Array_addItem(&world_p->spriteLayers[layer]);
 
-	EntityHeader_init(&sprite_p->entityHeader);
+	//EntityHeader_init(&sprite_p->entityHeader);
+
+	unsigned int index = IndexSafeArray_addItem(&world_p->spriteLayers[layer]);
+	Sprite *sprite_p = IndexSafeArray_getItemPointer(&world_p->spriteLayers[layer], index);
 
 	sprite_p->type = TEXT_SPRITE;
 
@@ -220,7 +235,8 @@ size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, char *fontName
 
 	strcpy(sprite_p->text, text);
 
-	return sprite_p->entityHeader.ID;
+	return index + 1000000 * layer;
+	//return sprite_p->entityHeader.ID;
 
 }
 
@@ -232,7 +248,7 @@ size_t World_addButton(World *world_p, Vec2f pos, Vec2f size, char *texture, enu
 
 	button_p->buttonType = SPRITE_BUTTON;
 
-	button_p->spriteID = World_addSprite(world_p, pos, size, COLOR_WHITE, texture, 1, layer);
+	button_p->spriteIndex = World_addSprite(world_p, pos, size, COLOR_WHITE, texture, 1, layer);
 
 	return button_p->entityHeader.ID;
 
@@ -246,7 +262,7 @@ size_t World_addTextButton(World *world_p, Vec2f pos, char *text, enum SpriteLay
 
 	button_p->buttonType = TEXT_BUTTON;
 
-	button_p->spriteID = World_addTextSprite(world_p, pos, text, "times20", COLOR_WHITE, layer);
+	button_p->spriteIndex = World_addTextSprite(world_p, pos, text, "times20", COLOR_WHITE, layer);
 
 	return button_p->entityHeader.ID;
 
@@ -297,9 +313,9 @@ size_t World_addObstacle(World *world_p, Vec2f pos, Vec2f size, enum ScaleType s
 
 	Physics_init(&obstacle_p->physics);
 
-	obstacle_p->spriteID = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[scaleType], "obstacle", 1, GAME_LAYER_OBSTACLES);
+	obstacle_p->spriteIndex = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[scaleType], "obstacle", 1, GAME_LAYER_OBSTACLES);
 
-	Sprite *sprite_p = World_getSpriteByID(world_p, obstacle_p->spriteID);
+	Sprite *sprite_p = World_getSpriteByIndex(world_p, obstacle_p->spriteIndex);
 	//sprite_p->borderSize = getVec2f(5, 5);
 
 	return obstacle_p->entityHeader.ID;
@@ -319,7 +335,7 @@ size_t World_addPoint(World *world_p, Vec2f pos, enum ScaleType scaleType){
 
 	Physics_init(&point_p->physics);
 
-	point_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "point", 1, GAME_LAYER_FOREGROUND);
+	point_p->spriteIndex = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "point", 1, GAME_LAYER_FOREGROUND);
 
 	return point_p->entityHeader.ID;
 
@@ -339,7 +355,7 @@ size_t World_addDoor(World *world_p, Vec2f pos, Vec2f size, enum ScaleType scale
 
 	door_p->bodyPairID = World_addBodyPair(world_p, body, scaleType, STATIC, DOOR);
 
-	door_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "door", 1, GAME_LAYER_OBSTACLES);
+	door_p->spriteIndex = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "door", 1, GAME_LAYER_OBSTACLES);
 
 	return door_p->entityHeader.ID;
 
@@ -359,7 +375,7 @@ size_t World_addDoorKey(World *world_p, Vec2f pos, enum ScaleType scaleType){
 
 	doorKey_p->bodyPairID = World_addBodyPair(world_p, body, scaleType, MOVABLE, DOOR_KEY);
 
-	doorKey_p->spriteID = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "door-key", 1, GAME_LAYER_DOOR_KEYS);
+	doorKey_p->spriteIndex = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "door-key", 1, GAME_LAYER_DOOR_KEYS);
 
 	Physics *physics_p = &World_getBodyPairByID(world_p, doorKey_p->bodyPairID)->physics;
 
@@ -382,7 +398,7 @@ size_t World_addScaleField(World *world_p, Vec2f pos, Vec2f size, enum ScaleType
 
 	scaleField_p->scaleType = scaleType;
 
-	scaleField_p->spriteID = World_addSprite(world_p, pos, scaleField_p->body.size, SCALE_TYPE_COLORS[scaleField_p->scaleType], "obstacle", 0.4, GAME_LAYER_FOREGROUND);
+	scaleField_p->spriteIndex = World_addSprite(world_p, pos, scaleField_p->body.size, SCALE_TYPE_COLORS[scaleField_p->scaleType], "obstacle", 0.4, GAME_LAYER_FOREGROUND);
 
 	return scaleField_p->entityHeader.ID;
 
@@ -400,7 +416,7 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 	levelDoor_p->levelHubRoom = levelHubRoom;
 	//levelDoor_p->hoverTextParticleID = -1;
 
-	levelDoor_p->spriteID = World_addSprite(world_p, pos, levelDoor_p->body.size, COLOR_WHITE, "level-door", 1, GAME_LAYER_FOREGROUND);
+	levelDoor_p->spriteIndex = World_addSprite(world_p, pos, levelDoor_p->body.size, COLOR_WHITE, "level-door", 1, GAME_LAYER_FOREGROUND);
 
 	char *screenName;
 	for(int i = 0; i < LEVELS_LENGTH; i++){
@@ -411,7 +427,7 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 
 	levelDoor_p->hoverTextParticleID = World_addFadeInTextParticle(world_p, levelDoor_p->body.pos, screenName, "times15", COLOR_WHITE, 0, 0);
 	Particle *hoverTextParticle_p = World_getParticleByID(world_p, levelDoor_p->hoverTextParticleID);
-	Sprite *hoverTextSprite_p = World_getSpriteByID(world_p, hoverTextParticle_p->spriteID);
+	Sprite *hoverTextSprite_p = World_getSpriteByIndex(world_p, hoverTextParticle_p->spriteIndex);
 
 	hoverTextSprite_p->pos.y -= 20;
 	hoverTextSprite_p->pos.x += 10;
@@ -436,7 +452,7 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 
 }
 
-Particle *World_addParticle(World *world_p, size_t spriteID){
+Particle *World_addParticle(World *world_p, unsigned spriteIndex){
 	
 	Particle *particle_p = Array_addItem(&world_p->particles);
 
@@ -444,7 +460,7 @@ Particle *World_addParticle(World *world_p, size_t spriteID){
 
 	Physics_init(&particle_p->physics);
 
-	particle_p->spriteID = spriteID;
+	particle_p->spriteIndex = spriteIndex;
 
 	particle_p->counter = 0;
 
@@ -481,9 +497,9 @@ void Particle_addRemoveEvent(Particle *particle_p, int activationTime){
 
 size_t World_addFadeInTextParticle(World *world_p, Vec2f pos, char *text, char *fontName, Vec4f color, int activationTime, int durationTime){
 	
-	size_t spriteID = World_addTextSprite(world_p, pos, text, fontName, color, GAME_LAYER_PARTICLES);
+	size_t spriteIndex = World_addTextSprite(world_p, pos, text, fontName, color, GAME_LAYER_PARTICLES);
 
-	Particle *particle_p = World_addParticle(world_p, spriteID);
+	Particle *particle_p = World_addParticle(world_p, spriteIndex);
 
 	union ParticleProperty startAlpha;
 	startAlpha.alpha = 0;
@@ -505,8 +521,14 @@ size_t World_addShadow(World *world_p, Vec2f pos, Vec2f size){
 	
 }
 
-void World_removeSpriteByID(World *world_p, size_t ID){
+void World_removeSpriteByIndex(World *world_p, unsigned int index){
+
+	unsigned int layer = floor(index / 1000000);
+	unsigned int relativeIndex = index % 1000000;
+
+	IndexSafeArray_removeItem(&world_p->spriteLayers[layer], relativeIndex);
 	
+	/*
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 
 		Sprite *sprite_p = Array_getItemPointerByID(&world_p->spriteLayers[i], ID);
@@ -516,6 +538,7 @@ void World_removeSpriteByID(World *world_p, size_t ID){
 		}
 	
 	}
+	*/
 
 }
 
@@ -523,7 +546,7 @@ void World_removeButtonByID(World *world_p, size_t ID){
 
 	Button *button_p = Array_getItemPointerByID(&world_p->buttons, ID);
 
-	World_removeSpriteByID(world_p, button_p->spriteID);
+	World_removeSpriteByIndex(world_p, button_p->spriteIndex);
 
 	Array_removeItemByID(&world_p->buttons, ID);
 
@@ -533,7 +556,7 @@ void World_removePointByID(World *world_p, size_t ID){
 
 	Point *point_p = Array_getItemPointerByID(&world_p->points, ID);
 	
-	World_removeSpriteByID(world_p, point_p->spriteID);
+	World_removeSpriteByIndex(world_p, point_p->spriteIndex);
 
 	Array_removeItemByID(&world_p->bodyPairs, point_p->bodyPairID);
 
@@ -545,7 +568,7 @@ void World_removeDoorByID(World *world_p, size_t ID){
 
 	Door *door_p = Array_getItemPointerByID(&world_p->doors, ID);
 	
-	World_removeSpriteByID(world_p, door_p->spriteID);
+	World_removeSpriteByIndex(world_p, door_p->spriteIndex);
 
 	Array_removeItemByID(&world_p->bodyPairs, door_p->bodyPairID);
 
@@ -557,7 +580,7 @@ void World_removeDoorKeyByID(World *world_p, size_t ID){
 
 	DoorKey *doorKey_p = Array_getItemPointerByID(&world_p->doorKeys, ID);
 	
-	World_removeSpriteByID(world_p, doorKey_p->spriteID);
+	World_removeSpriteByIndex(world_p, doorKey_p->spriteIndex);
 
 	Array_removeItemByID(&world_p->bodyPairs, doorKey_p->bodyPairID);
 
@@ -569,7 +592,7 @@ void World_removeParticleByID(World *world_p, size_t ID){
 
 	Particle *particle_p = Array_getItemPointerByID(&world_p->particles, ID);
 	
-	World_removeSpriteByID(world_p, particle_p->spriteID);
+	World_removeSpriteByIndex(world_p, particle_p->spriteIndex);
 
 	Array_free(&particle_p->events);
 
@@ -581,8 +604,14 @@ BodyPair *World_getBodyPairByID(World *world_p, size_t ID){
 	return Array_getItemPointerByID(&world_p->bodyPairs, ID);
 }
 
-Sprite *World_getSpriteByID(World *world_p, size_t ID){
+Sprite *World_getSpriteByIndex(World *world_p, unsigned int index){
 
+	unsigned int layer = floor(index / 1000000);
+	unsigned int relativeIndex = index % 1000000;
+
+	return IndexSafeArray_getItemPointer(&world_p->spriteLayers[layer], relativeIndex);
+
+	/*
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 
 		//if(i == GAME_LAYER_PARTICLES){
@@ -596,8 +625,9 @@ Sprite *World_getSpriteByID(World *world_p, size_t ID){
 		}
 	
 	}
+	*/
 
-	return NULL;
+	//return NULL;
 
 }
 
@@ -911,16 +941,19 @@ Body World_TextSprite_getBody(World *world_p, Sprite *textSprite_p){
 
 }
 
-Sprite *World_Sprite_setToLayer_returnsNewPointer(World *world_p, Sprite *sprite_p, enum SpriteLayer newLayer){
+/*
+Sprite *World_Sprite_setToLayer_returnsNewPointer(World *world_p, Sprite *sprite_p, unsigned int index, enum SpriteLayer newLayer){
 
 	if(sprite_p->currentLayer != newLayer){
 
 		Sprite spriteCopy = *sprite_p;
 		spriteCopy.currentLayer = newLayer;
 
-		World_removeSpriteByID(world_p, sprite_p->entityHeader.ID);
+		//World_removeSpriteByIndex(world_p, sprite_p->entityHeader.ID);
+		World_removeSpriteByIndex(world_p, index);
 
-		Sprite *newSprite_p = Array_addItem(&world_p->spriteLayers[newLayer]);
+		unsigned int newIndex = IndexSafeArray_addItem(&world_p->spriteLayers[newLayer]);
+		Sprite *newSprite_p = IndexSafeArray_getItemPointer(&world_p->spriteLayers[newLayer], )
 		*newSprite_p = spriteCopy;
 
 		return newSprite_p;
@@ -930,6 +963,7 @@ Sprite *World_Sprite_setToLayer_returnsNewPointer(World *world_p, Sprite *sprite
 	return sprite_p;
 
 }
+*/
 
 /*
 void BodyPair_World_setBodyFromScaleX(BodyPair *bodyPair_p, World *world_p){

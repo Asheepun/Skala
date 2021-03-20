@@ -1200,6 +1200,7 @@ void World_levelState(World *world_p){
 	
 	}
 
+	/*
 	//add particles to scale fields
 	for(int i = 0; i < world_p->scaleFields.length; i++){
 
@@ -1218,8 +1219,8 @@ void World_levelState(World *world_p){
 			pos.x += 5 + getRandom() * (scaleField_p->body.size.x - 12);
 			pos.y += 5 + getRandom() * (scaleField_p->body.size.y - 12);
 
-			size_t spriteID = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[scaleField_p->scaleType], "obstacle", 0, GAME_LAYER_PARTICLES);
-			Particle *particle_p = World_addParticle(world_p, spriteID);
+			size_t spriteIndex = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[scaleField_p->scaleType], "obstacle", 0, GAME_LAYER_PARTICLES);
+			Particle *particle_p = World_addParticle(world_p, spriteIndex);
 
 			union ParticleProperty targetAlpha1;
 			union ParticleProperty targetAlpha2;
@@ -1233,6 +1234,7 @@ void World_levelState(World *world_p){
 		}
 
 	}
+	*/
 
 	//update particles
 	for(int i = 0; i < world_p->particles.length; i++){
@@ -1244,7 +1246,7 @@ void World_levelState(World *world_p){
 			continue;
 		}
 
-		Sprite *sprite_p = World_getSpriteByID(world_p, particle_p->spriteID);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, particle_p->spriteIndex);
 
 		for(int j = 0; j < particle_p->events.length; j++){
 
@@ -1294,7 +1296,7 @@ void World_levelState(World *world_p){
 		/*
 		if(particle_p->type == FADE_IN_PARTICLE){
 
-			Sprite *sprite_p = World_getSpriteByID(world_p, particle_p->spriteID);
+			Sprite *sprite_p = World_getSpriteByIndex(world_p, particle_p->spriteIndex);
 
 			sprite_p->alpha += 0.01;
 
@@ -1313,7 +1315,7 @@ void World_levelState(World *world_p){
 				particle_p->body.pos.y += 3;
 				particle_p->body.size.x = 10;
 				particle_p->body.size.y = 10;
-				World_getSpriteByID(world_p, particle_p->spriteID)->texture = "point";
+				World_getSpriteByIndex(world_p, particle_p->spriteIndex)->texture = "point";
 			}
 
 			particle_p->activationCounter--;
@@ -1322,7 +1324,7 @@ void World_levelState(World *world_p){
 				continue;
 			}
 
-			Sprite *sprite_p = World_getSpriteByID(world_p, particle_p->spriteID);
+			Sprite *sprite_p = World_getSpriteByIndex(world_p, particle_p->spriteIndex);
 
 			//change to target color
 			float colorChangeSpeed = 0.02;
@@ -1385,7 +1387,7 @@ void World_levelState(World *world_p){
 
 		BodyPair *obstacleBodyPair_p = World_getBodyPairByID(world_p, obstacle_p->bodyPairID);
 
-		Sprite *sprite_p = World_getSpriteByID(world_p, obstacle_p->spriteID);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, obstacle_p->spriteIndex);
 
 		sprite_p->body = obstacleBodyPair_p->body;
 
@@ -1407,7 +1409,7 @@ void World_levelState(World *world_p){
 
 		BodyPair *pointBodyPair_p = World_getBodyPairByID(world_p, point_p->bodyPairID);
 
-		Sprite *sprite_p = World_getSpriteByID(world_p, point_p->spriteID);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, point_p->spriteIndex);
 
 		sprite_p->body = pointBodyPair_p->body;
 
@@ -1426,7 +1428,7 @@ void World_levelState(World *world_p){
 
 		BodyPair *doorBodyPair_p = World_getBodyPairByID(world_p, door_p->bodyPairID);
 
-		Sprite *sprite_p = World_getSpriteByID(world_p, door_p->spriteID);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, door_p->spriteIndex);
 
 		sprite_p->body = doorBodyPair_p->body;
 
@@ -1445,7 +1447,7 @@ void World_levelState(World *world_p){
 
 		BodyPair *doorKeyBodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
 
-		Sprite *sprite_p = World_getSpriteByID(world_p, doorKey_p->spriteID);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, doorKey_p->spriteIndex);
 
 		sprite_p->body = doorKeyBodyPair_p->body;
 
@@ -1460,7 +1462,7 @@ void World_levelState(World *world_p){
 		sprite_p->texture = "door-key";
 		sprite_p->alpha = 1;
 
-		sprite_p = World_Sprite_setToLayer_returnsNewPointer(world_p, sprite_p, GAME_LAYER_DOOR_KEYS);
+		//sprite_p = World_Sprite_setToLayer_returnsNewPointer(world_p, sprite_p, doorKey_p->spriteIndex, GAME_LAYER_DOOR_KEYS);
 
 		if(doorKeyBodyPair_p->isStuck){
 
@@ -1486,7 +1488,7 @@ void World_levelState(World *world_p){
 
 			sprite_p->color = COLOR_RED;
 			sprite_p->texture = "obstacle";
-			sprite_p = World_Sprite_setToLayer_returnsNewPointer(world_p, sprite_p, GAME_LAYER_BLOCKED_ENTITIES);
+			//sprite_p = World_Sprite_setToLayer_returnsNewPointer(world_p, sprite_p, GAME_LAYER_BLOCKED_ENTITIES);
 
 		}
 
@@ -1497,7 +1499,7 @@ void World_levelState(World *world_p){
 
 		ScaleField *scaleField_p = Array_getItemPointerByIndex(&world_p->scaleFields, i);
 
-		Sprite *sprite_p = World_getSpriteByID(world_p, scaleField_p->spriteID);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, scaleField_p->spriteIndex);
 
 		sprite_p->body = scaleField_p->body;
 
@@ -1510,7 +1512,7 @@ void World_levelState(World *world_p){
 
 		Particle *particle_p = Array_getItemPointerByIndex(&world_p->particles, i);
 
-		Sprite *sprite_p = World_getSpriteByID(world_p, particle_p->spriteID);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, particle_p->spriteIndex);
 
 		//sprite_p->body = particle_p->body;
 
@@ -1528,7 +1530,7 @@ void World_levelState(World *world_p){
 	{
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
 
-		Sprite *sprite_p = World_getSpriteByID(world_p, world_p->player.spriteID);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, world_p->player.spriteIndex);
 
 		sprite_p->body = playerBodyPair_p->body;
 		sprite_p->body.pos.y = (sprite_p->body.pos.y);
@@ -1659,7 +1661,7 @@ void World_levelState(World *world_p){
 	//update star background sprite
 	if(world_p->currentState == LEVEL_HUB_STATE){
 
-		Sprite *sprite_p = World_getSpriteByID(world_p, world_p->starBackgroundSpriteID);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, world_p->starBackgroundSpriteIndex);
 
 		sprite_p->body.pos.x = -world_p->renderer.offset.x * 0.3;
 		sprite_p->body.pos.y = (-world_p->renderer.offset.y - HEIGHT * 8) * 0.4;

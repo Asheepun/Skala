@@ -14,7 +14,7 @@ void World_initLevelHub(World *world_p){
 
 	//World_addObstacle(world_p, getVec2f(3500, -250), getVec2f(50, 50), ALL);
 
-	world_p->starBackgroundSpriteID = World_addSprite(world_p, getVec2f(0, 0), getVec2f(5000, HEIGHT * 4), COLOR_WHITE, "star-background", 1, GAME_LAYER_BACKGROUND);
+	world_p->starBackgroundSpriteIndex = World_addSprite(world_p, getVec2f(0, 0), getVec2f(5000, HEIGHT * 4), COLOR_WHITE, "star-background", 1, GAME_LAYER_BACKGROUND);
 
 	world_p->playerHasLanded = false;
 
@@ -644,7 +644,7 @@ void World_initLevelHub(World *world_p){
 	for(int i = 0; i < world_p->levelDoors.length; i++){
 
 		LevelDoor *levelDoor_p = Array_getItemPointerByIndex(&world_p->levelDoors, i);
-		Sprite *sprite_p = World_getSpriteByID(world_p, levelDoor_p->spriteID);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex);
 
 		for(int j = 0; j < world_p->saveData.completedLevels.length; j++){
 			char *completedLevelName = *((char **)Array_getItemPointerByIndex(&world_p->saveData.completedLevels, j));
@@ -760,8 +760,8 @@ void World_initLevelHub(World *world_p){
 				targetColor = COLOR_BLUE;
 			}
 
-			World_getSpriteByID(world_p, levelDoor_p->spriteID)->texture = "level-door";
-			World_getSpriteByID(world_p, levelDoor_p->spriteID)->color = COLOR_GREY;
+			World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex)->texture = "level-door";
+			World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex)->color = COLOR_GREY;
 
 			Vec2f pos = levelDoor_p->body.pos;
 			//pos.x += 5;

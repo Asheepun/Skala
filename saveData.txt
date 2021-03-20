@@ -1,5 +1,5 @@
 :playerPos
-2738 138
+3167 61
 :doorKeys
 5517 168
 :doors
@@ -43,3 +43,7 @@ player-position-jumping-key-2
 player-position-jumping-key-3
 airport-control
 grow-through-jumping
+push-key-with-pointi’U
+door-key-level-1
+door-key-level-2
+floor-is-door

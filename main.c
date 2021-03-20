@@ -192,9 +192,14 @@ void drawGame(){
 
 		for(int j = 0; j < world.spriteLayers[i].length; j++){
 
-			Sprite *sprite_p = Array_getItemPointerByIndex(&world.spriteLayers[i], j);
+			//Sprite *sprite_p = Array_getItemPointerByIndex(&world.spriteLayers[i], j);
+			Sprite *sprite_p = IndexSafeArray_getItemPointer(&world.spriteLayers[i], j);
 
-			if(sprite_p->alpha == 0){
+			if(sprite_p == NULL){
+				continue;
+			}
+
+			if(sprite_p->alpha <= 0.001){
 				continue;
 			}
 

@@ -11,7 +11,7 @@
 size_t exitLevelButtonID;
 size_t returnButtonID;
 size_t quitButtonID;
-size_t menuBackgroundSpriteID;
+size_t menuBackgroundSpriteIndex;
 
 size_t activeButtonIDs[16];
 unsigned int activeButtonIDsLength;
@@ -23,7 +23,7 @@ void World_initMenu(World *world_p){
 
 	pressingButton = false;
 
-	menuBackgroundSpriteID = World_addSprite(world_p, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), COLOR_BLACK, "menu-background", 1, MENU_LAYER_BACKGROUND);
+	menuBackgroundSpriteIndex = World_addSprite(world_p, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), COLOR_BLACK, "menu-background", 1, MENU_LAYER_BACKGROUND);
 
 	//add buttons
 	activeButtonIDsLength = 0;
@@ -105,7 +105,7 @@ void World_menuState(World *world_p){
 	|| world_p->actions[BACK_ACTION].downed){
 
 		//clean up menu sprites
-		World_removeSpriteByID(world_p, menuBackgroundSpriteID);
+		World_removeSpriteByIndex(world_p, menuBackgroundSpriteIndex);
 
 		for(int i = 0; i < activeButtonIDsLength; i++){
 			World_removeButtonByID(world_p, activeButtonIDs[i]);
@@ -124,7 +124,7 @@ void World_menuState(World *world_p){
 	
 		if(button_p->buttonType == TEXT_BUTTON){
 
-			Sprite *sprite_p = World_getSpriteByID(world_p, button_p->spriteID);
+			Sprite *sprite_p = World_getSpriteByIndex(world_p, button_p->spriteIndex);
 
 			sprite_p->color = COLOR_WHITE;
 
