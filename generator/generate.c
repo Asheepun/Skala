@@ -114,7 +114,7 @@ int main(){
 	for(int i = 0; i < levelsLength; i++){
 
 		char buffer[255];
-		sprintf(buffer, "\nWorld_generateLevel%i(World *world_p){\n", i + 1);
+		sprintf(buffer, "\nvoid World_generateLevel%i(World *world_p){\n", i + 1);
 
 		fputs(buffer, file);
 
@@ -136,7 +136,7 @@ int main(){
 	for(int i = 0; i < levelsLength; i++){
 
 		char buffer[255];
-		sprintf(buffer, "World_generateLevel%i(World *);\n", i + 1);
+		sprintf(buffer, "void World_generateLevel%i(World *);\n", i + 1);
 
 		fputs(buffer, file);
 	

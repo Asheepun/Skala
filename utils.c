@@ -5,6 +5,8 @@
 #include "stb_truetype.h"
 #include "text.h"
 #include "utils.h"
+#include "stdlib.h"
+#include "string.h"
 
 static size_t availableID = 0;
 
@@ -195,7 +197,7 @@ void IndexSafeArray_init(IndexSafeArray *indexSafeArray_p, unsigned int itemSize
 	//indexSafeArray_p->spaces = 0;
 	indexSafeArray_p->maxLength = maxLength;
 	
-	indexSafeArray->items = malloc(maxLength * indexSize);
+	indexSafeArray_p->items = malloc(maxLength * indexSafeArray_p->indexSize);
 
 	for(int i = 0; i < maxLength; i++){
 		bool *flag = indexSafeArray_p->items + i * indexSafeArray_p->indexSize;
@@ -205,6 +207,7 @@ void IndexSafeArray_init(IndexSafeArray *indexSafeArray_p, unsigned int itemSize
 }
 
 void *IndexSafeArray_addItem(IndexSafeArray *indexSafeArray_p, unsigned int index){
+
 	for(int i = 0; i < indexSafeArray_p->maxLength; i++){
 
 		bool *flag = indexSafeArray_p->items + i * indexSafeArray_p->indexSize;
@@ -219,6 +222,10 @@ void *IndexSafeArray_addItem(IndexSafeArray *indexSafeArray_p, unsigned int inde
 		}
 		
 	}
+
+	printf("ARRAY IS FULL! COULD NOT ADD ITEM!\n");
+	printf("ArrayPointer: %p\n", indexSafeArray_p);
+
 }
 
 void *IndexSafeArray_getItemPointer(IndexSafeArray *indexSafeArray_p, unsigned int index){
@@ -233,10 +240,21 @@ void *IndexSafeArray_getItemPointer(IndexSafeArray *indexSafeArray_p, unsigned i
 
 }
 
-void *IndexSafeArray_removeItem(IndexSafeArray *indexSafeArray_p, unsigned int index){
+void IndexSafeArray_removeItem(IndexSafeArray *indexSafeArray_p, unsigned int index){
 
 	bool *flag = indexSafeArray_p->items + index * indexSafeArray_p->indexSize;
 
 	*flag = false;
 	
+}
+
+void IndexSafeArray_clear(IndexSafeArray *indexSafeArray_p){
+	for(int i = 0; i < indexSafeArray_p->length; i++){
+		IndexSafeArray_removeItem(indexSafeArray_p, i);
+	}
+}
+
+void IndexSafeArray_free(IndexSafeArray *indexSafeArray_p){
+	free(indexSafeArray_p->items);
+	indexSafeArray_p->items = NULL;
 }

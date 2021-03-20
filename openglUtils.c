@@ -13,6 +13,8 @@ char *readFile_mustFree(char *filePath){
 	FILE *fd = NULL;
 	long fileLength = 0;
 
+	memset(buffer, 0, 1024);
+
 	fd = fopen(filePath, "r");
 
 	char c;
@@ -22,7 +24,7 @@ char *readFile_mustFree(char *filePath){
 	}
 
 	for(int i = fileLength; i < 1024; i++){
-		buffer[i] = NULL;
+		//buffer[i] = "\o";
 	}
 	
 	fclose(fd);
@@ -37,7 +39,7 @@ unsigned int getCompiledShader(char *shaderSourcePath, GLenum type){
 	unsigned int shader;
 	shader = glCreateShader(type);
 
-	glShaderSource(shader, 1, &shaderSource, NULL);
+	glShaderSource(shader, 1, (const GLchar * const *)&shaderSource, NULL);
 	glCompileShader(shader);
 
 	int success;
@@ -114,19 +116,19 @@ unsigned int OpenglUtils_Renderer_drawTexture(OpenglUtils_Renderer renderer, Vec
 	glUniformMatrix4fv(transformationsLocation, 1, GL_TRUE, transformations.values);
 
 	unsigned int colorLocation = glGetUniformLocation(shaderProgramID, "color");
-	glUniform4fv(colorLocation, 1, &color);
+	glUniform4fv(colorLocation, 1, (GLfloat *)&color);
 
 	unsigned int facingLocation = glGetUniformLocation(shaderProgramID, "facing");
-	glUniform1iv(facingLocation, 1, &facing);
+	glUniform1iv(facingLocation, 1, (GLint *)&facing);
 
 	float adjustedBorderSizeX = borderSize.x * size.y / size.x / size.y;
 	float adjustedBorderSizeY = borderSize.y / size.y;
 
 	unsigned int borderSizeXLocation = glGetUniformLocation(shaderProgramID, "borderSizeX");
-	glUniform1fv(borderSizeXLocation, 1, &adjustedBorderSizeX);
+	glUniform1fv(borderSizeXLocation, 1, (GLfloat *)&adjustedBorderSizeX);
 
 	unsigned int borderSizeYLocation = glGetUniformLocation(shaderProgramID, "borderSizeY");
-	glUniform1fv(borderSizeYLocation, 1, &adjustedBorderSizeY);
+	glUniform1fv(borderSizeYLocation, 1, (GLfloat *)&adjustedBorderSizeY);
 
 	glBindTexture(GL_TEXTURE_2D, textureID);
 

@@ -243,10 +243,10 @@ void drawGame(){
 				glUniformMatrix4fv(transformationsLocation, 1, GL_TRUE, transformations.values);
 
 				unsigned int colorLocation = glGetUniformLocation(shaderProgram, "color");
-				glUniform4fv(colorLocation, 1, &color);
+				glUniform4fv(colorLocation, 1, (GLfloat *)&color);
 
 				unsigned int facingLocation = glGetUniformLocation(shaderProgram, "facing");
-				glUniform1iv(facingLocation, 1, &sprite_p->facing);
+				glUniform1iv(facingLocation, 1, (GLint *)&sprite_p->facing);
 
 				glBindTexture(GL_TEXTURE_2D, texture.ID);
 

@@ -492,7 +492,8 @@ void World_initPlayer(World *, Vec2f, enum ScaleType);
 
 size_t World_addSprite(World *, Vec2f, Vec2f, Vec4f, char *, float, enum SpriteLayer);
 size_t World_addTextSprite(World *, Vec2f, char *, char *, Vec4f, enum SpriteLayer);
-size_t World_addButton(World *w, Vec2f, Vec2f, char *, enum SpriteLayer);
+size_t World_addButton(World *, Vec2f, Vec2f, char *, enum SpriteLayer);
+size_t World_addTextButton(World *, Vec2f, char *, enum SpriteLayer);
 size_t World_addObstacle(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addBodyPair(World *, Body, enum ScaleType, enum CollisionWeight, enum EntityType);
 size_t World_addPoint(World *, Vec2f, enum ScaleType);
@@ -544,6 +545,8 @@ void Particle_addRemoveEvent(Particle *, int);
 
 Sprite *World_Sprite_setToLayer_returnsNewPointer(World *, Sprite *, enum SpriteLayer);
 
+bool BodyPair_isScalable(BodyPair *);
+
 void BodyPair_World_setBodyFromScaleX(BodyPair *, World *);
 void BodyPair_World_setBodyFromScaleY(BodyPair *, World *);
 
@@ -580,6 +583,8 @@ bool checkBodyToBodyColCastToInt(Body, Body);
 bool checkBodyToBodyColRoundTo2Dec(Body, Body);
 
 bool checkBodyToBodyCol(Body, Body);
+
+void Physics_init(Physics *);
 
 //FILE: levelState.c
 

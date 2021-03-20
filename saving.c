@@ -75,7 +75,7 @@ void SaveData_read(SaveData *saveData_p){
 
 		memset(word, 0, strlen(word));
 
-		if(strcmp(strncpy(word, line, 2), "\/\/") == 0){
+		if(strcmp(strncpy(word, line, 2), "//") == 0){
 			continue;
 		}
 

@@ -69,7 +69,7 @@ Font getFont(char *fontPath, int fontSize){
 		&glyph->south
 		);
 
-		int hej = stbtt_GetCodepointKernAdvance(&font.info, "a", "b");
+		//int hej = stbtt_GetCodepointKernAdvance(&font.info, "a", "b");
 
 	}
 
@@ -97,7 +97,7 @@ char *getImageDataFromFontAndString_mustFree(Font font, char *string, int *outWi
 		int kern;
 		kern = stbtt_GetCodepointKernAdvance(&font.info, string[i], string[i + 1]);
 		if(i == strlen(string) - 1){
-			kern = stbtt_GetCodepointKernAdvance(&font.info, string[i], " ");
+			kern = stbtt_GetCodepointKernAdvance(&font.info, string[i], (size_t)" ");
 			width += 1;
 		}
 

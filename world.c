@@ -40,6 +40,7 @@ void World_init(World *world_p){
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 		Array_init(&world_p->spriteLayers[i], sizeof(Sprite));
+		//IndexSafeArray_init(&world_p->spriteLayers[i], sizeof(Sprite), 255);
 	}
 
 	world_p->fadeTransitionCounter = 0;
@@ -237,7 +238,7 @@ size_t World_addButton(World *world_p, Vec2f pos, Vec2f size, char *texture, enu
 
 }
 
-unsigned int World_addTextButton(World *world_p, Vec2f pos, char *text, enum SpriteLayer layer){
+size_t World_addTextButton(World *world_p, Vec2f pos, char *text, enum SpriteLayer layer){
 	
 	Button *button_p = Array_addItem(&world_p->buttons);
 
