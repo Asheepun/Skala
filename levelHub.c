@@ -1,6 +1,7 @@
 //#include "stdbool.h"
 #include "math.h"
 #include "stdio.h"
+#include "string.h"
 //#include "geometry.h"
 //#include "stb_truetype.h"
 //#include "text.h"
@@ -743,7 +744,7 @@ void World_initLevelHub(World *world_p){
 				continue;
 			}
 
-			Vec4f targetColor;
+			Renderer2D_Color targetColor;
 			if(openGateParticleEffectRoom == FIRST_SCALE_ROOM){
 				targetColor = COLOR_GREEN;
 			}

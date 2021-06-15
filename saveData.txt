@@ -1,49 +1,23 @@
 :playerPos
-3167 61
+3116 201
 :doorKeys
 5517 168
+3167 61
+3167 61
+3167 61
+3167 61
 :doors
 :flags
+removed-title-texteger4
+completed-all-from-top-levels_point_parameters
+completed-all-from-top-levelspos_clipep
+completed-scale-field-levelsons
+completed-player-position-levelsGL_EXT_bindable_uniform
+completed-scale-field-levelsXT_sparse_texture2x
+completed-player-position-levelsodattit
+removed-title-textÄ8oÄXoÄxoÄ oÄÀoÄèoÄpÄ(pÄPpÄppÄ pÄÈpÄèpÄqÄHqÄhqÄˆqÄ¨qÄÈqÄğqÄrÄ0rÄXrÄ€rÄ rÄÈrÄèrÄ@uÄ€vÄ {ÄH{Äp{Ä˜{ÄÀ{Äè{Ä|ÄH|Ä vÄp|Ä€tÄ˜|ÄÈ|ÄÈÄ`vÄÀvÄPÄxÄ
+completed-scale-field-levels0£À}£€t£ t8~¤À}¤€¤`s¤x¤`¤ v¤ t¤`t¤Àv¤ ¤¤@€¤À¤h€¤@v½ˆ~³ u³°~³h€Ë€Ë }Ë uËÀuËğË0„Ë‹ËØ†Ë …Ë`Œ»hˆ»‰»¸ˆ»0»€u»`s»€s»X‰»¸‘»È‡»P–»ˆ»ø‘»@ˆ»ˆ»PŠµÈ‚µğ‚µ(‡µÀ…µ¸’µè…µØÛdDZVC
+Ğæp–ÛƒÛX’ÛØÛ ÛP‚Û°†Û`†ÛØ†ÛàƒÛ„ÛXÛ ‚Ûø‘Û8ÛàÛX‘ÛøÛ˜Ûğ‚ÛƒÛ0ŒÛh–ÛØÛ¸ƒÛ@ƒÛ0„Û€„ÛÈ‡ÛàˆÛXÛ¸ÛŒÛPŠÛx‘ÛøÛ¸ÛøÛø‰Û –ÛxÛ¸–ÛĞ–Û˜‘Û’Û¸ˆÛP‡Û8ÛÛx‡ÛxÛĞ‰ÛX‰Û‘Û¸‘Û‰Û8‘Û8’ÛˆÛPÛè–Û@ˆÛ¸ÛLDZ~C
 removed-title-text
-completed-all-from-top-levels
-completed-all-from-top-levels
-completed-scale-field-levels
-completed-player-position-levels
 :levelsWithDoorKey
 :completedLevels
-cooler-scaling-level-1
-slow-fall-squeeze
-high-jump-2
-high-jump-3
-point-cage-3
-all-from-top-1
-all-from-top-2
-all-from-top-3
-get-under-cup
-point-pikaboo
-key-obstacle-course
-key-in-cage-all-from-top
-get-key-up-1
-key-in-box
-flying-key-1
-flying-key-2-trickshot-edition
-maybe-key-should-fly
-get-key-up-2
-scale-field-1
-scale-field-2
-scale-field-3
-get-over-the-field
-layers-of-fields
-point-field-cage
-player-position-1
-player-position-3
-player-position-2
-player-position-jumping-key-1
-player-position-jumping-key-2
-player-position-jumping-key-3
-airport-control
-grow-through-jumping
-push-key-with-pointiÕU
-door-key-level-1
-door-key-level-2
-floor-is-door

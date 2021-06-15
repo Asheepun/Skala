@@ -2,12 +2,13 @@
 #include "game.h"
 #include "math.h"
 #include "stdio.h"
+#include "string.h"
 //#include "geometry.h"
 //#include "stb_truetype.h"
 //#include "text.h"
 //#include "utils.h"
 #include "levels.h"
-#include "audio.h"
+//#include "audio.h"
 
 typedef struct Collision{
 	unsigned int lighterBodyPairIndex;
@@ -32,7 +33,7 @@ void World_initLevel(World *world_p){
 
 	world_p->renderer.offset = getVec2f(0, 0);
 
-	Vec4f backgroundColor = COLOR_BLACK;
+	Renderer2D_Color backgroundColor = COLOR_BLACK;
 	if(world_p->scalingByPlayerPosition){
 		backgroundColor = COLOR_DARK_GREY;
 	}
@@ -40,7 +41,7 @@ void World_initLevel(World *world_p){
 	World_addSprite(world_p, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), backgroundColor, "obstacle", 1, GAME_LAYER_BACKGROUND);
 
 	if(world_p->scalingByPlayerPosition){
-		playSound("begin-scaling");
+		//playSound("begin-scaling");
 	}
 
 }
@@ -54,7 +55,7 @@ void World_levelState(World *world_p){
 		return;
 	}
 
-	printf("---\n");
+	//printf("---\n");
 
 	if(world_p->actions[MENU_ACTION].downed){
 
@@ -72,11 +73,11 @@ void World_levelState(World *world_p){
 	}
 	if(!world_p->scalingByPlayerPosition){
 		if(world_p->actions[SCALE_ACTION].downedNoRepeat){
-			playSound("begin-scaling");
+			//playSound("begin-scaling");
 			scalingSoundCounter = 0;
 		}
 		if(world_p->actions[SCALE_ACTION].upped){
-			playSound("end-scaling");
+			//playSound("end-scaling");
 		}
 	}
 
@@ -218,7 +219,7 @@ void World_levelState(World *world_p){
 		if((world_p->actions[JUMP_ACTION].down)
 		&& playerPhysics_p->onGround){
 			playerPhysics_p->velocity.y += player_p->jumpSpeed;
-			playSound("player-jump");
+			//playSound("player-jump");
 			//playSound("player-land");
 		}
 
@@ -230,7 +231,7 @@ void World_levelState(World *world_p){
 	}
 
 	world_p->deltaScale = world_p->scale;
-	Vec2f_sub(&world_p->deltaScale, &world_p->lastScale);
+	Vec2f_sub(&world_p->deltaScale, world_p->lastScale);
 
 	//play scaling sound
 	//if(fabs(world_p->deltaScale.x) > 0
@@ -870,9 +871,9 @@ void World_levelState(World *world_p){
 
 		bodyPair_p->physics.acceleration.y += bodyPair_p->physics.gravity;
 
-		Vec2f_add(&bodyPair_p->physics.velocity, &bodyPair_p->physics.acceleration);
+		Vec2f_add(&bodyPair_p->physics.velocity, bodyPair_p->physics.acceleration);
 
-		Vec2f_mul(&bodyPair_p->physics.velocity, &bodyPair_p->physics.resistance);
+		Vec2f_mul(&bodyPair_p->physics.velocity, bodyPair_p->physics.resistance);
 
 		//reset acceleration
 		bodyPair_p->physics.acceleration = getVec2f(0, 0);
@@ -994,7 +995,7 @@ void World_levelState(World *world_p){
 		&& bodyPair1_p->entityType == PLAYER){
 		//&& !(world_p->actions[JUMP_ACTION].down
 		//&& !world_p->scaling)){
-			playSound("player-land");
+			//playSound("player-land");
 		}
 
 	}
@@ -1040,13 +1041,13 @@ void World_levelState(World *world_p){
 		}
 
 		Vec2f velocity = playerHand;
-		Vec2f_sub(&velocity, &doorKeyHold);
-		Vec2f_mul(&velocity, &doorKeyPhysicsScale);
+		Vec2f_sub(&velocity, doorKeyHold);
+		Vec2f_mul(&velocity, doorKeyPhysicsScale);
 
-		float mag = Vec2f_getMag(velocity);
+		float mag = getMagVec2f(velocity);
 
 		Vec2f_normalize(&velocity);
-		Vec2f_mulByFactor(&velocity, mag);
+		Vec2f_mulByFloat(&velocity, mag);
 		//Vec2f_divByFactor(&velocity, 3);
 
 		if(checkBodyToBodyCol(playerBodyPair_p->body, doorKeyBodyPair_p->body)
@@ -1063,7 +1064,7 @@ void World_levelState(World *world_p){
 
 	if(playerGotKey){
 		if(!player_p->holdingKey){
-			playSound("pickup-key");
+			//playSound("pickup-key");
 		}
 		player_p->holdingKey = true;
 	}else{
@@ -1081,7 +1082,7 @@ void World_levelState(World *world_p){
 
 			if(checkBodyPairToBodyPairCollision(*doorBodyPair_p, *doorKeyBodyPair_p)){
 
-				playSound("open-door");
+				//playSound("open-door");
 
 				World_removeDoorByID(world_p, door_p->entityHeader.ID);
 				World_removeDoorKeyByID(world_p, doorKey_p->entityHeader.ID);
@@ -1116,7 +1117,7 @@ void World_levelState(World *world_p){
 
 			i--;
 			
-			playSound("pickup-star");
+			//playSound("pickup-star");
 
 		}
 
@@ -1137,7 +1138,7 @@ void World_levelState(World *world_p){
 
 			World_fadeTransitionToState(world_p, LEVEL_STATE);
 
-			playSound("enter-level-door");
+			//playSound("enter-level-door");
 
 		}
 
@@ -1288,8 +1289,8 @@ void World_levelState(World *world_p){
 		
 		}
 
-		Vec2f_add(&particle_p->physics.velocity, &particle_p->physics.acceleration);
-		Vec2f_add(&particle_p->body.pos, &particle_p->physics.acceleration);
+		Vec2f_add(&particle_p->physics.velocity, particle_p->physics.acceleration);
+		Vec2f_add(&particle_p->body.pos, particle_p->physics.acceleration);
 
 		particle_p->counter++;
 

@@ -4,10 +4,13 @@
 //#include "glad/glad.h"
 //#define SDL_DISABLE_IMMINTRIN_H
 //#include "SDL2/SDL.h"
-#include "openglUtils.h"
-#include "geometry.h"
-#include "utils.h"
-#include "text.h"
+//#include "openglUtils.h"
+//#include "utils.h"
+#include "engine/renderer2d.h"
+#include "engine/array.h"
+#include "engine/text.h"
+#include "engine/geometry.h"
+
 #include "stdbool.h"
 
 //definitions
@@ -156,7 +159,7 @@ typedef struct Sprite{
 
 	//common
 	//EntityHeader entityHeader;
-	Vec4f color;
+	Renderer2D_Color color;
 	float alpha;
 	Vec2f borderSize;
 	enum SpriteType type;
@@ -291,7 +294,7 @@ typedef struct Particle{
 	unsigned int spriteIndex;
 
 	//temp stuff
-	Vec4f targetColor;
+	Renderer2D_Color targetColor;
 	bool targeting;
 	int activationCounter;
 	enum ParticleType type;
@@ -352,7 +355,8 @@ typedef struct World{
 	Array textures;
 	Array shaderPrograms;
 
-	OpenglUtils_Renderer renderer;
+	Renderer2D_Renderer renderer;
+	//OpenglUtils_Renderer renderer;
 	Vec2f cameraPos;
 	Vec2f cameraTarget;
 	bool snapCamera;
@@ -419,8 +423,8 @@ static const int HEIGHT = 270;
 //static int windowWidth = WIDTH * 3;
 //static int windowHeight = HEIGHT * 3;
 
-static int windowWidth = 480 * 2.5;
-static int windowHeight = 270 * 2.5;
+//static int windowWidth = 480 * 2.5;
+//static int windowHeight = 270 * 2.5;
 
 //static int windowWidth = 1366;
 //static int windowHeight = 768;
@@ -431,33 +435,33 @@ static int windowHeight = 270 * 2.5;
 //static int lastWindowWidth = 320 * 2;
 //static int lastWindowHeight = 180 * 2;
 
-static const Vec4f COLOR_BLACK 				= { 0.00, 		0.00, 		0.00, 		1 };
-static const Vec4f COLOR_WHITE 				= { 1.00, 		1.00, 		1.00, 		1 };
-static const Vec4f COLOR_GREY 				= { 0.50, 		0.50, 		0.50, 		1 };
-static const Vec4f COLOR_BROWN 				= { 0.60, 		0.30, 		0.20, 		1 };
-static const Vec4f COLOR_RED 				= { 1.00, 		0.00, 		0.00, 		1 };
-static const Vec4f COLOR_GREEN 				= { 0.00, 		1.00, 		0.00, 		1 };
-static const Vec4f COLOR_PURPLE 			= { 1.00, 		0.00, 		1.00, 		1 };
-static const Vec4f COLOR_BLUE 				= { 0.00, 		0.00, 		1.00, 		1 };
-static const Vec4f COLOR_YELLOW 			= { 1.00, 		1.00, 		0.00, 		1 };
+static const Renderer2D_Color COLOR_BLACK 				= { 0.00, 		0.00, 		0.00 };
+static const Renderer2D_Color COLOR_WHITE 				= { 1.00, 		1.00, 		1.00 };
+static const Renderer2D_Color COLOR_GREY 				= { 0.50, 		0.50, 		0.50 };
+static const Renderer2D_Color COLOR_BROWN 				= { 0.60, 		0.30, 		0.20 };
+static const Renderer2D_Color COLOR_RED 				= { 1.00, 		0.00, 		0.00 };
+static const Renderer2D_Color COLOR_GREEN 				= { 0.00, 		1.00, 		0.00 };
+static const Renderer2D_Color COLOR_PURPLE 				= { 1.00, 		0.00, 		1.00 };
+static const Renderer2D_Color COLOR_BLUE 				= { 0.00, 		0.00, 		1.00 };
+static const Renderer2D_Color COLOR_YELLOW 				= { 1.00, 		1.00, 		0.00 };
 
-static const Vec4f COLOR_GREY_BACKGROUND 	= { 0.00, 		0.00, 		0.00, 		1 };
-static const Vec4f COLOR_GREEN_BACKGROUND 	= { 0.00, 		0.5, 		0.00, 		1 };
-static const Vec4f COLOR_YELLOW_BACKGROUND 	= { 0.5, 		0.5, 		0.00, 		1 };
-static const Vec4f COLOR_PURPLE_BACKGROUND 	= { 0.5, 		0.00, 		0.5, 		1 };
+static const Renderer2D_Color COLOR_GREY_BACKGROUND 	= { 0.00, 		0.00, 		0.00 };
+static const Renderer2D_Color COLOR_GREEN_BACKGROUND 	= { 0.00, 		0.5, 		0.00 };
+static const Renderer2D_Color COLOR_YELLOW_BACKGROUND 	= { 0.5, 		0.5, 		0.00 };
+static const Renderer2D_Color COLOR_PURPLE_BACKGROUND 	= { 0.5, 		0.00, 		0.5 };
 
-static const Vec4f COLOR_BLACK_WALL 		= { 0.05, 		0.05, 		0.05, 		1 };
-static const Vec4f COLOR_RED_WALL 			= { 0.15, 		0.00, 		0.00, 		1 };
-static const Vec4f COLOR_GREEN_WALL 		= { 0.03, 		0.10, 		0.00, 		1 };
-static const Vec4f COLOR_BLUE_WALL 			= { 0.02, 		0.04, 		0.10, 		1 };
-static const Vec4f COLOR_PURPLE_WALL 		= { 0.07, 		0.00, 		0.07, 		1 };
-static const Vec4f COLOR_YELLOW_WALL 		= { 0.20, 		0.20, 		0.00, 		1 };
+static const Renderer2D_Color COLOR_BLACK_WALL 			= { 0.05, 		0.05, 		0.05 };
+static const Renderer2D_Color COLOR_RED_WALL 			= { 0.15, 		0.00, 		0.00 };
+static const Renderer2D_Color COLOR_GREEN_WALL 			= { 0.03, 		0.10, 		0.00 };
+static const Renderer2D_Color COLOR_BLUE_WALL 			= { 0.02, 		0.04, 		0.10 };
+static const Renderer2D_Color COLOR_PURPLE_WALL 		= { 0.07, 		0.00, 		0.07 };
+static const Renderer2D_Color COLOR_YELLOW_WALL 		= { 0.20, 		0.20, 		0.00 };
 
-static const Vec4f COLOR_HOUSE 				= { 0.90, 		0.90, 		0.90, 		1 };
+static const Renderer2D_Color COLOR_HOUSE 				= { 0.90, 		0.90, 		0.90 };
 
-static const Vec4f COLOR_DARK_GREY 			= { 0.10, 		0.10, 		0.15, 		1 };
+static const Renderer2D_Color COLOR_DARK_GREY 			= { 0.10, 		0.10, 		0.15 };
 
-static const Vec4f SCALE_TYPE_COLORS[] = {
+static const Renderer2D_Color SCALE_TYPE_COLORS[] = {
 	1, 1, 1, 1,
 	0, 1, 0, 1,
 	1, 0, 1, 1,
@@ -468,7 +472,7 @@ static const Vec4f SCALE_TYPE_COLORS[] = {
 	//COLOR_BLUE, 	//scalable x y switch
 };
 
-static const Vec4f SCALING_SCALE_TYPE_COLORS[] = {
+static const Renderer2D_Color SCALING_SCALE_TYPE_COLORS[] = {
 	1, 1, 1, 1,
 	0.5, 1, 0.5, 1,
 	1, 0.5, 1, 1,
@@ -499,8 +503,8 @@ Vec2f World_getLastScaleFromScaleType(World *w, enum ScaleType);
 
 void World_initPlayer(World *, Vec2f, enum ScaleType);
 
-size_t World_addSprite(World *, Vec2f, Vec2f, Vec4f, char *, float, enum SpriteLayer);
-size_t World_addTextSprite(World *, Vec2f, char *, char *, Vec4f, enum SpriteLayer);
+size_t World_addSprite(World *, Vec2f, Vec2f, Renderer2D_Color, char *, float, enum SpriteLayer);
+size_t World_addTextSprite(World *, Vec2f, char *, char *, Renderer2D_Color, enum SpriteLayer);
 size_t World_addButton(World *, Vec2f, Vec2f, char *, enum SpriteLayer);
 size_t World_addTextButton(World *, Vec2f, char *, enum SpriteLayer);
 size_t World_addObstacle(World *, Vec2f, Vec2f, enum ScaleType);
@@ -510,11 +514,11 @@ size_t World_addDoor(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addDoorKey(World *, Vec2f, enum ScaleType);
 size_t World_addScaleField(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addLevelDoor(World *, Vec2f, char *, enum LevelHubRoom);
-//size_t World_addParticle(World *, Vec2f, Vec2f, char *, int, Vec4f, Vec4f);
+//size_t World_addParticle(World *, Vec2f, Vec2f, char *, int, Renderer2D_Color, Renderer2D_Color);
 size_t World_addShadow(World *, Vec2f, Vec2f);
 
 Particle *World_addParticle(World *, unsigned int);
-size_t World_addFadeInTextParticle(World *, Vec2f, char *, char *, Vec4f, int, int);
+size_t World_addFadeInTextParticle(World *, Vec2f, char *, char *, Renderer2D_Color, int, int);
 
 void World_removeSpriteByIndex(World *, unsigned);
 void World_removeButtonByID(World *, size_t);

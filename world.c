@@ -2,14 +2,20 @@
 //#include "SDL2/SDL.h"
 //#include "stdbool.h"
 #include "game.h"
+#include "levels.h"
+
+#include "engine/renderer2d.h"
+#include "engine/array.h"
+
 #include "math.h"
 #include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
 //#include "geometry.h"
 //#include "openglUtils.h"
 //#include "stb_truetype.h"
 //#include "text.h"
 //#include "utils.h"
-#include "levels.h"
 
 void World_init(World *world_p){
 
@@ -26,7 +32,7 @@ void World_init(World *world_p){
 
 	Array_init(&world_p->fonts, sizeof(Font));
 
-	Array_init(&world_p->textures, sizeof(OpenglUtils_Texture));
+	Array_init(&world_p->textures, sizeof(Renderer2D_Texture));
 
 	Array_init(&world_p->buttons, sizeof(Button));
 	Array_init(&world_p->bodyPairs, sizeof(BodyPair));
@@ -86,7 +92,7 @@ void World_init(World *world_p){
 	world_p->scalesX[ORIGIN_SCALE_INDEX] = 1;
 	world_p->scalesY[ORIGIN_SCALE_INDEX] = 1;
 
-	printf("%f\n", (float)HEIGHT / (float)WIDTH);
+	//printf("%f\n", (float)HEIGHT / (float)WIDTH);
 
 	for(int i = ORIGIN_SCALE_INDEX + 1; i < NUMBER_OF_SCALES; i++){
 		float lastScaleX = world_p->scalesX[i - 1];
@@ -190,7 +196,7 @@ void World_initPlayer(World *world_p, Vec2f pos, enum ScaleType scaleType){
 
 }
 
-size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Vec4f color, char *texture, float alpha, enum SpriteLayer layer){
+size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Renderer2D_Color color, char *texture, float alpha, enum SpriteLayer layer){
 
 	//Sprite *sprite_p = Array_addItem(&world_p->spriteLayers[layer]);
 	unsigned int index = IndexSafeArray_addItem(&world_p->spriteLayers[layer]);
@@ -215,7 +221,7 @@ size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Vec4f color, char 
 
 }
 
-size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, char *fontName, Vec4f color, enum SpriteLayer layer){
+size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, char *fontName, Renderer2D_Color color, enum SpriteLayer layer){
 	
 	//Sprite *sprite_p = Array_addItem(&world_p->spriteLayers[layer]);
 
@@ -495,7 +501,7 @@ void Particle_addRemoveEvent(Particle *particle_p, int activationTime){
 
 }
 
-size_t World_addFadeInTextParticle(World *world_p, Vec2f pos, char *text, char *fontName, Vec4f color, int activationTime, int durationTime){
+size_t World_addFadeInTextParticle(World *world_p, Vec2f pos, char *text, char *fontName, Renderer2D_Color color, int activationTime, int durationTime){
 	
 	size_t spriteIndex = World_addTextSprite(world_p, pos, text, fontName, color, GAME_LAYER_PARTICLES);
 
@@ -907,7 +913,7 @@ void World_checkAndHandleBodyPairCollisionsY(World *world_p, enum CollisionWeigh
 Vec2f BodyPair_getPhysicsScale(BodyPair *bodyPair_p){
 
 	Vec2f physicsScale = bodyPair_p->originBody.size;
-	Vec2f_div(&physicsScale, &bodyPair_p->body.size);
+	Vec2f_div(&physicsScale, bodyPair_p->body.size);
 
 	return physicsScale;
 
