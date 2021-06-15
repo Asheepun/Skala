@@ -179,14 +179,14 @@ void World_initPlayer(World *world_p, Vec2f pos, enum ScaleType scaleType){
 	Physics *physics_p = &World_getBodyPairByID(world_p, player_p->bodyPairID)->physics;
 
 	//physics_p->gravity = 0.35;
-	physics_p->gravity = 0.23;
+	physics_p->gravity = 0.23 * 60 * 60;
 	physics_p->resistance = getVec2f(0.88, 1);
 
 	//p->runAcceleration = 0.8;
-	player_p->runAcceleration = 0.33;
+	player_p->runAcceleration = 0.33 * 60 * 60;
 	//p->jumpSpeed = -4.5;
 	//player_p->jumpSpeed = -4;
-	player_p->jumpSpeed = -3.4;
+	player_p->jumpSpeed = -3.4 * 60;
 
 	player_p->holdingKey = false;
 
@@ -431,6 +431,7 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 		}
 	}
 
+	/*
 	levelDoor_p->hoverTextParticleID = World_addFadeInTextParticle(world_p, levelDoor_p->body.pos, screenName, "times15", COLOR_WHITE, 0, 0);
 	Particle *hoverTextParticle_p = World_getParticleByID(world_p, levelDoor_p->hoverTextParticleID);
 	Sprite *hoverTextSprite_p = World_getSpriteByIndex(world_p, hoverTextParticle_p->spriteIndex);
@@ -446,6 +447,7 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 	union ParticleProperty startAlpha;
 	startAlpha.alpha = 0;
 	Particle_addEvent(hoverTextParticle_p, PARTICLE_SET_EVENT, PARTICLE_ALPHA, startAlpha, 0, 0);
+	*/
 
 	if(!world_p->addedRoomLevels){
 

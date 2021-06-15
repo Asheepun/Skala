@@ -22,7 +22,7 @@
 
 //enums
 
-//*temoporary
+//*temporary
 enum ParticleType{
 	LEVEL_COMPLETE_PARTICLE,
 	FADE_IN_PARTICLE,
@@ -402,6 +402,9 @@ typedef struct World{
 	IndexSafeArray spriteLayers[NUMBER_OF_SPRITE_LAYERS];
 
 	size_t fpsTextID;
+
+	float deltaTime;
+	long time;
 
 	bool playerHasLanded;
 

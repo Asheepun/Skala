@@ -871,7 +871,11 @@ void World_levelState(World *world_p){
 
 		bodyPair_p->physics.acceleration.y += bodyPair_p->physics.gravity;
 
-		Vec2f_add(&bodyPair_p->physics.velocity, bodyPair_p->physics.acceleration);
+		Vec2f_add(&bodyPair_p->physics.velocity, getMulVec2fFloat(bodyPair_p->physics.acceleration, world_p->deltaTime));
+
+		Vec2f resistance = bodyPair_p->physics.resistance;
+		resistance.x = pow(resistance.x, 60 * world_p->deltaTime);
+		resistance.y = pow(resistance.y, 60 * world_p->deltaTime);
 
 		Vec2f_mul(&bodyPair_p->physics.velocity, bodyPair_p->physics.resistance);
 
@@ -887,7 +891,7 @@ void World_levelState(World *world_p){
 		Vec2f physicsScale = BodyPair_getPhysicsScale(bodyPair_p);
 
 		if(bodyPair_p->body.size.x >= 1){
-			bodyPair_p->body.pos.x += bodyPair_p->physics.velocity.x / physicsScale.x;
+			bodyPair_p->body.pos.x += bodyPair_p->physics.velocity.x / physicsScale.x * world_p->deltaTime;
 		}
 	
 	}
@@ -941,7 +945,7 @@ void World_levelState(World *world_p){
 		Vec2f physicsScale = BodyPair_getPhysicsScale(bodyPair_p);
 
 		if(bodyPair_p->body.size.y >= 1){
-			bodyPair_p->body.pos.y += bodyPair_p->physics.velocity.y / physicsScale.y;
+			bodyPair_p->body.pos.y += bodyPair_p->physics.velocity.y / physicsScale.y * world_p->deltaTime;
 		}
 	
 	}
@@ -1142,6 +1146,7 @@ void World_levelState(World *world_p){
 
 		}
 
+		/*
 		//check if player is below level door
 		if(playerBodyPair_p->body.pos.x + playerBodyPair_p->body.size.x > levelDoor_p->body.pos.x
 		&& playerBodyPair_p->body.pos.x < levelDoor_p->body.pos.x + levelDoor_p->body.size.x
@@ -1172,6 +1177,7 @@ void World_levelState(World *world_p){
 
 			levelDoor_p->hasPlayerBelow = false;
 		}
+		*/
 
 	}
 

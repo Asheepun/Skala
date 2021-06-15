@@ -285,6 +285,9 @@ void Engine_start(){
 
 void Engine_update(float deltaTime){
 
+	world.deltaTime = deltaTime;
+	world.time += world.deltaTime;
+
 	if(ENGINE_KEYS[ENGINE_KEY_Q].down){
 		Engine_quit();
 	}
@@ -355,6 +358,8 @@ void Engine_update(float deltaTime){
 	}
 
 	freeTmpArrays();
+
+	printf("%f\n", deltaTime);
 
 }
 
