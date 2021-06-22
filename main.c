@@ -285,8 +285,8 @@ void Engine_start(){
 
 void Engine_update(float deltaTime){
 
-	world.deltaTime = deltaTime;
-	world.time += world.deltaTime;
+	////world.deltaTime = deltaTime;
+	//world.time += world.deltaTime;
 
 	if(ENGINE_KEYS[ENGINE_KEY_Q].down){
 		Engine_quit();
@@ -359,7 +359,7 @@ void Engine_update(float deltaTime){
 
 	freeTmpArrays();
 
-	printf("%f\n", deltaTime);
+	//printf("%f\n", deltaTime);
 
 }
 
@@ -386,6 +386,8 @@ void Engine_draw(){
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	*/
+
+	Renderer2D_setShaderProgram(&world.renderer, world.renderer.colorShaderProgram);
 
 	//draw sprite layers
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
@@ -431,6 +433,16 @@ void Engine_draw(){
 				size.x = round(sprite_p->body.size.x);
 				size.y = round(sprite_p->body.size.y);
 
+				if(pos.x + size.x < -world.renderer.offset.x
+				|| pos.y + size.y < -world.renderer.offset.y
+				|| pos.x < -world.renderer.offset.x + WIDTH
+				|| pos.y < -world.renderer.offset.y + HEIGHT){
+					//continue;
+				}
+
+				//printf("%f\n", pos.x);
+				//printf("%f\n", world.renderer.offset.x);
+
 				//Renderer2D_Color color = sprite_p->color;
 				//color.w = sprite_p->alpha;
 
@@ -438,8 +450,6 @@ void Engine_draw(){
 				|| sprite_p->body.size.y < 1){
 					size = getVec2f(0, 0);
 				}
-
-				Renderer2D_setShaderProgram(&world.renderer, world.renderer.colorShaderProgram);
 
 				Renderer2D_beginRectangle(&world.renderer, pos.x, pos.y, size.x, size.y);
 
@@ -532,7 +542,6 @@ void Engine_draw(){
 		}
 	}
 
-	/*
 	//draw fade transition
 	if(world.fadeTransitionCounter > 0){
 
@@ -549,17 +558,30 @@ void Engine_draw(){
 		Vec2f pos = { -world.renderer.offset.x, -world.renderer.offset.y };
 		Vec2f size = { WIDTH, HEIGHT };
 
-		Renderer2D_Color color = { 0, 0, 0 };
-		color.w = fadeTransitionAlpha;
+		//Renderer2D_Color color = { 0, 0, 0 };
+		//color.w = fadeTransitionAlpha;
 
 		unsigned int textureID = 4;//4 is obstacle texture
 
+		Renderer2D_setShaderProgram(&world.renderer, world.renderer.colorShaderProgram);
+
+		Renderer2D_beginRectangle(&world.renderer, pos.x, pos.y, size.x, size.y);
+
+		color = COLOR_BLACK;
+		alpha = fadeTransitionAlpha;
+
+		Renderer2D_supplyUniform(&world.renderer, &alpha, "alpha", RENDERER2D_UNIFORM_TYPE_FLOAT);
+		Renderer2D_supplyUniform(&world.renderer, &color, "color", RENDERER2D_UNIFORM_TYPE_COLOR);
+
+		Renderer2D_drawRectangle(&world.renderer);
+
+		/*
 		unsigned int shaderProgram = *((unsigned int *)Array_getItemPointerByIndex(&world.shaderPrograms, 0));
 
 		OpenglUtils_Renderer_drawTexture(world.renderer, pos, size, color, 1, getVec2f(0, 0), textureID, shaderProgram);
+		*/
 
 	}
-	*/
 
 }
 

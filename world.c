@@ -179,14 +179,14 @@ void World_initPlayer(World *world_p, Vec2f pos, enum ScaleType scaleType){
 	Physics *physics_p = &World_getBodyPairByID(world_p, player_p->bodyPairID)->physics;
 
 	//physics_p->gravity = 0.35;
-	physics_p->gravity = 0.23 * 60 * 60;
+	physics_p->gravity = 0.23;
 	physics_p->resistance = getVec2f(0.88, 1);
 
 	//p->runAcceleration = 0.8;
-	player_p->runAcceleration = 0.33 * 60 * 60;
+	player_p->runAcceleration = 0.33;
 	//p->jumpSpeed = -4.5;
 	//player_p->jumpSpeed = -4;
-	player_p->jumpSpeed = -3.4 * 60;
+	player_p->jumpSpeed = -3.4;
 
 	player_p->holdingKey = false;
 

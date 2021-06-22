@@ -378,7 +378,7 @@ void World_levelState(World *world_p){
 	Array lastCollisions;
 	Array_init(&lastCollisions, sizeof(Collision));
 
-	for(int k = 0; k < 10; k++){
+	for(int k = 0; k < 4; k++){
 
 		for(int i = 0; i < world_p->bodyPairs.length; i++){
 
@@ -633,7 +633,7 @@ void World_levelState(World *world_p){
 	Array_clear(&collisions);
 	Array_clear(&lastCollisions);
 
-	for(int k = 0; k < 10; k++){
+	for(int k = 0; k < 4; k++){
 
 		for(int i = 0; i < world_p->bodyPairs.length; i++){
 
@@ -853,17 +853,6 @@ void World_levelState(World *world_p){
 	Array_free(&collisions);
 	Array_free(&lastCollisions);
 
-	/*
-	//make scales proper y
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
-
-		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
-
-		bodyPair_p->scale.y = BodyPair_getScaleFromBodyY(bodyPair_p);
-
-	}
-	*/
-
 	//apply physics
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
 
@@ -871,13 +860,15 @@ void World_levelState(World *world_p){
 
 		bodyPair_p->physics.acceleration.y += bodyPair_p->physics.gravity;
 
-		Vec2f_add(&bodyPair_p->physics.velocity, getMulVec2fFloat(bodyPair_p->physics.acceleration, world_p->deltaTime));
+		//Vec2f_add(&bodyPair_p->physics.velocity, getMulVec2fFloat(bodyPair_p->physics.acceleration, world_p->deltaTime));
+		Vec2f_add(&bodyPair_p->physics.velocity, bodyPair_p->physics.acceleration);
 
-		Vec2f resistance = bodyPair_p->physics.resistance;
-		resistance.x = pow(resistance.x, 60 * world_p->deltaTime);
-		resistance.y = pow(resistance.y, 60 * world_p->deltaTime);
+		//Vec2f resistance = bodyPair_p->physics.resistance;
+		//resistance.x = pow(resistance.x, world_p->deltaTime);
+		//resistance.y = pow(resistance.y, world_p->deltaTime);
 
 		Vec2f_mul(&bodyPair_p->physics.velocity, bodyPair_p->physics.resistance);
+		//printf("%f\n", resistance.x);
 
 		//reset acceleration
 		bodyPair_p->physics.acceleration = getVec2f(0, 0);
@@ -891,16 +882,21 @@ void World_levelState(World *world_p){
 		Vec2f physicsScale = BodyPair_getPhysicsScale(bodyPair_p);
 
 		if(bodyPair_p->body.size.x >= 1){
-			bodyPair_p->body.pos.x += bodyPair_p->physics.velocity.x / physicsScale.x * world_p->deltaTime;
+			bodyPair_p->body.pos.x += bodyPair_p->physics.velocity.x / physicsScale.x;
 		}
 	
 	}
 
 	//handle collisions x moving
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
-		for(int j = 0; j < world_p->bodyPairs.length; j++){
 
-			BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+		BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+		if(bodyPair1_p->physics.velocity.x == 0){
+			continue;
+		}
+
+		for(int j = 0; j < world_p->bodyPairs.length; j++){
 			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
 			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
@@ -945,7 +941,7 @@ void World_levelState(World *world_p){
 		Vec2f physicsScale = BodyPair_getPhysicsScale(bodyPair_p);
 
 		if(bodyPair_p->body.size.y >= 1){
-			bodyPair_p->body.pos.y += bodyPair_p->physics.velocity.y / physicsScale.y * world_p->deltaTime;
+			bodyPair_p->body.pos.y += bodyPair_p->physics.velocity.y / physicsScale.y;
 		}
 	
 	}
@@ -954,6 +950,10 @@ void World_levelState(World *world_p){
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
 
 		BodyPair *bodyPair1_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+		if(bodyPair1_p->physics.velocity.y == 0){
+			continue;
+		}
 
 		bool touchedGround = false;
 		bodyPair1_p->physics.landed = false;

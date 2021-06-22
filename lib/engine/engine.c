@@ -433,7 +433,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gladLoaderLoadGL();
 	//gladLoadGL();
 
-	wglSwapIntervalEXT(0);
+	wglSwapIntervalEXT(1);
 
 	printf("%s\n", glGetString(GL_VERSION));
 	//printf("%s\n", glGetString(GL_EXTENSIONS));
@@ -455,6 +455,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	float deltaTime;
 
+	float accumilatedTime = 0;
+
 	//game loop
 	while(!programShouldQuit){
 
@@ -473,7 +475,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		
 		//update
 			
-		Engine_update(deltaTime);
+		while(accumilatedTime > 1000 / 60){
+
+			Engine_update((float)(1 / 60));
+
+			accumilatedTime -= 1000 / 60;
+
+			//printf("hello from here %f\n", accumilatedTime);
+		
+		}
 		
 		//draw
 		
@@ -489,7 +499,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		QueryPerformanceCounter(&liStop);
 
-		deltaTime = (float)((liStop.QuadPart - liStart.QuadPart) * 1000000 / liFrequency.QuadPart) / 1000000;
+		deltaTime = (float)((liStop.QuadPart - liStart.QuadPart) * 1000000 / liFrequency.QuadPart) / 1000;
+
+		accumilatedTime += deltaTime;
+		
+		printf("%f\n", deltaTime);
 
 	}
 
