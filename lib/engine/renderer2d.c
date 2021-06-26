@@ -259,6 +259,9 @@ void Renderer2D_supplyUniform(Renderer2D_Renderer *renderer_p, void *data_p, cha
 
 	unsigned int location = glGetUniformLocation(renderer_p->currentShaderProgram.ID, locationName);
 
+	if(type == RENDERER2D_UNIFORM_TYPE_INT){
+		glUniform1i(location, *((int *)data_p));
+	}
 	if(type == RENDERER2D_UNIFORM_TYPE_FLOAT){
 		glUniform1f(location, *((float *)data_p));
 	}

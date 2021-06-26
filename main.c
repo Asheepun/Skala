@@ -22,6 +22,8 @@
 
 static World world;
 
+Renderer2D_ShaderProgram singleColorTextureShaderProgram;
+
 void Engine_start(){
 
 	//set up world and game
@@ -65,6 +67,18 @@ void Engine_start(){
 	Engine_centerWindow();
 	
 	Renderer2D_init(&world.renderer, WIDTH, HEIGHT);
+
+	{
+		Renderer2D_ShaderPathTypePair shaderFiles[] = {
+			"shaders/texture-vertex-shader.glsl", RENDERER2D_VERTEX_SHADER,
+			"shaders/single-color-texture-fragment-shader.glsl", RENDERER2D_FRAGMENT_SHADER,
+		};
+
+		int shaderFilesLength = sizeof(shaderFiles) / sizeof(Renderer2D_ShaderPathTypePair);
+
+		Renderer2D_ShaderProgram_init(&singleColorTextureShaderProgram, "single-color-texture-shader", shaderFiles, shaderFilesLength);
+	
+	}
 
 	//World_switchToAndInitState(&world, LEVEL_STATE);
 
@@ -157,13 +171,13 @@ void Engine_start(){
 
 		Renderer2D_Texture *texture_p = Array_addItem(&world.textures);
 
-		texture_p->name = assets[i];
-
 		char path[255];
 
 		sprintf(path, "assets/sprites/%s.png", assets[i]);
 
 		Renderer2D_Texture_initFromFile(texture_p, path);
+
+		texture_p->name = assets[i];
 
 		/*
 		OpenglUtils_Texture *texture = Array_addItem(&world.textures);
@@ -387,7 +401,7 @@ void Engine_draw(){
 	glClear(GL_COLOR_BUFFER_BIT);
 	*/
 
-	Renderer2D_setShaderProgram(&world.renderer, world.renderer.colorShaderProgram);
+	Renderer2D_setShaderProgram(&world.renderer, singleColorTextureShaderProgram);
 
 	//draw sprite layers
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
@@ -435,9 +449,9 @@ void Engine_draw(){
 
 				if(pos.x + size.x < -world.renderer.offset.x
 				|| pos.y + size.y < -world.renderer.offset.y
-				|| pos.x < -world.renderer.offset.x + WIDTH
-				|| pos.y < -world.renderer.offset.y + HEIGHT){
-					//continue;
+				|| pos.x > -world.renderer.offset.x + WIDTH
+				|| pos.y > -world.renderer.offset.y + HEIGHT){
+					continue;
 				}
 
 				//printf("%f\n", pos.x);
@@ -451,7 +465,13 @@ void Engine_draw(){
 					size = getVec2f(0, 0);
 				}
 
+				int facing = sprite_p->facing;
+
 				Renderer2D_beginRectangle(&world.renderer, pos.x, pos.y, size.x, size.y);
+
+				Renderer2D_setTexture(&world.renderer, texture);
+
+				Renderer2D_supplyUniform(&world.renderer, &facing, "facing", RENDERER2D_UNIFORM_TYPE_INT);
 
 				Renderer2D_supplyUniform(&world.renderer, &alpha, "alpha", RENDERER2D_UNIFORM_TYPE_FLOAT);
 				Renderer2D_supplyUniform(&world.renderer, &color, "color", RENDERER2D_UNIFORM_TYPE_COLOR);
@@ -541,6 +561,8 @@ void Engine_draw(){
 		
 		}
 	}
+
+	Renderer2D_setShaderProgram(&world.renderer, world.renderer.colorShaderProgram);
 
 	//draw fade transition
 	if(world.fadeTransitionCounter > 0){

@@ -10,6 +10,7 @@ enum Renderer2D_ShaderTypeEnum{
 };
 
 enum Renderer2D_UniformTypeEnum{
+	RENDERER2D_UNIFORM_TYPE_INT,
 	RENDERER2D_UNIFORM_TYPE_FLOAT,
 	RENDERER2D_UNIFORM_TYPE_COLOR,
 };
