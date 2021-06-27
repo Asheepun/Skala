@@ -161,6 +161,7 @@ void SaveData_read(SaveData *saveData_p){
 			char **levelName = Array_addItem(&saveData_p->flags);
 
 			*levelName = malloc(sizeof(char) * 255);//MUST FREE (is freed at top of function)
+			memset(*levelName, 0, 255);
 			memcpy(*levelName, word, strlen(word));
 
 		}
@@ -170,6 +171,7 @@ void SaveData_read(SaveData *saveData_p){
 			char **levelName = Array_addItem(&saveData_p->levelsWithDoorKey);
 
 			*levelName = malloc(sizeof(char) * 255);//MUST FREE (is freed at top of function)
+			memset(*levelName, 0, 255);
 			memcpy(*levelName, word, strlen(word));
 
 		}
@@ -180,6 +182,7 @@ void SaveData_read(SaveData *saveData_p){
 			char **levelName = Array_addItem(&saveData_p->completedLevels);
 
 			*levelName = malloc(sizeof(char) * 255);//MUST FREE (is freed at top of function)
+			memset(*levelName, 0, 255);
 			memcpy(*levelName, word, strlen(word));
 
 		}

@@ -1,82 +1,17 @@
 :playerPos
-5268 168
+3568 196
 :doorKeys
-5517 168
-3167 61
-3167 61
-3167 61
-3167 61
-5797 166
-5268 168
 :doors
 :flags
-removed-title-texteger4ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºî
-
-h»
-
-h»
-h½€½RGB_ARB_texture_swizzle
-
-h»
-h½€½ÒÚ¬ªrtex
-h´€´GL_EXT_texture_lod_biasrameters
-
-{»
-h½€½ranspose_matrix»
-h´€´+õ­tØ»
-h»€»ncs_EXT_blend_colorw_buffers
-
-{»
-{½p–½èn½½o½8o½Xo½xo½ o½Ào½èo½p½(p½Pp½pp½ p½Èp½èp½q½Hq½hq½ˆq½¨q½Èq½ðq½r½0r½Xr½€r½ r½Èr½èr½@t½ u½ {½H{½p{½˜{½À{½è{½|½H|½ v½p|½àt½˜|½È|½@€½€s½ t½¸€½˜}½
-h´€´exture_swizzles½8~½0½ }½Àv½àv½`~½°~½À}½àu½~½`½RB_base_instance
-h»€»S[bias¸•½°Š½`†½ˆ†½¸ƒ½ð‚½°†½X„½˜“½_buffer_float
-h£€£er_blit_timer_queryncil_two_sideÐ‰½½ž½¸Ž½8½0ž½øž½RB_copy_buffer
-
-
-{½p–½¸½h£½(¡½€½Œ½`§½H¡½›½PŠ½˜§½˜š½ÈŸ½¸˜½È¢½h ½(œ½8›½€Š½Ø§½0™½ˆŸ½°›½H£½È ½è ½˜½Àš½@˜½h¢½¨½ˆ¢½¨¢½H¢½ðŒ½èŸ½X™½¨Ÿ½€™½Ø›½ ½( ½¨©½h¡½X¨½è¢½£½h˜½ ½ˆ ½ˆ¡½˜½¢½¨™½P—½¨ ½Ð™½èš½È—½¨¡½˜ª½È¡½è¡
-nwí
-{´p–´èn´´o´8o´Xo´xo´ o´Ào´èo´p´(p´Pp´pp´ p´Èp´èp´q´Hq´hq´ˆq´¨q´Èq´ðq´r´0r´Xr´€r´ r´Èr´èr´ u´Àu´ {´H{´p{´˜{´À{´è{´|´H|´ u´p|´ t´˜|´È|´è}´àu´ v´˜}´°~´h¥½(§½ˆ¥½8¸½è¥½¦½h¦½
-h»€»lend_coloru´ v´¸€´0´8~´Àv´@s´H}´`~´È´`s´Ø~´`´às´ t´instance
-h£€£ô„i¦r¸´8‘´°´rol
-h»€»GL_ARB_texture_cube_maprogram…´p…´¸“´Ø›´Ø“´ø“´àí
-
-
-
-
-{´p–´X•´(£´(¡´ ´ ‹´`§´è¡´ š´Œ´˜§´(œ´( ´ —´È¢´È¡´P—´x—´Ð‹´Ø§´€ž´ ´Xž´ˆ ´(¢´¢´ž´Pœ´¸´è ´¨´èŸ´ˆ¢´¨Ÿ´0Œ´H¢´@´H ´Ðž´¨ž´ÀŒ´ÈŸ´X«´¨ ´x¬´h£´h ´à´È ´H£´ˆŸ´øž´ˆ¡´´xœ´¨¡´0ž´ œ´Èœ´è¢´è¨´¨¢´¡
-ò½Zù3
-{»p–»èn»»o»8o»Xo»xo» o»Ào»èo»p»(p»Pp»pp» p»Èp»èp»q»Hq»hq»ˆq»¨q»Èq»ðq»r»0r»Xr»€r» r»Èr»èr»h¥´H¦´¸²´È¦´¥´§´ˆ°´X³´è¥´¨¦´(¥´È¥´h¦´¤´Ø°´(±´À´´¨¬´(§´(¤´ˆ¦´h¤´ˆ¤´8¸´È¤´è¤´ˆ¥´
-h£€£emaphore_win32s»€»0»(» t» v»¸€» }»H}» t»˜}»`»@u»àu»`v»Àt» »»À}»À»è}»indless_texture
-h»€»äÄ<x“»˜’»‹»ƒ»„»Ð„»X„»ð‚»°†»8“»p…»¸’»Ø•»àŠ»˜•»X•»ø•»€„»`†»€Š»h–»ø”»ƒ»P‚»x‚» …»Ø†»@ƒ»x•»X”»`Œ»@‹»Ø“»–»˜“»Ø’» ‚» –»“»¸–»Ð–»”»X“»(‡»¸ƒ»¸“»ø“»hƒ»x”»H…»8†»˜”»Ø”»àƒ»¸•»•»¨„»°Š»è–»0„»Ø
-e_ò½Zù3
-»'ý{*è
-h¼€¼_vertex_texture_env_addobjectè…»†»¸»ˆ›»Ø»‘» š»¸˜»p‹»˜š»ð—»8»8»x»ø»˜Ž»˜»›»P—»Ð™»x—»
-
-
-
-
-
-
-
-
-{»p–»¸»è »h¡»0Œ»Œ»`§»ÈŸ»™»°»˜§»0™»È »€™»(¢»è¡»˜»¨™»ÀŒ»Ø§»ž»èŸ»»ˆ¡»¡»¨¡»¨ž»€ž»xœ»È¡»¨»¨ »¢»H¢»ðŒ»¨Ÿ»@»ˆ »Pœ» œ» »h »h­»h¢»x©»ˆ¢»¨¢»0ž»(¡»( » »à»H¡»Èœ»Xž»È¢»h»ðœ»Ðž»£»ˆ«»è¢»(£
-'ý{*è
-{£p–£èn££o£8o£Xo£xo£ o£Ào£èo£p£(p£Pp£pp£ p£Èp£èp£q£Hq£hq£ˆq£¨q£Èq£ðq£r£0r£Xr£€r£ r£Èr£èr£ u£`u£ {£H{£p{£˜{£À{£è{£|£H|£ u£p|£Às£˜|£È|£(£à²»(«»è£»È¦»h¤»§»¦»8¸»(¤»H¤»è¥»
-h»€»exture_object@v£˜}£0£¸€£€v£ t£~£ˆ~£H}£
-h¼€¼þñizzle£8’£€£H…£p…£`†£P‚£ƒ£@ƒ£˜£è…£x£8‘£PŠ£ø£Ø‘£Ø£È‚£ð‚£°£h–£˜£†£8†£hƒ£°†£ˆ£¸ˆ£x‘£8£€Š£@‹£¸£ø‘£ØŽ£Ø£àˆ£ –£˜‘£¸–£Ð–£X£øŽ£‰£x‡££’£ ‡£xŽ£ˆ£0‰£¸£˜Ž£È‡£x£8£ð‡£Œ£è–£ø‰£
-e_'ý{*è
-£¥¨08Ü&
-removed-title-text£¸•£¸“£X‰£•£€‰£Ð‰£ø’£ œ£–£“£¨ž£Xž£°Š£Èœ££X”£Ø•£8•£X•£”£˜•£xœ£ðœ£ž£@£à£˜“£Ðž£€ž£˜’£p‹£øž£ø“£x”£x’£0ž£Ø”££Pœ£˜”£8“£h£Ø“£8”£ø•£¸£¸”£h˜£èš£pš£à˜£¸’£0™£°›£(Ÿ£x•£È—£ð—£
-£¨0Ü&
 removed-title-text
-completed-player-position-levels
 :levelsWithDoorKey
 :completedLevels
-player-position-jumping-key-1
-player-position-jumping-key-2
-player-position-jumping-key-3
-grow-through-jumping
-airport-control
-player-position-3
-player-position-2
-player-position-1
+level-1
+level-2
+first-scaling-level-3
+get-key-up-2
+point-pikaboo
+key-obstacle-course
+key-in-cage-all-from-top
+point-cage-3
+cooler-scaling-level-4
