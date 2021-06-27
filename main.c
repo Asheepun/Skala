@@ -60,7 +60,6 @@ void Engine_start(){
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
 
 	//set up engine and renderer
-
 	Engine_setWindowTitle("Skala");
 
 	Engine_setWindowSize(WIDTH * 2, HEIGHT * 2);
@@ -81,53 +80,6 @@ void Engine_start(){
 	}
 
 	//World_switchToAndInitState(&world, LEVEL_STATE);
-
-	//setup SDL
-	/*
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-
-	window = SDL_CreateWindow("Scale", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_OPENGL);
-
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetSwapInterval(1);
-
-	context = SDL_GL_CreateContext(window);
-
-	SDL_GL_MakeCurrent(window, context);
-
-	//SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-
-	if(!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)){
-		printf("ERROR LOADING WITH GLAD\n");
-	}
-
-	//set up opengl
-	glViewport(0, 0, windowWidth, windowHeight);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	OpenglUtils_Renderer_init(&world.renderer, WIDTH, HEIGHT);
-
-	//load shaders
-	unsigned int vertexShader = getCompiledShader("shaders/vertex-shader.glsl", GL_VERTEX_SHADER);
-
-	unsigned int fragmentShader = getCompiledShader("shaders/fragment-shader.glsl", GL_FRAGMENT_SHADER);
-
-	Array_init(&world.shaderPrograms, sizeof(unsigned int));
-
-	unsigned int *shaderProgram = Array_addItem(&world.shaderPrograms);
-
-	*shaderProgram = glCreateProgram();
-
-	glAttachShader(*shaderProgram, vertexShader);
-	glAttachShader(*shaderProgram, fragmentShader);
-	glLinkProgram(*shaderProgram);
-	*/
 
 	//load textures
 	char *assets[] = {
@@ -179,37 +131,6 @@ void Engine_start(){
 
 		texture_p->name = assets[i];
 
-		/*
-		OpenglUtils_Texture *texture = Array_addItem(&world.textures);
-
-		texture->name = assets[i];
-
-		char path[255];
-
-		sprintf(path, "assets/sprites/%s.png", assets[i]);
-
-		int imageWidth, imageHeight, nrChannels;
-
-		unsigned char *imageData = stbi_load(path, &imageWidth, &imageHeight, &nrChannels, 0);
-
-		if(!imageData){
-			printf("Could not load image: %s\n", path);
-		}
-
-		glGenTextures(1, &texture->ID);
-
-		glBindTexture(GL_TEXTURE_2D, texture->ID);
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-		
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-		stbi_image_free(imageData);
-		*/
-	
 	}
 
 	/*
@@ -233,11 +154,10 @@ void Engine_start(){
 	setVolume(0.5);
 	*/
 
-	/*
 	//make star background texture
 	{
 
-		OpenglUtils_Texture *texture_p = Array_addItem(&world.textures);
+		Renderer2D_Texture *texture_p = Array_addItem(&world.textures);
 
 		texture_p->name = "star-background";
 
@@ -276,21 +196,11 @@ void Engine_start(){
 
 		}
 
-		glGenTextures(1, &texture_p->ID);
-
-		glBindTexture(GL_TEXTURE_2D, texture_p->ID);
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		Renderer2D_Texture_init(texture_p, "star-background", data, width, height);
 
 		free(data);
 		
 	}
-	*/
 
 
 	printf("hello there, we meet again\n");

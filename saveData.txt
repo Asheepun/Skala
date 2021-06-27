@@ -1,5 +1,5 @@
 :playerPos
-5797 166
+5797 167
 :doorKeys
 5517 168
 3167 61
@@ -11,42 +11,22 @@
 :flags
 removed-title-texteger4ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºð­ºî
 
-h¶
+h£€£er_blit
 
-h¶
-h»¶
+h£€£ô„i¦
+h»€»GL_ARB_texture_cube_map
 
-h¶
-h»¶
-h¶€¶wizzleT_blend_minmax_buffers
+h£€£emaphore_win32
+h»€»äÄ<
+h¼€¼_vertex_texture_env_addobject
 
-{¶
-h»¶
-h¶€¶gõ² n32¶
-h£€£ryL_EXT_texture_integerfloat
-
-{¶
-{»¶
-h¶€¶g_shaderndex
-h£€£,g„»ARB_clip_control
-removed-title-text»ARB_conditional_render_inverted
+{£p–£èn££o£8o£Xo£xo£ o£Ào£èo£p£(p£Pp£pp£ p£Èp£èp£q£Hq£hq£ˆq£¨q£Èq£ðq£r£0r£Xr£€r£ r£Èr£èr£ u£`u£ {£H{£p{£˜{£À{£è{£|£H|£ u£p|£Às£˜|£È|£(£
+h»€»exture_object@v£˜}£0£¸€£€v£ t£~£ˆ~£H}£
+h¼€¼þñizzle£8’£€£H…£p…£`†£P‚£ƒ£@ƒ£˜£è…£x£8‘£PŠ£ø£Ø‘£Ø£È‚£ð‚£°£h–£˜£†£8†£hƒ£°†£ˆ£¸ˆ£x‘£8£€Š£@‹£¸£ø‘£ØŽ£Ø£àˆ£ –£˜‘£¸–£Ð–£X£øŽ£‰£x‡££’£ ‡£xŽ£ˆ£0‰£¸£˜Ž£È‡£x£8£ð‡£Œ£è–£ø‰££¥¨08Ü&
+removed-title-text£¸•£¸“£X‰£•£€‰£Ð‰£ø’£ œ£–£“£¨ž£Xž£°Š£Èœ££X”£Ø•£8•£X•£”£˜•£xœ£ðœ£ž£@£à£˜“£Ðž£€ž£˜’£p‹£øž£ø“£x”£x’£0ž£Ø”££Pœ£˜”£8“£h£Ø“£8”£ø•£¸£¸”£h˜£èš£pš£à˜£¸’£0™£°›£(Ÿ£x•£È—£ð—£˜£¨0Ü&
 removed-title-text
-completed-scale-field-levels
-completed-player-position-levels
 :levelsWithDoorKey
 :completedLevels
-scale-field-1
-scale-field-2
-scale-field-3
-get-over-the-field
-layers-of-fields
-point-field-cage
-high-jump-3
-player-position-1
-player-position-2
-player-position-3
-airport-control
-grow-through-jumping
 player-position-jumping-key-1
 player-position-jumping-key-2
 player-position-jumping-key-3

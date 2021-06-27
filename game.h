@@ -465,10 +465,10 @@ static const Renderer2D_Color COLOR_HOUSE 				= { 0.90, 		0.90, 		0.90 };
 static const Renderer2D_Color COLOR_DARK_GREY 			= { 0.10, 		0.10, 		0.15 };
 
 static const Renderer2D_Color SCALE_TYPE_COLORS[] = {
-	1, 1, 1, 1,
-	0, 1, 0, 1,
-	1, 0, 1, 1,
-	0, 0, 1, 1,
+	1.0, 1.0, 1.0,
+	0.0, 1.0, 0.0,
+	1.0, 0.0, 1.0,
+	0.0, 0.0, 1.0,
 	//COLOR_WHITE, 	//none scalable
 	//COLOR_GREEN, 	//scalable all
 	//COLOR_PURPLE, 	//scalable origin top all
@@ -476,10 +476,10 @@ static const Renderer2D_Color SCALE_TYPE_COLORS[] = {
 };
 
 static const Renderer2D_Color SCALING_SCALE_TYPE_COLORS[] = {
-	1, 1, 1, 1,
-	0.5, 1, 0.5, 1,
-	1, 0.5, 1, 1,
-	0.5, 0.5, 1, 1,
+	1.0, 1.0, 1.0,
+	0.5, 1.0, 0.5,
+	1.0, 0.5, 1.0,
+	0.5, 0.5, 1.0,
 	//COLOR_WHITE, 	//none scalable
 	//COLOR_GREEN, 	//scalable all
 	//COLOR_PURPLE, 	//scalable origin top all

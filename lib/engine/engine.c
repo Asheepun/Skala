@@ -481,6 +481,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			accumilatedTime -= 1000 / 60;
 
+			resetKeys();
+
 			//printf("hello from here %f\n", accumilatedTime);
 		
 		}
@@ -492,8 +494,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		SwapBuffers(hdc);
 		
 		//glDrawPixels(screenWidth, screenHeight, GL_RGB, GL_UNSIGNED_BYTE, screenPixels);
-
-		resetKeys();
 
 		elapsedFrames++;
 
