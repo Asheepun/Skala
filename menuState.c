@@ -1,4 +1,6 @@
 //#include "stdbool.h"
+#include "engine/engine.h"
+
 #include "game.h"
 #include "math.h"
 #include "stdio.h"
@@ -94,7 +96,8 @@ void World_menuState(World *world_p){
 	if(activeButtonIDs[currentButton] == quitButtonID
 	&& pressingButton){
 
-		world_p->quit = true;
+		Engine_quit();
+		//world_p->quit = true;
 
 		return;
 

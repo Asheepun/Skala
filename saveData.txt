@@ -1,17 +1,12 @@
 :playerPos
-3568 196
+30 -240
 :doorKeys
 :doors
+3050 180 20 60
+3970 180 20 60
 :flags
 removed-title-text
 :levelsWithDoorKey
-:completedLevels
-level-1
-level-2
-first-scaling-level-3
-get-key-up-2
-point-pikaboo
-key-obstacle-course
-key-in-cage-all-from-top
 point-cage-3
-cooler-scaling-level-4
+get-key-up-2
+:completedLevels

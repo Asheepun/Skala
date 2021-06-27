@@ -351,6 +351,7 @@ typedef struct World{
 
 	//Font fonts[16];
 	Array fonts;
+	//Font timesFont;
 
 	Array textures;
 	Array shaderPrograms;

@@ -61,6 +61,10 @@ void World_init(World *world_p){
 	world_p->initCurrentState = false;
 
 	//load font "times"
+
+	//world.timesFont = getFont("assets/times.ttf", 100);
+
+	//load font "times"
 	for(int i = 0; i < 20; i++){
 
 		int fontSize = i * 5;

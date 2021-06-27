@@ -503,7 +503,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		accumilatedTime += deltaTime;
 		
-		printf("%f\n", deltaTime);
+		//printf("%f\n", deltaTime);
 
 	}
 
