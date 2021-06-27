@@ -431,7 +431,6 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 		}
 	}
 
-	/*
 	levelDoor_p->hoverTextParticleID = World_addFadeInTextParticle(world_p, levelDoor_p->body.pos, screenName, "times15", COLOR_WHITE, 0, 0);
 	Particle *hoverTextParticle_p = World_getParticleByID(world_p, levelDoor_p->hoverTextParticleID);
 	Sprite *hoverTextSprite_p = World_getSpriteByIndex(world_p, hoverTextParticle_p->spriteIndex);
@@ -447,7 +446,6 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 	union ParticleProperty startAlpha;
 	startAlpha.alpha = 0;
 	Particle_addEvent(hoverTextParticle_p, PARTICLE_SET_EVENT, PARTICLE_ALPHA, startAlpha, 0, 0);
-	*/
 
 	if(!world_p->addedRoomLevels){
 

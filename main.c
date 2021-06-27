@@ -62,7 +62,7 @@ void Engine_start(){
 	//set up engine and renderer
 	Engine_setWindowTitle("Skala");
 
-	Engine_setWindowSize(WIDTH * 2, HEIGHT * 2);
+	Engine_setWindowSize(WIDTH * 2.5, HEIGHT * 2.5);
 	Engine_centerWindow();
 	
 	Renderer2D_init(&world.renderer, WIDTH, HEIGHT);
@@ -436,12 +436,13 @@ void Engine_draw(){
 				//printf("%f\n", fontSize);
 				//printf("%s\n", sprite_p->fontName);
 
-				Renderer2D_setShaderProgram(&world.renderer, world.renderer.textureShaderProgram);
+				//Renderer2D_setShaderProgram(&world.renderer, world.renderer.textureShaderProgram);
 
 				Renderer2D_beginText(&world.renderer, sprite_p->text, pos.x, pos.y, 15, font);
 
 				Renderer2D_supplyUniform(&world.renderer, &color, "color", RENDERER2D_UNIFORM_TYPE_COLOR);
 				Renderer2D_supplyUniform(&world.renderer, &alpha, "alpha", RENDERER2D_UNIFORM_TYPE_FLOAT);
+				Renderer2D_supplyUniform(&world.renderer, &sprite_p->facing, "facing", RENDERER2D_UNIFORM_TYPE_INT);
 
 				Renderer2D_drawRectangle(&world.renderer);
 

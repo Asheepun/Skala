@@ -1146,7 +1146,6 @@ void World_levelState(World *world_p){
 
 		}
 
-		/*
 		//check if player is below level door
 		if(playerBodyPair_p->body.pos.x + playerBodyPair_p->body.size.x > levelDoor_p->body.pos.x
 		&& playerBodyPair_p->body.pos.x < levelDoor_p->body.pos.x + levelDoor_p->body.size.x
@@ -1177,7 +1176,6 @@ void World_levelState(World *world_p){
 
 			levelDoor_p->hasPlayerBelow = false;
 		}
-		*/
 
 	}
 
