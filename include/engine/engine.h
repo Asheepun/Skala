@@ -106,8 +106,12 @@ extern Engine_Key ENGINE_KEYS[ENGINE_KEYS_LENGTH];
 
 //extern Engine_Pixel *screenPixels;
 
-extern int windowWidth;
-extern int windowHeight;
+//extern int windowWidth;
+//extern int windowHeight;
+
+extern int clientWidth;
+extern int clientHeight;
+extern bool isFullscreen;
 
 extern int elapsedFrames;
 
@@ -130,6 +134,8 @@ void Engine_setWindowTitle(char *);
 void Engine_setWindowSize(int, int);
 
 void Engine_centerWindow();
+
+void Engine_toggleFullscreen();
 
 /*
 //DRAWING FUNCTIONS

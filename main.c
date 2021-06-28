@@ -213,6 +213,10 @@ void Engine_update(float deltaTime){
 		Engine_quit();
 	}
 
+	if(ENGINE_KEYS[ENGINE_KEY_F].downed){
+		Engine_toggleFullscreen();
+	}
+
 	//handle actions
 	for(int i = 0; i < 16; i++){
 
@@ -284,7 +288,7 @@ void Engine_update(float deltaTime){
 
 void Engine_draw(){
 
-	Renderer2D_updateDrawSize(&world.renderer, windowWidth, windowHeight);
+	Renderer2D_updateDrawSize(&world.renderer, clientWidth, clientHeight);
 
 	Renderer2D_clear(&world.renderer);
 

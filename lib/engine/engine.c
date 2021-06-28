@@ -29,6 +29,7 @@
 #include <winnt.h>
 
 #include "windows.h"
+#include "winuser.h"
 
 //#include "glad/glad_wgl.h"
 
@@ -58,8 +59,11 @@ HWND hwnd;
 //int screenWidth = 800;
 //int screenHeight = 450;
 //Engine_Pixel *screenPixels = NULL;
-int windowWidth = 800;
-int windowHeight = 450;
+//int windowWidth = 800;
+//int windowHeight = 450;
+int clientWidth = 800;
+int clientHeight = 450;
+bool isFullscreen = false;
 
 int elapsedFrames = 0;
 
@@ -472,7 +476,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DispatchMessage(&msg);
 		
 		}
-		
+
 		//update
 			
 		while(accumilatedTime > 1000 / 60){
@@ -552,8 +556,18 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 
 	if(uMsg == WM_SIZE){
 
-		windowWidth = LOWORD(lParam);
-		windowHeight = HIWORD(lParam);
+		clientWidth = LOWORD(lParam);
+		clientHeight = HIWORD(lParam);
+
+		//printf("%i\n", GetLastError());
+
+		//if(result){
+			//printf("%f\n", lpRect->right);
+		//
+		//}
+
+		//clientWidth = (int)lpRect->right;
+		//clientHeight = lpRect->bottom - lpRect->top;
 
 	}
 	
@@ -579,15 +593,27 @@ void Engine_setWindowTitle(char *title){
 
 void Engine_setWindowSize(int width, int height){
 
-	windowWidth = width;
-	windowHeight = height;
+	//windowWidth = width;
+	//windowHeight = height;
+	clientWidth = width;
+	clientHeight = height;
 
 #ifdef __linux__
 	XResizeWindow(dpy, win, width, height);
 #endif
 
 #ifdef _WIN32
-	SetWindowPos(hwnd, NULL, GetSystemMetrics(SM_CXSCREEN) / 2 - width / 2, GetSystemMetrics(SM_CYSCREEN) / 2 - height / 2, width, height, SWP_SHOWWINDOW);
+
+	
+	RECT rect;
+	rect.left = GetSystemMetrics(SM_CXSCREEN) / 2 - width / 2;
+	rect.top = GetSystemMetrics(SM_CYSCREEN) / 2 - height / 2;
+	rect.right = rect.left + width;
+	rect.bottom = rect.top + height;
+
+	//AdjustWindowRect(&rect, WS_OVERLAPPED, false);
+
+	SetWindowPos(hwnd, NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_SHOWWINDOW);
 #endif
 
 	//screenPixels = malloc(sizeof(Engine_Pixel) * width * height);
@@ -598,6 +624,24 @@ void Engine_centerWindow(){
 
 #ifdef __linux__
 	XMoveWindow(dpy, win, DisplayWidth(dpy, screenNumber) / 2 - windowWidth / 2, DisplayHeight(dpy, screenNumber) / 2 - windowHeight / 2);
+#endif
+
+}
+
+void Engine_toggleFullscreen(){
+
+#ifdef _WIN32
+	if(!isFullscreen){
+		SetWindowLongPtrA(hwnd, -16, WS_VISIBLE);
+
+		SetWindowPos(hwnd, NULL, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_SHOWWINDOW);
+
+		isFullscreen = true;
+	}else{
+		SetWindowLongPtrA(hwnd, -16, WS_OVERLAPPEDWINDOW);
+		isFullscreen = false;
+		Engine_setWindowSize(clientWidth, clientHeight);
+	}
 #endif
 
 }

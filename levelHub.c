@@ -403,7 +403,21 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(startingAreaX + 700, 210), getVec2f(200, 20), NONE);
 
-	//World_addObstacle(world_p, getVec2f(startingAreaX + 300, -HEIGHT), getVec2f(100, 100), ALL);
+	World_addObstacle(world_p, getVec2f(startingAreaX + 200, -HEIGHT - 50), getVec2f(40, 40), ALL);
+
+	World_addObstacle(world_p, getVec2f(startingAreaX, - HEIGHT - 300), getVec2f(200, 50), NONE);
+
+	World_addSprite(world_p, getVec2f(startingAreaX + 125, -HEIGHT - 300 - 16), getVec2f(36, 16), COLOR_WHITE, "furniture/bench", 1, GAME_LAYER_FURNITURE);
+
+	World_addSprite(world_p, getVec2f(startingAreaX + 170, -HEIGHT - 300 - 73), getVec2f(14, 73), COLOR_WHITE, "furniture/lamp-post", 1, GAME_LAYER_FURNITURE);
+
+	World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 460), "Wings made from wax", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+
+	World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 435), "and curiousity", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+
+	World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 400), "May you not suffer", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+
+	World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 375), "from hubris", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
 	if(!SaveData_hasFlag(&world_p->saveData, "removed-title-text")){
 
