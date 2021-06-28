@@ -15,7 +15,7 @@ void World_initLevelHub(World *world_p){
 
 	//World_addObstacle(world_p, getVec2f(3500, -250), getVec2f(50, 50), ALL);
 
-	world_p->starBackgroundSpriteIndex = World_addSprite(world_p, getVec2f(0, 0), getVec2f(5000, HEIGHT * 4), COLOR_WHITE, "star-background", 1, GAME_LAYER_BACKGROUND);
+	world_p->starBackgroundSpriteIndex = World_addSprite(world_p, getVec2f(0, 0), getVec2f(5000, HEIGHT * 8), COLOR_WHITE, "star-background", 1, GAME_LAYER_BACKGROUND);
 
 	world_p->playerHasLanded = false;
 
@@ -29,11 +29,13 @@ void World_initLevelHub(World *world_p){
 	int normalLevelDistance = 70;
 	int widerLevelDistance = 100;
 
+	int cloudY = -HEIGHT * 6;
+
 	//make starting area
-	int startingAreaX = 0;
+	int startingAreaX = 300;
 
 	//make house
-	int houseX = 1400;
+	int houseX = startingAreaX + 1400;
 	int houseWidth = 0;
 	int firstFloorY = 0;
 	int secondFloorY = -HEIGHT;
@@ -433,6 +435,42 @@ void World_initLevelHub(World *world_p){
 	
 	}
 
+	//elevator to ending
+	
+	World_addObstacle(world_p, getVec2f(0, cloudY - HEIGHT), getVec2f(100, -cloudY + 2 * HEIGHT - 40), NONE);
+
+	World_addObstacle(world_p, getVec2f(200, cloudY), getVec2f(100, -cloudY + HEIGHT - 130), NONE);
+
+	World_addObstacle(world_p, getVec2f(100, cloudY - HEIGHT), getVec2f(200, HEIGHT - 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(200, cloudY), getVec2f(100, -cloudY + HEIGHT - 130), NONE);
+
+	World_addScaleField(world_p, getVec2f(200, cloudY - 60), getVec2f(80, 60), NONE);
+
+	//World_addObstacle(world_p, getVec2f(200, cloudY), getVec2f(100, -cloudY + HEIGHT - 130), NONE);
+
+	//ending
+
+	World_addObstacle(world_p, getVec2f(340, cloudY - 20), getVec2f(20, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(420, cloudY - 20), getVec2f(20, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(460, cloudY - 40), getVec2f(20, 10), NONE);
+
+	World_addObstacle(world_p, getVec2f(540, cloudY - 30), getVec2f(60, 10), NONE);
+
+	World_addObstacle(world_p, getVec2f(740, cloudY - 30), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(940, cloudY - 50), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(1160, cloudY - 20), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(1360, cloudY - 20), getVec2f(300, 20), NONE);
+
+	World_addScaleField(world_p, getVec2f(1360 + 130, cloudY - 50), getVec2f(40, 30), ALL);
+
+	World_addTextSprite(world_p, getVec2f(1360 + 105, cloudY - 150), "Ascend", "times30", COLOR_WHITE, GAME_LAYER_TEXT);
+
 	//add obstacles house 
 	World_addObstacle(world_p, getVec2f(houseX, 120), getVec2f(30, 50), NONE);
 
@@ -537,7 +575,7 @@ void World_initLevelHub(World *world_p){
 	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth, HEIGHT - 60), getVec2f(140, 60), NONE);
 
 	//add boundries
-	World_addScaleField(world_p, getVec2f(startingAreaX, - HEIGHT * 6), getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 140, HEIGHT), NONE);
+	World_addScaleField(world_p, getVec2f(startingAreaX, cloudY), getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 140, HEIGHT), NONE);
 
 	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100, -HEIGHT * 6), getVec2f(500, HEIGHT * 7), NONE);
 
@@ -712,7 +750,7 @@ void World_initLevelHub(World *world_p){
 	}
 
 	//add gate
-	if(SaveData_hasFlag(&world_p->saveData, "unlocked-gate-door")){
+	if(SaveData_hasFlag(&world_p->saveData, "unlocked-gate-door") || true){
 		//!add nothing!
 	}else if(SaveData_hasFlag(&world_p->saveData, "completed-door-key-levels")){
 		World_addDoor(world_p, getVec2f(startingAreaX + 60, 140), getVec2f(40, 90), NONE);
@@ -720,19 +758,19 @@ void World_initLevelHub(World *world_p){
 		World_addObstacle(world_p, getVec2f(startingAreaX + 60, 140), getVec2f(40, 90), NONE);
 	}
 
-	if(SaveData_hasFlag(&world_p->saveData, "completed-scale-field-levels")){
+	if(SaveData_hasFlag(&world_p->saveData, "completed-scale-field-levels") || true){
 		World_addScaleField(world_p, getVec2f(startingAreaX + 120, 140), getVec2f(40, 90), ALL);
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 120, 140), getVec2f(40, 90), NONE);
 	}
 
-	if(SaveData_hasFlag(&world_p->saveData, "completed-all-from-top-levels")){
+	if(SaveData_hasFlag(&world_p->saveData, "completed-all-from-top-levels") || true){
 		World_addObstacle(world_p, getVec2f(startingAreaX + 180, 140), getVec2f(40, 90), ALL_FROM_TOP);
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 180, 140), getVec2f(40, 90), NONE);
 	}
 
-	if(SaveData_hasFlag(&world_p->saveData, "completed-first-scale-levels")){
+	if(SaveData_hasFlag(&world_p->saveData, "completed-first-scale-levels") || true){
 		World_addObstacle(world_p, getVec2f(startingAreaX + 240, 140), getVec2f(40, 90), ALL);
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 240, 140), getVec2f(40, 90), NONE);

@@ -373,6 +373,8 @@ typedef struct World{
 	int fadeTransitionCounter;
 	bool initCurrentState;
 
+	float endingFlashAlpha;
+
 	//size_t currentLevel;
 	char *currentLevel;
 

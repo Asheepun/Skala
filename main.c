@@ -162,7 +162,7 @@ void Engine_start(){
 		texture_p->name = "star-background";
 
 		int width = 5000;
-		int height = HEIGHT * 4;
+		int height = HEIGHT * 8;
 
 		unsigned char *data = malloc((width * height) * sizeof(char) * 4);
 		memset(data, 0, (width * height) * sizeof(char) * 4);
@@ -408,6 +408,22 @@ void Engine_draw(){
 			}
 		
 		}
+	}
+
+	if(world.endingFlashAlpha > 0){
+		
+		Renderer2D_setShaderProgram(&world.renderer, world.renderer.colorShaderProgram);
+
+		Renderer2D_beginRectangle(&world.renderer, -world.renderer.offset.x, -world.renderer.offset.y, WIDTH, HEIGHT);
+
+		color = COLOR_WHITE;
+		alpha = world.endingFlashAlpha;
+
+		Renderer2D_supplyUniform(&world.renderer, &alpha, "alpha", RENDERER2D_UNIFORM_TYPE_FLOAT);
+		Renderer2D_supplyUniform(&world.renderer, &color, "color", RENDERER2D_UNIFORM_TYPE_COLOR);
+
+		Renderer2D_drawRectangle(&world.renderer);
+
 	}
 
 	//draw fade transition

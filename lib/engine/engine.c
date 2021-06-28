@@ -611,7 +611,7 @@ void Engine_setWindowSize(int width, int height){
 	rect.right = rect.left + width;
 	rect.bottom = rect.top + height;
 
-	//AdjustWindowRect(&rect, WS_OVERLAPPED, false);
+	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
 
 	SetWindowPos(hwnd, NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_SHOWWINDOW);
 #endif
@@ -640,7 +640,7 @@ void Engine_toggleFullscreen(){
 	}else{
 		SetWindowLongPtrA(hwnd, -16, WS_OVERLAPPEDWINDOW);
 		isFullscreen = false;
-		Engine_setWindowSize(clientWidth, clientHeight);
+		Engine_setWindowSize(480 * 2, 270 * 2);
 	}
 #endif
 

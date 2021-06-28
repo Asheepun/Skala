@@ -752,8 +752,8 @@ void World_levelState(World *world_p){
 			//|| bodyPair1_p->body.pos.y < 0
 			//&& bodyPair1_p->scaleType == ALL_FROM_TOP)
 			//&& bodyPair1_p->entityHeader.ID != world_p->player.bodyPairID){
-				printf("OUB COLLISION Y!\n");
-				printf("%f, %f\n", bodyPair1_p->body.pos.y, bodyPair1_p->body.size.y);
+				//printf("OUB COLLISION Y!\n");
+				//printf("%f, %f\n", bodyPair1_p->body.pos.y, bodyPair1_p->body.size.y);
 				Collision *collision_p = Array_addItem(&collisions);
 				collision_p->lighterBodyPairIndex = i;
 				collision_p->heavierBodyPairIndex = 0;
@@ -1666,10 +1666,31 @@ void World_levelState(World *world_p){
 	//update star background sprite
 	if(world_p->currentState == LEVEL_HUB_STATE){
 
+		float offsetY = 0;
+
+		for(int i = 1; i < 10; i++){
+			if(playerBodyPair_p->body.pos.y < -HEIGHT * 9 * i){
+				offsetY = -HEIGHT * 16 * i;
+			}
+		}
+
 		Sprite *sprite_p = World_getSpriteByIndex(world_p, world_p->starBackgroundSpriteIndex);
 
 		sprite_p->body.pos.x = -world_p->renderer.offset.x * 0.3;
-		sprite_p->body.pos.y = (-world_p->renderer.offset.y - HEIGHT * 8) * 0.4;
+		sprite_p->body.pos.y = (-world_p->renderer.offset.y - HEIGHT * 16 + offsetY) * 0.4;
+
+	}
+
+	//update ending flash
+	if(world_p->currentState == LEVEL_HUB_STATE){
+
+		float beginningPosY = -HEIGHT * 9 * 4;
+
+		if(playerBodyPair_p->body.pos.y < beginningPosY){
+			world_p->endingFlashAlpha = (float)(-playerBodyPair_p->body.pos.y + beginningPosY) / (float)(HEIGHT * 90 * 2);
+
+			printf("%f\n", world_p->endingFlashAlpha);
+		}
 
 	}
 

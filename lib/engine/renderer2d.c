@@ -202,8 +202,6 @@ void Renderer2D_updateDrawSize(Renderer2D_Renderer *renderer_p, int width, int h
 	offsetX = (width - newWidth) / 2;
 	offsetY = (height - newHeight) / 2;
 
-	printf("%f, %f\n", offsetX, offsetY);
-
 	glViewport((int)offsetX, (int)offsetY, (int)newWidth, (int)newHeight);
 
 }

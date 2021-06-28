@@ -60,6 +60,8 @@ void World_init(World *world_p){
 	world_p->fadeTransitionCounter = 0;
 	world_p->initCurrentState = false;
 
+	world_p->endingFlashAlpha = 0;
+
 	//load font "times"
 
 	//world.timesFont = getFont("assets/times.ttf", 100);
