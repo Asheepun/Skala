@@ -8,7 +8,6 @@
 
 //#include "glad/glad.h"
 
-#include "glad/wgl.h"
 #include "glad/gl.h"
 
 //linux includes
@@ -24,6 +23,9 @@
 
 //windows includes
 #ifdef _WIN32
+
+#include "glad/wgl.h"
+
 #include "time.h"
 #include <limits.h>
 #include <winnt.h>
@@ -242,7 +244,7 @@ int main(){
 	swa.colormap = cmap;
 	swa.event_mask = KeyPressMask | KeyReleaseMask | ButtonPressMask | StructureNotifyMask;
 
-	win = XCreateWindow(dpy, root, 0, 0, windowWidth, windowHeight, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
+	win = XCreateWindow(dpy, root, 0, 0, clientWidth, clientHeight, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
 
 	XMapWindow(dpy, win);
 
@@ -251,7 +253,7 @@ int main(){
 	glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
 	glXMakeCurrent(dpy, win, glc);
 
-	//gladLoadGL();
+	gladLoaderLoadGL();
 
 	Atom wmDelete = XInternAtom(dpy, "WM_DELETE_WINDOW", true);
 	XSetWMProtocols(dpy, win, &wmDelete, 1);
@@ -293,10 +295,10 @@ int main(){
 
 				XConfigureEvent xce = xev.xconfigure;
 
-				if(xce.width != windowWidth
-				|| xce.height != windowHeight){
-					windowWidth = xce.width;
-					windowHeight = xce.height;
+				if(xce.width != clientWidth
+				|| xce.height != clientHeight){
+					clientWidth = xce.width;
+					clientHeight = xce.height;
 				}
 
 			}
@@ -623,7 +625,7 @@ void Engine_setWindowSize(int width, int height){
 void Engine_centerWindow(){
 
 #ifdef __linux__
-	XMoveWindow(dpy, win, DisplayWidth(dpy, screenNumber) / 2 - windowWidth / 2, DisplayHeight(dpy, screenNumber) / 2 - windowHeight / 2);
+	XMoveWindow(dpy, win, DisplayWidth(dpy, screenNumber) / 2 - clientWidth / 2, DisplayHeight(dpy, screenNumber) / 2 - clientHeight / 2);
 #endif
 
 }
