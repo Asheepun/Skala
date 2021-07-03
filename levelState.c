@@ -326,7 +326,8 @@ void World_levelState(World *world_p){
 
 		bodyPair_p->lastBody = bodyPair_p->body;
 
-		bodyPair_p->isStuck = false;
+		bodyPair_p->isStuckX = false;
+		bodyPair_p->isStuckY = false;
 		
 	}
 
@@ -393,13 +394,16 @@ void World_levelState(World *world_p){
 				&& i != j){
 
 					if(bodyPair1_p->lastBody.size.x < 1
-					&& !(bodyPair1_p->collisionWeight == STATIC
-					&& bodyPair2_p->collisionWeight == MOVABLE)){
+					&& (bodyPair2_p->entityType == OBSTACLE
+					|| bodyPair2_p->entityType == DOOR)){
+					//&& !(bodyPair1_p->collisionWeight == STATIC
+					//&& bodyPair2_p->collisionWeight == MOVABLE)){
 						bodyPair1_p->body.size.x = bodyPair1_p->lastBody.size.x;
 						bodyPair1_p->body.pos.x = bodyPair1_p->lastBody.pos.x;
 						bodyPair1_p->scale.x = bodyPair1_p->lastScale.x;
+						bodyPair1_p->scaleExponent.x = bodyPair1_p->lastScaleExponent.x;
 						//bodyPair1_p->scaleIndexX = bodyPair1_p->lastScaleIndexX;
-						bodyPair1_p->isStuck = true;
+						bodyPair1_p->isStuckX = true;
 						continue;
 					}
 
@@ -648,13 +652,19 @@ void World_levelState(World *world_p){
 				&& i != j){
 
 					if(bodyPair1_p->lastBody.size.y < 1
-					&& !(bodyPair1_p->collisionWeight == STATIC
-					&& bodyPair2_p->collisionWeight == MOVABLE)){
+					&& (bodyPair2_p->entityType == OBSTACLE
+					|| bodyPair2_p->entityType == DOOR)){
+					//&& !(bodyPair1_p->collisionWeight == STATIC
+					//&& bodyPair2_p->collisionWeight == STATIC){
 						bodyPair1_p->body.size.y = bodyPair1_p->lastBody.size.y;
 						bodyPair1_p->body.pos.y = bodyPair1_p->lastBody.pos.y;
-						bodyPair1_p->scale = bodyPair1_p->lastScale;
+						bodyPair1_p->scale.y = bodyPair1_p->lastScale.y;
+						bodyPair1_p->scaleExponent.y = bodyPair1_p->lastScaleExponent.y;
+
 						//bodyPair1_p->scaleIndexY = bodyPair1_p->lastScaleIndexY;
-						bodyPair1_p->isStuck = true;
+						bodyPair1_p->isStuckY = true;
+						//printf("STUCK AT Y!\n");
+						//printf("%f, %f\n", bodyPair1_p->body.pos.y, bodyPair1_p->lastBody.pos.y);
 						continue;
 					}
 
@@ -1405,6 +1415,23 @@ void World_levelState(World *world_p){
 
 		Vec2f scale = BodyPair_getPhysicsScale(obstacleBodyPair_p);
 
+		//handle obstacle sprite being stuck
+		sprite_p = World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(world_p, sprite_p, &obstacle_p->spriteIndex, GAME_LAYER_OBSTACLES);
+		sprite_p->texture = "obstacle";
+
+		if(obstacleBodyPair_p->isStuckY
+		|| obstacleBodyPair_p->isStuckX){
+			sprite_p->color = COLOR_RED;
+			sprite_p->texture = "obstacle";
+			sprite_p = World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(world_p, sprite_p, &obstacle_p->spriteIndex, GAME_LAYER_BLOCKED_ENTITIES);
+		}
+		if(obstacleBodyPair_p->isStuckY){
+			sprite_p->body.size.y = 1;
+		}
+		if(obstacleBodyPair_p->isStuckX){
+			sprite_p->body.size.x = 1;
+		}
+
 	}
 
 	//update point sprites
@@ -1422,6 +1449,23 @@ void World_levelState(World *world_p){
 		if(world_p->scaling
 		|| world_p->scalingByPlayerPosition){
 			sprite_p->color = SCALING_SCALE_TYPE_COLORS[pointBodyPair_p->scaleType];
+		}
+
+		//handle point sprite being stuck
+		sprite_p = World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(world_p, sprite_p, &point_p->spriteIndex, GAME_LAYER_FOREGROUND);
+		sprite_p->texture = "point";
+
+		if(pointBodyPair_p->isStuckY
+		|| pointBodyPair_p->isStuckX){
+			sprite_p->color = COLOR_RED;
+			sprite_p->texture = "obstacle";
+			sprite_p = World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(world_p, sprite_p, &point_p->spriteIndex, GAME_LAYER_BLOCKED_ENTITIES);
+		}
+		if(pointBodyPair_p->isStuckY){
+			sprite_p->body.size.y = 1;
+		}
+		if(pointBodyPair_p->isStuckX){
+			sprite_p->body.size.x = 1;
 		}
 
 	}
@@ -1464,37 +1508,24 @@ void World_levelState(World *world_p){
 
 		sprite_p->facing = doorKey_p->facing;
 
+		//sprite_p->texture = "door-key";
+		//sprite_p->alpha = 1;
+
+		//handle door key sprite being stuck
+		sprite_p = World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(world_p, sprite_p, &doorKey_p->spriteIndex, GAME_LAYER_FOREGROUND);
 		sprite_p->texture = "door-key";
-		sprite_p->alpha = 1;
 
-		//sprite_p = World_Sprite_setToLayer_returnsNewPointer(world_p, sprite_p, doorKey_p->spriteIndex, GAME_LAYER_DOOR_KEYS);
-
-		if(doorKeyBodyPair_p->isStuck){
-
-			Vec2f scale = doorKeyBodyPair_p->scale;
-			Vec2f stuckScale = doorKeyBodyPair_p->scale;
-			Vec2f origin = World_getOriginFromScaleType(world_p, doorKeyBodyPair_p->scaleType);
-
-			stuckScale.x /= 1 + world_p->scaleSpeed / world_p->levelWidth;
-			stuckScale.y /= 1 + world_p->scaleSpeed / world_p->levelHeight;
-
-			//stuckScale.x /= 1 + world_p->scaleSpeed * world_p->levelHeight / world_p->levelWidth * sqrt(sqrt(stuckScale.x));
-			//stuckScale.y /= 1 + world_p->scaleSpeed * sqrt(sqrt(stuckScale.y));
-
-			//float scaleX = world_p->scalesX[doorKeyBodyPair_p->scaleIndexX];
-			//float scaleY = world_p->scalesY[doorKeyBodyPair_p->scaleIndexY];
-			//float stuckScaleX = world_p->scalesX[doorKeyBodyPair_p->scaleIndexX - 1];
-			//float stuckScaleY = world_p->scalesY[doorKeyBodyPair_p->scaleIndexY - 1];
-
-			Body_unScaleX(&sprite_p->body, origin.x, scale.x);
-			Body_unScaleY(&sprite_p->body, origin.y, scale.y);
-			Body_scaleX(&sprite_p->body, origin.x, stuckScale.x);
-			Body_scaleY(&sprite_p->body, origin.y, stuckScale.y);
-
+		if(doorKeyBodyPair_p->isStuckY
+		|| doorKeyBodyPair_p->isStuckX){
 			sprite_p->color = COLOR_RED;
 			sprite_p->texture = "obstacle";
-			//sprite_p = World_Sprite_setToLayer_returnsNewPointer(world_p, sprite_p, GAME_LAYER_BLOCKED_ENTITIES);
-
+			sprite_p = World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(world_p, sprite_p, &doorKey_p->spriteIndex, GAME_LAYER_BLOCKED_ENTITIES);
+		}
+		if(doorKeyBodyPair_p->isStuckY){
+			sprite_p->body.size.y = 1;
+		}
+		if(doorKeyBodyPair_p->isStuckX){
+			sprite_p->body.size.x = 1;
 		}
 
 	}
@@ -1612,7 +1643,19 @@ void World_levelState(World *world_p){
 			world_p->cameraTarget.y = 2.8 * HEIGHT;
 		}
 
-		if(playerBodyPair_p->body.pos.x < 400){
+		if(playerBodyPair_p->body.pos.x >= 300
+		&& playerBodyPair_p->body.pos.x <= 300 + WIDTH / 2){
+			world_p->cameraTarget.x = -300;
+		}
+		if(playerBodyPair_p->body.pos.x < 300){
+			world_p->cameraTarget.x = 0;
+		}
+		if(playerBodyPair_p->body.pos.x < 500
+		&& playerBodyPair_p->body.pos.y > 0){
+			cameraSpeedX = 20;
+		}
+
+		if(playerBodyPair_p->body.pos.x < 400 + 300){
 
 			world_p->cameraTarget.y = HEIGHT + 70;
 
@@ -1689,7 +1732,13 @@ void World_levelState(World *world_p){
 		if(playerBodyPair_p->body.pos.y < beginningPosY){
 			world_p->endingFlashAlpha = (float)(-playerBodyPair_p->body.pos.y + beginningPosY) / (float)(HEIGHT * 90 * 2);
 
-			printf("%f\n", world_p->endingFlashAlpha);
+			//printf("%f\n", world_p->endingFlashAlpha);
+		}
+
+		if(playerBodyPair_p->body.pos.y < -HEIGHT * 9 * 20){
+
+			World_fadeTransitionToState(world_p, CREDITS_STATE);
+				
 		}
 
 	}

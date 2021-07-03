@@ -60,8 +60,6 @@ void World_init(World *world_p){
 	world_p->fadeTransitionCounter = 0;
 	world_p->initCurrentState = false;
 
-	world_p->endingFlashAlpha = 0;
-
 	//load font "times"
 
 	//world.timesFont = getFont("assets/times.ttf", 100);
@@ -150,6 +148,8 @@ void World_restore(World *world_p){
 	}
 
 	world_p->fpsTextID = World_addTextSprite(world_p, getVec2f(10, 10), "", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+
+	world_p->endingFlashAlpha = 0;
 
 }
 
@@ -953,19 +953,18 @@ Body World_TextSprite_getBody(World *world_p, Sprite *textSprite_p){
 
 }
 
-/*
-Sprite *World_Sprite_setToLayer_returnsNewPointer(World *world_p, Sprite *sprite_p, unsigned int index, enum SpriteLayer newLayer){
+Sprite *World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(World *world_p, Sprite *sprite_p, unsigned int *index, enum SpriteLayer newLayer){
 
 	if(sprite_p->currentLayer != newLayer){
 
 		Sprite spriteCopy = *sprite_p;
 		spriteCopy.currentLayer = newLayer;
 
-		//World_removeSpriteByIndex(world_p, sprite_p->entityHeader.ID);
-		World_removeSpriteByIndex(world_p, index);
+		World_removeSpriteByIndex(world_p, *index);
 
-		unsigned int newIndex = IndexSafeArray_addItem(&world_p->spriteLayers[newLayer]);
-		Sprite *newSprite_p = IndexSafeArray_getItemPointer(&world_p->spriteLayers[newLayer], )
+		*index = World_addSprite(world_p, getVec2f(0, 0), getVec2f(0, 0), COLOR_WHITE, "", 0, newLayer);
+
+		Sprite *newSprite_p = World_getSpriteByIndex(world_p, *index);
 		*newSprite_p = spriteCopy;
 
 		return newSprite_p;
@@ -975,7 +974,6 @@ Sprite *World_Sprite_setToLayer_returnsNewPointer(World *world_p, Sprite *sprite
 	return sprite_p;
 
 }
-*/
 
 /*
 void BodyPair_World_setBodyFromScaleX(BodyPair *bodyPair_p, World *world_p){

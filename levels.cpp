@@ -604,7 +604,8 @@ Cell
 
 	World_initPlayer(world_p, getVec2f(200, 150), NONE);
 
-	World_addPoint(world_p, getVec2f(380, 170), ALL);
+	//World_addPoint(world_p, getVec2f(380, 170), NONE);
+	World_addPoint(world_p, getVec2f(420, 170), NONE);
 
 	World_addObstacle(world_p, getVec2f(150, 210), getVec2f(180, 20), NONE);
 
@@ -613,6 +614,8 @@ Cell
 	World_addObstacle(world_p, getVec2f(150, 110), getVec2f(180, 40), NONE);
 
 	World_addObstacle(world_p, getVec2f(150, 150), getVec2f(20, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(250, 170), getVec2f(20, 10), ALL);
 
 	World_addDoor(world_p, getVec2f(310, 150), getVec2f(20, 60), NONE);
 

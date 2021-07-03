@@ -260,6 +260,9 @@ void Engine_update(float deltaTime){
 		else if(world.currentState == MENU_STATE){
 			World_initMenu(&world);
 		}
+		else if(world.currentState == CREDITS_STATE){
+			World_initCredits(&world);
+		}
 
 		world.initCurrentState = false;
 
@@ -273,6 +276,8 @@ void Engine_update(float deltaTime){
 	}
 	else if(world.currentState == MENU_STATE){
 		World_menuState(&world);
+	}else if(world.currentState == CREDITS_STATE){
+		World_creditsState(&world);
 	}
 
 	//reset actions

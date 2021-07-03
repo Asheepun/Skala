@@ -101,6 +101,7 @@ enum WorldState{
 	LEVEL_SELECT_STATE,
 	LEVEL_HUB_STATE,
 	MENU_STATE,
+	CREDITS_STATE,
 };
 
 enum LevelHubRoom{
@@ -209,9 +210,9 @@ typedef struct BodyPair{
 	enum CollisionWeight collisionWeight;
 	enum EntityType entityType;
 
-	//bool isStuckX;
-	//bool isStuckY;
-	bool isStuck;
+	bool isStuckX;
+	bool isStuckY;
+	//bool isStuck;
 }BodyPair;
 
 typedef struct Obstacle{
@@ -563,7 +564,7 @@ Vec2f BodyPair_getPhysicsScale(BodyPair *);
 void Particle_addEvent(Particle *, enum ParticleEventType, enum ParticlePropertyType, union ParticleProperty, int, int);
 void Particle_addRemoveEvent(Particle *, int);
 
-Sprite *World_Sprite_setToLayer_returnsNewPointer(World *, Sprite *, unsigned int, enum SpriteLayer);
+Sprite *World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(World *, Sprite *, unsigned int *, enum SpriteLayer);
 
 bool BodyPair_isScalable(BodyPair *);
 
@@ -633,5 +634,11 @@ void SaveData_write(SaveData *);
 bool SaveData_hasFlag(SaveData *, char *);
 
 void SaveData_addFlag(SaveData *, char *);
+
+//FILE: credits.c
+
+void World_initCredits(World *);
+
+void World_creditsState(World *);
 
 #endif
