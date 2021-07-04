@@ -1,40 +1,12 @@
 :playerPos
-3927 57
+330 -240
 :doorKeys
 :doors
+3350 180 20 60
+4270 180 20 60
 :flags
 removed-title-text
-completed-door-key-levels
 :levelsWithDoorKey
-:completedLevels
-level-1
-high-jump-3
-get-key-up-2
-push-key-with-point
-level-2
-first-scaling-level-4
-cooler-scaling-level-1
-cooler-scaling-level-2
-cooler-scaling-level-3
-cooler-scaling-level-4
-cooler-scaling-level-5
-high-jump-1
-slow-fall-squeeze
-high-jump-2
-door-key-level-1
-door-key-level-2
-floor-is-door
-get-key-up-1
-key-in-box
-maybe-key-should-fly
-all-from-top-3
-get-under-cup
-point-pikaboo
-key-obstacle-course
-key-in-cage-all-from-top
-make-it-bigger-2
-point-cage
-point-cage-2
 point-cage-3
-flying-key-2-trickshot-edition
-flying-key-1
+get-key-up-2
+:completedLevels

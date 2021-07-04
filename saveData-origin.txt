@@ -2,8 +2,8 @@
 330 -240
 :doorKeys
 :doors
-3050 180 20 60
-3970 180 20 60
+3350 180 20 60
+4270 180 20 60
 :flags
 :levelsWithDoorKey
 point-cage-3

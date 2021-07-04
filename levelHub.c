@@ -405,7 +405,7 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(startingAreaX + 700, 210), getVec2f(200, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(startingAreaX + 200, -HEIGHT - 50), getVec2f(40, 40), ALL);
+	//World_addObstacle(world_p, getVec2f(startingAreaX + 200, -HEIGHT - 50), getVec2f(40, 40), ALL);
 
 	World_addObstacle(world_p, getVec2f(startingAreaX, - HEIGHT - 300), getVec2f(200, 50), NONE);
 
@@ -424,7 +424,7 @@ void World_initLevelHub(World *world_p){
 	if(!SaveData_hasFlag(&world_p->saveData, "removed-title-text")){
 
 		int activationTime = 4000 / 60;
-		int secondActivationTime = 0;
+		int secondActivationTime = 4000 / 60;
 		int duration = 5000 / 60;
 
 		world_p->titleTextParticleID = World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 250, -HEIGHT - 50), "Skala ", "times80", COLOR_WHITE, activationTime, duration);
@@ -750,7 +750,7 @@ void World_initLevelHub(World *world_p){
 	}
 
 	//add gate
-	if(SaveData_hasFlag(&world_p->saveData, "unlocked-gate-door") || true){
+	if(SaveData_hasFlag(&world_p->saveData, "unlocked-gate-door")){
 		//!add nothing!
 	}else if(SaveData_hasFlag(&world_p->saveData, "completed-door-key-levels")){
 		World_addDoor(world_p, getVec2f(startingAreaX + 60, 140), getVec2f(40, 90), NONE);
@@ -758,19 +758,19 @@ void World_initLevelHub(World *world_p){
 		World_addObstacle(world_p, getVec2f(startingAreaX + 60, 140), getVec2f(40, 90), NONE);
 	}
 
-	if(SaveData_hasFlag(&world_p->saveData, "completed-scale-field-levels") || true){
+	if(SaveData_hasFlag(&world_p->saveData, "completed-scale-field-levels")){
 		World_addScaleField(world_p, getVec2f(startingAreaX + 120, 140), getVec2f(40, 90), ALL);
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 120, 140), getVec2f(40, 90), NONE);
 	}
 
-	if(SaveData_hasFlag(&world_p->saveData, "completed-all-from-top-levels") || true){
+	if(SaveData_hasFlag(&world_p->saveData, "completed-all-from-top-levels")){
 		World_addObstacle(world_p, getVec2f(startingAreaX + 180, 140), getVec2f(40, 90), ALL_FROM_TOP);
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 180, 140), getVec2f(40, 90), NONE);
 	}
 
-	if(SaveData_hasFlag(&world_p->saveData, "completed-first-scale-levels") || true){
+	if(SaveData_hasFlag(&world_p->saveData, "completed-first-scale-levels")){
 		World_addObstacle(world_p, getVec2f(startingAreaX + 240, 140), getVec2f(40, 90), ALL);
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 240, 140), getVec2f(40, 90), NONE);
@@ -827,7 +827,5 @@ void World_initLevelHub(World *world_p){
 		}
 	
 	}
-
-	printf("obstaclesLength: %i", world_p->obstacles.length);
 
 }

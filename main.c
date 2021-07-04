@@ -26,8 +26,6 @@ Renderer2D_ShaderProgram singleColorTextureShaderProgram;
 
 void Engine_start(){
 
-	printf("GOT HERE!\n");
-
 	//set up world and game
 	World_init(&world);
 
@@ -61,19 +59,13 @@ void Engine_start(){
 
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
 
-	printf("GOT HERE!\n");
-
 	//set up engine and renderer
 	Engine_setWindowTitle("Skala");
 
 	Engine_setWindowSize(WIDTH * 2.5, HEIGHT * 2.5);
 	Engine_centerWindow();
-
-	printf("GAGA\n");
 	
 	Renderer2D_init(&world.renderer, WIDTH, HEIGHT);
-
-	printf("GOGO\n");
 
 	{
 		Renderer2D_ShaderPathTypePair shaderFiles[] = {
@@ -86,8 +78,6 @@ void Engine_start(){
 		Renderer2D_ShaderProgram_init(&singleColorTextureShaderProgram, "single-color-texture-shader", shaderFiles, shaderFilesLength);
 	
 	}
-
-	printf("GABOMP!\n");
 
 	//World_switchToAndInitState(&world, LEVEL_STATE);
 
@@ -142,8 +132,6 @@ void Engine_start(){
 		texture_p->name = assets[i];
 
 	}
-
-	printf("GOT OVER HERE YEAH!\n");
 
 	/*
 	//load audio

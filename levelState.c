@@ -1592,7 +1592,7 @@ void World_levelState(World *world_p){
 
 	//fade out title text
 	BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
-	if(playerBodyPair_p->body.pos.x > 200
+	if(playerBodyPair_p->body.pos.x > 200 + 300
 	&& playerBodyPair_p->physics.onGround
 	&& !SaveData_hasFlag(&world_p->saveData, "removed-title-text")){
 
