@@ -1,5 +1,5 @@
 :playerPos
-3717 58
+4036 61
 :doorKeys
 :doors
 :flags
@@ -35,3 +35,4 @@ make-it-bigger-2
 point-cage
 point-cage-2
 point-cage-3
+flying-key-2-trickshot-edition
