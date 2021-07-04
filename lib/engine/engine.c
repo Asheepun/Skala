@@ -12,13 +12,16 @@
 
 //linux includes
 #ifdef __linux__
+
 #include "time.h"
 #include "unistd.h"
 
 #include "X11/X.h"
 #include "X11/Xlib.h"
 #include "X11/XKBlib.h"
+#include <X11/Xutil.h>
 #include "GL/glx.h"
+
 #endif
 
 //windows includes
@@ -253,7 +256,13 @@ int main(){
 	glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
 	glXMakeCurrent(dpy, win, glc);
 
+	//int screen = DefaultScreen(dpy);
+
+	//gladLoaderLoadGLX(dpy, screen);
+
 	gladLoaderLoadGL();
+
+	//glXSwapIntervalEXT(1);
 
 	Atom wmDelete = XInternAtom(dpy, "WM_DELETE_WINDOW", true);
 	XSetWMProtocols(dpy, win, &wmDelete, 1);
@@ -270,6 +279,10 @@ int main(){
 	//game loop
 	size_t startTicks = 0;
 	size_t endTicks = 0;
+
+	size_t deltaTime = 0;
+	size_t accumilatedTime = 0;
+	size_t frameTime = 1000000 / 60;
 
 	int fps = 60;
 
@@ -336,7 +349,15 @@ int main(){
 
 		//update
 
+		//while(accumilatedTime > frameTime){
+
 		Engine_update(1);
+
+			//accumilatedTime -= frameTime;
+
+		resetKeys();
+			
+		//}
 
 		//draw
 
@@ -346,21 +367,33 @@ int main(){
 
 		glXSwapBuffers(dpy, win);
 
-		resetKeys();
-
 		elapsedFrames++;
 
 		endTicks = clock();
 
-		int lag = ticksPerFrame - (endTicks - startTicks);
+		deltaTime = (endTicks - startTicks) / (CLOCKS_PER_SEC / 1000000);
+
+		int lag = frameTime - deltaTime;
 
 		if(lag < 0){
 			lag = 0;
 		}
 
-		float lagMilliseconds = (float)lag / (float)(CLOCKS_PER_SEC / 1000);
+		usleep(lag);
 
-		usleep(lagMilliseconds * 1000);
+		//accumilatedTime += deltaTime;
+
+		//printf("%i\n", deltaTime);
+
+		//int lag = ticksPerFrame - (endTicks - startTicks);
+
+		//if(lag < 0){
+			//lag = 0;
+		//}
+
+		//float lagMilliseconds = (float)lag / (float)(CLOCKS_PER_SEC / 1000);
+
+		//usleep(lagMilliseconds * 1000);
 
 	
 	}
