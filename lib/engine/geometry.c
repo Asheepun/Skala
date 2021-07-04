@@ -102,6 +102,10 @@ float getDistanceVec2f(Vec2f v1, Vec2f v2){
 	return sqrt((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y));
 }
 
+Vec2f getNormalizedVec2f(Vec2f v){
+	return getVec2f(v.x / getMagVec2f(v), v.y / getMagVec2f(v));
+}
+
 Vec2f getInverseVec2f(Vec2f v){
 	return getVec2f(1 / v.x, 1 / v.y);
 }

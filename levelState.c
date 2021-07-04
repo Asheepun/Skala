@@ -1267,11 +1267,13 @@ void World_levelState(World *world_p){
 		Particle *particle_p = Array_getItemPointerByIndex(&world_p->particles, i);
 
 		//little optimization
-		if(particle_p->events.length == 0){
-			continue;
-		}
+		//if(particle_p->events.length == 0){
+			//continue;
+		//}
 
 		Sprite *sprite_p = World_getSpriteByIndex(world_p, particle_p->spriteIndex);
+
+		bool removed = false;
 
 		for(int j = 0; j < particle_p->events.length; j++){
 
@@ -1282,6 +1284,8 @@ void World_levelState(World *world_p){
 				Array_removeItemByIndex(&particle_p->events, j);
 				j--;
 
+				continue;
+
 			}
 
 			if(particle_p->counter >= particleEvent_p->activationTime
@@ -1290,6 +1294,7 @@ void World_levelState(World *world_p){
 				if(particleEvent_p->type == PARTICLE_REMOVE_EVENT){
 					World_removeParticleByID(world_p, particle_p->entityHeader.ID);
 					i--;
+					removed = true;
 					break;
 				}
 
@@ -1308,13 +1313,47 @@ void World_levelState(World *world_p){
 					}
 				
 				}
+
+				if(particleEvent_p->propertyType == PARTICLE_VELOCITY){
+
+					if(particle_p->counter == particleEvent_p->activationTime){
+						particleEvent_p->startValue.velocity = particle_p->physics.velocity;
+					}
+
+					if(particleEvent_p->type == PARTICLE_SET_EVENT){
+						particle_p->physics.velocity = particleEvent_p->targetValue.velocity;
+					}
+					
+				}
+
+				if(particleEvent_p->propertyType == PARTICLE_ACCELERATION){
+
+					if(particle_p->counter == particleEvent_p->activationTime){
+						particleEvent_p->startValue.acceleration = particle_p->physics.acceleration;
+					}
+
+					if(particleEvent_p->type == PARTICLE_SET_EVENT){
+						particle_p->physics.acceleration = particleEvent_p->targetValue.acceleration;
+					}
+					
+				}
 				
 			}
 		
 		}
 
+		if(removed){
+			continue;
+		}
+
+		if(particle_p->physics.acceleration.y != 0){
+			//Vec2f_log(particle_p->physics.acceleration);
+			//Vec2f_log(particle_p->physics.velocity);
+			//Vec2f_log(particle_p->body.pos);
+		}
+
 		Vec2f_add(&particle_p->physics.velocity, particle_p->physics.acceleration);
-		Vec2f_add(&particle_p->body.pos, particle_p->physics.acceleration);
+		Vec2f_add(&particle_p->body.pos, particle_p->physics.velocity);
 
 		particle_p->counter++;
 
@@ -1560,7 +1599,7 @@ void World_levelState(World *world_p){
 
 		Sprite *sprite_p = World_getSpriteByIndex(world_p, particle_p->spriteIndex);
 
-		//sprite_p->body = particle_p->body;
+		sprite_p->body = particle_p->body;
 
 		//sprite_p->alpha = 1;
 

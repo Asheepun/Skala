@@ -38,6 +38,8 @@ void Vec2f_mulByFloat(Vec2f *, float);
 
 void Vec2f_divByFloat(Vec2f *, float);
 
+void Vec2f_normalize(Vec2f *);
+
 float getMagVec2f(Vec2f);
 
 Vec2f getAddVec2f(Vec2f, Vec2f);
@@ -50,6 +52,8 @@ Vec2f getDivVec2fFloat(Vec2f, float);
 
 float getDistanceVec2f(Vec2f, Vec2f);
 
+Vec2f getNormalizedVec2f(Vec2f);
+
 Vec2f getInverseVec2f(Vec2f);
 
 //VEC3F FUNCTIONS
@@ -57,8 +61,6 @@ Vec2f getInverseVec2f(Vec2f);
 Vec3f getVec3f(float, float, float);
 
 void Vec3f_log(Vec3f);
-
-void Vec2f_normalize(Vec2f *);
 
 void Vec3f_set(Vec3f *, float, float, float);
 

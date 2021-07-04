@@ -784,7 +784,7 @@ void World_initLevelHub(World *world_p){
 	//openGateParticleEffectRoom = DOOR_KEY_ROOM;
 
 	//open gate particle effect
-	if(doOpenGateParticleEffect){
+	if(doOpenGateParticleEffect || true){
 
 		int counter = 0;
 
@@ -792,7 +792,7 @@ void World_initLevelHub(World *world_p){
 
 			LevelDoor *levelDoor_p = Array_getItemPointerByIndex(&world_p->levelDoors, i);
 
-			if(levelDoor_p->levelHubRoom != openGateParticleEffectRoom){
+			if(levelDoor_p->levelHubRoom != openGateParticleEffectRoom && false){
 				continue;
 			}
 
@@ -817,10 +817,53 @@ void World_initLevelHub(World *world_p){
 			World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex)->color = COLOR_GREY;
 
 			Vec2f pos = levelDoor_p->body.pos;
-			//pos.x += 5;
-			//pos.y += 3;
 
-			//World_addParticle(world_p, pos, getVec2f(20, 15), "level-door-completed", counter * 10, COLOR_WHITE, targetColor);
+			int startTime = 1000 / 60 * counter;
+			union ParticleProperty property;
+
+			size_t levelDoorWithStarSpriteIndex = World_addSprite(world_p, pos, getVec2f(20, 15), COLOR_WHITE, "level-door-completed", 1, GAME_LAYER_FOREGROUND);
+
+			{
+				Particle *particle_p = World_addParticle(world_p, levelDoorWithStarSpriteIndex);
+				
+				particle_p->body.pos = pos;
+				particle_p->body.size = getVec2f(20, 15);
+
+				Particle_addEvent(particle_p, PARTICLE_REMOVE_EVENT, 0, property, startTime, 0);
+				
+			}
+
+			pos.x += 5;
+			pos.y += 3;
+
+			size_t particleSpriteIndex = World_addSprite(world_p, pos, getVec2f(10, 10), COLOR_WHITE, "point", 1, GAME_LAYER_PARTICLES);
+
+			{
+				Particle *particle_p = World_addParticle(world_p, particleSpriteIndex);
+				
+				particle_p->body.pos = pos;
+				particle_p->body.size = getVec2f(10, 10);
+
+				property.alpha = 0;
+
+				Particle_addEvent(particle_p, PARTICLE_SET_EVENT, PARTICLE_ALPHA, property, 0, 0);
+
+				property.alpha = 1;
+
+				Particle_addEvent(particle_p, PARTICLE_SET_EVENT, PARTICLE_ALPHA, property, startTime, 0);
+
+				property.velocity = getVec2f(0, -3 - getRandom() * 0.5);
+
+				Particle_addEvent(particle_p, PARTICLE_SET_EVENT, PARTICLE_VELOCITY, property, startTime, 0);
+
+				property.acceleration = getVec2f(0, 0.1);
+
+				Particle_addEvent(particle_p, PARTICLE_SET_EVENT, PARTICLE_ACCELERATION, property, startTime, 0);
+
+				property.velocity = getMulVec2fFloat(getNormalizedVec2f(getSubVec2f(getVec2f(0, HEIGHT - 100), pos)), 2 + getRandom() * 0.5);
+
+				Particle_addEvent(particle_p, PARTICLE_SET_EVENT, PARTICLE_ACCELERATION, property, startTime + (2000 + getRandom() * 1000) / 60, 0);
+			}
 
 			counter++;
 			
