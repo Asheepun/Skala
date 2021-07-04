@@ -674,8 +674,25 @@ void Engine_toggleFullscreen(){
 		isFullscreen = true;
 	}else{
 		SetWindowLongPtrA(hwnd, -16, WS_OVERLAPPEDWINDOW);
-		isFullscreen = false;
 		Engine_setWindowSize(480 * 2, 270 * 2);
+
+		isFullscreen = false;
+	}
+#endif
+
+#ifdef __linux__
+	if(!isFullscreen){
+
+		Engine_setWindowSize(DisplayWidth(dpy, screenNumber), DisplayHeight(dpy, screenNumber));
+		Engine_centerWindow();
+
+		isFullscreen = true;
+	}else{
+
+		Engine_setWindowSize(480 * 2, 270 * 2);
+		Engine_centerWindow();
+	
+		isFullscreen = false;
 	}
 #endif
 
