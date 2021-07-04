@@ -135,6 +135,7 @@ union ParticleProperty{
 	Vec2f size;
 	Vec2f velocity;
 	Vec2f acceleration;
+	Renderer2D_Color color;
 	float alpha;
 	char *texture;
 	char *text;

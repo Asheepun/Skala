@@ -1314,6 +1314,25 @@ void World_levelState(World *world_p){
 				
 				}
 
+				if(particleEvent_p->propertyType == PARTICLE_COLOR){
+
+					if(particle_p->counter == particleEvent_p->activationTime){
+						particleEvent_p->startValue.color = sprite_p->color;
+					}
+
+					if(particleEvent_p->type == PARTICLE_SET_EVENT){
+						sprite_p->color = particleEvent_p->targetValue.color;
+					}
+
+					if(particleEvent_p->type == PARTICLE_LINEAR_FADE_EVENT){
+						sprite_p->color.r = particleEvent_p->startValue.color.r + (particleEvent_p->targetValue.color.r - particleEvent_p->startValue.color.r) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
+						sprite_p->color.g = particleEvent_p->startValue.color.g + (particleEvent_p->targetValue.color.g - particleEvent_p->startValue.color.g) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
+						sprite_p->color.b = particleEvent_p->startValue.color.b + (particleEvent_p->targetValue.color.b - particleEvent_p->startValue.color.b) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
+					}
+					
+
+				}
+
 				if(particleEvent_p->propertyType == PARTICLE_VELOCITY){
 
 					if(particle_p->counter == particleEvent_p->activationTime){

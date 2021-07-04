@@ -676,13 +676,8 @@ void World_initLevelHub(World *world_p){
 			if(i == PLAYER_POSITION_ROOM){
 
 				if(!SaveData_hasFlag(&world_p->saveData, "completed-player-position-levels")){
-
-					//doOpenGateParticleEffect = true;
-					//openGateParticleEffectRoom = FIRST_SCALE_ROOM;
-
-					Vec2f *doorKeyPos_p = Array_addItem(&world_p->saveData.doorKeys);
-					*doorKeyPos_p = world_p->saveData.playerPos;
-
+					doOpenGateParticleEffect = true;
+					openGateParticleEffectRoom = PLAYER_POSITION_ROOM;
 				}
 
 				SaveData_addFlag(&world_p->saveData, "completed-player-position-levels");
@@ -776,15 +771,32 @@ void World_initLevelHub(World *world_p){
 		World_addObstacle(world_p, getVec2f(startingAreaX + 240, 140), getVec2f(40, 90), NONE);
 	}
 
+	//add platform with key in player position levels
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 400, -150), getVec2f(140, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 400, -150 - 80), getVec2f(140, 20), NONE);
+
+	if(SaveData_hasFlag(&world_p->saveData, "completed-player-position-levels")){
+		//!add nothing!	
+	}else{
+		World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 420, -150 - 60), getVec2f(20, 60), NONE);
+
+		World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 500, -150 - 60), getVec2f(20, 60), NONE);
+	}
+
 	SaveData_write(&world_p->saveData);
 
 	world_p->addedRoomLevels = true;
 
 	//doOpenGateParticleEffect = true;
 	//openGateParticleEffectRoom = DOOR_KEY_ROOM;
+	//openGateParticleEffectRoom = ALL_FROM_TOP_ROOM;
+	//openGateParticleEffectRoom = FIRST_SCALE_ROOM;
+	//openGateParticleEffectRoom = PLAYER_POSITION_ROOM;
+
 
 	//open gate particle effect
-	if(doOpenGateParticleEffect || true){
+	if(doOpenGateParticleEffect){
 
 		int counter = 0;
 
@@ -792,7 +804,7 @@ void World_initLevelHub(World *world_p){
 
 			LevelDoor *levelDoor_p = Array_getItemPointerByIndex(&world_p->levelDoors, i);
 
-			if(levelDoor_p->levelHubRoom != openGateParticleEffectRoom && false){
+			if(levelDoor_p->levelHubRoom != openGateParticleEffectRoom){
 				continue;
 			}
 
@@ -801,7 +813,7 @@ void World_initLevelHub(World *world_p){
 				targetColor = COLOR_GREEN;
 			}
 			if(openGateParticleEffectRoom == DOOR_KEY_ROOM){
-				targetColor = COLOR_RED;
+				targetColor = COLOR_GREY;
 			}
 			if(openGateParticleEffectRoom == ALL_FROM_TOP_ROOM){
 				targetColor = COLOR_PURPLE;
@@ -810,7 +822,7 @@ void World_initLevelHub(World *world_p){
 				targetColor = COLOR_BLUE;
 			}
 			if(openGateParticleEffectRoom == PLAYER_POSITION_ROOM){
-				targetColor = COLOR_BLUE;
+				targetColor = COLOR_WHITE;
 			}
 
 			World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex)->texture = "level-door";
@@ -818,8 +830,14 @@ void World_initLevelHub(World *world_p){
 
 			Vec2f pos = levelDoor_p->body.pos;
 
-			int startTime = 1000 / 60 * counter;
+			int startTime = 2000 / 60 * counter;
 			union ParticleProperty property;
+
+			Vec2f targetPos = getVec2f(0, HEIGHT - 100);
+
+			if(openGateParticleEffectRoom == PLAYER_POSITION_ROOM){
+				targetPos = getVec2f(playerPositionLevelsRoomX + 400, -HEIGHT);
+			}
 
 			size_t levelDoorWithStarSpriteIndex = World_addSprite(world_p, pos, getVec2f(20, 15), COLOR_WHITE, "level-door-completed", 1, GAME_LAYER_FOREGROUND);
 
@@ -860,9 +878,15 @@ void World_initLevelHub(World *world_p){
 
 				Particle_addEvent(particle_p, PARTICLE_SET_EVENT, PARTICLE_ACCELERATION, property, startTime, 0);
 
-				property.velocity = getMulVec2fFloat(getNormalizedVec2f(getSubVec2f(getVec2f(0, HEIGHT - 100), pos)), 2 + getRandom() * 0.5);
+				property.velocity = getMulVec2fFloat(getNormalizedVec2f(getSubVec2f(targetPos, pos)), 2 + getRandom() * 0.5);
 
 				Particle_addEvent(particle_p, PARTICLE_SET_EVENT, PARTICLE_ACCELERATION, property, startTime + (2000 + getRandom() * 1000) / 60, 0);
+
+				property.color = targetColor;
+
+				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_COLOR, property, startTime + 500 / 60, 2000 / 60);
+
+				Particle_addEvent(particle_p, PARTICLE_REMOVE_EVENT, 0, property, startTime + 30 * 1000 / 60, 0);
 			}
 
 			counter++;
