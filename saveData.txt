@@ -1,9 +1,10 @@
 :playerPos
-4036 61
+3927 57
 :doorKeys
 :doors
 :flags
 removed-title-text
+completed-door-key-levels
 :levelsWithDoorKey
 :completedLevels
 level-1
@@ -36,3 +37,4 @@ point-cage
 point-cage-2
 point-cage-3
 flying-key-2-trickshot-edition
+flying-key-1
