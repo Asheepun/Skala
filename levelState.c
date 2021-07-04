@@ -396,14 +396,21 @@ void World_levelState(World *world_p){
 					if(bodyPair1_p->lastBody.size.x < 1
 					&& (bodyPair2_p->entityType == OBSTACLE
 					|| bodyPair2_p->entityType == DOOR)){
-					//&& !(bodyPair1_p->collisionWeight == STATIC
-					//&& bodyPair2_p->collisionWeight == MOVABLE)){
+
 						bodyPair1_p->body.size.x = bodyPair1_p->lastBody.size.x;
 						bodyPair1_p->body.pos.x = bodyPair1_p->lastBody.pos.x;
 						bodyPair1_p->scale.x = bodyPair1_p->lastScale.x;
 						bodyPair1_p->scaleExponent.x = bodyPair1_p->lastScaleExponent.x;
-						//bodyPair1_p->scaleIndexX = bodyPair1_p->lastScaleIndexX;
+
 						bodyPair1_p->isStuckX = true;
+
+						continue;
+
+					}
+
+					if(bodyPair2_p->lastBody.size.x < 1
+					&& (bodyPair1_p->entityType == OBSTACLE
+					|| bodyPair1_p->entityType == DOOR)){
 						continue;
 					}
 
@@ -654,17 +661,20 @@ void World_levelState(World *world_p){
 					if(bodyPair1_p->lastBody.size.y < 1
 					&& (bodyPair2_p->entityType == OBSTACLE
 					|| bodyPair2_p->entityType == DOOR)){
-					//&& !(bodyPair1_p->collisionWeight == STATIC
-					//&& bodyPair2_p->collisionWeight == STATIC){
+
 						bodyPair1_p->body.size.y = bodyPair1_p->lastBody.size.y;
 						bodyPair1_p->body.pos.y = bodyPair1_p->lastBody.pos.y;
 						bodyPair1_p->scale.y = bodyPair1_p->lastScale.y;
 						bodyPair1_p->scaleExponent.y = bodyPair1_p->lastScaleExponent.y;
 
-						//bodyPair1_p->scaleIndexY = bodyPair1_p->lastScaleIndexY;
 						bodyPair1_p->isStuckY = true;
-						//printf("STUCK AT Y!\n");
-						//printf("%f, %f\n", bodyPair1_p->body.pos.y, bodyPair1_p->lastBody.pos.y);
+
+						continue;
+					}
+
+					if(bodyPair2_p->lastBody.size.y < 1
+					&& (bodyPair1_p->entityType == OBSTACLE
+					|| bodyPair1_p->entityType == DOOR)){
 						continue;
 					}
 
