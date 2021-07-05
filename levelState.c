@@ -1099,6 +1099,7 @@ void World_levelState(World *world_p){
 	for(int i = 0; i < world_p->doors.length; i++){
 		for(int j = 0; j < world_p->doorKeys.length; j++){
 			
+			//printf("%i, %i\n", i, j);
 			Door *door_p = Array_getItemPointerByIndex(&world_p->doors, i);
 			DoorKey *doorKey_p = Array_getItemPointerByIndex(&world_p->doorKeys, j);
 			BodyPair *doorBodyPair_p = World_getBodyPairByID(world_p, door_p->bodyPairID);
@@ -1112,18 +1113,44 @@ void World_levelState(World *world_p){
 				World_removeDoorKeyByID(world_p, doorKey_p->entityHeader.ID);
 
 				if(world_p->currentState == LEVEL_HUB_STATE){
-					//BÖR FUNGERA, då de läggs till i samma ordning som de finns i saveData, KAN DOCK VARA ELLER BLI BUGGIGT!!!
-					Array_removeItemByIndex(&world_p->saveData.doors, i);
-					Array_removeItemByIndex(&world_p->saveData.doorKeys, j);
+
+					Array_clear(&world_p->saveData.doors);
+					Array_clear(&world_p->saveData.doorKeys);
+
+					for(int k = 0; k < world_p->doors.length; k++){
+						Body *doorBody_p = Array_addItem(&world_p->saveData.doors);
+						*doorBody_p = World_getBodyPairByID(world_p, ((Door *)Array_getItemPointerByIndex(&world_p->doors, k))->bodyPairID)->body;
+					}
+					for(int k = 0; k < world_p->doorKeys.length; k++){
+						Vec2f *doorKeyPos_p = Array_addItem(&world_p->saveData.doorKeys);
+						*doorKeyPos_p = World_getBodyPairByID(world_p, ((DoorKey *)Array_getItemPointerByIndex(&world_p->doorKeys, k))->bodyPairID)->body.pos;
+					}
+
+					printf("done saving!\n");
+				
 				}
+
+				//if(world_p->currentState == LEVEL_HUB_STATE){
+					//BÖR FUNGERA, då de läggs till i samma ordning som de finns i saveData, KAN DOCK VARA ELLER BLI BUGGIGT!!!
+					//printf("BEFORE!\n");
+					//Array_removeItemByIndex(&world_p->saveData.doors, i);
+					//Array_removeItemByIndex(&world_p->saveData.doorKeys, j);
+
+					//printf("%i\n", i);
+					//printf("%i\n", j);
+				//}
 
 				i--;
 				j--;
+
+				break;
 
 			}
 
 		}
 	}
+
+	//printf("after\n");
 
 	//check if player collides with points
 	for(int i = 0; i < world_p->points.length; i++){
@@ -1159,6 +1186,19 @@ void World_levelState(World *world_p){
 			world_p->currentLevel = levelDoor_p->levelName;
 
 			world_p->saveData.playerPos = playerBodyPair_p->body.pos;
+
+			//save doors and door keys
+			//Array_clear(world_p->saveData.doors);
+			//Array_clear(world_p->saveData.doorKeys);
+
+			//for(int i = 0; i < world_p->doors.length; i++){
+				//Body *doorBody_p = Array_addItem(&world_p->saveData.doors);
+				//*doorBody_p = World_getBodyPairByID(((Door *)Array_getItemPointerByIndex(&world_p->doors, i))->bodyPairID)->body;
+			//}
+			//for(int i = 0; i < world_p->doors.length; i++){
+				//Vec2f *doorKeyPos_p = Array_addItem(&world_p->saveData.doorKeys);
+				//doorBody_p = World_getBodyPairByID(((Door *)Array_getItemPointerByIndex(&world_p->doors, i))->bodyPairID)->body;
+			//}
 
 			World_fadeTransitionToState(world_p, LEVEL_STATE);
 

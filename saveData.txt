@@ -1,22 +1,11 @@
 :playerPos
-5989 153
+5848 168
 :doorKeys
-5920 -200
+5920 -160
 :doors
-4270 180 20 60
 :flags
 removed-title-text
-completed-player-position-levels
 :levelsWithDoorKey
-point-cage-3
 :completedLevels
 get-key-up-2
-all-from-top-1
-player-position-1
-player-position-2
-player-position-3
-airport-control
-grow-through-jumping
-player-position-jumping-key-1
-player-position-jumping-key-2
-player-position-jumping-key-3
+point-cage-3
