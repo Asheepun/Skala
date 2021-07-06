@@ -339,6 +339,15 @@ void World_initLevelHub(World *world_p){
 
 	*currentRoomWidth += 20;
 
+	*currentRoomWidth += 140;
+
+	{
+
+		size_t index = World_addSprite(world_p, getVec2f(*currentRoomX - *currentRoomWidth + 140, -HEIGHT + 170 - 23), getVec2f(14, 23), COLOR_WHITE, "furniture/telescope", 1, GAME_LAYER_FURNITURE);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, index);
+		sprite_p->facing = LEFT;
+	}
+
 	*currentRoomX -= *currentRoomWidth;
 
 	//player position room levels
@@ -405,7 +414,7 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(startingAreaX + 700, 210), getVec2f(200, 20), NONE);
 
-	//World_addObstacle(world_p, getVec2f(startingAreaX + 200, -HEIGHT - 50), getVec2f(40, 40), ALL);
+	World_addObstacle(world_p, getVec2f(startingAreaX + 200, -HEIGHT - 50), getVec2f(40, 40), ALL);
 
 	World_addObstacle(world_p, getVec2f(startingAreaX, - HEIGHT - 300), getVec2f(200, 50), NONE);
 
@@ -413,13 +422,15 @@ void World_initLevelHub(World *world_p){
 
 	World_addSprite(world_p, getVec2f(startingAreaX + 170, -HEIGHT - 300 - 73), getVec2f(14, 73), COLOR_WHITE, "furniture/lamp-post", 1, GAME_LAYER_FURNITURE);
 
-	World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 460), "Wings made from wax", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+	World_addSprite(world_p, getVec2f(startingAreaX + 50, -HEIGHT - 300 - 23), getVec2f(14, 23), COLOR_WHITE, "furniture/telescope", 1, GAME_LAYER_FURNITURE);
 
-	World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 435), "and curiousity", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+	//World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 460), "Wings made from wax", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
-	World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 400), "May you not suffer", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+	//World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 435), "and curiousity", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
-	World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 375), "from hubris", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+	//World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 400), "May you not suffer", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+
+	//World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 375), "from hubris", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
 	if(!SaveData_hasFlag(&world_p->saveData, "removed-title-text")){
 
@@ -579,7 +590,7 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100, -HEIGHT * 6), getVec2f(500, HEIGHT * 7), NONE);
 
-	//walls
+	//add walls
 
 	int greenWallX = houseX;
 	int greenWallWidth = firstLevelsRoomWidth + firstScalingLevelsRoomWidth + coolerScalingLevelsRoomWidth + 40;
@@ -604,7 +615,10 @@ void World_initLevelHub(World *world_p){
 
 	World_addSprite(world_p, getVec2f(yellowWallX, 0), getVec2f(yellowWallWidth, HEIGHT / 2), COLOR_RED_WALL, "obstacle", 1, GAME_LAYER_WALLS);
 
-	World_addSprite(world_p, getVec2f(scaleFieldWallX, -HEIGHT / 2 - 110), getVec2f(scaleFieldWallWidth + 100, HEIGHT), COLOR_BLUE_WALL, "obstacle", 1, GAME_LAYER_WALLS);
+	World_addSprite(world_p, getVec2f(scaleFieldWallX + 200, -HEIGHT / 2 - 110), getVec2f(scaleFieldWallWidth - 100, HEIGHT), COLOR_BLUE_WALL, "obstacle", 1, GAME_LAYER_WALLS);
+	World_addSprite(world_p, getVec2f(scaleFieldWallX, -HEIGHT / 2 + 25), getVec2f(200, 10), COLOR_BLUE_WALL, "obstacle", 1, GAME_LAYER_WALLS);
+	World_addSprite(world_p, getVec2f(scaleFieldWallX, -HEIGHT / 2 - 55), getVec2f(200, 10), COLOR_BLUE_WALL, "obstacle", 1, GAME_LAYER_WALLS);
+	World_addSprite(world_p, getVec2f(scaleFieldWallX, -HEIGHT / 2 - 110), getVec2f(60, HEIGHT), COLOR_BLUE_WALL, "obstacle", 1, GAME_LAYER_WALLS);
 
 	//set level hub level size
 	world_p->levelWidth = playerPositionLevelsRoomX + playerPositionLevelsRoomWidth;

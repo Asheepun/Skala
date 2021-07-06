@@ -10,7 +10,7 @@
 //#define STB_IMAGE_IMPLEMENTATION
 //#define STBI_NO_SIMD
 //#include "stb_truetype.h"
-//#include "stb_image.h"
+#include "stb/stb_image.h"
 //#include "text.h"
 //#include "utils.h"
 #include "engine/engine.h"
@@ -96,6 +96,10 @@ void Engine_start(){
 		"level-door-completed",
 		"level-door-with-key",
 
+		"karlavagnen",
+		"orion",
+		"skorpionen",
+
 		//furniture
 		"furniture/hat-shelf",
 		"furniture/coat-hanger",
@@ -111,6 +115,7 @@ void Engine_start(){
 		"furniture/wash-basket",
 		"furniture/lamp-post",
 		"furniture/bench",
+		"furniture/telescope",
 
 		"furniture/lamp-1",
 		"furniture/lamp-2",
@@ -166,6 +171,40 @@ void Engine_start(){
 
 		unsigned char *data = malloc((width * height) * sizeof(char) * 4);
 		memset(data, 0, (width * height) * sizeof(char) * 4);
+
+		unsigned char *starSignPaths[] = {
+			"assets/sprites/skorpionen.png",
+			"assets/sprites/orion.png",
+		};
+
+		Vec2f starSignPoses[] = {
+			getVec2f(400, height - 1000),
+			getVec2f(2000, height - 580),
+		};
+
+		int starSignSizes[6];
+		int channels;
+		unsigned char *starSignData[3];
+
+		for(int i = 0; i < 2; i++){
+			starSignData[i] = stbi_load(starSignPaths[i], &starSignSizes[i * 2], &starSignSizes[i * 2 + 1], &channels, 4);
+		}
+
+		for(int i = 0; i < 2; i++){
+			for(int y = 0; y < starSignSizes[i * 2 + 1]; y++){
+				for(int x = 0; x < starSignSizes[i * 2]; x++){
+
+					int textureIndex = y * starSignSizes[i * 2] + x;
+					int starTextureIndex = (starSignPoses[i].y + y) * width + starSignPoses[i].x + x;
+
+					data[starTextureIndex * 4 + 0] = starSignData[i][textureIndex * 4 + 0];
+					data[starTextureIndex * 4 + 1] = starSignData[i][textureIndex * 4 + 1];
+					data[starTextureIndex * 4 + 2] = starSignData[i][textureIndex * 4 + 2];
+					data[starTextureIndex * 4 + 3] = starSignData[i][textureIndex * 4 + 3];
+
+				}
+			}
+		}
 
 		int x = 1;
 		int a = 65521;

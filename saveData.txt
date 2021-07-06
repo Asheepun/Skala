@@ -1,5 +1,5 @@
 :playerPos
-5848 168
+3979 -140
 :doorKeys
 5920 -160
 :doors
@@ -9,3 +9,4 @@ removed-title-text
 :completedLevels
 get-key-up-2
 point-cage-3
+point-field-cage
