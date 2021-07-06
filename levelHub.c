@@ -484,6 +484,19 @@ void World_initLevelHub(World *world_p){
 
 	World_addTextSprite(world_p, getVec2f(1360 + 105, cloudY - 150), "Ascend", "times30", COLOR_WHITE, GAME_LAYER_TEXT);
 
+	//north east secret area obstacles
+	//World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 500, cloudY + 220), getVec2f(500, 100), NONE);
+
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 400, cloudY), getVec2f(500, 50), NONE);
+
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 300, cloudY + 50), getVec2f(600, 50), NONE);
+
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 150, cloudY - 300), getVec2f(50, 400), NONE);
+
+	//World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 150, cloudY - 300), getVec2f(800, 200), NONE);
+
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 950, cloudY - 300), getVec2f(300, 300), NONE);
+
 	//add obstacles house 
 	World_addObstacle(world_p, getVec2f(houseX, 120), getVec2f(30, 50), NONE);
 

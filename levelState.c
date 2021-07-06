@@ -1646,7 +1646,8 @@ void World_levelState(World *world_p){
 		float playerPositionAreaX = 5150 + 300;
 
 		if(playerBodyPair_p->body.pos.x > playerPositionAreaX
-		&& playerBodyPair_p->body.pos.x < playerPositionAreaX + WIDTH / 2){
+		&& playerBodyPair_p->body.pos.x < playerPositionAreaX + WIDTH / 2
+		&& playerBodyPair_p->body.pos.y > 0){
 			world_p->cameraTarget.x = -playerPositionAreaX;
 			//cameraSpeedX = 40;
 			cameraSpeedX = 35;
