@@ -414,7 +414,7 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(startingAreaX + 700, 210), getVec2f(200, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(startingAreaX + 200, -HEIGHT - 50), getVec2f(40, 40), ALL);
+	//World_addObstacle(world_p, getVec2f(startingAreaX + 200, -HEIGHT - 50), getVec2f(40, 40), ALL);
 
 	World_addObstacle(world_p, getVec2f(startingAreaX, - HEIGHT - 300), getVec2f(200, 50), NONE);
 
@@ -457,6 +457,8 @@ void World_initLevelHub(World *world_p){
 	World_addObstacle(world_p, getVec2f(200, cloudY), getVec2f(100, -cloudY + HEIGHT - 130), NONE);
 
 	World_addScaleField(world_p, getVec2f(200, cloudY - 60), getVec2f(80, 60), NONE);
+	
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 40), getVec2f(300, 40), NONE);
 
 	//World_addObstacle(world_p, getVec2f(200, cloudY), getVec2f(100, -cloudY + HEIGHT - 130), NONE);
 
@@ -740,29 +742,16 @@ void World_initLevelHub(World *world_p){
 
 	}
 
-	//add saved door keys
-	for(int i = 0; i < world_p->saveData.doorKeys.length; i++){
-
-		Vec2f *doorKeyPos_p = Array_getItemPointerByIndex(&world_p->saveData.doorKeys, i);
-
-		World_addDoorKey(world_p, *doorKeyPos_p, NONE);
-
-	}
-
-	//add saved doors
-	for(int i = 0; i < world_p->saveData.doors.length; i++){
-
-		Body *doorBody_p = Array_getItemPointerByIndex(&world_p->saveData.doors, i);
-
-		World_addDoor(world_p, doorBody_p->pos, doorBody_p->size, NONE);
-
-	}
-
 	//add gate
-	if(SaveData_hasFlag(&world_p->saveData, "unlocked-gate-door")){
-		//!add nothing!
-	}else if(SaveData_hasFlag(&world_p->saveData, "completed-door-key-levels")){
-		World_addDoor(world_p, getVec2f(startingAreaX + 60, 140), getVec2f(40, 90), NONE);
+	if(SaveData_hasFlag(&world_p->saveData, "completed-door-key-levels")){
+		if(!SaveData_hasFlag(&world_p->saveData, "added-gate-door")){
+
+			Body *doorBody_p = Array_addItem(&world_p->saveData.doors);
+			doorBody_p->pos = getVec2f(startingAreaX + 60, 140);
+			doorBody_p->size = getVec2f(40, 90);
+
+			SaveData_addFlag(&world_p->saveData, "added-gate-door");
+		}
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 60, 140), getVec2f(40, 90), NONE);
 	}
@@ -796,6 +785,24 @@ void World_initLevelHub(World *world_p){
 		World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 420, -150 - 60), getVec2f(20, 60), NONE);
 
 		World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 500, -150 - 60), getVec2f(20, 60), NONE);
+	}
+
+	//add saved door keys
+	for(int i = 0; i < world_p->saveData.doorKeys.length; i++){
+
+		Vec2f *doorKeyPos_p = Array_getItemPointerByIndex(&world_p->saveData.doorKeys, i);
+
+		World_addDoorKey(world_p, *doorKeyPos_p, NONE);
+
+	}
+
+	//add saved doors
+	for(int i = 0; i < world_p->saveData.doors.length; i++){
+
+		Body *doorBody_p = Array_getItemPointerByIndex(&world_p->saveData.doors, i);
+
+		World_addDoor(world_p, doorBody_p->pos, doorBody_p->size, NONE);
+
 	}
 
 	SaveData_write(&world_p->saveData);

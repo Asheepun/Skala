@@ -781,19 +781,19 @@ void World_levelState(World *world_p){
 
 			}
 
-			if((bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y > HEIGHT)
+			if((bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y > HEIGHT
+			&& bodyPair1_p->scaleType == ALL
+			|| bodyPair1_p->body.pos.y < 0
+			&& bodyPair1_p->scaleType == ALL_FROM_TOP
+			&& world_p->currentState == LEVEL_STATE)
 			&& bodyPair1_p->entityType != DOOR_KEY
 			&& bodyPair1_p->entityType != PLAYER){
-			//&& bodyPair1_p->scaleType != ALL_FROM_TOP
-			//|| bodyPair1_p->body.pos.y < 0
-			//&& bodyPair1_p->scaleType == ALL_FROM_TOP)
-			//&& bodyPair1_p->entityHeader.ID != world_p->player.bodyPairID){
-				//printf("OUB COLLISION Y!\n");
-				//printf("%f, %f\n", bodyPair1_p->body.pos.y, bodyPair1_p->body.size.y);
+
 				Collision *collision_p = Array_addItem(&collisions);
 				collision_p->lighterBodyPairIndex = i;
 				collision_p->heavierBodyPairIndex = 0;
 				collision_p->oub = true;
+
 			}
 
 		}
@@ -812,9 +812,9 @@ void World_levelState(World *world_p){
 			if(collision_p->oub){
 				BodyPair oubBodyPair;
 				Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, 200));
-				//if(bodyPair1_p->scaleType == ALL_FROM_TOP){
-					//oubBodyPair.body.pos.y = 0;
-				//}
+				if(bodyPair1_p->scaleType == ALL_FROM_TOP){
+					oubBodyPair.body.pos.y = -200;
+				}
 				oubBodyPair.lastBody = oubBodyPair.body;
 				bodyPair2_p = &oubBodyPair;
 			}
@@ -845,9 +845,9 @@ void World_levelState(World *world_p){
 					if(collision2_p->oub){
 						BodyPair oubBodyPair;
 						Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, 200));
-						//if(bodyPair1_p->scaleType == ALL_FROM_TOP){
-							//oubBodyPair.body.pos.y = 0;
-						//}
+						if(bodyPair1_p->scaleType == ALL_FROM_TOP){
+							oubBodyPair.body.pos.y = -200;
+						}
 						oubBodyPair.lastBody = oubBodyPair.body;
 						bodyPair3_p = &oubBodyPair;
 					}
@@ -1668,10 +1668,12 @@ void World_levelState(World *world_p){
 		}
 
 		if(playerBodyPair_p->body.pos.x >= 300
-		&& playerBodyPair_p->body.pos.x <= 300 + WIDTH / 2){
+		&& playerBodyPair_p->body.pos.x <= 300 + WIDTH / 2
+		&& playerBodyPair_p->body.pos.y > -HEIGHT * 6){
 			world_p->cameraTarget.x = -300;
 		}
-		if(playerBodyPair_p->body.pos.x < 300){
+		if(playerBodyPair_p->body.pos.x < 300
+		&& playerBodyPair_p->body.pos.y > -HEIGHT * 6){
 			world_p->cameraTarget.x = 0;
 		}
 		if(playerBodyPair_p->body.pos.x < 500
