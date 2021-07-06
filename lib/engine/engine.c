@@ -373,6 +373,8 @@ int main(){
 
 		deltaTime = (endTicks - startTicks) / (CLOCKS_PER_SEC / 1000000);
 
+		printf("%f\n", (float)deltaTime / 1000);
+
 		int lag = frameTime - deltaTime;
 
 		if(lag < 0){

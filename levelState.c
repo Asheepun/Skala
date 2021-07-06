@@ -389,6 +389,14 @@ void World_levelState(World *world_p){
 
 				BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
+				//optimization to skip over the most common case in level hub
+				if(bodyPair1_p->collisionWeight == STATIC
+				&& bodyPair1_p->scaleType == NONE
+				&& bodyPair2_p->collisionWeight == STATIC
+				&& bodyPair2_p->scaleType == NONE){
+					continue;
+				}
+
 				if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
 				&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
 				&& i != j){
@@ -654,6 +662,14 @@ void World_levelState(World *world_p){
 
 				BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
+				//optimization to skip over the most common case in level hub
+				if(bodyPair1_p->collisionWeight == STATIC
+				&& bodyPair1_p->scaleType == NONE
+				&& bodyPair2_p->collisionWeight == STATIC
+				&& bodyPair2_p->scaleType == NONE){
+					continue;
+				}
+
 				if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
 				&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
 				&& i != j){
@@ -877,6 +893,11 @@ void World_levelState(World *world_p){
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
 
 		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+		//optimization to skip over bodypairs who do not need to move
+		//if(bodyPair_p->collisionWeight == STATIC){
+			//continue;
+		//}
 
 		bodyPair_p->physics.acceleration.y += bodyPair_p->physics.gravity;
 
@@ -1365,100 +1386,14 @@ void World_levelState(World *world_p){
 			continue;
 		}
 
-		if(particle_p->physics.acceleration.y != 0){
-			//Vec2f_log(particle_p->physics.acceleration);
-			//Vec2f_log(particle_p->physics.velocity);
-			//Vec2f_log(particle_p->body.pos);
-		}
-
 		Vec2f_add(&particle_p->physics.velocity, particle_p->physics.acceleration);
 		Vec2f_add(&particle_p->body.pos, particle_p->physics.velocity);
 
+		//update sprite
+		sprite_p->body = particle_p->body;
+
 		particle_p->counter++;
 
-		/*
-		if(particle_p->type == FADE_IN_PARTICLE){
-
-			Sprite *sprite_p = World_getSpriteByIndex(world_p, particle_p->spriteIndex);
-
-			sprite_p->alpha += 0.01;
-
-			if(sprite_p->alpha > 1){
-				sprite_p->alpha = 1;
-			}
-
-			particle_p->counter++;
-		
-		}
-
-		if(particle_p->type == LEVEL_COMPLETE_PARTICLE){
-
-			if(particle_p->activationCounter == 0){
-				particle_p->body.pos.x += 5;
-				particle_p->body.pos.y += 3;
-				particle_p->body.size.x = 10;
-				particle_p->body.size.y = 10;
-				World_getSpriteByIndex(world_p, particle_p->spriteIndex)->texture = "point";
-			}
-
-			particle_p->activationCounter--;
-
-			if(particle_p->activationCounter > 0){
-				continue;
-			}
-
-			Sprite *sprite_p = World_getSpriteByIndex(world_p, particle_p->spriteIndex);
-
-			//change to target color
-			float colorChangeSpeed = 0.02;
-			if(colorChangeSpeed < fabs(sprite_p->color.x - particle_p->targetColor.x)){
-				sprite_p->color.x += colorChangeSpeed * Number_normalize(particle_p->targetColor.x - sprite_p->color.x);
-			}
-			if(colorChangeSpeed < fabs(sprite_p->color.y - particle_p->targetColor.y)){
-				sprite_p->color.y += colorChangeSpeed * Number_normalize(particle_p->targetColor.y - sprite_p->color.y);
-			}
-			if(colorChangeSpeed < fabs(sprite_p->color.z - particle_p->targetColor.z)){
-				sprite_p->color.z += colorChangeSpeed * Number_normalize(particle_p->targetColor.z - sprite_p->color.z);
-			}
-
-			//handle particle physics
-			particle_p->physics.acceleration.y = 0.05;
-
-			if(particle_p->physics.velocity.y > 1.5){
-
-				if(!particle_p->targeting){
-					particle_p->physics.velocity.x += 7;
-					particle_p->physics.velocity.y -= 2.5;
-				}
-
-				particle_p->targeting = true;
-
-			}
-
-			if(particle_p->targeting){
-
-				Vec2f target = { 0, 250 };
-
-				particle_p->physics.acceleration = target;
-				Vec2f_sub(&particle_p->physics.acceleration, &particle_p->body.pos);
-				Vec2f_normalize(&particle_p->physics.acceleration);
-				Vec2f_mulByFactor(&particle_p->physics.acceleration, 0.8);
-			
-			}
-
-			Vec2f_add(&particle_p->physics.velocity, &particle_p->physics.acceleration);
-
-			particle_p->body.pos.y += particle_p->physics.velocity.y;
-			particle_p->body.pos.x += particle_p->physics.velocity.x;
-
-			if(particle_p->body.pos.x < 0){
-				World_removeParticleByID(world_p, particle_p->entityHeader.ID);
-				i--;
-			}
-		
-		}
-	*/
-	
 	}
 
 	//update sprites
@@ -1608,25 +1543,6 @@ void World_levelState(World *world_p){
 		sprite_p->body = scaleField_p->body;
 
 		sprite_p->color = SCALE_TYPE_COLORS[scaleField_p->scaleType];
-
-	}
-
-	//update particle sprites
-	for(int i = 0; i < world_p->particles.length; i++){
-
-		Particle *particle_p = Array_getItemPointerByIndex(&world_p->particles, i);
-
-		Sprite *sprite_p = World_getSpriteByIndex(world_p, particle_p->spriteIndex);
-
-		sprite_p->body = particle_p->body;
-
-		//sprite_p->alpha = 1;
-
-		//if(particle_p->activationCounter > 0){
-			//sprite_p->alpha = 0;
-		//}
-
-		//sprite_p->color = SCALE_TYPE_COLORS[particle_p->scaleType];
 
 	}
 
@@ -1798,9 +1714,9 @@ void World_levelState(World *world_p){
 		float beginningPosY = -HEIGHT * 9 * 4;
 
 		if(playerBodyPair_p->body.pos.y < beginningPosY){
+
 			world_p->endingFlashAlpha = (float)(-playerBodyPair_p->body.pos.y + beginningPosY) / (float)(HEIGHT * 90 * 2);
 
-			//printf("%f\n", world_p->endingFlashAlpha);
 		}
 
 		if(playerBodyPair_p->body.pos.y < -HEIGHT * 9 * 20){
