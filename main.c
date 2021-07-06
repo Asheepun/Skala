@@ -206,6 +206,25 @@ void Engine_start(){
 			}
 		}
 
+		Vec2f mustHaveStarPoses[] = {
+			getVec2f(2780, height - 490),
+			getVec2f(2840, height - 460),
+			getVec2f(2550, height - 460),
+		};
+
+		int mustHaveStarPosesLength = sizeof(mustHaveStarPoses) / sizeof(Vec2f);
+
+		for(int i = 0; i < mustHaveStarPosesLength; i++){
+
+			int starTextureIndex = mustHaveStarPoses[i].y * width + mustHaveStarPoses[i].x;
+
+			data[starTextureIndex * 4 + 0] = 255;
+			data[starTextureIndex * 4 + 1] = 255;
+			data[starTextureIndex * 4 + 2] = 255;
+			data[starTextureIndex * 4 + 3] = 255;
+		
+		}
+
 		int x = 1;
 		int a = 65521;
 		int c = 0;
