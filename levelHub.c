@@ -22,6 +22,11 @@ void World_initLevelHub(World *world_p){
 	World_initPlayer(world_p, world_p->saveData.playerPos, NONE);
 	world_p->snapCamera = true;
 
+	{
+		BodyPair *bodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
+		bodyPair_p->body.size = getVec2f(60, 20);
+	}
+
 	//BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
 	//world_p->cameraPos.x = WIDTH / 2 - playerBodyPair_p->body.pos.x;
 	//world_p->cameraPos.y = HEIGHT / 2 - playerBodyPair_p->body.pos.y;
@@ -484,6 +489,42 @@ void World_initLevelHub(World *world_p){
 
 	World_addTextSprite(world_p, getVec2f(1360 + 105, cloudY - 150), "Ascend", "times30", COLOR_WHITE, GAME_LAYER_TEXT);
 
+	World_addObstacle(world_p, getVec2f(1820, cloudY - 20), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(2060, cloudY - 40), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(2260, cloudY - 20), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(2460, cloudY - 60), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(2660, cloudY - 100), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(2860, cloudY - 20), getVec2f(200, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(3260, cloudY - 40), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(3460, cloudY - 20), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(3660, cloudY), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(3860, cloudY + 20), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(4060, cloudY + 40), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(4260, cloudY + 60), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(4460, cloudY + 40), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(4660, cloudY + 20), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(4860, cloudY + 20), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(5060, cloudY + 40), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(5260, cloudY + 60), getVec2f(60, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(5500, cloudY + 80), getVec2f(120, 20), NONE);
+
 	//north east secret area obstacles
 	//World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 500, cloudY + 220), getVec2f(500, 100), NONE);
 
@@ -491,11 +532,11 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 300, cloudY + 50), getVec2f(600, 50), NONE);
 
-	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 150, cloudY - 300), getVec2f(50, 400), NONE);
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 150, cloudY - 900), getVec2f(50, 1000), NONE);
 
-	//World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 150, cloudY - 300), getVec2f(800, 200), NONE);
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 150, cloudY - 900), getVec2f(800, 200), NONE);
 
-	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 950, cloudY - 300), getVec2f(300, 300), NONE);
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 950, cloudY - 900), getVec2f(300, 900), NONE);
 
 	//add obstacles house 
 	World_addObstacle(world_p, getVec2f(houseX, 120), getVec2f(30, 50), NONE);

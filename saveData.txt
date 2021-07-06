@@ -1,5 +1,5 @@
 :playerPos
-5833 154
+6000 -2500
 :doorKeys
 :doors
 :flags
