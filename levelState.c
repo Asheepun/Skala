@@ -91,6 +91,7 @@ void World_levelState(World *world_p){
 		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
 		bodyPair_p->lastScaleExponent = bodyPair_p->scaleExponent;
+		bodyPair_p->playerPositionLastScale = bodyPair_p->playerPositionScale;
 	
 	}
 
@@ -106,8 +107,8 @@ void World_levelState(World *world_p){
 			BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
 			//NEED TO FIX THIS SOMEHOW!!!!
-			//bodyPair_p->scale.x = playerBodyPair_p->originBody.pos.x / playerBodyPair_p->body.pos.x;
-			//bodyPair_p->scale.y = (world_p->levelHeight - playerBodyPair_p->originBody.pos.y - playerBodyPair_p->originBody.size.y) / (world_p->levelHeight - playerBodyPair_p->body.pos.y - playerBodyPair_p->body.size.y);
+			bodyPair_p->playerPositionScale.x = playerBodyPair_p->originBody.pos.x / playerBodyPair_p->body.pos.x;
+			bodyPair_p->playerPositionScale.y = (world_p->levelHeight - playerBodyPair_p->originBody.pos.y - playerBodyPair_p->originBody.size.y) / (world_p->levelHeight - playerBodyPair_p->body.pos.y - playerBodyPair_p->body.size.y);
 
 		}
 	
@@ -281,6 +282,11 @@ void World_levelState(World *world_p){
 		Vec2f lastScale = World_BodyPair_getLastScaleFromExponent(world_p, bodyPair_p);
 		Vec2f origin = world_p->origin;
 
+		if(world_p->scalingByPlayerPosition){
+			scale = bodyPair_p->playerPositionScale;
+			lastScale = bodyPair_p->playerPositionLastScale;
+		}
+
 		if(bodyPair_p->scaleType == NONE){
 			scale = getVec2f(1, 1);
 			lastScale = getVec2f(1, 1);
@@ -331,6 +337,7 @@ void World_levelState(World *world_p){
 						bodyPair1_p->body.size.x = bodyPair1_p->lastBody.size.x;
 						bodyPair1_p->body.pos.x = bodyPair1_p->lastBody.pos.x;
 						bodyPair1_p->scaleExponent.x = bodyPair1_p->lastScaleExponent.x;
+						bodyPair1_p->playerPositionScale.x = bodyPair1_p->playerPositionLastScale.x;
 
 						bodyPair1_p->isStuckX = true;
 
@@ -537,6 +544,11 @@ void World_levelState(World *world_p){
 		Vec2f lastScale = World_BodyPair_getLastScaleFromExponent(world_p, bodyPair_p);
 		Vec2f origin = world_p->origin;
 
+		if(world_p->scalingByPlayerPosition){
+			scale = bodyPair_p->playerPositionScale;
+			lastScale = bodyPair_p->playerPositionLastScale;
+		}
+
 		if(bodyPair_p->scaleType == NONE){
 			scale = getVec2f(1, 1);
 			lastScale = getVec2f(1, 1);
@@ -585,6 +597,7 @@ void World_levelState(World *world_p){
 						bodyPair1_p->body.pos.y = bodyPair1_p->lastBody.pos.y;
 						//bodyPair1_p->scale.y = bodyPair1_p->lastScale.y;
 						bodyPair1_p->scaleExponent.y = bodyPair1_p->lastScaleExponent.y;
+						bodyPair1_p->playerPositionScale.y = bodyPair1_p->playerPositionLastScale.y;
 
 						bodyPair1_p->isStuckY = true;
 

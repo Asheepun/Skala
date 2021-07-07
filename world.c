@@ -301,6 +301,8 @@ size_t World_addBodyPair(World *world_p, Body body, enum ScaleType scaleType, en
 	//bodyPair_p->lastScaleIndexX = ORIGIN_SCALE_INDEX;
 	//bodyPair_p->lastScaleIndexY = ORIGIN_SCALE_INDEX;
 
+	bodyPair_p->playerPositionScale = getVec2f(1, 1);
+	bodyPair_p->playerPositionLastScale = getVec2f(1, 1);
 	//bodyPair_p->scale = getVec2f(1, 1);
 	//bodyPair_p->lastScale = getVec2f(1, 1);
 	bodyPair_p->scaleExponent = getVec2f(0, 0);

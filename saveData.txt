@@ -1,11 +1,12 @@
 :playerPos
-2784 48
+6032 154
 :doorKeys
 5920 -160
 :doors
 4270 180 20 60
 :flags
 removed-title-text
+completed-player-position-levels
 :levelsWithDoorKey
 get-key-up-2
 :completedLevels
@@ -15,3 +16,11 @@ slow-fall-squeeze
 point-cage
 point-cage-2
 point-cage-3
+player-position-1
+player-position-2
+player-position-3
+airport-control
+grow-through-jumping
+player-position-jumping-key-1
+player-position-jumping-key-2
+player-position-jumping-key-3

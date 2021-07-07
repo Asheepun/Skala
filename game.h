@@ -198,6 +198,8 @@ typedef struct BodyPair{
 	//Vec2f scaleForce;
 	//Vec2f scale;
 	//Vec2f lastScale;
+	Vec2f playerPositionScale;
+	Vec2f playerPositionLastScale;
 	Vec2f scaleExponent;
 	Vec2f lastScaleExponent;
 	//Vec2f origin;
