@@ -196,8 +196,8 @@ typedef struct BodyPair{
 	Physics physics;
 
 	//Vec2f scaleForce;
-	Vec2f scale;
-	Vec2f lastScale;
+	//Vec2f scale;
+	//Vec2f lastScale;
 	Vec2f scaleExponent;
 	Vec2f lastScaleExponent;
 	//Vec2f origin;
@@ -380,13 +380,14 @@ typedef struct World{
 	//size_t currentLevel;
 	char *currentLevel;
 
-	Vec2f scale;
-	Vec2f lastScale;
-	Vec2f deltaScale;
+	Vec2f scaleDirection;
+	//Vec2f scale;
+	//Vec2f lastScale;
+	//Vec2f deltaScale;
 	Vec2f origin;
 
-	float scalesX[NUMBER_OF_SCALES];
-	float scalesY[NUMBER_OF_SCALES];
+	//float scalesX[NUMBER_OF_SCALES];
+	//float scalesY[NUMBER_OF_SCALES];
 
 	bool scaling;
 	float scaleSpeed;
@@ -505,9 +506,9 @@ void World_restore(World *);
 
 Vec2f World_getOriginFromScaleType(World *w, enum ScaleType);
 
-Vec2f World_getScaleFromScaleType(World *w, enum ScaleType);
+//Vec2f World_getScaleFromScaleType(World *w, enum ScaleType);
 
-Vec2f World_getLastScaleFromScaleType(World *w, enum ScaleType);
+//Vec2f World_getLastScaleFromScaleType(World *w, enum ScaleType);
 
 void World_initPlayer(World *, Vec2f, enum ScaleType);
 

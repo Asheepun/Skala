@@ -22,10 +22,10 @@ void World_initLevelHub(World *world_p){
 	World_initPlayer(world_p, world_p->saveData.playerPos, NONE);
 	world_p->snapCamera = true;
 
-	{
-		BodyPair *bodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
-		bodyPair_p->body.size = getVec2f(60, 20);
-	}
+	//{
+		//BodyPair *bodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
+		//bodyPair_p->body.size = getVec2f(60, 20);
+	//}
 
 	//BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
 	//world_p->cameraPos.x = WIDTH / 2 - playerBodyPair_p->body.pos.x;

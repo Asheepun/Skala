@@ -93,6 +93,7 @@ void World_init(World *world_p){
 
 	//world_p->scaleSpeed = 0.035 * HEIGHT;
 
+	/*
 	world_p->scalesX[ORIGIN_SCALE_INDEX] = 1;
 	world_p->scalesY[ORIGIN_SCALE_INDEX] = 1;
 
@@ -115,6 +116,7 @@ void World_init(World *world_p){
 		//world_p->scalesX[i] = round(world_p->scalesX[i] * accuracy) / accuracy;
 		//world_p->scalesY[i] = round(world_p->scalesY[i] * accuracy) / accuracy;
 	}
+	*/
 
 	World_restore(world_p);
 
@@ -124,9 +126,9 @@ void World_restore(World *world_p){
 
 	world_p->quit = false;
 
-	Vec2f_set(&world_p->scale, 1, 1);
-	Vec2f_set(&world_p->lastScale, 1, 1);
-	Vec2f_set(&world_p->deltaScale, 0, 0);
+	//Vec2f_set(&world_p->scale, 1, 1);
+	//Vec2f_set(&world_p->lastScale, 1, 1);
+	//Vec2f_set(&world_p->deltaScale, 0, 0);
 	Vec2f_set(&world_p->origin, 0, HEIGHT);
 
 	world_p->scaling = false;
@@ -299,8 +301,8 @@ size_t World_addBodyPair(World *world_p, Body body, enum ScaleType scaleType, en
 	//bodyPair_p->lastScaleIndexX = ORIGIN_SCALE_INDEX;
 	//bodyPair_p->lastScaleIndexY = ORIGIN_SCALE_INDEX;
 
-	bodyPair_p->scale = getVec2f(1, 1);
-	bodyPair_p->lastScale = getVec2f(1, 1);
+	//bodyPair_p->scale = getVec2f(1, 1);
+	//bodyPair_p->lastScale = getVec2f(1, 1);
 	bodyPair_p->scaleExponent = getVec2f(0, 0);
 	bodyPair_p->lastScaleExponent = getVec2f(0, 0);
 
@@ -666,6 +668,7 @@ Vec2f World_getOriginFromScaleType(World *world_p, enum ScaleType scaleType){
 	}
 }
 
+/*
 Vec2f World_getScaleFromScaleType(World *world_p, enum ScaleType scaleType){
 	if(scaleType == NONE){
 		return getVec2f(1, 1);
@@ -695,6 +698,7 @@ Vec2f World_getLastScaleFromScaleType(World *world_p, enum ScaleType scaleType){
 		return getVec2f(world_p->lastScale.y, world_p->lastScale.x);
 	}
 }
+*/
 
 bool BodyPair_isScalable(BodyPair *bodyPair_p){
 

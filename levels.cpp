@@ -244,7 +244,7 @@ Filter 3
 
 	World_addObstacle(world_p, getVec2f(20, 0), getVec2f(70, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(90, HEIGHT - 40), getVec2f(20, 20), NONE);
+	//World_addObstacle(world_p, getVec2f(90, HEIGHT - 40), getVec2f(20, 20), NONE);
 
 :levelName
 slow-fall-squeeze
