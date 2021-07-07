@@ -175,22 +175,24 @@ void Engine_start(){
 		unsigned char *starSignPaths[] = {
 			"assets/sprites/skorpionen.png",
 			"assets/sprites/orion.png",
+			"assets/sprites/karlavagnen.png",
 		};
 
 		Vec2f starSignPoses[] = {
 			getVec2f(400, height - 1000),
 			getVec2f(2000, height - 580),
+			getVec2f(4000, height - 800),
 		};
 
 		int starSignSizes[6];
 		int channels;
 		unsigned char *starSignData[3];
 
-		for(int i = 0; i < 2; i++){
+		for(int i = 0; i < 3; i++){
 			starSignData[i] = stbi_load(starSignPaths[i], &starSignSizes[i * 2], &starSignSizes[i * 2 + 1], &channels, 4);
 		}
 
-		for(int i = 0; i < 2; i++){
+		for(int i = 0; i < 3; i++){
 			for(int y = 0; y < starSignSizes[i * 2 + 1]; y++){
 				for(int x = 0; x < starSignSizes[i * 2]; x++){
 

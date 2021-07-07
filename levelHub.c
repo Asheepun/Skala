@@ -606,7 +606,7 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(houseX + houseWidth, 210), getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth - houseX - houseWidth, 60), NONE);
 
-	World_addSprite(world_p, getVec2f(houseX + houseWidth + 140, HEIGHT - 60 - 73), getVec2f(14, 73), COLOR_WHITE, "lamp-post", 1, GAME_LAYER_FURNITURE);
+	World_addSprite(world_p, getVec2f(houseX + houseWidth + 140, HEIGHT - 60 - 73), getVec2f(14, 73), COLOR_WHITE, "furniture/lamp-post", 1, GAME_LAYER_FURNITURE);
 
 	//top of door
 	//World_addObstacle(world_p, getVec2f(3250, 30), getVec2f(20, 10), NONE);
@@ -831,7 +831,15 @@ void World_initLevelHub(World *world_p){
 	//add platform with key in player position levels
 	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 400, -150), getVec2f(140, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 400, -150 - 80), getVec2f(140, 20), NONE);
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 400, -150 - 140), getVec2f(140, 80), NONE);
+
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 420, -150 - 160), getVec2f(100, 20), NONE);
+
+	{
+		size_t index = World_addSprite(world_p, getVec2f(playerPositionLevelsRoomX + 450, -150 - 160 - 23), getVec2f(14, 23), COLOR_WHITE, "furniture/telescope", 1, GAME_LAYER_FURNITURE);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, index);
+		sprite_p->facing = LEFT;
+	}
 
 	if(SaveData_hasFlag(&world_p->saveData, "completed-player-position-levels")){
 		//!add nothing!	
