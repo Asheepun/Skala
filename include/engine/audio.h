@@ -5,6 +5,10 @@
 #include "stdlib.h"
 #include "stddef.h"
 
+#define SAMPLE_FORMAT ma_format_f32
+#define CHANNEL_COUNT 2
+#define SAMPLE_RATE 48000
+
 enum Audio_SoundTypeEnum{
 	AUDIO_SOUND_TYPE_SFX,
 	AUDIO_SOUND_TYPE_MUSIC,

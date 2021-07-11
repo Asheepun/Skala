@@ -1,25 +1,28 @@
 #include "engine/audio.h"
 
+#include "engine/array.h"
+
 #define MINIAUDIO_IMPLEMENTATION
 #include "miniaudio/miniaudio.h"
 
 #include "stdio.h"
 #include "pthread.h"
-#include "engine/array.h"
-
-#define SAMPLE_FORMAT ma_format_f32
-#define SAMPLE_RATE 48000
-#define CHANNEL_COUNT 2
 
 typedef struct Sound{
 	EntityHeader entityHeader;
 	int currentFrame;
-	int decoderIndex;
+	int soundDataIndex;
 	float volume;
 	bool loop;
 	bool stopped;
 	enum Audio_SoundTypeEnum type;
 }Sound;
+
+typedef struct SoundData{
+	float *data;
+	int framesLength;
+	char *name;
+}SoundData;
 
 ma_result result;
 ma_decoder_config decoderConfig;
@@ -28,10 +31,9 @@ ma_device_config deviceConfig;
 
 pthread_mutex_t soundMutex = PTHREAD_MUTEX_INITIALIZER;
 
-ma_decoder decoders[255];
-char *decoderNames[255];
+SoundData soundData[255];
 
-int decodersLength = 0;
+int soundDataLength = 0;
 
 Array sounds;
 
@@ -47,36 +49,28 @@ void data_callback(ma_device* device_p, void* output_p, const void* input_p, ma_
 	for(int i = 0; i < sounds.length; i++){
 
 		Sound *sound_p = Array_getItemPointerByIndex(&sounds, i);
-		ma_decoder *decoder_p = &decoders[sound_p->decoderIndex];
-
+		SoundData *soundData_p = &soundData[sound_p->soundDataIndex];
+		
 		if(sound_p->stopped){
 			continue;
 		}
 
-		ma_decoder_seek_to_pcm_frame(decoder_p, sound_p->currentFrame);
+		sound_p->currentFrame += frameCount;
 
-		float tmpBuffer[4096];
-
-		int readFrames = ma_decoder_read_pcm_frames(decoder_p, tmpBuffer, frameCount);
-		sound_p->currentFrame += readFrames;
-
-		for(int i = 0; i < readFrames * CHANNEL_COUNT; i++){
-			outputF32_p[i * CHANNEL_COUNT] += tmpBuffer[i * CHANNEL_COUNT] * sound_p->volume * volumes[sound_p->type] * 1;
-		}
-
-		if(readFrames < frameCount){
+		if(sound_p->currentFrame + frameCount > soundData_p->framesLength){
 			if(sound_p->loop){
 				sound_p->currentFrame = 0;
 			}else{
 				Array_removeItemByIndex(&sounds, i);
 				i--;
+				continue;
 			}
 		}
-	
-	}
 
-	for(int i = 0; i < frameCount * CHANNEL_COUNT; i++){
-		outputF32_p[i] /= 1;
+		for(int i = 0; i < frameCount * CHANNEL_COUNT; i++){
+			outputF32_p[i] += soundData_p->data[sound_p->currentFrame * CHANNEL_COUNT + i] * sound_p->volume * volumes[sound_p->type];
+		}
+	
 	}
 
 	pthread_mutex_unlock(&soundMutex);
@@ -87,24 +81,49 @@ void Audio_init(char **soundFiles, int soundFilesLength){
 
 	decoderConfig = ma_decoder_config_init(SAMPLE_FORMAT, CHANNEL_COUNT, SAMPLE_RATE);
 
+
 	for(int i = 0; i < soundFilesLength; i++){
 
-		ma_decoder *decoder_p = &decoders[i];
+		SoundData *soundData_p = &soundData[i];
 
-		decoderNames[i] = soundFiles[i];
+		soundData_p->name = soundFiles[i];
+
+		ma_decoder decoder;
 
 		char path[255];
 
 		sprintf(path, "assets/audio/%s.wav", soundFiles[i]);
 
-		result = ma_decoder_init_file_wav(path, &decoderConfig, decoder_p);
+		result = ma_decoder_init_file(path, &decoderConfig, &decoder);
 		if (result != MA_SUCCESS){
 			printf("Could not read file: %s\n", path);
 		}
+
+		int numberOfFrames = 0;
+
+		int readFrames = 1;
+
+		float *tmpBuffer = malloc(sizeof(float) * CHANNEL_COUNT * 1000);
+
+		while(readFrames != 0){
+			readFrames = ma_decoder_read_pcm_frames(&decoder, tmpBuffer, 1000);
+			numberOfFrames += readFrames;
+		}
+
+		free(tmpBuffer);
+
+		soundData_p->framesLength = numberOfFrames;
+		soundData_p->data = malloc(sizeof(float) * soundData_p->framesLength * CHANNEL_COUNT);
+
+		ma_decoder_seek_to_pcm_frame(&decoder, 0);
+
+		ma_decoder_read_pcm_frames(&decoder, soundData_p->data, soundData_p->framesLength * CHANNEL_COUNT);
+
+		printf("Loaded WAV file: %s\n", soundData_p->name);
 		
 	}
-
-	decodersLength = soundFilesLength;
+	
+	soundDataLength = soundFilesLength;
 
 	Array_init(&sounds, sizeof(Sound));
 
@@ -116,7 +135,6 @@ void Audio_init(char **soundFiles, int soundFilesLength){
     deviceConfig.playback.channels = CHANNEL_COUNT;
     deviceConfig.sampleRate        = SAMPLE_RATE;
     deviceConfig.dataCallback      = data_callback;
-	deviceConfig.wasapi.noAutoConvertSRC = true;
 
     if (ma_device_init(NULL, &deviceConfig, &device) != MA_SUCCESS) {
         printf("Failed to open playback device.\n");
@@ -154,20 +172,20 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 
 	Sound *sound_p = Array_addItem(&sounds);
 
-	int decoderIndex = -1;
-	for(int i = 0; i < decodersLength; i++){
-		if(strcmp(decoderNames[i], soundName) == 0){
-			decoderIndex = i;
+	int soundDataIndex = -1;
+	for(int i = 0; i < soundDataLength; i++){
+		if(strcmp(soundData[i].name, soundName) == 0){
+			soundDataIndex = i;
 			break;
 		}
 	}
 
-	if(decoderIndex == -1){
+	if(soundDataIndex == -1){
 		printf("No sound with name: %s\n", soundName);
 	}
 
 	sound_p->currentFrame = 0;
-	sound_p->decoderIndex = decoderIndex;
+	sound_p->soundDataIndex = soundDataIndex;
 	sound_p->volume = volume;
 	sound_p->loop = loop;
 	sound_p->type = soundType;

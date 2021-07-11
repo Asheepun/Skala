@@ -16,6 +16,7 @@
 #include "engine/engine.h"
 #include "engine/renderer2d.h"
 #include "engine/array.h"
+#include "engine/audio.h"
 #include "game.h"
 #include "levels.h"
 //#include "audio.h"
@@ -138,7 +139,6 @@ void Engine_start(){
 
 	}
 
-	/*
 	//load audio
 	char *soundAssets[] = {
 		"player-jump",
@@ -154,10 +154,9 @@ void Engine_start(){
 
 	int soundAssetsLength = sizeof(soundAssets) / sizeof(char *);
 
-	initAudio(soundAssets, soundAssetsLength);
+	Audio_init(soundAssets, soundAssetsLength);
 
-	setVolume(0.5);
-	*/
+	//setVolume(0.5);
 
 	//make star background texture
 	{

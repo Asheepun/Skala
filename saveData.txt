@@ -1,14 +1,16 @@
 :playerPos
-5988 153
+6042 178
 :doorKeys
-5920 -160
 :doors
-4270 180 20 60
 :flags
 removed-title-text
 completed-player-position-levels
+completed-all-from-top-levels
+completed-scale-field-levels
+completed-first-scale-levels
+completed-door-key-levels
+added-gate-door
 :levelsWithDoorKey
-get-key-up-2
 :completedLevels
 level-1
 high-jump-3
@@ -24,3 +26,40 @@ grow-through-jumping
 player-position-jumping-key-1
 player-position-jumping-key-2
 player-position-jumping-key-3
+key-in-cage-all-from-top
+key-obstacle-course
+point-pikaboo
+get-under-cup
+all-from-top-3
+all-from-top-2
+all-from-top-1
+door-key-level-1
+door-key-level-2
+scale-field-1
+scale-field-2
+scale-field-3
+get-over-the-field
+layers-of-fields
+point-field-cage
+make-it-bigger-1
+make-it-bigger-2
+level-2
+level-3
+first-scaling-level-1
+first-scaling-level-3
+first-scaling-level-4
+cooler-scaling-level-1
+cooler-scaling-level-2
+cooler-scaling-level-3
+cooler-scaling-level-4
+cooler-scaling-level-5
+high-jump-1
+high-jump-2
+floor-is-door
+get-key-up-1
+push-key-with-point
+key-in-box
+maybe-key-should-fly
+flying-key-1
+flying-key-2-trickshot-edition
+get-key-up-2
