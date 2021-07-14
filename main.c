@@ -142,21 +142,36 @@ void Engine_start(){
 	//load audio
 	char *soundAssets[] = {
 		"player-jump",
+		"player-jump-1",
 		"player-land",
 		"enter-level-door",
 		"pickup-star",
+		"pickup-star-1",
+		"pickup-star-2",
+		"pickup-star-3",
+		"pickup-star-4",
 		"pickup-key",
+		"pickup-key-1",
 		"open-door",
+		"open-door-1",
 		"begin-scaling",
+		"begin-scaling-1",
 		"end-scaling",
+		"end-scaling-1",
 		"scaling",
+
+		//"music/outside",
 	};
 
 	int soundAssetsLength = sizeof(soundAssets) / sizeof(char *);
 
 	Audio_init(soundAssets, soundAssetsLength);
 
-	//setVolume(0.5);
+	//Audio_playSound("music/outside", 1.0, true, AUDIO_SOUND_TYPE_MUSIC);
+
+	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_MUSIC);
+
+	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_SFX);
 
 	//make star background texture
 	{
@@ -281,7 +296,6 @@ void Engine_update(float deltaTime){
 
 		world.actions[i].down = false;
 		world.actions[i].downed = false;
-		world.actions[i].downedNoRepeat = false;
 		world.actions[i].upped = false;
 
 		for(int j = 0; j < world.actions[i].bindingsLength; j++){

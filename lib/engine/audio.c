@@ -99,20 +99,7 @@ void Audio_init(char **soundFiles, int soundFilesLength){
 			printf("Could not read file: %s\n", path);
 		}
 
-		int numberOfFrames = 0;
-
-		int readFrames = 1;
-
-		float *tmpBuffer = malloc(sizeof(float) * CHANNEL_COUNT * 1000);
-
-		while(readFrames != 0){
-			readFrames = ma_decoder_read_pcm_frames(&decoder, tmpBuffer, 1000);
-			numberOfFrames += readFrames;
-		}
-
-		free(tmpBuffer);
-
-		soundData_p->framesLength = numberOfFrames;
+		soundData_p->framesLength = ma_decoder_get_length_in_pcm_frames(&decoder);
 		soundData_p->data = malloc(sizeof(float) * soundData_p->framesLength * CHANNEL_COUNT);
 
 		ma_decoder_seek_to_pcm_frame(&decoder, 0);
@@ -170,8 +157,6 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 
 	pthread_mutex_lock(&soundMutex);
 
-	Sound *sound_p = Array_addItem(&sounds);
-
 	int soundDataIndex = -1;
 	for(int i = 0; i < soundDataLength; i++){
 		if(strcmp(soundData[i].name, soundName) == 0){
@@ -182,7 +167,12 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 
 	if(soundDataIndex == -1){
 		printf("No sound with name: %s\n", soundName);
+		return -1;
 	}
+
+	Sound *sound_p = Array_addItem(&sounds);
+
+	EntityHeader_init(&sound_p->entityHeader);
 
 	sound_p->currentFrame = 0;
 	sound_p->soundDataIndex = soundDataIndex;
@@ -192,6 +182,8 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 	sound_p->stopped = false;
 
 	pthread_mutex_unlock(&soundMutex);
+
+	printf("playing sound!, %i\n", sound_p->entityHeader.ID);
 
 	return sound_p->entityHeader.ID;
 
@@ -226,6 +218,8 @@ void Audio_killSoundByID(size_t ID){
 	pthread_mutex_lock(&soundMutex);
 
 	Array_removeItemByID(&sounds, ID);
+
+	printf("killed sound sound! %i\n", ID);
 
 	pthread_mutex_unlock(&soundMutex);
 

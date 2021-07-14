@@ -21,6 +21,8 @@ typedef struct Collision{
 
 int blockerAnimationCount = 25;
 
+size_t scalingSoundLoopID = -1;
+
 void World_initLevel(World *world_p){
 
 	for(int i = 0; i < LEVELS_LENGTH; i++){
@@ -44,7 +46,7 @@ void World_initLevel(World *world_p){
 	World_addSprite(world_p, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), backgroundColor, "obstacle", 1, GAME_LAYER_BACKGROUND);
 
 	if(world_p->scalingByPlayerPosition){
-		Audio_playSound("begin-scaling", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+		//Audio_playSound("begin-scaling-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 	}
 
 }
@@ -75,12 +77,19 @@ void World_levelState(World *world_p){
 		world_p->scaling = true;
 	}
 	if(!world_p->scalingByPlayerPosition){
-		if(world_p->actions[SCALE_ACTION].downed){
-			Audio_playSound("begin-scaling", 1.0, false, AUDIO_SOUND_TYPE_SFX);
-			scalingSoundCounter = 0;
+		if(world_p->actions[SCALE_ACTION].downed
+		&& scalingSoundLoopID == -1){
+			scalingSoundLoopID = Audio_playSound("scaling", 0.5, true, AUDIO_SOUND_TYPE_SFX);
+			printf("STARTED PLAYING!\n");
+			//Audio_playSound("begin-scaling-1", 0.5, false, AUDIO_SOUND_TYPE_SFX);
+			//scalingSoundCounter = 0;
 		}
-		if(world_p->actions[SCALE_ACTION].upped){
-			Audio_playSound("end-scaling", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+		if(world_p->actions[SCALE_ACTION].upped
+		&& scalingSoundLoopID != -1){
+			Audio_killSoundByID(scalingSoundLoopID);
+			scalingSoundLoopID = -1;
+			printf("STOPPED PLAYING!\n");
+			//Audio_playSound("end-scaling-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 		}
 	}
 
@@ -167,7 +176,7 @@ void World_levelState(World *world_p){
 		if((world_p->actions[JUMP_ACTION].down)
 		&& playerPhysics_p->onGround){
 			playerPhysics_p->velocity.y += player_p->jumpSpeed;
-			Audio_playSound("player-jump", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+			Audio_playSound("player-jump-1", 3.0, false, AUDIO_SOUND_TYPE_SFX);
 			//Audio_playSound("player-land", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 		}
 
@@ -959,7 +968,7 @@ void World_levelState(World *world_p){
 		&& bodyPair1_p->entityType == PLAYER){
 		//&& !(world_p->actions[JUMP_ACTION].down
 		//&& !world_p->scaling)){
-			Audio_playSound("player-land", 0.5, false, AUDIO_SOUND_TYPE_SFX);
+			Audio_playSound("player-jump-1", 0.5, false, AUDIO_SOUND_TYPE_SFX);
 		}
 
 	}
@@ -1028,7 +1037,7 @@ void World_levelState(World *world_p){
 
 	if(playerGotKey){
 		if(!player_p->holdingKey){
-			Audio_playSound("pickup-key", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+			Audio_playSound("pickup-key-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 		}
 		player_p->holdingKey = true;
 	}else{
@@ -1047,7 +1056,7 @@ void World_levelState(World *world_p){
 
 			if(checkBodyPairToBodyPairCollision(*doorBodyPair_p, *doorKeyBodyPair_p)){
 
-				Audio_playSound("open-door", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+				Audio_playSound("open-door-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 
 				World_removeDoorByID(world_p, door_p->entityHeader.ID);
 				World_removeDoorKeyByID(world_p, doorKey_p->entityHeader.ID);
@@ -1094,7 +1103,7 @@ void World_levelState(World *world_p){
 
 			i--;
 			
-			Audio_playSound("pickup-star", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+			Audio_playSound("pickup-star-3", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 
 		}
 
@@ -1128,7 +1137,7 @@ void World_levelState(World *world_p){
 
 			World_fadeTransitionToState(world_p, LEVEL_STATE);
 
-			Audio_playSound("enter-level-door", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+			//Audio_playSound("enter-level-door", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 
 		}
 
