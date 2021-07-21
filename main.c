@@ -154,20 +154,20 @@ void Engine_start(){
 		"pickup-key-1",
 		"open-door",
 		"open-door-1",
-		"begin-scaling",
-		"begin-scaling-1",
-		"end-scaling",
-		"end-scaling-1",
+		//"begin-scaling", FILES ARE CORRUPTED
+		//"begin-scaling-1",
+		//"end-scaling",
+		//"end-scaling-1",
 		"scaling",
 
-		//"music/outside",
+		"music/outside",
 	};
 
 	int soundAssetsLength = sizeof(soundAssets) / sizeof(char *);
 
 	Audio_init(soundAssets, soundAssetsLength);
 
-	//Audio_playSound("music/outside", 1.0, true, AUDIO_SOUND_TYPE_MUSIC);
+	Audio_playSound("music/outside", 1.0, true, AUDIO_SOUND_TYPE_MUSIC);
 
 	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_MUSIC);
 

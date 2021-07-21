@@ -1,5 +1,5 @@
 :playerPos
-2803 48
+2722 48
 :doorKeys
 :doors
 :flags

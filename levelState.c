@@ -79,16 +79,16 @@ void World_levelState(World *world_p){
 	if(!world_p->scalingByPlayerPosition){
 		if(world_p->actions[SCALE_ACTION].downed
 		&& scalingSoundLoopID == -1){
-			scalingSoundLoopID = Audio_playSound("scaling", 0.5, true, AUDIO_SOUND_TYPE_SFX);
-			printf("STARTED PLAYING!\n");
+			//scalingSoundLoopID = Audio_playSound("scaling", 0.2, true, AUDIO_SOUND_TYPE_SFX);
+			//printf("STARTED PLAYING!\n");
 			//Audio_playSound("begin-scaling-1", 0.5, false, AUDIO_SOUND_TYPE_SFX);
 			//scalingSoundCounter = 0;
 		}
 		if(world_p->actions[SCALE_ACTION].upped
 		&& scalingSoundLoopID != -1){
-			Audio_killSoundByID(scalingSoundLoopID);
-			scalingSoundLoopID = -1;
-			printf("STOPPED PLAYING!\n");
+			//Audio_killSoundByID(scalingSoundLoopID);
+			//scalingSoundLoopID = -1;
+			//printf("STOPPED PLAYING!\n");
 			//Audio_playSound("end-scaling-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 		}
 	}

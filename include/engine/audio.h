@@ -6,7 +6,7 @@
 #include "stddef.h"
 
 #define SAMPLE_FORMAT ma_format_f32
-#define CHANNEL_COUNT 2
+#define CHANNEL_COUNT 1
 #define SAMPLE_RATE 48000
 
 enum Audio_SoundTypeEnum{

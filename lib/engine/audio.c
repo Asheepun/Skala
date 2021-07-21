@@ -1,6 +1,7 @@
 #include "engine/audio.h"
 
 #include "engine/array.h"
+#include "engine/wav-reader.h"
 
 #define MINIAUDIO_IMPLEMENTATION
 #include "miniaudio/miniaudio.h"
@@ -79,8 +80,7 @@ void data_callback(ma_device* device_p, void* output_p, const void* input_p, ma_
 
 void Audio_init(char **soundFiles, int soundFilesLength){
 
-	decoderConfig = ma_decoder_config_init(SAMPLE_FORMAT, CHANNEL_COUNT, SAMPLE_RATE);
-
+	//decoderConfig = ma_decoder_config_init(SAMPLE_FORMAT, CHANNEL_COUNT, SAMPLE_RATE);
 
 	for(int i = 0; i < soundFilesLength; i++){
 
@@ -88,24 +88,31 @@ void Audio_init(char **soundFiles, int soundFilesLength){
 
 		soundData_p->name = soundFiles[i];
 
-		ma_decoder decoder;
+		//ma_decoder decoder;
 
 		char path[255];
 
 		sprintf(path, "assets/audio/%s.wav", soundFiles[i]);
 
-		result = ma_decoder_init_file(path, &decoderConfig, &decoder);
-		if (result != MA_SUCCESS){
-			printf("Could not read file: %s\n", path);
-		}
+		//result = ma_decoder_init_file(path, &decoderConfig, &decoder);
+		//if (result != MA_SUCCESS){
+			//printf("Could not read file: %s\n", path);
+		//}
+		
+		
+		//soundData_p->framesLength = ma_decoder_get_length_in_pcm_frames(&decoder);
+		//soundData_p->data = malloc(sizeof(float) * soundData_p->framesLength * CHANNEL_COUNT);
 
-		soundData_p->framesLength = ma_decoder_get_length_in_pcm_frames(&decoder);
-		soundData_p->data = malloc(sizeof(float) * soundData_p->framesLength * CHANNEL_COUNT);
+		//ma_decoder_seek_to_pcm_frame(&decoder, 0);
 
-		ma_decoder_seek_to_pcm_frame(&decoder, 0);
+		//ma_decoder_read_pcm_frames(&decoder, soundData_p->data, soundData_p->framesLength * CHANNEL_COUNT);
 
-		ma_decoder_read_pcm_frames(&decoder, soundData_p->data, soundData_p->framesLength * CHANNEL_COUNT);
+		soundData_p->data = WavReader_getDataFromWavFile(path, &soundData_p->framesLength);
 
+		//for(int i = 0; i < soundData_p->framesLength; i++){
+			//printf("%f\n", soundData_p->data[i]);
+		//}
+		
 		printf("Loaded WAV file: %s\n", soundData_p->name);
 		
 	}
