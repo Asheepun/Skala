@@ -489,6 +489,13 @@ void World_initLevelHub(World *world_p){
 
 	World_addTextSprite(world_p, getVec2f(1360 + 105, cloudY - 150), "Ascend", "times30", COLOR_WHITE, GAME_LAYER_TEXT);
 
+	{
+		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
+
+		playerBodyPair_p->body.pos.x = 1400;
+		playerBodyPair_p->body.pos.y = cloudY - 200;
+	}
+
 	World_addObstacle(world_p, getVec2f(1820, cloudY - 20), getVec2f(60, 20), NONE);
 
 	World_addObstacle(world_p, getVec2f(2060, cloudY - 40), getVec2f(60, 20), NONE);

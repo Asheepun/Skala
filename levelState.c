@@ -268,8 +268,8 @@ void World_levelState(World *world_p){
 
 		}
 
-		//World_fadeTransitionToState(world_p, LEVEL_HUB_STATE);
-		World_fadeTransitionToState(world_p, LEVEL_STATE);
+		World_fadeTransitionToState(world_p, LEVEL_HUB_STATE);
+		//World_fadeTransitionToState(world_p, LEVEL_STATE);
 
 		return;
 
@@ -380,17 +380,31 @@ void World_levelState(World *world_p){
 					for(int h = 0; h < lastCollisions.length; h++){
 
 						Collision *collision_p = Array_getItemPointerByIndex(&lastCollisions, h);
-						BodyPair *bodyPair3_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision_p->heavierBodyPairIndex);
 
-						if(bodyPair3_p->collisionWeight == STATIC){
-							if(collision_p->lighterBodyPairIndex == i
-							&& collision_p->heavierBodyPairIndex != j){
+						if(collision_p->oub){
+
+							if(collision_p->lighterBodyPairIndex == i){
 								bodyPair1IsMovable = false;
 							}
-							if(collision_p->lighterBodyPairIndex == j
-							&& collision_p->heavierBodyPairIndex != i){
+							if(collision_p->lighterBodyPairIndex == j){
 								bodyPair2IsMovable = false;
 							}
+							
+						}else{
+
+							BodyPair *bodyPair3_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision_p->heavierBodyPairIndex);
+
+							if(bodyPair3_p->collisionWeight == STATIC){
+								if(collision_p->lighterBodyPairIndex == i
+								&& collision_p->heavierBodyPairIndex != j){
+									bodyPair1IsMovable = false;
+								}
+								if(collision_p->lighterBodyPairIndex == j
+								&& collision_p->heavierBodyPairIndex != i){
+									bodyPair2IsMovable = false;
+								}
+							}
+						
 						}
 					
 					}
@@ -641,17 +655,30 @@ void World_levelState(World *world_p){
 						Collision *collision_p = Array_getItemPointerByIndex(&lastCollisions, h);
 						BodyPair *bodyPair3_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision_p->heavierBodyPairIndex);
 
-						if(bodyPair3_p->collisionWeight == STATIC){
-							if(collision_p->lighterBodyPairIndex == i
-							&& collision_p->heavierBodyPairIndex != j){
+						if(collision_p->oub){
+
+							if(collision_p->lighterBodyPairIndex == i){
 								bodyPair1IsMovable = false;
 							}
-							if(collision_p->lighterBodyPairIndex == j
-							&& collision_p->heavierBodyPairIndex != i){
+							if(collision_p->lighterBodyPairIndex == j){
 								bodyPair2IsMovable = false;
 							}
+						
+						}else{
+
+							if(bodyPair3_p->collisionWeight == STATIC){
+								if(collision_p->lighterBodyPairIndex == i
+								&& collision_p->heavierBodyPairIndex != j){
+									bodyPair1IsMovable = false;
+								}
+								if(collision_p->lighterBodyPairIndex == j
+								&& collision_p->heavierBodyPairIndex != i){
+									bodyPair2IsMovable = false;
+								}
+
+							}
+						
 						}
-					
 					}
 
 					if(bodyPair1_p->collisionWeight == MOVABLE

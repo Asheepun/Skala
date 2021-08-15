@@ -58,8 +58,8 @@ void Engine_start(){
 
 	world.currentLevel = "no-legs-scalable-point";
 
-	//World_switchToAndInitState(&world, LEVEL_HUB_STATE);
-	World_switchToAndInitState(&world, LEVEL_STATE);
+	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
+	//World_switchToAndInitState(&world, LEVEL_STATE);
 
 	//set up engine and renderer
 	Engine_setWindowTitle("Skala");
