@@ -393,7 +393,9 @@ typedef struct World{
 
 	bool scaling;
 	float scaleSpeed;
+
 	bool scalingByPlayerPosition;
+	bool playerHasNoLegs;
 
 	Player player;
 

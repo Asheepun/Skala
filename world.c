@@ -133,6 +133,7 @@ void World_restore(World *world_p){
 
 	world_p->scaling = false;
 	world_p->scalingByPlayerPosition = false;
+	world_p->playerHasNoLegs = false;
 
 	Array_clear(&world_p->buttons);
 	Array_clear(&world_p->bodyPairs);

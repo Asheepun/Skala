@@ -68,8 +68,18 @@ void World_generateLevel56(World *);
 void World_generateLevel57(World *);
 void World_generateLevel58(World *);
 void World_generateLevel59(World *);
+void World_generateLevel60(World *);
+void World_generateLevel61(World *);
+void World_generateLevel62(World *);
+void World_generateLevel63(World *);
+void World_generateLevel64(World *);
+void World_generateLevel65(World *);
+void World_generateLevel66(World *);
+void World_generateLevel67(World *);
+void World_generateLevel68(World *);
+void World_generateLevel69(World *);
 
-static const size_t LEVELS_LENGTH = 59;
+static const size_t LEVELS_LENGTH = 69;
 
 static Level levels[255] = {
 	"bug-testing-level",
@@ -249,6 +259,36 @@ static Level levels[255] = {
 	"point-field-cage",
 	"Tangible",
 	World_generateLevel59,
+	"no-legs",
+	"no-legs",
+	World_generateLevel60,
+	"no-legs-2",
+	"no-legs",
+	World_generateLevel61,
+	"no-legs-3",
+	"no-legs",
+	World_generateLevel62,
+	"no-legs-4",
+	"no-legs",
+	World_generateLevel63,
+	"no-legs-scalable-point",
+	"Lost",
+	World_generateLevel64,
+	"no-legs-scalable-point-scale-field",
+	"Lost",
+	World_generateLevel65,
+	"no-legs-scalable-point-scale-field-2",
+	"Lost",
+	World_generateLevel66,
+	"no-legs-scalable-point-2",
+	"Lost",
+	World_generateLevel67,
+	"no-legs-key",
+	"Lost",
+	World_generateLevel68,
+	"no-legs-point-hole",
+	"Lost",
+	World_generateLevel69,
 };
 
 #endif

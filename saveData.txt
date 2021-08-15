@@ -63,3 +63,14 @@ maybe-key-should-fly
 flying-key-1
 flying-key-2-trickshot-edition
 get-key-up-2
+no-legs-3
+no-legs-4
+no-legs-scalable-point
+no-legs-scalable-point-all-from-top
+no-legs-scalable-point-scale-field
+no-legs-scalable-point-scale-field-2
+no-legs-scalable-point-scale-field-3
+no-legs-scalable-point-2
+no-legs-2
+no-legs-key
+no-legs-point-hole

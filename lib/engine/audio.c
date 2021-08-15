@@ -190,8 +190,6 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 
 	pthread_mutex_unlock(&soundMutex);
 
-	printf("playing sound!, %i\n", sound_p->entityHeader.ID);
-
 	return sound_p->entityHeader.ID;
 
 }
@@ -225,8 +223,6 @@ void Audio_killSoundByID(size_t ID){
 	pthread_mutex_lock(&soundMutex);
 
 	Array_removeItemByID(&sounds, ID);
-
-	printf("killed sound sound! %i\n", ID);
 
 	pthread_mutex_unlock(&soundMutex);
 

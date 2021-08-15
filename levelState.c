@@ -161,8 +161,9 @@ void World_levelState(World *world_p){
 	}
 
 	//control player
-	if(!world_p->scaling
-	|| world_p->scalingByPlayerPosition){
+	if((!world_p->scaling
+	|| world_p->scalingByPlayerPosition)
+	&& !world_p->playerHasNoLegs){
 
 		Physics *playerPhysics_p = &World_getBodyPairByID(world_p, player_p->bodyPairID)->physics;
 
@@ -267,7 +268,8 @@ void World_levelState(World *world_p){
 
 		}
 
-		World_fadeTransitionToState(world_p, LEVEL_HUB_STATE);
+		//World_fadeTransitionToState(world_p, LEVEL_HUB_STATE);
+		World_fadeTransitionToState(world_p, LEVEL_STATE);
 
 		return;
 
@@ -1516,6 +1518,11 @@ void World_levelState(World *world_p){
 		}
 
 		sprite_p->facing = world_p->player.facing;
+
+		if(world_p->playerHasNoLegs){
+			sprite_p->texture = "player-no-legs";
+		}
+
 	}
 
 	//fade out title text

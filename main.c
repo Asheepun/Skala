@@ -56,9 +56,10 @@ void Engine_start(){
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
 
-	world.currentLevel = "bug-testing-level";
+	world.currentLevel = "no-legs-scalable-point";
 
-	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
+	//World_switchToAndInitState(&world, LEVEL_HUB_STATE);
+	World_switchToAndInitState(&world, LEVEL_STATE);
 
 	//set up engine and renderer
 	Engine_setWindowTitle("Skala");
@@ -85,6 +86,7 @@ void Engine_start(){
 	//load textures
 	char *assets[] = {
 		"player",
+		"player-no-legs",
 		"point",
 		"obstacle",
 		"movement-help",
@@ -169,9 +171,12 @@ void Engine_start(){
 
 	Audio_playSound("music/outside", 1.0, true, AUDIO_SOUND_TYPE_MUSIC);
 
-	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_MUSIC);
+	//Audio_setVolume(0.5, AUDIO_SOUND_TYPE_MUSIC);
 
-	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_SFX);
+	//Audio_setVolume(0.5, AUDIO_SOUND_TYPE_SFX);
+
+	Audio_setVolume(0, AUDIO_SOUND_TYPE_MUSIC);
+	Audio_setVolume(0, AUDIO_SOUND_TYPE_SFX);
 
 	//make star background texture
 	{
