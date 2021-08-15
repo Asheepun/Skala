@@ -110,6 +110,8 @@ enum LevelHubRoom{
 	ALL_FROM_TOP_ROOM,
 	SCALE_FIELD_ROOM,
 	PLAYER_POSITION_ROOM,
+	NO_LEGS_ROOM,
+	NUMBER_OF_LEVEL_HUB_ROOMS,
 };
 
 enum ParticlePropertyType{
@@ -350,7 +352,7 @@ typedef struct World{
 	Action actions[16];
 
 	SaveData saveData;
-	Array roomLevels[5];
+	Array roomLevels[NUMBER_OF_LEVEL_HUB_ROOMS];
 	bool addedRoomLevels;
 
 	//Font fonts[16];

@@ -74,3 +74,5 @@ no-legs-scalable-point-2
 no-legs-2
 no-legs-key
 no-legs-point-hole
+no-legs
+no-legs-scalable-point-first

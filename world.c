@@ -25,7 +25,7 @@ void World_init(World *world_p){
 
 	SaveData_read(&world_p->saveData);
 
-	for(int i = 0; i < 5; i++){
+	for(int i = 0; i < NUMBER_OF_LEVEL_HUB_ROOMS; i++){
 		Array_init(&world_p->roomLevels[i], sizeof(char *));
 	}
 	world_p->addedRoomLevels = false;

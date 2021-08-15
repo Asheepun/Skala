@@ -1385,9 +1385,27 @@ Lost
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH * 100, 60), NONE);
 
 :levelName
+no-legs-scalable-point-first
+:screenName
+Offset
+:levelCode
+
+	World_restore(world_p);
+
+	world_p->playerHasNoLegs = true;
+
+	World_initPlayer(world_p, getVec2f(70, 100), ALL);
+
+	World_addPoint(world_p, getVec2f(410, 90), ALL);
+
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH * 100, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(200, 0), getVec2f(40, 60), NONE);
+
+:levelName
 no-legs-scalable-point-scale-field
 :screenName
-Lost
+Offsetter
 :levelCode
 
 	World_restore(world_p);
@@ -1427,7 +1445,7 @@ Lost
 :levelName
 no-legs-scalable-point-2
 :screenName
-Lost
+Island
 :levelCode
 
 	World_restore(world_p);
@@ -1445,7 +1463,7 @@ Lost
 :levelName
 no-legs-key
 :screenName
-Lost
+KAeyblabla
 :levelCode
 
 	World_restore(world_p);
@@ -1488,4 +1506,4 @@ Lost
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 120, 210), getVec2f(60, 60), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 30, 0), getVec2f(30, HEIGHT), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 30, -HEIGHT), getVec2f(30, 2 * HEIGHT), NONE);

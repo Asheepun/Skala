@@ -78,8 +78,9 @@ void World_generateLevel66(World *);
 void World_generateLevel67(World *);
 void World_generateLevel68(World *);
 void World_generateLevel69(World *);
+void World_generateLevel70(World *);
 
-static const size_t LEVELS_LENGTH = 69;
+static const size_t LEVELS_LENGTH = 70;
 
 static Level levels[255] = {
 	"bug-testing-level",
@@ -274,21 +275,24 @@ static Level levels[255] = {
 	"no-legs-scalable-point",
 	"Lost",
 	World_generateLevel64,
-	"no-legs-scalable-point-scale-field",
-	"Lost",
+	"no-legs-scalable-point-first",
+	"Offset",
 	World_generateLevel65,
+	"no-legs-scalable-point-scale-field",
+	"Offsetter",
+	World_generateLevel66,
 	"no-legs-scalable-point-scale-field-2",
 	"Lost",
-	World_generateLevel66,
-	"no-legs-scalable-point-2",
-	"Lost",
 	World_generateLevel67,
-	"no-legs-key",
-	"Lost",
+	"no-legs-scalable-point-2",
+	"Island",
 	World_generateLevel68,
+	"no-legs-key",
+	"KAeyblabla",
+	World_generateLevel69,
 	"no-legs-point-hole",
 	"Lost",
-	World_generateLevel69,
+	World_generateLevel70,
 };
 
 #endif
