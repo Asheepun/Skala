@@ -1283,7 +1283,7 @@ Tangible
 
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
-	World_addPoint(world_p, getVec2f(410, 90), NONE);
+	World_addPoint(world_p, getVec2f(410, 100), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(150, 60), NONE);
 

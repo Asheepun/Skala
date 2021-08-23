@@ -1651,10 +1651,15 @@ void World_levelState(World *world_p){
 		if(playerBodyPair_p->body.pos.y < -HEIGHT){
 			world_p->cameraTarget.y = 2 * HEIGHT;
 		}
+		//roof top camera
 		if(playerBodyPair_p->body.pos.y < -HEIGHT * 2){
-			world_p->cameraTarget.y = 2.8 * HEIGHT;
+			world_p->cameraTarget.y = 2.9 * HEIGHT;
+		}
+		if(playerBodyPair_p->body.pos.y < -HEIGHT * 2.5){
+			world_p->cameraTarget.y = 3.35 * HEIGHT;
 		}
 
+		//elevator to ending and cloud camera
 		if(playerBodyPair_p->body.pos.x >= 300
 		&& playerBodyPair_p->body.pos.x <= 300 + WIDTH / 2
 		&& playerBodyPair_p->body.pos.y > -HEIGHT * 6){
@@ -1669,6 +1674,7 @@ void World_levelState(World *world_p){
 			cameraSpeedX = 20;
 		}
 
+		//starting area y levels
 		if(playerBodyPair_p->body.pos.x < 400 + 300){
 
 			world_p->cameraTarget.y = HEIGHT + 70;
@@ -1692,11 +1698,12 @@ void World_levelState(World *world_p){
 
 		}
 
-		if(playerBodyPair_p->body.pos.y < -HEIGHT * 2.8 + 100){
+		//make it so that camera follows player up
+		if(playerBodyPair_p->body.pos.y < -HEIGHT * 3.2 + 100){
 			world_p->cameraTarget.y = -playerBodyPair_p->body.pos.y + HEIGHT - 100;
 			cameraSpeedY = 10;
 		}
-		if(playerBodyPair_p->body.pos.y < -HEIGHT * 3.8 + 100){
+		if(playerBodyPair_p->body.pos.y < -HEIGHT * 4.2 + 100){
 			cameraSpeedY = 5;
 		}
 

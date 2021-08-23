@@ -319,7 +319,7 @@ void World_initLevelHub(World *world_p){
 
 	houseWidth += *currentRoomWidth;
 
-	//x y switch room levels
+	//scale field room levels
 
 	currentRoomX = &xySwitchLevelsRoomX;
 	currentRoomWidth = &xySwitchLevelsRoomWidth;
@@ -340,6 +340,9 @@ void World_initLevelHub(World *world_p){
 	*currentRoomWidth += normalLevelDistance;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX - *currentRoomWidth, -HEIGHT + 125), "layers-of-fields", SCALE_FIELD_ROOM);
+	*currentRoomWidth += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX - *currentRoomWidth, -HEIGHT + 125), "two-scale-fields", SCALE_FIELD_ROOM);
 	*currentRoomWidth += normalLevelDistance;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX - *currentRoomWidth, -HEIGHT + 125), "point-field-cage", SCALE_FIELD_ROOM);
@@ -668,7 +671,7 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(houseX + houseWidth, 210), getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth - houseX - houseWidth, 60), NONE);
 
-	World_addSprite(world_p, getVec2f(houseX + houseWidth + 140, HEIGHT - 60 - 73), getVec2f(14, 73), COLOR_WHITE, "furniture/lamp-post", 1, GAME_LAYER_FURNITURE);
+	World_addSprite(world_p, getVec2f(houseX + houseWidth + 100, HEIGHT - 60 - 73), getVec2f(14, 73), COLOR_WHITE, "furniture/lamp-post", 1, GAME_LAYER_FURNITURE);
 
 	//top of door
 	//World_addObstacle(world_p, getVec2f(3250, 30), getVec2f(20, 10), NONE);
