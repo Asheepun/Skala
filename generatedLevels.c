@@ -502,6 +502,8 @@ void World_generateLevel29(World *world_p){
 
 	World_addDoorKey(world_p, getVec2f(100, 230), ALL);
 
+	World_addTextSprite(world_p, getVec2f(25, 40), "R key to restart level ", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+
 }
 
 void World_generateLevel30(World *world_p){

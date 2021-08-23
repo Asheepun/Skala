@@ -2,6 +2,8 @@
 #include "game.h"
 #include "math.h"
 #include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
 //#include "geometry.h"
 //#include "stb_truetype.h"
 //#include "text.h"
@@ -120,8 +122,21 @@ bool checkBodyToBodyColCastToInt(Body b1, Body b2){
 		&& b1.size.y >= 1 && b2.size.y >= 1;
 }
 
+/*
 float roundTo2Dec(float a){
-	return round(a * 100) / 100;
+	return roundf(a * 100) / 100;
+}
+*/
+
+float roundTo2Dec(float a){
+
+	char buff[32];
+	memset(buff, 0, 32);
+
+	sprintf(buff, "%0.2f", a);
+
+	return atof(buff);
+
 }
 
 bool checkBodyToBodyColRoundTo2Dec(Body b1, Body b2){

@@ -1,7 +1,9 @@
 :playerPos
-2625 138
+3027 138
 :doorKeys
 6460 -200
+3478 68
+2777 44
 :doors
 3350 180 20 60
 4270 180 20 60
@@ -9,8 +11,6 @@
 removed-title-text
 completed-player-position-levels
 :levelsWithDoorKey
-point-cage-3
-get-key-up-2
 :completedLevels
 cooler-scaling-level-3
 player-position-1
@@ -26,3 +26,23 @@ scale-position-block-2
 scale-position-block-5
 scale-position-block-5.2
 scale-position-block-6
+level-1
+level-2
+level-3
+first-scaling-level-1
+first-scaling-level-3
+first-scaling-level-4
+cooler-scaling-level-1
+cooler-scaling-level-2
+cooler-scaling-level-4
+cooler-scaling-level-5
+high-jump-1
+slow-fall-squeeze
+high-jump-2
+high-jump-3
+door-key-level-1
+door-key-level-2
+floor-is-door
+get-key-up-1
+get-key-up-2
+point-cage-3

@@ -570,6 +570,8 @@ Key Hole 2
 
 	World_addDoorKey(world_p, getVec2f(100, 230), ALL);
 
+	World_addTextSprite(world_p, getVec2f(25, 40), "R key to restart level ", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+
 :levelName
 floor-is-door
 :screenName
