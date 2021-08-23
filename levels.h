@@ -79,8 +79,20 @@ void World_generateLevel67(World *);
 void World_generateLevel68(World *);
 void World_generateLevel69(World *);
 void World_generateLevel70(World *);
+void World_generateLevel71(World *);
+void World_generateLevel72(World *);
+void World_generateLevel73(World *);
+void World_generateLevel74(World *);
+void World_generateLevel75(World *);
+void World_generateLevel76(World *);
+void World_generateLevel77(World *);
+void World_generateLevel78(World *);
+void World_generateLevel79(World *);
+void World_generateLevel80(World *);
+void World_generateLevel81(World *);
+void World_generateLevel82(World *);
 
-static const size_t LEVELS_LENGTH = 70;
+static const size_t LEVELS_LENGTH = 82;
 
 static Level levels[255] = {
 	"bug-testing-level",
@@ -287,12 +299,48 @@ static Level levels[255] = {
 	"no-legs-scalable-point-2",
 	"Island",
 	World_generateLevel68,
-	"no-legs-key",
+	"no-legs-key-block",
 	"KAeyblabla",
 	World_generateLevel69,
 	"no-legs-point-hole",
 	"Lost",
 	World_generateLevel70,
+	"no-legs-scale-field-key",
+	"KAeyblabla",
+	World_generateLevel71,
+	"no-legs-drag-key",
+	"Omni",
+	World_generateLevel72,
+	"no-legs-key-first",
+	"KAeyblabla",
+	World_generateLevel73,
+	"scale-position-block",
+	"block",
+	World_generateLevel74,
+	"scale-position-block-2",
+	"block",
+	World_generateLevel75,
+	"two-scale-fields",
+	"Boost",
+	World_generateLevel76,
+	"scale-position-block-3",
+	"block",
+	World_generateLevel77,
+	"scale-position-block-4",
+	"block",
+	World_generateLevel78,
+	"scale-position-block-5",
+	"block",
+	World_generateLevel79,
+	"scale-position-block-6",
+	"block",
+	World_generateLevel80,
+	"scale-position-block-7",
+	"block",
+	World_generateLevel81,
+	"scale-position-block-5.2",
+	"block",
+	World_generateLevel82,
 };
 
 #endif

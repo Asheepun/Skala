@@ -56,7 +56,7 @@ void Engine_start(){
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
 
-	world.currentLevel = "no-legs-scalable-point";
+	world.currentLevel = "scale-position-block-5.2";
 
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
 	//World_switchToAndInitState(&world, LEVEL_STATE);
@@ -119,6 +119,7 @@ void Engine_start(){
 		"furniture/lamp-post",
 		"furniture/bench",
 		"furniture/telescope",
+		"furniture/bush",
 
 		"furniture/lamp-1",
 		"furniture/lamp-2",

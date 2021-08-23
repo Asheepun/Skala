@@ -367,7 +367,10 @@ void World_initLevelHub(World *world_p){
 	*currentRoomWidth += 40;
 
 	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 73), getVec2f(14, 73), COLOR_WHITE, "furniture/lamp-post", 1, GAME_LAYER_FURNITURE);
-	*currentRoomWidth += 50;
+	*currentRoomWidth += 40;
+
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 20), getVec2f(18, 20), COLOR_WHITE, "furniture/bush", 1, GAME_LAYER_FURNITURE);
+	*currentRoomWidth += 60;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "player-position-1", PLAYER_POSITION_ROOM);
 	*currentRoomWidth += normalLevelDistance;
@@ -404,7 +407,31 @@ void World_initLevelHub(World *world_p){
 	*currentRoomWidth += normalLevelDistance;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "player-position-jumping-key-3", PLAYER_POSITION_ROOM);
+	*currentRoomWidth += 50;
+
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 20), getVec2f(18, 20), COLOR_WHITE, "furniture/bush", 1, GAME_LAYER_FURNITURE);
+	*currentRoomWidth += 50;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "scale-position-block", PLAYER_POSITION_ROOM);
 	*currentRoomWidth += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "scale-position-block-2", PLAYER_POSITION_ROOM);
+	*currentRoomWidth += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "scale-position-block-5", PLAYER_POSITION_ROOM);
+	*currentRoomWidth += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "scale-position-block-5.2", PLAYER_POSITION_ROOM);
+	*currentRoomWidth += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "scale-position-block-6", PLAYER_POSITION_ROOM);
+	*currentRoomWidth += 60;
+
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 20), getVec2f(18, 20), COLOR_WHITE, "furniture/bush", 1, GAME_LAYER_FURNITURE);
+	*currentRoomWidth += 40;
+
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 73), getVec2f(14, 73), COLOR_WHITE, "furniture/lamp-post", 1, GAME_LAYER_FURNITURE);
+	*currentRoomWidth += 50;
 
 	//World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT + 125), "shrinking-death-dive");
 	//*currentRoomWidth += normalLevelDistance;
@@ -492,13 +519,16 @@ void World_initLevelHub(World *world_p){
 
 	World_addTextSprite(world_p, getVec2f(1360 + 105, cloudY - 150), "Ascend", "times30", COLOR_WHITE, GAME_LAYER_TEXT);
 
-	//{
-		//BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
+	/*
+	{
+		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
 
-		//playerBodyPair_p->body.pos.x = 1400;
-		//playerBodyPair_p->body.pos.y = cloudY - 200;
-	//}
+		playerBodyPair_p->body.pos.x = 1400;
+		playerBodyPair_p->body.pos.y = cloudY - 200;
+	}
+	*/
 
+	//no legs room
 	currentRoomX = &noLegsLevelsRoomX;
 	currentRoomWidth = &noLegsLevelsRoomWidth;
 
@@ -522,6 +552,8 @@ void World_initLevelHub(World *world_p){
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-point-hole", NO_LEGS_ROOM);
 	noLegsLevelsRoomWidth += 70;
 
+	noLegsLevelsRoomWidth += 70;
+
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-scalable-point-first", NO_LEGS_ROOM);
 	noLegsLevelsRoomWidth += 70;
 
@@ -534,7 +566,18 @@ void World_initLevelHub(World *world_p){
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-scalable-point", NO_LEGS_ROOM);
 	noLegsLevelsRoomWidth += 70;
 
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-key", NO_LEGS_ROOM);
+	noLegsLevelsRoomWidth += 70;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-key-first", NO_LEGS_ROOM);
+	noLegsLevelsRoomWidth += 70;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-key-block", NO_LEGS_ROOM);
+	noLegsLevelsRoomWidth += 70;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-scale-field-key", NO_LEGS_ROOM);
+	noLegsLevelsRoomWidth += 70;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-drag-key", NO_LEGS_ROOM);
 	noLegsLevelsRoomWidth += 70;
 
 	//add no legs level room obstacles
@@ -845,15 +888,17 @@ void World_initLevelHub(World *world_p){
 		World_addObstacle(world_p, getVec2f(startingAreaX + 240, 140), getVec2f(40, 90), NONE);
 	}
 
-	//add platform with key in player position levels
-	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 400, -150), getVec2f(140, 20), NONE);
+	//add platform with key in player position levels and other platforms
+	int platformWithKeyX = playerPositionLevelsRoomX + 940;
 
-	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 400, -150 - 140), getVec2f(140, 80), NONE);
+	World_addObstacle(world_p, getVec2f(platformWithKeyX, -150), getVec2f(140, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 420, -150 - 160), getVec2f(100, 20), NONE);
+	World_addObstacle(world_p, getVec2f(platformWithKeyX, -150 - 140), getVec2f(140, 80), NONE);
+
+	World_addObstacle(world_p, getVec2f(platformWithKeyX + 20, -150 - 160), getVec2f(100, 20), NONE);
 
 	{
-		size_t index = World_addSprite(world_p, getVec2f(playerPositionLevelsRoomX + 450, -150 - 160 - 23), getVec2f(14, 23), COLOR_WHITE, "furniture/telescope", 1, GAME_LAYER_FURNITURE);
+		size_t index = World_addSprite(world_p, getVec2f(platformWithKeyX + 50, -150 - 160 - 23), getVec2f(14, 23), COLOR_WHITE, "furniture/telescope", 1, GAME_LAYER_FURNITURE);
 		Sprite *sprite_p = World_getSpriteByIndex(world_p, index);
 		sprite_p->facing = LEFT;
 	}
@@ -861,10 +906,16 @@ void World_initLevelHub(World *world_p){
 	if(SaveData_hasFlag(&world_p->saveData, "completed-player-position-levels")){
 		//!add nothing!	
 	}else{
-		World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 420, -150 - 60), getVec2f(20, 60), NONE);
+		World_addObstacle(world_p, getVec2f(platformWithKeyX + 20, -150 - 60), getVec2f(20, 60), NONE);
 
-		World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 500, -150 - 60), getVec2f(20, 60), NONE);
+		World_addObstacle(world_p, getVec2f(platformWithKeyX + 100, -150 - 60), getVec2f(20, 60), NONE);
 	}
+
+	//World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 900, -100), getVec2f(200, 60), NONE);
+
+	//World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 940, -120), getVec2f(140, 20), NONE);
+
+	//World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 740, -80), getVec2f(100, 40), NONE);
 
 	//add saved door keys
 	for(int i = 0; i < world_p->saveData.doorKeys.length; i++){
