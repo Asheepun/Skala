@@ -1301,7 +1301,7 @@ Tangible
 :levelName
 no-legs
 :screenName
-no-legs
+Depart
 :levelCode
 
 	World_restore(world_p);
@@ -1317,7 +1317,7 @@ no-legs
 :levelName
 no-legs-2
 :screenName
-no-legs
+No hurdle
 :levelCode
 
 	World_restore(world_p);
@@ -1335,7 +1335,7 @@ no-legs
 :levelName
 no-legs-3
 :screenName
-no-legs
+No dead end
 :levelCode
 
 	World_restore(world_p);
@@ -1351,7 +1351,7 @@ no-legs
 :levelName
 no-legs-4
 :screenName
-no-legs
+No gate
 :levelCode
 
 	World_restore(world_p);
@@ -1491,7 +1491,7 @@ KAeyblabla
 :levelName
 no-legs-point-hole
 :screenName
-Lost
+Hurdle
 :levelCode
 
 	World_restore(world_p);

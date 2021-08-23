@@ -123,8 +123,8 @@ bool checkBodyToBodyColCastToInt(Body b1, Body b2){
 }
 
 float roundTo2Dec(float a){
-	return a;
-	//return roundf(a * 100) / 100;
+	//return a;
+	return roundf(a * 100) / 100;
 }
 
 /*

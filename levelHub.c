@@ -554,20 +554,6 @@ void World_initLevelHub(World *world_p){
 
 	noLegsLevelsRoomWidth += 70;
 
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-scalable-point-first", NO_LEGS_ROOM);
-	noLegsLevelsRoomWidth += 70;
-
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-scalable-point-scale-field", NO_LEGS_ROOM);
-	noLegsLevelsRoomWidth += 70;
-
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-scalable-point-2", NO_LEGS_ROOM);
-	noLegsLevelsRoomWidth += 70;
-
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-scalable-point", NO_LEGS_ROOM);
-	noLegsLevelsRoomWidth += 70;
-
-	noLegsLevelsRoomWidth += 70;
-
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-key-first", NO_LEGS_ROOM);
 	noLegsLevelsRoomWidth += 70;
 
@@ -578,6 +564,20 @@ void World_initLevelHub(World *world_p){
 	noLegsLevelsRoomWidth += 70;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-drag-key", NO_LEGS_ROOM);
+	noLegsLevelsRoomWidth += 70;
+
+	noLegsLevelsRoomWidth += 70;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-scalable-point-first", NO_LEGS_ROOM);
+	noLegsLevelsRoomWidth += 70;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-scalable-point-scale-field", NO_LEGS_ROOM);
+	noLegsLevelsRoomWidth += 70;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-scalable-point-2", NO_LEGS_ROOM);
+	noLegsLevelsRoomWidth += 70;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-scalable-point", NO_LEGS_ROOM);
 	noLegsLevelsRoomWidth += 70;
 
 	//add no legs level room obstacles
