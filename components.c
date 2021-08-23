@@ -122,12 +122,12 @@ bool checkBodyToBodyColCastToInt(Body b1, Body b2){
 		&& b1.size.y >= 1 && b2.size.y >= 1;
 }
 
-/*
 float roundTo2Dec(float a){
-	return roundf(a * 100) / 100;
+	return a;
+	//return roundf(a * 100) / 100;
 }
-*/
 
+/*
 float roundTo2Dec(float a){
 
 	char buff[32];
@@ -138,6 +138,7 @@ float roundTo2Dec(float a){
 	return atof(buff);
 
 }
+*/
 
 bool checkBodyToBodyColRoundTo2Dec(Body b1, Body b2){
 	return roundTo2Dec(b1.pos.x + b1.size.x) > roundTo2Dec(b2.pos.x)
