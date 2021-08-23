@@ -1467,7 +1467,7 @@ Island
 :levelName
 no-legs-key-block
 :screenName
-KAeyblabla
+Pick
 :levelCode
 
 	World_restore(world_p);
@@ -1513,7 +1513,7 @@ Hurdle
 :levelName
 no-legs-scale-field-key
 :screenName
-KAeyblabla
+Mold
 :levelCode
 
 	World_restore(world_p);
@@ -1539,7 +1539,7 @@ KAeyblabla
 :levelName
 no-legs-drag-key
 :screenName
-Omni
+Force
 :levelCode
 
 	World_restore(world_p);
@@ -1563,7 +1563,7 @@ Omni
 :levelName
 no-legs-key-first
 :screenName
-KAeyblabla
+Key and lock
 :levelCode
 
 	World_restore(world_p);
