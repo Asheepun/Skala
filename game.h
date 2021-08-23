@@ -611,6 +611,8 @@ bool checkBodyToBodyColCastToInt(Body, Body);
 
 bool checkBodyToBodyColRoundTo2Dec(Body, Body);
 
+float roundTo2Dec(float);
+
 bool checkBodyToBodyCol(Body, Body);
 
 void Physics_init(Physics *);

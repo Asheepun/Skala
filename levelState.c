@@ -80,7 +80,6 @@ void World_levelState(World *world_p){
 		if(world_p->actions[SCALE_ACTION].downed
 		&& scalingSoundLoopID == -1){
 			//scalingSoundLoopID = Audio_playSound("scaling", 0.2, true, AUDIO_SOUND_TYPE_SFX);
-			//printf("STARTED PLAYING!\n");
 			//Audio_playSound("begin-scaling-1", 0.5, false, AUDIO_SOUND_TYPE_SFX);
 			//scalingSoundCounter = 0;
 		}
@@ -88,7 +87,6 @@ void World_levelState(World *world_p){
 		&& scalingSoundLoopID != -1){
 			//Audio_killSoundByID(scalingSoundLoopID);
 			//scalingSoundLoopID = -1;
-			//printf("STOPPED PLAYING!\n");
 			//Audio_playSound("end-scaling-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 		}
 	}
@@ -501,10 +499,10 @@ void World_levelState(World *world_p){
 			float bodyPair2CenterX = bodyPair2_p->lastBody.pos.x + bodyPair2_p->lastBody.size.x / 2;
 
 			if(bodyPairCenterX < bodyPair2CenterX){
-				bodyPair1_p->body.pos.x = bodyPair2_p->body.pos.x - bodyPair1_p->body.size.x;
+				bodyPair1_p->body.pos.x = roundTo2Dec(bodyPair2_p->body.pos.x) - roundTo2Dec(bodyPair1_p->body.size.x);
 			}
 			if(bodyPairCenterX > bodyPair2CenterX){
-				bodyPair1_p->body.pos.x = bodyPair2_p->body.pos.x + bodyPair2_p->body.size.x;
+				bodyPair1_p->body.pos.x = roundTo2Dec(bodyPair2_p->body.pos.x + bodyPair2_p->body.size.x);
 			}
 
 			if(!BodyPair_isScalable(bodyPair1_p)){
@@ -545,8 +543,8 @@ void World_levelState(World *world_p){
 						continue;
 					}
 
-					bodyPair1_p->body.pos.x = leftBodyPair_p->body.pos.x + leftBodyPair_p->body.size.x;
-					bodyPair1_p->body.size.x = rightBodyPair_p->body.pos.x - (leftBodyPair_p->body.pos.x + leftBodyPair_p->body.size.x);
+					bodyPair1_p->body.pos.x = roundTo2Dec(leftBodyPair_p->body.pos.x + leftBodyPair_p->body.size.x);
+					bodyPair1_p->body.size.x = roundTo2Dec(rightBodyPair_p->body.pos.x) - roundTo2Dec(leftBodyPair_p->body.pos.x + leftBodyPair_p->body.size.x);
 
 				}
 			
@@ -784,10 +782,10 @@ void World_levelState(World *world_p){
 			float bodyPair2CenterY = bodyPair2_p->lastBody.pos.y + bodyPair2_p->lastBody.size.y / 2;
 
 			if(bodyPairCenterY < bodyPair2CenterY){
-				bodyPair1_p->body.pos.y = bodyPair2_p->body.pos.y - bodyPair1_p->body.size.y;
+				bodyPair1_p->body.pos.y = roundTo2Dec(bodyPair2_p->body.pos.y) - roundTo2Dec(bodyPair1_p->body.size.y);
 			}
 			if(bodyPairCenterY > bodyPair2CenterY){
-				bodyPair1_p->body.pos.y = bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y;
+				bodyPair1_p->body.pos.y = roundTo2Dec(bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y);
 			}
 
 			if(!BodyPair_isScalable(bodyPair1_p)){
@@ -831,8 +829,8 @@ void World_levelState(World *world_p){
 						continue;
 					}
 
-					bodyPair1_p->body.pos.y = upBodyPair_p->body.pos.y + upBodyPair_p->body.size.y;
-					bodyPair1_p->body.size.y = downBodyPair_p->body.pos.y - (upBodyPair_p->body.pos.y + upBodyPair_p->body.size.y);
+					bodyPair1_p->body.pos.y = roundTo2Dec(upBodyPair_p->body.pos.y + upBodyPair_p->body.size.y);
+					bodyPair1_p->body.size.y = roundTo2Dec(downBodyPair_p->body.pos.y) - roundTo2Dec(upBodyPair_p->body.pos.y + upBodyPair_p->body.size.y);
 
 				}
 			
@@ -1077,7 +1075,6 @@ void World_levelState(World *world_p){
 	for(int i = 0; i < world_p->doors.length; i++){
 		for(int j = 0; j < world_p->doorKeys.length; j++){
 			
-			//printf("%i, %i\n", i, j);
 			Door *door_p = Array_getItemPointerByIndex(&world_p->doors, i);
 			DoorKey *doorKey_p = Array_getItemPointerByIndex(&world_p->doorKeys, j);
 			BodyPair *doorBodyPair_p = World_getBodyPairByID(world_p, door_p->bodyPairID);

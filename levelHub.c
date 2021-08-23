@@ -585,6 +585,7 @@ void World_initLevelHub(World *world_p){
 	World_addObstacle(world_p, getVec2f(noLegsLevelsRoomX, noLegsLevelsRoomY + 45), getVec2f(noLegsLevelsRoomWidth, 20), NONE);
 
 
+	/*
 	//north east secret area obstacles
 	//World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 500, cloudY + 220), getVec2f(500, 100), NONE);
 
@@ -597,6 +598,7 @@ void World_initLevelHub(World *world_p){
 	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 150, cloudY - 900), getVec2f(800, 200), NONE);
 
 	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 950, cloudY - 900), getVec2f(300, 900), NONE);
+	*/
 
 	//add obstacles house 
 	World_addObstacle(world_p, getVec2f(houseX, 120), getVec2f(30, 50), NONE);
