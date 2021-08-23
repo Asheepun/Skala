@@ -320,7 +320,7 @@ void World_levelState(World *world_p){
 	Array lastCollisions;
 	Array_init(&lastCollisions, sizeof(Collision));
 
-	for(int k = 0; k < 4; k++){
+	for(int k = 0; k < 5; k++){
 
 		for(int i = 0; i < world_p->bodyPairs.length; i++){
 
@@ -495,14 +495,26 @@ void World_levelState(World *world_p){
 				bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision_p->heavierBodyPairIndex);
 			}
 
-			float bodyPairCenterX = bodyPair1_p->lastBody.pos.x + bodyPair1_p->lastBody.size.x / 2;
+			float bodyPair1CenterX = bodyPair1_p->lastBody.pos.x + bodyPair1_p->lastBody.size.x / 2;
 			float bodyPair2CenterX = bodyPair2_p->lastBody.pos.x + bodyPair2_p->lastBody.size.x / 2;
 
-			if(bodyPairCenterX < bodyPair2CenterX){
+			if(bodyPair1CenterX < bodyPair2CenterX){
 				bodyPair1_p->body.pos.x = roundTo2Dec(bodyPair2_p->body.pos.x) - roundTo2Dec(bodyPair1_p->body.size.x);
+
+				if(roundTo2Dec(bodyPair1_p->body.pos.x + bodyPair1_p->body.size.x) > bodyPair2_p->body.pos.x){
+					bodyPair1_p->body.pos.x = floor(bodyPair1_p->body.pos.x);
+					bodyPair1_p->body.size.x = floor(bodyPair1_p->body.size.x);
+				}
+
 			}
-			if(bodyPairCenterX > bodyPair2CenterX){
+			if(bodyPair1CenterX > bodyPair2CenterX){
 				bodyPair1_p->body.pos.x = roundTo2Dec(bodyPair2_p->body.pos.x + bodyPair2_p->body.size.x);
+
+				if(roundTo2Dec(bodyPair1_p->body.pos.x) < roundTo2Dec(bodyPair2_p->body.pos.x + bodyPair2_p->body.size.x)){
+					bodyPair1_p->body.pos.x = ceil(bodyPair1_p->body.pos.x);
+					bodyPair1_p->body.size.x = ceil(bodyPair1_p->body.size.x);
+				}
+
 			}
 
 			if(!BodyPair_isScalable(bodyPair1_p)){
@@ -545,6 +557,14 @@ void World_levelState(World *world_p){
 
 					bodyPair1_p->body.pos.x = roundTo2Dec(leftBodyPair_p->body.pos.x + leftBodyPair_p->body.size.x);
 					bodyPair1_p->body.size.x = roundTo2Dec(rightBodyPair_p->body.pos.x) - roundTo2Dec(leftBodyPair_p->body.pos.x + leftBodyPair_p->body.size.x);
+
+					//shift in case there still is collision
+					bodyPair1_p->body.pos.x = ceil(bodyPair1_p->body.pos.x);
+					bodyPair1_p->body.size.x = floor(bodyPair1_p->body.size.x);
+
+					if(bodyPair1_p->body.pos.x + bodyPair1_p->body.size.x > rightBodyPair_p->body.pos.x){
+						bodyPair1_p->body.size.x -= 1;
+					}
 
 				}
 			
@@ -593,7 +613,7 @@ void World_levelState(World *world_p){
 	Array_clear(&collisions);
 	Array_clear(&lastCollisions);
 
-	for(int k = 0; k < 4; k++){
+	for(int k = 0; k < 5; k++){
 
 		for(int i = 0; i < world_p->bodyPairs.length; i++){
 
@@ -778,14 +798,28 @@ void World_levelState(World *world_p){
 				bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision_p->heavierBodyPairIndex);
 			}
 
-			float bodyPairCenterY = bodyPair1_p->lastBody.pos.y + bodyPair1_p->lastBody.size.y / 2;
+			float bodyPair1CenterY = bodyPair1_p->lastBody.pos.y + bodyPair1_p->lastBody.size.y / 2;
 			float bodyPair2CenterY = bodyPair2_p->lastBody.pos.y + bodyPair2_p->lastBody.size.y / 2;
 
-			if(bodyPairCenterY < bodyPair2CenterY){
+			if(bodyPair1CenterY < bodyPair2CenterY){
+
 				bodyPair1_p->body.pos.y = roundTo2Dec(bodyPair2_p->body.pos.y) - roundTo2Dec(bodyPair1_p->body.size.y);
+
+				if(roundTo2Dec(bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y) > bodyPair2_p->body.pos.y){
+					bodyPair1_p->body.pos.y = floor(bodyPair1_p->body.pos.y);
+					bodyPair1_p->body.size.y = floor(bodyPair1_p->body.size.y);
+				}
+
 			}
-			if(bodyPairCenterY > bodyPair2CenterY){
+			if(bodyPair1CenterY > bodyPair2CenterY){
+
 				bodyPair1_p->body.pos.y = roundTo2Dec(bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y);
+
+				if(roundTo2Dec(bodyPair1_p->body.pos.y) < roundTo2Dec(bodyPair2_p->body.pos.y + bodyPair2_p->body.size.y)){
+					bodyPair1_p->body.pos.y = ceil(bodyPair1_p->body.pos.y);
+					bodyPair1_p->body.size.y = ceil(bodyPair1_p->body.size.y);
+				}
+
 			}
 
 			if(!BodyPair_isScalable(bodyPair1_p)){
@@ -831,6 +865,14 @@ void World_levelState(World *world_p){
 
 					bodyPair1_p->body.pos.y = roundTo2Dec(upBodyPair_p->body.pos.y + upBodyPair_p->body.size.y);
 					bodyPair1_p->body.size.y = roundTo2Dec(downBodyPair_p->body.pos.y) - roundTo2Dec(upBodyPair_p->body.pos.y + upBodyPair_p->body.size.y);
+
+					//shift in case there still is collision
+					bodyPair1_p->body.pos.y = ceil(bodyPair1_p->body.pos.y);
+					bodyPair1_p->body.size.y = floor(bodyPair1_p->body.size.y);
+
+					if(bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y > downBodyPair_p->body.pos.y){
+						bodyPair1_p->body.size.y -= 1;
+					}
 
 				}
 			

@@ -1589,7 +1589,7 @@ KAeyblabla
 :levelName
 scale-position-block
 :screenName
-block
+Rider
 :levelCode
 
 	World_restore(world_p);
@@ -1605,7 +1605,7 @@ block
 :levelName
 scale-position-block-2
 :screenName
-block
+Kick flip
 :levelCode
 
 	World_restore(world_p);
@@ -1693,7 +1693,7 @@ block
 :levelName
 scale-position-block-5
 :screenName
-block
+Diver
 :levelCode
 
 	World_restore(world_p);
@@ -1711,7 +1711,7 @@ block
 :levelName
 scale-position-block-6
 :screenName
-block
+Conger
 :levelCode
 
 	World_restore(world_p);
@@ -1761,7 +1761,7 @@ block
 :levelName
 scale-position-block-5.2
 :screenName
-block
+Ascent
 :levelCode
 
 	World_restore(world_p);

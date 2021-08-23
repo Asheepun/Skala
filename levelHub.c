@@ -367,10 +367,10 @@ void World_initLevelHub(World *world_p){
 	*currentRoomWidth += 40;
 
 	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 73), getVec2f(14, 73), COLOR_WHITE, "furniture/lamp-post", 1, GAME_LAYER_FURNITURE);
-	*currentRoomWidth += 40;
-
-	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 20), getVec2f(18, 20), COLOR_WHITE, "furniture/bush", 1, GAME_LAYER_FURNITURE);
 	*currentRoomWidth += 60;
+
+	//World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 20), getVec2f(18, 20), COLOR_WHITE, "furniture/bush", 1, GAME_LAYER_FURNITURE);
+	//*currentRoomWidth += 60;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "player-position-1", PLAYER_POSITION_ROOM);
 	*currentRoomWidth += normalLevelDistance;

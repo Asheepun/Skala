@@ -309,3 +309,13 @@ void SaveData_addFlag(SaveData *saveData_p, char *flag){
 		*flag_p = flag;
 	}
 }
+
+void updateWorldFromSaveData(World *world_p, SaveData *saveData_p){
+	
+	
+
+}
+
+void updateSaveDataFromWorld(World *world_p, SaveData *saveData_p){
+
+}
