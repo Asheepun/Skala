@@ -17,6 +17,7 @@
 #include "engine/renderer2d.h"
 #include "engine/array.h"
 #include "engine/audio.h"
+#include "engine/strings.h"
 #include "game.h"
 #include "levels.h"
 //#include "audio.h"
@@ -56,7 +57,8 @@ void Engine_start(){
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
 
-	world.currentLevel = "scale-position-block-5.2";
+	//world.currentLevel = "scale-position-block-5.2";
+	String_set(world.currentLevel, "scale-position-block-5.2", STRING_SIZE);
 
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
 	//World_switchToAndInitState(&world, LEVEL_STATE);

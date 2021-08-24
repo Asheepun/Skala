@@ -14,8 +14,8 @@ void Array_init(Array *array_p,  unsigned int itemSize){
 
 	//array_p->items = malloc(maxLength * itemSize);
 	array_p->maxLength = 16;
-	array_p->items = malloc(array_p->maxLength * itemSize);
 	array_p->itemSize = itemSize;
+	array_p->items = malloc(array_p->maxLength * array_p->itemSize);
 	array_p->length = 0;
 
 }
@@ -141,46 +141,6 @@ void freeTmpArrays(){
 		Array *tmpArrayPointer_p = Array_getItemPointerByIndex(&tmpArrayPointers, 0);
 		Array_free(tmpArrayPointer_p);
 	}
-}
-
-void String_init(String *string_p, char *text){
-
-	string_p->characters = malloc(sizeof(text));
-
-	for(int i = 0; i < strlen(text); i++){
-		string_p->characters[i] = text[i];
-	}
-
-}
-
-void String_setText(String *string_p, char *text){
-
-	free(string_p->characters);
-
-	string_p->characters = malloc(sizeof(text));
-
-	for(int i = 0; i < strlen(text); i++){
-		string_p->characters[i] = text[i];
-	}
-
-}
-
-void String_concatText(String *string_p, char *text){
-
-}
-
-void String_concatString(String *string_p, String concatString){
-
-}
-
-void String_concatInt(String *string_p, int number){
-
-}
-
-void String_free(String *string_p){
-
-	free(string_p->characters);
-
 }
 
 bool compareFloatToFloat(float a, float b){

@@ -1,11 +1,14 @@
 :playerPos
-3199 68
+3401 68
 :doorKeys
 6460 -160
 :doors
+360 140 40 90
 :flags
 removed-title-text
 completed-scale-field-levels
+completed-door-key-levels
+added-gate-door
 :levelsWithDoorKey
 :completedLevels
 push-key-with-point
@@ -30,3 +33,8 @@ slow-fall-squeeze
 high-jump-2
 high-jump-3
 door-key-level-1
+flying-key-1
+flying-key-2-trickshot-edition
+door-key-level-2
+floor-is-door
+get-key-up-1

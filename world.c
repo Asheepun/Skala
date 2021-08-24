@@ -6,6 +6,7 @@
 
 #include "engine/renderer2d.h"
 #include "engine/array.h"
+#include "engine/strings.h"
 
 #include "math.h"
 #include "stdio.h"
@@ -26,7 +27,7 @@ void World_init(World *world_p){
 	SaveData_read(&world_p->saveData);
 
 	for(int i = 0; i < NUMBER_OF_LEVEL_HUB_ROOMS; i++){
-		Array_init(&world_p->roomLevels[i], sizeof(char *));
+		Array_init(&world_p->roomLevels[i], sizeof(char) * STRING_SIZE);
 	}
 	world_p->addedRoomLevels = false;
 
@@ -429,7 +430,8 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 
 	Body_init(&levelDoor_p->body, pos, getVec2f(20, 15));
 
-	levelDoor_p->levelName = levelName;
+	String_set(levelDoor_p->levelName, levelName, STRING_SIZE);
+	//levelDoor_p->levelName = levelName;
 	levelDoor_p->levelHubRoom = levelHubRoom;
 	//levelDoor_p->hoverTextParticleID = -1;
 
@@ -460,8 +462,9 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 
 	if(!world_p->addedRoomLevels){
 
-		char **roomName_p = Array_addItem(&world_p->roomLevels[levelHubRoom]);
-		*roomName_p = levelName;
+		char *roomName = Array_addItem(&world_p->roomLevels[levelHubRoom]);
+		//*roomName_p = levelName;
+		String_set(roomName, levelName, STRING_SIZE);
 		
 	}
 

@@ -758,11 +758,11 @@ void World_initLevelHub(World *world_p){
 		for(int j = 0; j < world_p->roomLevels[i].length; j++){
 			for(int k = 0; k < world_p->saveData.completedLevels.length; k++){
 				
-				char **roomLevelName_p = Array_getItemPointerByIndex(&world_p->roomLevels[i], j);
-				char **completedLevelName_p = Array_getItemPointerByIndex(&world_p->saveData.completedLevels, k);
+				char *roomLevelName_p = Array_getItemPointerByIndex(&world_p->roomLevels[i], j);
+				char *completedLevelName_p = Array_getItemPointerByIndex(&world_p->saveData.completedLevels, k);
 
 
-				if(strcmp(*roomLevelName_p, *completedLevelName_p) == 0){
+				if(strcmp(roomLevelName_p, completedLevelName_p) == 0){
 					completedLevelsInRoom++;
 				}
 
@@ -830,7 +830,7 @@ void World_initLevelHub(World *world_p){
 		Sprite *sprite_p = World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex);
 
 		for(int j = 0; j < world_p->saveData.completedLevels.length; j++){
-			char *completedLevelName = *((char **)Array_getItemPointerByIndex(&world_p->saveData.completedLevels, j));
+			char *completedLevelName = Array_getItemPointerByIndex(&world_p->saveData.completedLevels, j);
 
 			if(strcmp(levelDoor_p->levelName, completedLevelName) == 0){
 				sprite_p->texture = "level-door-completed";
@@ -838,7 +838,7 @@ void World_initLevelHub(World *world_p){
 		}
 
 		for(int j = 0; j < world_p->saveData.levelsWithDoorKey.length; j++){
-			char *levelWithDoorKeyName = *((char **)Array_getItemPointerByIndex(&world_p->saveData.levelsWithDoorKey, j));
+			char *levelWithDoorKeyName = Array_getItemPointerByIndex(&world_p->saveData.levelsWithDoorKey, j);
 
 			if(strcmp(levelDoor_p->levelName, levelWithDoorKeyName) == 0){
 				sprite_p->texture = "level-door-with-key";

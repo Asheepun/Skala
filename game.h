@@ -10,6 +10,7 @@
 #include "engine/array.h"
 #include "engine/text.h"
 #include "engine/geometry.h"
+#include "engine/strings.h"
 
 #include "stdbool.h"
 
@@ -281,7 +282,7 @@ typedef struct ScaleField{
 typedef struct LevelDoor{
 	EntityHeader entityHeader;
 	Body body;
-	char *levelName;
+	char levelName[STRING_SIZE];
 	enum LevelHubRoom levelHubRoom;
 	//size_t spriteID;
 	unsigned int spriteIndex;
@@ -382,7 +383,7 @@ typedef struct World{
 	float endingFlashAlpha;
 
 	//size_t currentLevel;
-	char *currentLevel;
+	char currentLevel[STRING_SIZE];
 
 	Vec2f scaleDirection;
 	//Vec2f scale;

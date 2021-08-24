@@ -28,9 +28,9 @@ void SaveData_init(SaveData *saveData_p){
 	saveData_p->playerPos = getVec2f(1850, 50);
 	//saveData_p->playerHubPos = getVec2f(100, 50);
 
-	Array_init(&saveData_p->flags, sizeof(char *));
-	Array_init(&saveData_p->completedLevels, sizeof(char *));
-	Array_init(&saveData_p->levelsWithDoorKey, sizeof(char *));
+	Array_init(&saveData_p->flags, sizeof(char) * STRING_SIZE);
+	Array_init(&saveData_p->completedLevels, sizeof(char) * STRING_SIZE);
+	Array_init(&saveData_p->levelsWithDoorKey, sizeof(char) * STRING_SIZE);
 	Array_init(&saveData_p->doorKeys, sizeof(Vec2f));
 	Array_init(&saveData_p->doors, sizeof(Body));
 
@@ -48,15 +48,15 @@ void SaveData_init(SaveData *saveData_p){
 void SaveData_read(SaveData *saveData_p){
 
 	//free strings
-	for(int i = 0; i < saveData_p->completedLevels.length; i++){
-		free(*((char **)Array_getItemPointerByIndex(&saveData_p->flags, i)));
-	}
-	for(int i = 0; i < saveData_p->completedLevels.length; i++){
-		free(*((char **)Array_getItemPointerByIndex(&saveData_p->completedLevels, i)));
-	}
-	for(int i = 0; i < saveData_p->levelsWithDoorKey.length; i++){
-		free(*((char **)Array_getItemPointerByIndex(&saveData_p->levelsWithDoorKey, i)));
-	}
+	//for(int i = 0; i < saveData_p->completedLevels.length; i++){
+		//free(*((char **)Array_getItemPointerByIndex(&saveData_p->flags, i)));
+	//}
+	//for(int i = 0; i < saveData_p->completedLevels.length; i++){
+		//free(*((char **)Array_getItemPointerByIndex(&saveData_p->completedLevels, i)));
+	//}
+	//for(int i = 0; i < saveData_p->levelsWithDoorKey.length; i++){
+		//free(*((char **)Array_getItemPointerByIndex(&saveData_p->levelsWithDoorKey, i)));
+	//}
 
 	Array_clear(&saveData_p->flags);
 	Array_clear(&saveData_p->completedLevels);
@@ -69,12 +69,12 @@ void SaveData_read(SaveData *saveData_p){
 
 	file = fopen("saveData.txt", "r");
 
-	char line[255];
-	char word[255];
-	memset(line, 0, 255);
-	memset(word, 0, 255);
+	char line[STRING_SIZE];
+	char word[STRING_SIZE];
+	memset(line, 0, STRING_SIZE);
+	memset(word, 0, STRING_SIZE);
 
-	while(fgets(line, 255, file) != NULL){
+	while(fgets(line, STRING_SIZE, file) != NULL){
 
 		memset(word, 0, strlen(word));
 
@@ -158,34 +158,42 @@ void SaveData_read(SaveData *saveData_p){
 
 		if(currentReadMode == FLAGS){
 
-			char **levelName = Array_addItem(&saveData_p->flags);
+			char *flag = Array_addItem(&saveData_p->flags);
 
-			*levelName = malloc(sizeof(char) * 255);//MUST FREE (is freed at top of function)
-			memset(*levelName, 0, 255);
-			memcpy(*levelName, word, strlen(word));
+			//*levelName = malloc(sizeof(char) * STRING_SIZE);//MUST FREE (is freed at top of function)
+			//memset(*levelName, 0, STRING_SIZE);
+			//memcpy(*levelName, word, strlen(word));
+
+			String_set(flag, word, STRING_SIZE);
 
 		}
 
 		if(currentReadMode == LEVELS_WITH_DOOR_KEY){
 
-			char **levelName = Array_addItem(&saveData_p->levelsWithDoorKey);
+			char *levelName = Array_addItem(&saveData_p->levelsWithDoorKey);
 
-			*levelName = malloc(sizeof(char) * 255);//MUST FREE (is freed at top of function)
-			memset(*levelName, 0, 255);
-			memcpy(*levelName, word, strlen(word));
+			//*levelName = malloc(sizeof(char) * STRING_SIZE);//MUST FREE (is freed at top of function)
+			//memset(*levelName, 0, STRING_SIZE);
+			//memcpy(*levelName, word, strlen(word));
+
+			String_set(levelName, word, STRING_SIZE);
 
 		}
 	
 
 		if(currentReadMode == COMPLETED_LEVELS){
 
-			char **levelName = Array_addItem(&saveData_p->completedLevels);
+			char *levelName = Array_addItem(&saveData_p->completedLevels);
 
-			*levelName = malloc(sizeof(char) * 255);//MUST FREE (is freed at top of function)
-			memset(*levelName, 0, 255);
-			memcpy(*levelName, word, strlen(word));
+			String_set(levelName, word, STRING_SIZE);
+
+			//*levelName = malloc(sizeof(char) * STRING_SIZE);//MUST FREE (is freed at top of function)
+			//memset(*levelName, 0, STRING_SIZE);
+			//memcpy(*levelName, word, strlen(word));
 
 		}
+
+		memset(line, 0, STRING_SIZE);
 	
 	}
 
@@ -202,8 +210,8 @@ void SaveData_write(SaveData *saveData_p){
 	{
 		fputs(":playerPos\n", file);
 
-		char buff[255];
-		memset(buff, 0, 255);
+		char buff[STRING_SIZE];
+		memset(buff, 0, STRING_SIZE);
 		sprintf(buff, "%i %i\n", (int)saveData_p->playerPos.x, (int)saveData_p->playerPos.y);
 
 		fputs(buff, file);
@@ -216,8 +224,8 @@ void SaveData_write(SaveData *saveData_p){
 
 			Vec2f *doorKeyPos_p = Array_getItemPointerByIndex(&saveData_p->doorKeys, i);
 
-			char buff[255];
-			memset(buff, 0, 255);
+			char buff[STRING_SIZE];
+			memset(buff, 0, STRING_SIZE);
 			sprintf(buff, "%i %i\n", (int)doorKeyPos_p->x, (int)doorKeyPos_p->y);
 
 			fputs(buff, file);
@@ -232,8 +240,8 @@ void SaveData_write(SaveData *saveData_p){
 
 			Body *doorBody_p = Array_getItemPointerByIndex(&saveData_p->doors, i);
 
-			char buff[255];
-			memset(buff, 0, 255);
+			char buff[STRING_SIZE];
+			memset(buff, 0, STRING_SIZE);
 			sprintf(buff, "%i %i %i %i\n", (int)doorBody_p->pos.x, (int)doorBody_p->pos.y, (int)doorBody_p->size.x, (int)doorBody_p->size.y);
 
 			fputs(buff, file);
@@ -246,7 +254,7 @@ void SaveData_write(SaveData *saveData_p){
 
 		for(int i = 0; i < saveData_p->flags.length; i++){
 
-			char *flag = *((char **)Array_getItemPointerByIndex(&saveData_p->flags, i));
+			char *flag = Array_getItemPointerByIndex(&saveData_p->flags, i);
 
 			fputs(flag, file);
 
@@ -260,7 +268,7 @@ void SaveData_write(SaveData *saveData_p){
 
 		for(int i = 0; i < saveData_p->levelsWithDoorKey.length; i++){
 
-			char *levelWithDoorKeyName = *((char **)Array_getItemPointerByIndex(&saveData_p->levelsWithDoorKey, i));
+			char *levelWithDoorKeyName = Array_getItemPointerByIndex(&saveData_p->levelsWithDoorKey, i);
 
 			fputs(levelWithDoorKeyName, file);
 
@@ -274,7 +282,7 @@ void SaveData_write(SaveData *saveData_p){
 
 		for(int i = 0; i < saveData_p->completedLevels.length; i++){
 
-			char *completedLevelName = *((char **)Array_getItemPointerByIndex(&saveData_p->completedLevels, i));
+			char *completedLevelName = Array_getItemPointerByIndex(&saveData_p->completedLevels, i);
 
 			fputs(completedLevelName, file);
 
@@ -291,7 +299,7 @@ bool SaveData_hasFlag(SaveData *saveData_p, char *flag){
 
 	for(int i = 0; i < saveData_p->flags.length; i++){
 
-		char *checkFlag = *((char **)Array_getItemPointerByIndex(&saveData_p->flags, i));
+		char *checkFlag = Array_getItemPointerByIndex(&saveData_p->flags, i);
 
 		if(strcmp(checkFlag, flag) == 0){
 			return true;
@@ -303,10 +311,13 @@ bool SaveData_hasFlag(SaveData *saveData_p, char *flag){
 
 }
 
-void SaveData_addFlag(SaveData *saveData_p, char *flag){
-	if(!SaveData_hasFlag(saveData_p, flag)){
-		char **flag_p = Array_addItem(&saveData_p->flags);
-		*flag_p = flag;
+void SaveData_addFlag(SaveData *saveData_p, char *newFlag){
+	if(!SaveData_hasFlag(saveData_p, newFlag)){
+		char *flag = Array_addItem(&saveData_p->flags);
+
+		String_set(flag, newFlag, STRING_SIZE);
+
+		//*flag_p = flag;
 	}
 }
 

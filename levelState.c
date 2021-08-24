@@ -1,5 +1,6 @@
 //#include "stdbool.h"
 #include "engine/audio.h"
+#include "engine/strings.h"
 
 #include "game.h"
 #include "levels.h"
@@ -235,7 +236,7 @@ void World_levelState(World *world_p){
 			bool alreadyCompleted = false;
 			for(int i = 0; i < world_p->saveData.completedLevels.length; i++){
 
-				char *checkLevelName = *((char **)Array_getItemPointerByIndex(&world_p->saveData.completedLevels, i));
+				char *checkLevelName = Array_getItemPointerByIndex(&world_p->saveData.completedLevels, i);
 
 				if(strcmp(checkLevelName, world_p->currentLevel) == 0){
 					alreadyCompleted = true;
@@ -244,15 +245,18 @@ void World_levelState(World *world_p){
 			}
 
 			if(!alreadyCompleted){
-				char **completedLevel_p = Array_addItem(&world_p->saveData.completedLevels);
-				*completedLevel_p = world_p->currentLevel;
+
+				char *completedLevel_p = Array_addItem(&world_p->saveData.completedLevels);
+
+				String_set(completedLevel_p, world_p->currentLevel, STRING_SIZE);
+				//*completedLevel_p = world_p->currentLevel;
 			}
 		}
 
 		//check if player has unlocked a door key, and if so add to save data
 		for(int i = 0; i < world_p->saveData.levelsWithDoorKey.length; i++){
 			
-			char *levelName_p = *((char **)Array_getItemPointerByIndex(&world_p->saveData.levelsWithDoorKey, i));
+			char *levelName_p = Array_getItemPointerByIndex(&world_p->saveData.levelsWithDoorKey, i);
 
 			if(strcmp(levelName_p, world_p->currentLevel) == 0){
 
@@ -1186,7 +1190,8 @@ void World_levelState(World *world_p){
 		if(checkBodyToBodyCol(playerBodyPair_p->body, levelDoor_p->body)
 		&& world_p->playerHasLanded){
 
-			world_p->currentLevel = levelDoor_p->levelName;
+			//world_p->currentLevel = levelDoor_p->levelName;
+			String_set(world_p->currentLevel, levelDoor_p->levelName, STRING_SIZE);
 
 			world_p->saveData.playerPos = playerBodyPair_p->body.pos;
 
