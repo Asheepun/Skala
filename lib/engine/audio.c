@@ -7,7 +7,7 @@
 #include "miniaudio/miniaudio.h"
 
 #include "stdio.h"
-#include "pthread.h"
+//#include "pthread.h"
 
 typedef struct Sound{
 	EntityHeader entityHeader;
@@ -30,7 +30,7 @@ ma_decoder_config decoderConfig;
 ma_device device;
 ma_device_config deviceConfig;
 
-pthread_mutex_t soundMutex = PTHREAD_MUTEX_INITIALIZER;
+//pthread_mutex_t soundMutex = PTHREAD_MUTEX_INITIALIZER;
 
 SoundData soundData[255];
 
@@ -42,7 +42,7 @@ float volumes[2];
 
 void data_callback(ma_device* device_p, void* output_p, const void* input_p, ma_uint32 frameCount){
 
-	pthread_mutex_lock(&soundMutex);
+	//pthread_mutex_lock(&soundMutex);
 
 	float *outputF32_p = (float *)output_p;
 	MA_ASSERT(device_p->playback.format == SAMPLE_FORMAT);
@@ -74,7 +74,7 @@ void data_callback(ma_device* device_p, void* output_p, const void* input_p, ma_
 	
 	}
 
-	pthread_mutex_unlock(&soundMutex);
+	//pthread_mutex_unlock(&soundMutex);
 
 }
 
@@ -142,27 +142,27 @@ void Audio_init(char **soundFiles, int soundFilesLength){
 
 void Audio_setVolume(float volume, enum Audio_SoundTypeEnum soundType){
 
-	pthread_mutex_lock(&soundMutex);
+	//pthread_mutex_lock(&soundMutex);
 
 	volumes[soundType] = volume;
 
-	pthread_mutex_unlock(&soundMutex);
+	//pthread_mutex_unlock(&soundMutex);
 
 }
 
 float Audio_getVolume(enum Audio_SoundTypeEnum soundType){
 
-	pthread_mutex_lock(&soundMutex);
+	//pthread_mutex_lock(&soundMutex);
 
 	return volumes[soundType];
 
-	pthread_mutex_unlock(&soundMutex);
+	//pthread_mutex_unlock(&soundMutex);
 
 }
 
 size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_SoundTypeEnum soundType){
 
-	pthread_mutex_lock(&soundMutex);
+	//pthread_mutex_lock(&soundMutex);
 
 	int soundDataIndex = -1;
 	for(int i = 0; i < soundDataLength; i++){
@@ -188,7 +188,7 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 	sound_p->type = soundType;
 	sound_p->stopped = false;
 
-	pthread_mutex_unlock(&soundMutex);
+	//pthread_mutex_unlock(&soundMutex);
 
 	return sound_p->entityHeader.ID;
 
@@ -196,34 +196,34 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 
 void Audio_stopSoundByID(size_t ID){
 
-	pthread_mutex_lock(&soundMutex);
+	//pthread_mutex_lock(&soundMutex);
 
 	Sound *sound_p = Array_getItemPointerByID(&sounds, ID);
 
 	sound_p->stopped = true;
 
-	pthread_mutex_unlock(&soundMutex);
+	//pthread_mutex_unlock(&soundMutex);
 
 }
 
 void Audio_resumeSoundByID(size_t ID){
 
-	pthread_mutex_lock(&soundMutex);
+	//pthread_mutex_lock(&soundMutex);
 
 	Sound *sound_p = Array_getItemPointerByID(&sounds, ID);
 
 	sound_p->stopped = false;
 
-	pthread_mutex_unlock(&soundMutex);
+	//pthread_mutex_unlock(&soundMutex);
 
 }
 
 void Audio_killSoundByID(size_t ID){
 
-	pthread_mutex_lock(&soundMutex);
+	//pthread_mutex_lock(&soundMutex);
 
 	Array_removeItemByID(&sounds, ID);
 
-	pthread_mutex_unlock(&soundMutex);
+	//pthread_mutex_unlock(&soundMutex);
 
 }
