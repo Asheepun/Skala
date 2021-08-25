@@ -1,5 +1,5 @@
 :playerPos
-3401 68
+6215 178
 :doorKeys
 6460 -160
 :doors
@@ -9,6 +9,8 @@ removed-title-text
 completed-scale-field-levels
 completed-door-key-levels
 added-gate-door
+completed-all-from-top-levels
+completed-player-position-levels
 :levelsWithDoorKey
 :completedLevels
 push-key-with-point
@@ -38,3 +40,20 @@ flying-key-2-trickshot-edition
 door-key-level-2
 floor-is-door
 get-key-up-1
+level-1
+get-under-cup
+all-from-top-3
+all-from-top-2
+player-position-1
+player-position-2
+player-position-3
+airport-control
+grow-through-jumping
+player-position-jumping-key-1
+player-position-jumping-key-2
+player-position-jumping-key-3
+scale-position-block-2
+scale-position-block-5
+scale-position-block-5.2
+scale-position-block-6
+scale-position-block

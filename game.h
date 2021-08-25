@@ -355,6 +355,7 @@ typedef struct World{
 	SaveData saveData;
 	Array roomLevels[NUMBER_OF_LEVEL_HUB_ROOMS];
 	bool addedRoomLevels;
+	bool updatedWorldFromSaveData;
 
 	//Font fonts[16];
 	Array fonts;

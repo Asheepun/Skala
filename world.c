@@ -30,6 +30,7 @@ void World_init(World *world_p){
 		Array_init(&world_p->roomLevels[i], sizeof(char) * STRING_SIZE);
 	}
 	world_p->addedRoomLevels = false;
+	world_p->updatedWorldFromSaveData = false;
 
 	Array_init(&world_p->fonts, sizeof(Font));
 

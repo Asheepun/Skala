@@ -919,7 +919,7 @@ Lock
 :levelName
 scale-field-1
 :screenName
-Coldness
+Cold
 :levelCode
 
 	World_restore(world_p);
@@ -936,7 +936,7 @@ Coldness
 :levelName
 scale-field-2
 :screenName
-Comfort
+Warm
 :levelCode
 
 	World_restore(world_p);

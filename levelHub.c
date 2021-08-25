@@ -462,14 +462,6 @@ void World_initLevelHub(World *world_p){
 
 	World_addSprite(world_p, getVec2f(startingAreaX + 50, -HEIGHT - 300 - 23), getVec2f(14, 23), COLOR_WHITE, "furniture/telescope", 1, GAME_LAYER_FURNITURE);
 
-	//World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 460), "Wings made from wax", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
-
-	//World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 435), "and curiousity", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
-
-	//World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 400), "May you not suffer", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
-
-	//World_addTextSprite(world_p, getVec2f(startingAreaX + 20, -HEIGHT - 375), "from hubris", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
-
 	if(!SaveData_hasFlag(&world_p->saveData, "removed-title-text")){
 
 		int activationTime = 4000 / 60;
@@ -992,7 +984,7 @@ void World_initLevelHub(World *world_p){
 			Vec2f targetPos = getVec2f(0, HEIGHT - 100);
 
 			if(openGateParticleEffectRoom == PLAYER_POSITION_ROOM){
-				targetPos = getVec2f(playerPositionLevelsRoomX + 400, -HEIGHT);
+				targetPos = getVec2f(playerPositionLevelsRoomX + 1020, -HEIGHT);
 			}
 
 			size_t levelDoorWithStarSpriteIndex = World_addSprite(world_p, pos, getVec2f(20, 15), COLOR_WHITE, "level-door-completed", 1, GAME_LAYER_FOREGROUND);

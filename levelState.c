@@ -231,6 +231,7 @@ void World_levelState(World *world_p){
 	if(world_p->points.length == 0
 	&& world_p->currentState == LEVEL_STATE){
 
+		printf("completed level %s\n", world_p->currentLevel);
 		//add completed level to save data
 		{
 			bool alreadyCompleted = false;
@@ -249,6 +250,8 @@ void World_levelState(World *world_p){
 				char *completedLevel_p = Array_addItem(&world_p->saveData.completedLevels);
 
 				String_set(completedLevel_p, world_p->currentLevel, STRING_SIZE);
+
+				printf("added %s to save data\n", world_p->currentLevel);
 				//*completedLevel_p = world_p->currentLevel;
 			}
 		}
@@ -263,8 +266,12 @@ void World_levelState(World *world_p){
 				Vec2f *doorKeyPos_p = Array_addItem(&world_p->saveData.doorKeys);
 				*doorKeyPos_p = world_p->saveData.playerPos;
 
+				printf("added door key\n");
+
 				Array_removeItemByIndex(&world_p->saveData.levelsWithDoorKey, i);
 				i--;
+
+				printf("removed level with door key from savedata\n");
 
 			}
 

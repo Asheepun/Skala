@@ -40,6 +40,8 @@ int main(){
 
 	char line[255];
 	char word[255];
+	memset(line, 0, 255);
+	memset(word, 0, 255);
 
 	printf("gonnageneratesomelevels\n");
 
@@ -101,6 +103,8 @@ int main(){
 			strcat(levels[levelsLength - 1].code, line);
 		}
 
+		memset(line, 0, 255);
+
 	}
 
 	//write to output file generatedLevels.c
@@ -114,6 +118,7 @@ int main(){
 	for(int i = 0; i < levelsLength; i++){
 
 		char buffer[255];
+		memset(buffer, 0, 255);
 		sprintf(buffer, "\nvoid World_generateLevel%i(World *world_p){\n", i + 1);
 
 		fputs(buffer, file);
@@ -136,6 +141,7 @@ int main(){
 	for(int i = 0; i < levelsLength; i++){
 
 		char buffer[255];
+		memset(buffer, 0, 255);
 		sprintf(buffer, "void World_generateLevel%i(World *);\n", i + 1);
 
 		fputs(buffer, file);
@@ -144,6 +150,7 @@ int main(){
 
 	{
 		char buffer[255];
+		memset(buffer, 0, 255);
 		sprintf(buffer, "\nstatic const size_t LEVELS_LENGTH = %i;\n", levelsLength);
 
 		fputs(buffer, file);
@@ -162,6 +169,7 @@ int main(){
 		fputs("\",\n", file);
 
 		char buffer[255];
+		memset(buffer, 0, 255);
 		sprintf(buffer, "\tWorld_generateLevel%i,\n", i + 1);
 
 		fputs(buffer, file);
