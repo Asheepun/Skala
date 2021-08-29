@@ -173,13 +173,13 @@ typedef struct Sprite{
 
 	//regular sprite
 	Body body;
-	char *texture;
+	char texture[SMALL_STRING_SIZE];
 
 	//text sprite
 	Vec2f pos;
 	//unsigned int font;
 	char *fontName;
-	char text[32];
+	char text[SMALL_STRING_SIZE];
 
 }Sprite;
 

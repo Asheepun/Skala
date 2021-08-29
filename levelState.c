@@ -231,7 +231,6 @@ void World_levelState(World *world_p){
 	if(world_p->points.length == 0
 	&& world_p->currentState == LEVEL_STATE){
 
-		printf("completed level %s\n", world_p->currentLevel);
 		//add completed level to save data
 		{
 			bool alreadyCompleted = false;
@@ -250,8 +249,6 @@ void World_levelState(World *world_p){
 				char *completedLevel_p = Array_addItem(&world_p->saveData.completedLevels);
 
 				String_set(completedLevel_p, world_p->currentLevel, STRING_SIZE);
-
-				printf("added %s to save data\n", world_p->currentLevel);
 				//*completedLevel_p = world_p->currentLevel;
 			}
 		}
@@ -266,12 +263,8 @@ void World_levelState(World *world_p){
 				Vec2f *doorKeyPos_p = Array_addItem(&world_p->saveData.doorKeys);
 				*doorKeyPos_p = world_p->saveData.playerPos;
 
-				printf("added door key\n");
-
 				Array_removeItemByIndex(&world_p->saveData.levelsWithDoorKey, i);
 				i--;
-
-				printf("removed level with door key from savedata\n");
 
 			}
 
@@ -1454,12 +1447,12 @@ void World_levelState(World *world_p){
 
 		//handle obstacle sprite being stuck
 		sprite_p = World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(world_p, sprite_p, &obstacle_p->spriteIndex, GAME_LAYER_OBSTACLES);
-		sprite_p->texture = "obstacle";
+		String_set(sprite_p->texture, "obstacle", SMALL_STRING_SIZE);
 
 		if(obstacleBodyPair_p->isStuckY
 		|| obstacleBodyPair_p->isStuckX){
 			sprite_p->color = COLOR_RED;
-			sprite_p->texture = "obstacle";
+			String_set(sprite_p->texture, "obstacle", SMALL_STRING_SIZE);
 			sprite_p = World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(world_p, sprite_p, &obstacle_p->spriteIndex, GAME_LAYER_BLOCKED_ENTITIES);
 		}
 		if(obstacleBodyPair_p->isStuckY){
@@ -1490,12 +1483,12 @@ void World_levelState(World *world_p){
 
 		//handle point sprite being stuck
 		sprite_p = World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(world_p, sprite_p, &point_p->spriteIndex, GAME_LAYER_FOREGROUND);
-		sprite_p->texture = "point";
+		String_set(sprite_p->texture, "point", SMALL_STRING_SIZE);
 
 		if(pointBodyPair_p->isStuckY
 		|| pointBodyPair_p->isStuckX){
 			sprite_p->color = COLOR_RED;
-			sprite_p->texture = "obstacle";
+			String_set(sprite_p->texture, "obstacle", SMALL_STRING_SIZE);
 			sprite_p = World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(world_p, sprite_p, &point_p->spriteIndex, GAME_LAYER_BLOCKED_ENTITIES);
 		}
 		if(pointBodyPair_p->isStuckY){
@@ -1550,12 +1543,12 @@ void World_levelState(World *world_p){
 
 		//handle door key sprite being stuck
 		sprite_p = World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(world_p, sprite_p, &doorKey_p->spriteIndex, GAME_LAYER_FOREGROUND);
-		sprite_p->texture = "door-key";
+		String_set(sprite_p->texture, "door-key", SMALL_STRING_SIZE);
 
 		if(doorKeyBodyPair_p->isStuckY
 		|| doorKeyBodyPair_p->isStuckX){
 			sprite_p->color = COLOR_RED;
-			sprite_p->texture = "obstacle";
+			String_set(sprite_p->texture, "obstacle", SMALL_STRING_SIZE);
 			sprite_p = World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(world_p, sprite_p, &doorKey_p->spriteIndex, GAME_LAYER_BLOCKED_ENTITIES);
 		}
 		if(doorKeyBodyPair_p->isStuckY){
@@ -1598,7 +1591,7 @@ void World_levelState(World *world_p){
 		sprite_p->facing = world_p->player.facing;
 
 		if(world_p->playerHasNoLegs){
-			sprite_p->texture = "player-no-legs";
+			String_set(sprite_p->texture, "player-no-legs", SMALL_STRING_SIZE);
 		}
 
 	}

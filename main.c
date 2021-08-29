@@ -31,8 +31,6 @@ void Engine_start(){
 	//set up world and game
 	World_init(&world);
 
-	initTmpArrays();
-
 	for(int i = 0; i < 16; i++){
 		Action_init(&world.actions[i]);
 	}
@@ -140,7 +138,8 @@ void Engine_start(){
 
 		Renderer2D_Texture_initFromFile(texture_p, path);
 
-		texture_p->name = assets[i];
+		String_set(texture_p->name, assets[i], SMALL_STRING_SIZE);
+		//texture_p->name = assets[i];
 
 	}
 
@@ -186,7 +185,8 @@ void Engine_start(){
 
 		Renderer2D_Texture *texture_p = Array_addItem(&world.textures);
 
-		texture_p->name = "star-background";
+		String_set(texture_p->name, "star-background", SMALL_STRING_SIZE);
+		//texture_p->name = "star-background";
 
 		int width = 5000;
 		int height = HEIGHT * 8;
@@ -328,6 +328,7 @@ void Engine_update(float deltaTime){
 
 		world.initCurrentState = true;
 	}
+	
 
 	//init current state if needed
 	if(world.initCurrentState){
@@ -368,8 +369,6 @@ void Engine_update(float deltaTime){
 		world.actions[i].upped = false;
 	}
 
-	freeTmpArrays();
-
 }
 
 void Engine_draw(){
@@ -395,7 +394,7 @@ void Engine_draw(){
 	//draw sprite layers
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 
-		for(int j = 0; j < world.spriteLayers[i].length; j++){
+		for(int j = 0; j <= world.spriteLayers[i].deepestIndex; j++){
 
 			Sprite *sprite_p = IndexSafeArray_getItemPointer(&world.spriteLayers[i], j);
 

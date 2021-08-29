@@ -117,7 +117,8 @@ void Renderer2D_init(Renderer2D_Renderer *renderer_p, int width, int height){
 
 void Renderer2D_Texture_init(Renderer2D_Texture *texture_p, char *name, char *data, int width, int height){
 
-	texture_p->name = name;
+	String_set(texture_p->name, name, SMALL_STRING_SIZE);
+	//texture_p->name = name;
 	texture_p->width = width;
 	texture_p->height = height;
 

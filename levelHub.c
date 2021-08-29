@@ -281,7 +281,7 @@ void World_initLevelHub(World *world_p){
 	*currentRoomX = elevatorRoomX + elevatorRoomWidth;
 	*currentRoomWidth += 60 + 200 + 10;
 
-	//World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth - 120, 180), getVec2f(11, 11), COLOR_WHITE, "furniture/lamp-1", 1, GAME_LAYER_FURNITURE);
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth - 120, 180), getVec2f(11, 11), COLOR_WHITE, "furniture/lamp-1", 1, GAME_LAYER_FURNITURE);
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 195), "all-from-top-1", ALL_FROM_TOP_ROOM);
 	*currentRoomWidth += normalLevelDistance;
@@ -312,7 +312,7 @@ void World_initLevelHub(World *world_p){
 
 	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth + 50, 180), getVec2f(11, 11), COLOR_WHITE, "furniture/lamp-1", 1, GAME_LAYER_FURNITURE);
 
-	//World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth + 430, 180), getVec2f(11, 11), COLOR_WHITE, "furniture/lamp-1", 1, GAME_LAYER_FURNITURE);
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth + 430, 180), getVec2f(11, 11), COLOR_WHITE, "furniture/lamp-1", 1, GAME_LAYER_FURNITURE);
 
 
 	*currentRoomWidth += 550;
@@ -372,7 +372,7 @@ void World_initLevelHub(World *world_p){
 	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 73), getVec2f(14, 73), COLOR_WHITE, "furniture/lamp-post", 1, GAME_LAYER_FURNITURE);
 	*currentRoomWidth += 60;
 
-	//World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 20), getVec2f(18, 20), COLOR_WHITE, "furniture/bush", 1, GAME_LAYER_FURNITURE);
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 20), getVec2f(18, 20), COLOR_WHITE, "furniture/bush", 1, GAME_LAYER_FURNITURE);
 	//*currentRoomWidth += 60;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "player-position-1", PLAYER_POSITION_ROOM);
@@ -825,7 +825,8 @@ void World_initLevelHub(World *world_p){
 			char *completedLevelName = Array_getItemPointerByIndex(&world_p->saveData.completedLevels, j);
 
 			if(strcmp(levelDoor_p->levelName, completedLevelName) == 0){
-				sprite_p->texture = "level-door-completed";
+				String_set(sprite_p->texture, "level-door-completed", SMALL_STRING_SIZE);
+				//sprite_p->texture = "level-door-completed";
 			}
 		}
 
@@ -833,7 +834,7 @@ void World_initLevelHub(World *world_p){
 			char *levelWithDoorKeyName = Array_getItemPointerByIndex(&world_p->saveData.levelsWithDoorKey, j);
 
 			if(strcmp(levelDoor_p->levelName, levelWithDoorKeyName) == 0){
-				sprite_p->texture = "level-door-with-key";
+				String_set(sprite_p->texture, "level-door-with-key", SMALL_STRING_SIZE);
 			}
 		}
 
@@ -847,7 +848,7 @@ void World_initLevelHub(World *world_p){
 		&& SaveData_hasFlag(&world_p->saveData, "completed-scale-field-levels")
 		|| levelDoor_p->levelHubRoom == PLAYER_POSITION_ROOM
 		&& SaveData_hasFlag(&world_p->saveData, "completed-player-position-levels")){
-			sprite_p->texture = "level-door";
+			String_set(sprite_p->texture, "level-door", SMALL_STRING_SIZE);
 			sprite_p->color = COLOR_GREY;
 		}
 
@@ -973,7 +974,7 @@ void World_initLevelHub(World *world_p){
 				targetColor = COLOR_WHITE;
 			}
 
-			World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex)->texture = "level-door";
+			String_set(World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex)->texture, "level-door", SMALL_STRING_SIZE);
 			World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex)->color = COLOR_GREY;
 
 			Vec2f pos = levelDoor_p->body.pos;

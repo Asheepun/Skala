@@ -56,7 +56,7 @@ void World_init(World *world_p){
 			maxLength = 1024;
 		}
 
-		IndexSafeArray_init(&world_p->spriteLayers[i], sizeof(Sprite), 255);
+		IndexSafeArray_init(&world_p->spriteLayers[i], sizeof(Sprite), maxLength);
 	}
 
 	world_p->fadeTransitionCounter = 0;
@@ -137,6 +137,8 @@ void World_restore(World *world_p){
 	world_p->scalingByPlayerPosition = false;
 	world_p->playerHasNoLegs = false;
 
+	printf("set stuff\n");
+
 	Array_clear(&world_p->buttons);
 	Array_clear(&world_p->bodyPairs);
 	Array_clear(&world_p->points);
@@ -147,12 +149,16 @@ void World_restore(World *world_p){
 	Array_clear(&world_p->levelDoors);
 	Array_clear(&world_p->particles);
 
+	printf("cleared arrays\n");
+
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 		//Array_clear(&world_p->spriteLayers[i]);
 		IndexSafeArray_clear(&world_p->spriteLayers[i]);
 	}
 
-	world_p->fpsTextID = World_addTextSprite(world_p, getVec2f(10, 10), "", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+	printf("cleared sprites\n");
+
+	//world_p->fpsTextID = World_addTextSprite(world_p, getVec2f(10, 10), "", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
 	world_p->endingFlashAlpha = 0;
 
@@ -220,9 +226,11 @@ size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Renderer2D_Color c
 	sprite_p->body.pos = pos;
 	sprite_p->body.size = size;
 	sprite_p->color = color;
-	sprite_p->texture = texture;
+	//sprite_p->texture = texture;
 	sprite_p->alpha = alpha;
 	sprite_p->currentLayer = layer;
+
+	String_set(sprite_p->texture, texture, SMALL_STRING_SIZE);
 
 	sprite_p->facing = RIGHT;
 	sprite_p->borderSize = getVec2f(0, 0);
@@ -250,7 +258,8 @@ size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, char *fontName
 
 	sprite_p->facing = RIGHT;
 
-	strcpy(sprite_p->text, text);
+	String_set(sprite_p->text, text, SMALL_STRING_SIZE);
+	//strcpy(sprite_p->text, text);
 
 	return index + 1000000 * layer;
 	//return sprite_p->entityHeader.ID;
@@ -436,7 +445,7 @@ size_t World_addLevelDoor(World *world_p, Vec2f pos, char *levelName, enum Level
 	levelDoor_p->levelHubRoom = levelHubRoom;
 	//levelDoor_p->hoverTextParticleID = -1;
 
-	levelDoor_p->spriteIndex = World_addSprite(world_p, pos, levelDoor_p->body.size, COLOR_WHITE, "level-door", 1, GAME_LAYER_FOREGROUND);
+	levelDoor_p->spriteIndex = World_addSprite(world_p, pos, levelDoor_p->body.size, COLOR_WHITE, "level-door", 1, GAME_LAYER_FURNITURE);
 
 	char *screenName;
 	for(int i = 0; i < LEVELS_LENGTH; i++){

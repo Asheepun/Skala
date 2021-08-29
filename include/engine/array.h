@@ -17,7 +17,8 @@ typedef struct EntityHeader{
 
 typedef struct IndexSafeArray{
 	void *items;
-	unsigned int length;
+	unsigned int deepestIndex;
+	//unsigned int length;
 	//unsigned int spaces;
 	unsigned int itemSize;
 	unsigned int indexSize;

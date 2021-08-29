@@ -2,6 +2,7 @@
 #define RENDERER_2D_H_
 
 #include "engine/text.h"
+#include "engine/strings.h"
 #include "engine/geometry.h"
 
 enum Renderer2D_ShaderTypeEnum{
@@ -27,7 +28,7 @@ typedef struct Renderer2D_ShaderPathTypePair{
 }Renderer2D_ShaderPathTypePair;
 
 typedef struct Renderer2D_Texture{
-	char *name;
+	char name[SMALL_STRING_SIZE];
 	unsigned int ID;
 	int width;
 	int height;
