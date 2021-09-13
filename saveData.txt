@@ -1,5 +1,5 @@
 :playerPos
-3467 66
+330 -240
 :doorKeys
 6260 -200
 3467 66
@@ -12,3 +12,16 @@ removed-title-text
 point-cage-3
 :completedLevels
 get-key-up-2
+no-legs
+no-legs-2
+no-legs-4
+no-legs-3
+no-legs-point-hole
+no-legs-key-first
+no-legs-key-block
+no-legs-scale-field-key
+no-legs-drag-key
+no-legs-scalable-point-first
+no-legs-scalable-point-scale-field
+no-legs-scalable-point-2
+no-legs-scalable-point

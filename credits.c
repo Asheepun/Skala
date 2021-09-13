@@ -30,7 +30,7 @@ void World_creditsState(World *world_p){
 		return;
 	}
 
-	if(counter > 60 * 5
+	if(counter > 60 * 10
 	|| counter > 60 * 2
 	&& world_p->actions[DO_ACTION].down){
 		World_fadeTransitionToState(world_p, LEVEL_HUB_STATE);

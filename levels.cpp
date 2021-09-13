@@ -1482,7 +1482,7 @@ Pick
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH * 100, 60), NONE);
 
-	World_addObstacle(world_p, getVec2f(30, 190), getVec2f(10, 10), ALL);
+	World_addObstacle(world_p, getVec2f(50, 90), getVec2f(20, 20), ALL);
 
 	World_addObstacle(world_p, getVec2f(0, 130), getVec2f(80, 20), NONE);
 
