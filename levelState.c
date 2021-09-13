@@ -1071,33 +1071,33 @@ void World_levelState(World *world_p){
 		BodyPair *doorKeyBodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
 
-		Vec2f playerPhysicsScale = BodyPair_getPhysicsScale(playerBodyPair_p);
-		Vec2f doorKeyPhysicsScale = BodyPair_getPhysicsScale(doorKeyBodyPair_p);
-
-		Vec2f playerHand = getVec2f(playerBodyPair_p->body.pos.x + 10 / playerPhysicsScale.x, playerBodyPair_p->body.pos.y + 15 / playerPhysicsScale.y);
-
-		if(player_p->facing == LEFT){
-			playerHand.x -= 6 / playerPhysicsScale.x;
-		}
-
-		Vec2f doorKeyHold = getVec2f(doorKeyBodyPair_p->body.pos.x, doorKeyBodyPair_p->body.pos.y + doorKeyBodyPair_p->body.size.y);
-
-		if(player_p->facing == LEFT){
-			doorKeyHold.x += doorKeyBodyPair_p->body.size.x;
-		}
-
-		Vec2f velocity = playerHand;
-		Vec2f_sub(&velocity, doorKeyHold);
-		Vec2f_mul(&velocity, doorKeyPhysicsScale);
-
-		float mag = getMagVec2f(velocity);
-
-		Vec2f_normalize(&velocity);
-		Vec2f_mulByFloat(&velocity, mag);
-		//Vec2f_divByFactor(&velocity, 3);
-
-		if(checkBodyToBodyCol(playerBodyPair_p->body, doorKeyBodyPair_p->body)
+		if(checkBodyPairToBodyPairCollision(*playerBodyPair_p, *doorKeyBodyPair_p)
 		&& !playerGotKey){
+
+			Vec2f playerPhysicsScale = BodyPair_getPhysicsScale(playerBodyPair_p);
+			Vec2f doorKeyPhysicsScale = BodyPair_getPhysicsScale(doorKeyBodyPair_p);
+
+			Vec2f playerHand = getVec2f(playerBodyPair_p->body.pos.x + 10 / playerPhysicsScale.x, playerBodyPair_p->body.pos.y + 15 / playerPhysicsScale.y);
+
+			if(player_p->facing == LEFT){
+				playerHand.x -= 6 / playerPhysicsScale.x;
+			}
+
+			Vec2f doorKeyHold = getVec2f(doorKeyBodyPair_p->body.pos.x, doorKeyBodyPair_p->body.pos.y + doorKeyBodyPair_p->body.size.y);
+
+			if(player_p->facing == LEFT){
+				doorKeyHold.x += doorKeyBodyPair_p->body.size.x;
+			}
+
+			Vec2f velocity = playerHand;
+			Vec2f_sub(&velocity, doorKeyHold);
+			Vec2f_mul(&velocity, doorKeyPhysicsScale);
+
+			float mag = getMagVec2f(velocity);
+
+			Vec2f_normalize(&velocity);
+			Vec2f_mulByFloat(&velocity, mag);
+			//Vec2f_divByFactor(&velocity, 3);
 
 			playerGotKey = true;
 
@@ -1635,7 +1635,8 @@ void World_levelState(World *world_p){
 
 		cameraSpeedX = 5;
 
-		float playerPositionAreaX = 5150 + 300;
+		//player position levels entering
+		float playerPositionAreaX = 5150 + 100;
 
 		if(playerBodyPair_p->body.pos.x > playerPositionAreaX
 		&& playerBodyPair_p->body.pos.x < playerPositionAreaX + WIDTH / 2

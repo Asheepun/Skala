@@ -137,8 +137,6 @@ void World_restore(World *world_p){
 	world_p->scalingByPlayerPosition = false;
 	world_p->playerHasNoLegs = false;
 
-	printf("set stuff\n");
-
 	Array_clear(&world_p->buttons);
 	Array_clear(&world_p->bodyPairs);
 	Array_clear(&world_p->points);
@@ -149,14 +147,10 @@ void World_restore(World *world_p){
 	Array_clear(&world_p->levelDoors);
 	Array_clear(&world_p->particles);
 
-	printf("cleared arrays\n");
-
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 		//Array_clear(&world_p->spriteLayers[i]);
 		IndexSafeArray_clear(&world_p->spriteLayers[i]);
 	}
-
-	printf("cleared sprites\n");
 
 	//world_p->fpsTextID = World_addTextSprite(world_p, getVec2f(10, 10), "", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 

@@ -1,14 +1,14 @@
 :playerPos
-1836 172
+3467 66
 :doorKeys
-6460 -200
+6260 -200
+3467 66
 :doors
 3350 180 20 60
-4270 180 20 60
+4020 180 20 60
 :flags
 removed-title-text
 :levelsWithDoorKey
 point-cage-3
-get-key-up-2
 :completedLevels
-level-1
+get-key-up-2

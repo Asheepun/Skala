@@ -1,4 +1,4 @@
-//#include "stdbool.h"
+//#INCLUDE "STDBOOL.H"
 #include "math.h"
 #include "stdio.h"
 #include "string.h"
@@ -244,25 +244,25 @@ void World_initLevelHub(World *world_p){
 
 	*currentRoomWidth += 150;
 
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "push-key-with-point", DOOR_KEY_ROOM);
-	*currentRoomWidth += normalLevelDistance;
-
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "key-in-box", DOOR_KEY_ROOM);
-	//*currentRoomWidth += normalLevelDistance;
-
-	*currentRoomWidth += 70;
-
 	World_addObstacle(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 30), getVec2f(20, 30), NONE);
 
 	*currentRoomWidth += 70;
 
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "maybe-key-should-fly", DOOR_KEY_ROOM);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "key-in-box", DOOR_KEY_ROOM);
 	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "flying-key-1", DOOR_KEY_ROOM);
-	*currentRoomWidth += normalLevelDistance;
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "push-key-with-point", DOOR_KEY_ROOM);
+	//*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "flying-key-2-trickshot-edition", DOOR_KEY_ROOM);
+	//*currentRoomWidth += 70;
+
+	//World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "maybe-key-should-fly", DOOR_KEY_ROOM);
+	//*currentRoomWidth += normalLevelDistance;
+
+	//World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "flying-key-1", DOOR_KEY_ROOM);
+	//*currentRoomWidth += normalLevelDistance;
+
+	//World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 55), "flying-key-2-trickshot-edition", DOOR_KEY_ROOM);
 
 	*currentRoomWidth += 50;
 
@@ -312,10 +312,11 @@ void World_initLevelHub(World *world_p){
 
 	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth + 50, 180), getVec2f(11, 11), COLOR_WHITE, "furniture/lamp-1", 1, GAME_LAYER_FURNITURE);
 
-	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth + 430, 180), getVec2f(11, 11), COLOR_WHITE, "furniture/lamp-1", 1, GAME_LAYER_FURNITURE);
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth + 230, 180), getVec2f(11, 11), COLOR_WHITE, "furniture/lamp-1", 1, GAME_LAYER_FURNITURE);
 
 
-	*currentRoomWidth += 550;
+	//*currentRoomWidth += 550;
+	*currentRoomWidth += 350;
 
 	houseWidth += *currentRoomWidth;
 
@@ -371,9 +372,6 @@ void World_initLevelHub(World *world_p){
 
 	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 73), getVec2f(14, 73), COLOR_WHITE, "furniture/lamp-post", 1, GAME_LAYER_FURNITURE);
 	*currentRoomWidth += 60;
-
-	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, HEIGHT - 60 - 20), getVec2f(18, 20), COLOR_WHITE, "furniture/bush", 1, GAME_LAYER_FURNITURE);
-	//*currentRoomWidth += 60;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "player-position-1", PLAYER_POSITION_ROOM);
 	*currentRoomWidth += normalLevelDistance;
@@ -655,7 +653,7 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(allFromTopLevelsRoomX, 170), getVec2f(220, 10), NONE);
 
-	World_addObstacle(world_p, getVec2f(allFromTopLevelsRoomX + doorKeyLevelsRoomWidth - 280, 170), getVec2f(280, 10), NONE);
+	World_addObstacle(world_p, getVec2f(allFromTopLevelsRoomX + doorKeyLevelsRoomWidth - 100, 170), getVec2f(100, 10), NONE);
 
 	World_addObstacle(world_p, getVec2f(doorKeyLevelsRoomX + doorKeyLevelsRoomWidth, 0), getVec2f(allFromTopLevelsRoomWidth - doorKeyLevelsRoomWidth - 80, 180), NONE);
 

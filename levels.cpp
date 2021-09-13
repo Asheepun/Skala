@@ -684,7 +684,7 @@ Locker
 :levelName
 flying-key-1
 :screenName
-Locker 2
+Locker
 :levelCode
 
 	World_restore(world_p);

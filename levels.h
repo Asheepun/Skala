@@ -195,7 +195,7 @@ static Level levels[255] = {
 	"Locker",
 	World_generateLevel33,
 	"flying-key-1",
-	"Locker 2",
+	"Locker",
 	World_generateLevel34,
 	"flying-key-2-trickshot-edition",
 	"Locker 3",

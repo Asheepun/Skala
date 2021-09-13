@@ -1,10 +1,10 @@
 :playerPos
 330 -240
 :doorKeys
-6460 -200
+6260 -200
 :doors
 3350 180 20 60
-4270 180 20 60
+4020 180 20 60
 :flags
 :levelsWithDoorKey
 point-cage-3

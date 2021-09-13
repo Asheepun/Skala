@@ -203,7 +203,7 @@ void Engine_start(){
 		Vec2f starSignPoses[] = {
 			getVec2f(400, height - 1000),
 			getVec2f(2000, height - 580),
-			getVec2f(4360, height - 800),
+			getVec2f(4230, height - 800),
 		};
 
 		int starSignSizes[6];

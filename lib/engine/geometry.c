@@ -6,6 +6,9 @@
 
 //GENERAL MATH FUNCTIONS
 float normalize(float x){
+	if(x == 0){
+		return 0;
+	}
 	return x / fabs(x);
 }
 
@@ -75,7 +78,9 @@ void Vec2f_divByFloat(Vec2f *v1, float a){
 }
 
 void Vec2f_normalize(Vec2f *v){
-	Vec2f_divByFloat(v, getMagVec2f(*v));
+	if(!(v->x == 0 && v->y == 0)){
+		Vec2f_divByFloat(v, getMagVec2f(*v));
+	}
 }
 
 float getMagVec2f(Vec2f v){
@@ -145,7 +150,9 @@ void Vec3f_divByFloat(Vec3f *v, float x){
 }
 
 void Vec3f_normalize(Vec3f *v){
-	Vec3f_divByFloat(v, getMagVec3f(*v));
+	if(!(v->x == 0 && v->y == 0 && v->z == 0)){
+		Vec3f_divByFloat(v, getMagVec3f(*v));
+	}
 }
 
 void Vec3f_inverse(Vec3f *v){

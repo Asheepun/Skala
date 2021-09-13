@@ -1,0 +1,34 @@
+:playerPos
+3643 208
+:doorKeys
+6460 -160
+:doors
+4270 180 20 60
+:flags
+removed-title-text
+:levelsWithDoorKey
+point-cage-3
+:completedLevels
+level-1
+level-2
+level-3
+first-scaling-level-1
+first-scaling-level-3
+first-scaling-level-4
+cooler-scaling-level-1
+cooler-scaling-level-2
+cooler-scaling-level-3
+cooler-scaling-level-4
+cooler-scaling-level-5
+high-jump-1
+slow-fall-squeeze
+high-jump-2
+high-jump-3
+door-key-level-1
+door-key-level-2
+floor-is-door
+get-key-up-1
+get-key-up-2
+all-from-top-1
+all-from-top-2
+all-from-top-3
