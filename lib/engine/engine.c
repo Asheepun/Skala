@@ -70,7 +70,7 @@ int clientWidth = 800;
 int clientHeight = 450;
 bool isFullscreen = false;
 
-int elapsedFrames = 0;
+int Engine_elapsedFrames = 0;
 
 Engine_Key ENGINE_KEYS[ENGINE_KEYS_LENGTH];
 
@@ -367,7 +367,7 @@ int main(){
 
 		glXSwapBuffers(dpy, win);
 
-		elapsedFrames++;
+		Engine_elapsedFrames++;
 
 		endTicks = clock();
 
@@ -536,7 +536,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		
 		//glDrawPixels(screenWidth, screenHeight, GL_RGB, GL_UNSIGNED_BYTE, screenPixels);
 
-		elapsedFrames++;
+		Engine_elapsedFrames++;
 
 		QueryPerformanceCounter(&liStop);
 

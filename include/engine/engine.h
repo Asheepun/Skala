@@ -113,7 +113,7 @@ extern int clientWidth;
 extern int clientHeight;
 extern bool isFullscreen;
 
-extern int elapsedFrames;
+extern int Engine_elapsedFrames;
 
 //ENGINE FUNCTIONS
 

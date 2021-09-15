@@ -1,6 +1,7 @@
 //#include "stdbool.h"
 #include "engine/audio.h"
 #include "engine/strings.h"
+#include "engine/engine.h"
 
 #include "game.h"
 #include "levels.h"
@@ -617,7 +618,7 @@ void World_levelState(World *world_p){
 	Array_clear(&collisions);
 	Array_clear(&lastCollisions);
 
-	for(int k = 0; k < 5; k++){
+	for(int k = 0; k < 8; k++){
 
 		for(int i = 0; i < world_p->bodyPairs.length; i++){
 
@@ -675,7 +676,6 @@ void World_levelState(World *world_p){
 					for(int h = 0; h < lastCollisions.length; h++){
 
 						Collision *collision_p = Array_getItemPointerByIndex(&lastCollisions, h);
-						BodyPair *bodyPair3_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision_p->heavierBodyPairIndex);
 
 						if(collision_p->oub){
 
@@ -687,6 +687,8 @@ void World_levelState(World *world_p){
 							}
 						
 						}else{
+
+							BodyPair *bodyPair3_p = Array_getItemPointerByIndex(&world_p->bodyPairs, collision_p->heavierBodyPairIndex);
 
 							if(bodyPair3_p->collisionWeight == STATIC){
 								if(collision_p->lighterBodyPairIndex == i

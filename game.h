@@ -55,6 +55,7 @@ enum EntityType{
 	DOOR_KEY,
 	DOOR,
 	SCALE_FIELD,
+	OUB,
 };
 
 enum ScaleType{

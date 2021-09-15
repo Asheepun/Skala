@@ -7,6 +7,6 @@
 4020 180 20 60
 :flags
 :levelsWithDoorKey
-point-cage-3
+make-it-bigger-2
 get-key-up-2
 :completedLevels

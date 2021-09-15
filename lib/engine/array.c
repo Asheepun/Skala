@@ -44,6 +44,13 @@ void *Array_addItem(Array *array_p){
 
 void *Array_getItemPointerByIndex(Array *array_p, unsigned int index){
 
+	if(index < 0){
+		printf("Index is bigger less than 0!\n");
+		printf("index: %i\n", index);
+		printf("array length: %i\n", array_p->length);
+		return NULL;
+	}
+
 	if(index >= array_p->length){
 		printf("Index is bigger or equal to array length!\n");
 		printf("index: %i\n", index);
