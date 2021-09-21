@@ -618,7 +618,7 @@ void World_levelState(World *world_p){
 	Array_clear(&collisions);
 	Array_clear(&lastCollisions);
 
-	for(int k = 0; k < 8; k++){
+	for(int k = 0; k < 5; k++){
 
 		for(int i = 0; i < world_p->bodyPairs.length; i++){
 
@@ -764,7 +764,8 @@ void World_levelState(World *world_p){
 
 			}
 
-			if((bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y > HEIGHT
+			if(world_p->currentState != LEVEL_HUB_STATE//fix small thing in elevator, will probably need a better fix
+			&& (bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y > HEIGHT
 			&& bodyPair1_p->scaleType == ALL
 			|| bodyPair1_p->body.pos.y < 0
 			&& bodyPair1_p->scaleType == ALL_FROM_TOP

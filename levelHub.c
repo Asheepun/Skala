@@ -641,6 +641,8 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(elevatorRoomX, HEIGHT - 5), getVec2f(elevatorRoomWidth, 5), NONE);
 
+	World_addObstacle(world_p, getVec2f(elevatorRoomX - 100, HEIGHT - 101), getVec2f(elevatorRoomWidth, 1), NONE);
+
 	World_addObstacle(world_p, getVec2f(elevatorRoomX, 0), getVec2f(elevatorRoomWidth, 30), NONE);
 
 	World_addObstacle(world_p, getVec2f(elevatorRoomX, HEIGHT - 100), getVec2f(elevatorRoomWidth, 50), ALL);
