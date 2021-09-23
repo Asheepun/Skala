@@ -508,10 +508,6 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(1360, cloudY - 20), getVec2f(300, 20), NONE);
 
-	World_addScaleField(world_p, getVec2f(1360 + 130, cloudY - 50), getVec2f(40, 30), ALL);
-
-	World_addTextSprite(world_p, getVec2f(1360 + 105, cloudY - 150), "Ascend", "times30", COLOR_WHITE, GAME_LAYER_TEXT);
-
 	/*
 	{
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
@@ -528,7 +524,17 @@ void World_initLevelHub(World *world_p){
 	int noLegsLevelsRoomY = cloudY - 65;
 	*currentRoomX = 1720;
 
-	*currentRoomWidth += 50;
+	*currentRoomWidth += 60;
+
+	//World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, cloudY - 20 - 43), getVec2f(20, 43), COLOR_WHITE, "furniture/pillar-3", 1, GAME_LAYER_FURNITURE);
+
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, cloudY - 20 - 31), getVec2f(20, 31), COLOR_WHITE, "furniture/pillar-1", 1, GAME_LAYER_FURNITURE);
+
+	//*currentRoomWidth += 300;
+
+	//World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, cloudY - 20 - 43), getVec2f(20, 43), COLOR_WHITE, "furniture/pillar-3", 1, GAME_LAYER_FURNITURE);
+
+	*currentRoomWidth += 400;
 
 	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, cloudY - 20 - 31), getVec2f(20, 31), COLOR_WHITE, "furniture/pillar-1", 1, GAME_LAYER_FURNITURE);
 
@@ -547,11 +553,11 @@ void World_initLevelHub(World *world_p){
 	*currentRoomWidth += 70;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-point-hole", NO_LEGS_ROOM);
-	*currentRoomWidth += 70;
+	*currentRoomWidth += 90;
 
 	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, cloudY - 20 - 76), getVec2f(20, 76), COLOR_WHITE, "furniture/pillar-4", 1, GAME_LAYER_FURNITURE);
 
-	*currentRoomWidth += 70;
+	*currentRoomWidth += 90;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-key-first", NO_LEGS_ROOM);
 	*currentRoomWidth += 70;
@@ -563,11 +569,11 @@ void World_initLevelHub(World *world_p){
 	*currentRoomWidth += 70;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-drag-key", NO_LEGS_ROOM);
-	*currentRoomWidth += 70;
+	*currentRoomWidth += 80;
 
 	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, cloudY - 20 - 61), getVec2f(20, 61), COLOR_WHITE, "furniture/pillar-2", 1, GAME_LAYER_FURNITURE);
 
-	*currentRoomWidth += 70;
+	*currentRoomWidth += 80;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-scalable-point-first", NO_LEGS_ROOM);
 	*currentRoomWidth += 70;
@@ -588,6 +594,13 @@ void World_initLevelHub(World *world_p){
 	//add no legs level room obstacles
 	
 	World_addObstacle(world_p, getVec2f(noLegsLevelsRoomX, noLegsLevelsRoomY + 45), getVec2f(*currentRoomWidth, 20), NONE);
+
+	//little island
+	World_addObstacle(world_p, getVec2f(noLegsLevelsRoomX + noLegsLevelsRoomWidth, cloudY + 500), getVec2f(160, 40), NONE);
+
+	World_addSprite(world_p, getVec2f(noLegsLevelsRoomX + noLegsLevelsRoomWidth + 30, cloudY + 500 - 43), getVec2f(20, 43), COLOR_WHITE, "furniture/pillar-3", 1, GAME_LAYER_FURNITURE);
+
+	World_addSprite(world_p, getVec2f(noLegsLevelsRoomX + noLegsLevelsRoomWidth + 90, cloudY + 500 - 18), getVec2f(43, 18), COLOR_WHITE, "furniture/sofa", 1, GAME_LAYER_FURNITURE);
 
 
 	/*
@@ -755,7 +768,7 @@ void World_initLevelHub(World *world_p){
 	enum LevelHubRoom openGateParticleEffectRoom;
 
 	//check if rooms are totally completed
-	for(int i = 0; i < 5; i++){
+	for(int i = 0; i < NUMBER_OF_LEVEL_HUB_ROOMS; i++){
 
 		int completedLevelsInRoom = 0;
 		
@@ -820,6 +833,17 @@ void World_initLevelHub(World *world_p){
 				}
 
 				SaveData_addFlag(&world_p->saveData, "completed-player-position-levels");
+
+			}
+			
+			if(i == NO_LEGS_ROOM){
+
+				if(!SaveData_hasFlag(&world_p->saveData, "completed-no-legs-levels")){
+					doOpenGateParticleEffect = true;
+					openGateParticleEffectRoom = NO_LEGS_ROOM;
+				}
+
+				SaveData_addFlag(&world_p->saveData, "completed-no-legs-levels");
 
 			}
 
@@ -921,11 +945,14 @@ void World_initLevelHub(World *world_p){
 		World_addObstacle(world_p, getVec2f(platformWithKeyX + 100, -150 - 60), getVec2f(20, 60), NONE);
 	}
 
-	//World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 900, -100), getVec2f(200, 60), NONE);
+	//add scale field to ending
+	if(SaveData_hasFlag(&world_p->saveData, "completed-no-legs-levels")){
+		World_addScaleField(world_p, getVec2f(1360 + 130, cloudY - 50), getVec2f(40, 30), ALL);
 
-	//World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 940, -120), getVec2f(140, 20), NONE);
-
-	//World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + 740, -80), getVec2f(100, 40), NONE);
+		World_addTextSprite(world_p, getVec2f(1360 + 105, cloudY - 150), "Ascend", "times30", COLOR_WHITE, GAME_LAYER_TEXT);
+	}else{
+		World_addObstacle(world_p, getVec2f(1360 + 130, cloudY - 50), getVec2f(40, 30), NONE);
+	}
 
 	//add saved door keys
 	for(int i = 0; i < world_p->saveData.doorKeys.length; i++){
@@ -950,6 +977,7 @@ void World_initLevelHub(World *world_p){
 	world_p->addedRoomLevels = true;
 
 	//doOpenGateParticleEffect = true;
+	//openGateParticleEffectRoom = NO_LEGS_ROOM;
 	//openGateParticleEffectRoom = DOOR_KEY_ROOM;
 	//openGateParticleEffectRoom = ALL_FROM_TOP_ROOM;
 	//openGateParticleEffectRoom = FIRST_SCALE_ROOM;
@@ -985,6 +1013,9 @@ void World_initLevelHub(World *world_p){
 			if(openGateParticleEffectRoom == PLAYER_POSITION_ROOM){
 				targetColor = COLOR_WHITE;
 			}
+			if(openGateParticleEffectRoom == NO_LEGS_ROOM){
+				targetColor = COLOR_GREEN;
+			}
 
 			String_set(World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex)->texture, "level-door", SMALL_STRING_SIZE);
 			World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex)->color = COLOR_GREY;
@@ -998,6 +1029,10 @@ void World_initLevelHub(World *world_p){
 
 			if(openGateParticleEffectRoom == PLAYER_POSITION_ROOM){
 				targetPos = getVec2f(playerPositionLevelsRoomX + 1020, -HEIGHT);
+			}
+
+			if(openGateParticleEffectRoom == NO_LEGS_ROOM){
+				targetPos = getVec2f(1300, cloudY - 70);
 			}
 
 			size_t levelDoorWithStarSpriteIndex = World_addSprite(world_p, pos, getVec2f(20, 15), COLOR_WHITE, "level-door-completed", 1, GAME_LAYER_FOREGROUND);
