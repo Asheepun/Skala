@@ -1,5 +1,5 @@
 :playerPos
-3190 68
+2796 -1678
 :doorKeys
 6260 -160
 :doors
@@ -10,3 +10,16 @@ removed-title-text
 get-key-up-2
 make-it-bigger-1
 make-it-bigger-2
+no-legs-key-first
+no-legs-key-block
+no-legs-scale-field-key
+no-legs-drag-key
+no-legs-scalable-point-first
+no-legs-scalable-point-scale-field
+no-legs-scalable-point-2
+no-legs-scalable-point
+no-legs
+no-legs-2
+no-legs-4
+no-legs-3
+no-legs-point-hole

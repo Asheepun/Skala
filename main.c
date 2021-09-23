@@ -124,6 +124,12 @@ void Engine_start(){
 		"furniture/lamp-1",
 		"furniture/lamp-2",
 		"furniture/lamp-3",
+
+		"furniture/pillar-1",
+		"furniture/pillar-2",
+		"furniture/pillar-3",
+		"furniture/pillar-4",
+		"furniture/pillar-5",
 	};
 
 	int texturesLength = sizeof(assets) / sizeof(char *);
