@@ -45,12 +45,13 @@ void Engine_start(){
 	Action_addBinding(&world.actions[RIGHT_ACTION], ENGINE_KEY_D);
 	Action_addBinding(&world.actions[JUMP_ACTION], ENGINE_KEY_UP);
 	Action_addBinding(&world.actions[JUMP_ACTION], ENGINE_KEY_W);
-	Action_addBinding(&world.actions[JUMP_ACTION], ENGINE_KEY_SPACE);
+	//Action_addBinding(&world.actions[JUMP_ACTION], ENGINE_KEY_SPACE);
 	Action_addBinding(&world.actions[SCALE_ACTION], ENGINE_KEY_X);
 	Action_addBinding(&world.actions[SCALE_ACTION], ENGINE_KEY_J);
 	Action_addBinding(&world.actions[DO_ACTION], ENGINE_KEY_X);
 	Action_addBinding(&world.actions[DO_ACTION], ENGINE_KEY_J);
 	Action_addBinding(&world.actions[DO_ACTION], ENGINE_KEY_SPACE);
+	Action_addBinding(&world.actions[DO_ACTION], ENGINE_KEY_ENTER);
 	Action_addBinding(&world.actions[BACK_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
