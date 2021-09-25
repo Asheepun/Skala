@@ -279,7 +279,7 @@ void World_generateLevel16(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(300, 40), getVec2f(WIDTH, HEIGHT - 110), NONE);
 
-	World_addObstacle(world_p, getVec2f(50, 10), getVec2f(30, HEIGHT - 85), NONE);
+	World_addObstacle(world_p, getVec2f(50, 10), getVec2f(30, HEIGHT - 83), NONE);
 
 }
 
@@ -341,7 +341,7 @@ void World_generateLevel20(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), ALL);
 
-	World_addObstacle(world_p, getVec2f(320, 0 - 2000), getVec2f(20, HEIGHT - 60 + 2000), ALL);
+	World_addObstacle(world_p, getVec2f(320, 0 - 2200), getVec2f(20, HEIGHT - 60 + 2200), ALL);
 
 }
 

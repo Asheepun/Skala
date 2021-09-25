@@ -606,6 +606,11 @@ void World_levelState(World *world_p){
 		}
 		if(bodyPair_p->scaleType == ALL_FROM_TOP){
 			origin = getVec2f(0, 0);
+
+			if(world_p->currentState == LEVEL_HUB_STATE){
+				origin = getVec2f(0, -HEIGHT * 6);
+			}
+
 		}
 
 		Body_unScaleY(&bodyPair_p->body, origin.y, lastScale.y);
@@ -1191,6 +1196,7 @@ void World_levelState(World *world_p){
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
 	
 		if(checkBodyToBodyCol(playerBodyPair_p->body, levelDoor_p->body)
+		&& playerBodyPair_p->physics.velocity.y < 0
 		&& world_p->playerHasLanded){
 
 			//world_p->currentLevel = levelDoor_p->levelName;
@@ -1596,6 +1602,15 @@ void World_levelState(World *world_p){
 		if(world_p->playerHasNoLegs){
 			String_set(sprite_p->texture, "player-no-legs", SMALL_STRING_SIZE);
 		}
+
+		//animate
+		Animation_setState(&world_p->player.animation, "idle");
+
+		Animation_updateFrame(&world_p->player.animation);
+
+		Animation_Frame *currentFrame_p = Animation_getCurrentFramePointer(&world_p->player.animation);
+
+		sprite_p->textureCoordOffset = currentFrame_p->textureCoordOffset;
 
 	}
 

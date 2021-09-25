@@ -416,6 +416,8 @@ void Engine_draw(){
 			Renderer2D_Color color = sprite_p->color;
 			float alpha = sprite_p->alpha;
 
+			Vec2f textureCoordOffset = sprite_p->textureCoordOffset;
+
 			Vec2f pos;
 			Vec2f size;
 
@@ -459,6 +461,8 @@ void Engine_draw(){
 				Renderer2D_setTexture(&world.renderer, texture);
 
 				Renderer2D_supplyUniform(&world.renderer, &facing, "facing", RENDERER2D_UNIFORM_TYPE_INT);
+
+				Renderer2D_supplyUniform(&world.renderer, &textureCoordOffset, "textureCoordOffset", RENDERER2D_UNIFORM_TYPE_VEC2);
 
 				Renderer2D_supplyUniform(&world.renderer, &alpha, "alpha", RENDERER2D_UNIFORM_TYPE_FLOAT);
 				Renderer2D_supplyUniform(&world.renderer, &color, "color", RENDERER2D_UNIFORM_TYPE_COLOR);

@@ -12,11 +12,15 @@ uniform vec3 color;
 
 uniform int facing;
 
+uniform vec2 textureCoordOffset;
+
 vec2 texCoord;
 
 vec4 textureColor;
 
 void main(){
+
+	//vec2 textureCoordOffset = vec2(0.5, 0.0);
 
 	//gl_FragColor = vec4(1.0, 0.5, 0.0, 1.0);
 
@@ -26,7 +30,7 @@ void main(){
 		texCoord.x = 1.0 - texCoord.x;
 	}
 
-	textureColor = texture2D(tex, texCoord);
+	textureColor = texture2D(tex, texCoord + textureCoordOffset);
 
 	gl_FragColor = vec4(color.x, color.y, color.z, textureColor.w * alpha);
 

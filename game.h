@@ -11,6 +11,7 @@
 #include "engine/text.h"
 #include "engine/geometry.h"
 #include "engine/strings.h"
+#include "engine/animation.h"
 
 #include "stdbool.h"
 
@@ -168,6 +169,7 @@ typedef struct Sprite{
 	Renderer2D_Color color;
 	float alpha;
 	Vec2f borderSize;
+	Vec2f textureCoordOffset;
 	enum SpriteType type;
 	enum SpriteLayer currentLayer;
 	enum Facing facing;
@@ -241,6 +243,7 @@ typedef struct Player{
 	float jumpSpeed;
 	bool holdingKey;
 	enum Facing facing;
+	Animation animation;
 }Player;
 
 typedef struct Point{

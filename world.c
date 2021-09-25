@@ -205,6 +205,30 @@ void World_initPlayer(World *world_p, Vec2f pos, enum ScaleType scaleType){
 
 	player_p->spriteIndex = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "player", 1, GAME_LAYER_FOREGROUND);
 
+	//animation
+	Animation_init(&player_p->animation, "idle");
+
+	{
+		Animation_State *state_p = Array_addItem(&player_p->animation.states);
+
+		String_set(state_p->name, "idle", STRING_SIZE);
+
+		Array_init(&state_p->frames, sizeof(Animation_Frame));
+
+		{
+			Animation_Frame *frame_p = Array_addItem(&state_p->frames);
+			frame_p->textureCoordOffset = getVec2f(0, 0.2);
+			frame_p->duration = 10;
+		}
+
+		{
+			Animation_Frame *frame_p = Array_addItem(&state_p->frames);
+			frame_p->textureCoordOffset = getVec2f(0.5, 0);
+			frame_p->duration = 10;
+		}
+	
+	}
+
 }
 
 size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Renderer2D_Color color, char *texture, float alpha, enum SpriteLayer layer){
@@ -228,6 +252,7 @@ size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Renderer2D_Color c
 
 	sprite_p->facing = RIGHT;
 	sprite_p->borderSize = getVec2f(0, 0);
+	sprite_p->textureCoordOffset = getVec2f(0, 0);
 
 	return index + 1000000 * layer;
 	//return sprite_p->entityHeader.ID;
@@ -253,6 +278,7 @@ size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, char *fontName
 	sprite_p->facing = RIGHT;
 
 	String_set(sprite_p->text, text, SMALL_STRING_SIZE);
+	sprite_p->textureCoordOffset = getVec2f(0, 0);
 	//strcpy(sprite_p->text, text);
 
 	return index + 1000000 * layer;
@@ -1048,6 +1074,9 @@ float exponent2 = 1.000001;
 
 float exponent3 = 1.004;
 
+float exponent4 = 1.000001;
+float exponent5 = 1.007;
+
 Vec2f World_BodyPair_getScaleFromExponent(World *world_p, BodyPair *bodyPair_p){
 
 	Vec2f scale = { 
@@ -1057,6 +1086,11 @@ Vec2f World_BodyPair_getScaleFromExponent(World *world_p, BodyPair *bodyPair_p){
 
 	if(world_p->currentState == LEVEL_HUB_STATE){
 		scale.x = pow(exponent3, bodyPair_p->scaleExponent.x * pow(exponent2, bodyPair_p->scaleExponent.x));
+	}
+
+	if(world_p->currentState == LEVEL_HUB_STATE
+	&& bodyPair_p->scaleType == ALL_FROM_TOP){
+		scale.y = pow(exponent5, bodyPair_p->scaleExponent.y * pow(exponent4, bodyPair_p->scaleExponent.y));
 	}
 
 	return scale;
@@ -1072,6 +1106,11 @@ Vec2f World_BodyPair_getLastScaleFromExponent(World *world_p, BodyPair *bodyPair
 
 	if(world_p->currentState == LEVEL_HUB_STATE){
 		scale.x = pow(exponent3, bodyPair_p->lastScaleExponent.x * pow(exponent2, bodyPair_p->lastScaleExponent.x));
+	}
+
+	if(world_p->currentState == LEVEL_HUB_STATE
+	&& bodyPair_p->scaleType == ALL_FROM_TOP){
+		scale.y = pow(exponent5, bodyPair_p->lastScaleExponent.y * pow(exponent4, bodyPair_p->lastScaleExponent.y));
 	}
 
 	return scale;

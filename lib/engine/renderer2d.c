@@ -273,6 +273,14 @@ void Renderer2D_supplyUniform(Renderer2D_Renderer *renderer_p, void *data_p, cha
 		glUniform3f(location, color.r, color.g, color.b);
 
 	}
+	if(type == RENDERER2D_UNIFORM_TYPE_VEC2){
+
+		Vec2f vec2 = *(Vec2f *)data_p;
+		
+		glUniform2f(location, vec2.x, vec2.y);
+
+	}
+
 
 }
 
