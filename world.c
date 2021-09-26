@@ -220,13 +220,13 @@ void World_initPlayer(World *world_p, Vec2f pos, enum ScaleType scaleType){
 
 		{
 			Animation_Frame *frame_p = Array_addItem(&state_p->frames);
-			frame_p->textureCoordOffset = getVec2f(0, 0.2);
+			frame_p->textureCoordOffset = getVec2f(0, 0);
 			frame_p->duration = 10;
 		}
 
 		{
 			Animation_Frame *frame_p = Array_addItem(&state_p->frames);
-			frame_p->textureCoordOffset = getVec2f(0.5, 0);
+			frame_p->textureCoordOffset = getVec2f(15, 0);
 			frame_p->duration = 10;
 		}
 	

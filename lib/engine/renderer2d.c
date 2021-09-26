@@ -227,6 +227,12 @@ void Renderer2D_setShaderProgram(Renderer2D_Renderer *renderer_p, Renderer2D_Sha
 
 void Renderer2D_setTexture(Renderer2D_Renderer *renderer_p, Renderer2D_Texture texture){
 
+	float textureWidth = (float)texture.width;
+	float textureHeight = (float)texture.height;
+
+	Renderer2D_supplyUniform(renderer_p, &textureWidth, "textureWidth", RENDERER2D_UNIFORM_TYPE_FLOAT);
+	Renderer2D_supplyUniform(renderer_p, &textureHeight, "textureHeight", RENDERER2D_UNIFORM_TYPE_FLOAT);
+
 	glBindTexture(GL_TEXTURE_2D, texture.ID);
 
 }
@@ -244,15 +250,18 @@ void Renderer2D_beginRectangle(Renderer2D_Renderer *renderer_p, float x, float y
 	glEnableVertexAttribArray(vertexPositionAttributeLocation);
 	glEnableVertexAttribArray(textureVertexAttributeLocation);
 
-	unsigned int posXUniformLocation = glGetUniformLocation(renderer_p->currentShaderProgram.ID, "posX");
-	unsigned int posYUniformLocation = glGetUniformLocation(renderer_p->currentShaderProgram.ID, "posY");
-	unsigned int widthUniformLocation = glGetUniformLocation(renderer_p->currentShaderProgram.ID, "width");
-	unsigned int heightUniformLocation = glGetUniformLocation(renderer_p->currentShaderProgram.ID, "height");
+	float posX = 2 * ((float)x + renderer_p->offset.x) / (float)renderer_p->width;
+	float posY = 2 * ((float)y + renderer_p->offset.y) / (float)renderer_p->height;
+	float rendererWidth = (float)renderer_p->width;
+	float rendererHeight = (float)renderer_p->height;
 
-	glUniform1f(posXUniformLocation, 2 * ((float)x + renderer_p->offset.x) / (float)renderer_p->width);
-	glUniform1f(posYUniformLocation, 2 * ((float)y + renderer_p->offset.y) / (float)renderer_p->height);
-	glUniform1f(widthUniformLocation, (float)width / (float)renderer_p->width);
-	glUniform1f(heightUniformLocation, (float)height / (float)renderer_p->height);
+	Renderer2D_supplyUniform(renderer_p, &posX, "posX", RENDERER2D_UNIFORM_TYPE_FLOAT);
+	Renderer2D_supplyUniform(renderer_p, &posY, "posY", RENDERER2D_UNIFORM_TYPE_FLOAT);
+
+	Renderer2D_supplyUniform(renderer_p, &width, "spriteWidth", RENDERER2D_UNIFORM_TYPE_FLOAT);
+	Renderer2D_supplyUniform(renderer_p, &height, "spriteHeight", RENDERER2D_UNIFORM_TYPE_FLOAT);
+	Renderer2D_supplyUniform(renderer_p, &rendererWidth, "rendererWidth", RENDERER2D_UNIFORM_TYPE_FLOAT);
+	Renderer2D_supplyUniform(renderer_p, &rendererHeight, "rendererHeight", RENDERER2D_UNIFORM_TYPE_FLOAT);
 
 }
 
