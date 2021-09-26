@@ -16,6 +16,20 @@ void Animation_init(Animation *animation_p, char *initialState){
 
 }
 
+void Animation_free(Animation *animation_p){
+	
+	for(int i = 0; i < animation_p->states.length; i++){
+
+		Animation_State *state_p = Array_getItemPointerByIndex(&animation_p->states, i);
+
+		Array_free(&state_p->frames);
+
+	}
+
+	Array_free(&animation_p->states);
+
+}
+
 void Animation_setState(Animation *animation_p, char *newState){
 
 	if(!(strcmp(animation_p->currentState, newState) == 0)){

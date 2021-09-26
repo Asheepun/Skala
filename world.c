@@ -156,6 +156,9 @@ void World_restore(World *world_p){
 
 	world_p->endingFlashAlpha = 0;
 
+	//free player animation
+	Animation_free(&world_p->player.animation);
+
 }
 
 void World_fadeTransitionToState(World *world_p, enum WorldState nextStateAfterTransition){
