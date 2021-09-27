@@ -170,6 +170,7 @@ typedef struct Sprite{
 	float alpha;
 	Vec2f borderSize;
 	Vec2f textureCoordOffset;
+	Vec2f textureArea;
 	enum SpriteType type;
 	enum SpriteLayer currentLayer;
 	enum Facing facing;

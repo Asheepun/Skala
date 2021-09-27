@@ -256,6 +256,7 @@ size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Renderer2D_Color c
 	sprite_p->facing = RIGHT;
 	sprite_p->borderSize = getVec2f(0, 0);
 	sprite_p->textureCoordOffset = getVec2f(0, 0);
+	sprite_p->textureArea= size;
 
 	return index + 1000000 * layer;
 	//return sprite_p->entityHeader.ID;
@@ -282,6 +283,7 @@ size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, char *fontName
 
 	String_set(sprite_p->text, text, SMALL_STRING_SIZE);
 	sprite_p->textureCoordOffset = getVec2f(0, 0);
+	sprite_p->textureArea = getVec2f(0, 0);
 	//strcpy(sprite_p->text, text);
 
 	return index + 1000000 * layer;

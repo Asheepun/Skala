@@ -460,6 +460,9 @@ void Engine_draw(){
 
 				Renderer2D_setTexture(&world.renderer, texture);
 
+				Renderer2D_supplyUniform(&world.renderer, &sprite_p->textureArea.x, "textureAreaWidth", RENDERER2D_UNIFORM_TYPE_FLOAT);
+				Renderer2D_supplyUniform(&world.renderer, &sprite_p->textureArea.y, "textureAreaHeight", RENDERER2D_UNIFORM_TYPE_FLOAT);
+
 				Renderer2D_supplyUniform(&world.renderer, &facing, "facing", RENDERER2D_UNIFORM_TYPE_INT);
 
 				Renderer2D_supplyUniform(&world.renderer, &textureCoordOffset, "textureCoordOffset", RENDERER2D_UNIFORM_TYPE_VEC2);

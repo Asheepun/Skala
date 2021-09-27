@@ -262,6 +262,8 @@ void Renderer2D_beginRectangle(Renderer2D_Renderer *renderer_p, float x, float y
 	Renderer2D_supplyUniform(renderer_p, &height, "spriteHeight", RENDERER2D_UNIFORM_TYPE_FLOAT);
 	Renderer2D_supplyUniform(renderer_p, &rendererWidth, "rendererWidth", RENDERER2D_UNIFORM_TYPE_FLOAT);
 	Renderer2D_supplyUniform(renderer_p, &rendererHeight, "rendererHeight", RENDERER2D_UNIFORM_TYPE_FLOAT);
+	Renderer2D_supplyUniform(renderer_p, &width, "textureAreaWidth", RENDERER2D_UNIFORM_TYPE_FLOAT);
+	Renderer2D_supplyUniform(renderer_p, &height, "textureAreaHeight", RENDERER2D_UNIFORM_TYPE_FLOAT);
 
 }
 
