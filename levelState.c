@@ -1604,7 +1604,21 @@ void World_levelState(World *world_p){
 		}
 
 		//animate
-		Animation_setState(&world_p->player.animation, "idle");
+		if(playerBodyPair_p->physics.velocity.y < 0){
+			Animation_setState(&world_p->player.animation, "jumping");
+		}
+		else if(playerBodyPair_p->physics.velocity.y > 0){
+			Animation_setState(&world_p->player.animation, "falling");
+		}
+		else if((world_p->actions[LEFT_ACTION].down
+		|| world_p->actions[RIGHT_ACTION].down)
+		&& !world_p->scaling){
+		//&& fabs(playerBodyPair_p->physics.velocity.x) > 0.000001){
+			Animation_setState(&world_p->player.animation, "walking");
+		}
+		else{
+			Animation_setState(&world_p->player.animation, "idle");
+		}
 
 		Animation_updateFrame(&world_p->player.animation);
 

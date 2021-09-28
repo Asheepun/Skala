@@ -220,6 +220,59 @@ void World_initPlayer(World *world_p, Vec2f pos, enum ScaleType scaleType){
 
 		{
 			Animation_Frame *frame_p = Array_addItem(&state_p->frames);
+			frame_p->textureCoordOffset = getVec2f(0, 21);
+			frame_p->duration = 2 * 60;
+		}
+
+		/*
+		{
+			Animation_Frame *frame_p = Array_addItem(&state_p->frames);
+			frame_p->textureCoordOffset = getVec2f(15, 21);
+			frame_p->duration = 30;
+		}
+		*/
+	
+	}
+	
+	{
+		Animation_State *state_p = Array_addItem(&player_p->animation.states);
+
+		String_set(state_p->name, "jumping", STRING_SIZE);
+
+		Array_init(&state_p->frames, sizeof(Animation_Frame));
+
+		{
+			Animation_Frame *frame_p = Array_addItem(&state_p->frames);
+			frame_p->textureCoordOffset = getVec2f(0, 21);
+			frame_p->duration = 10;
+		}
+	
+	}
+	
+	{
+		Animation_State *state_p = Array_addItem(&player_p->animation.states);
+
+		String_set(state_p->name, "falling", STRING_SIZE);
+
+		Array_init(&state_p->frames, sizeof(Animation_Frame));
+
+		{
+			Animation_Frame *frame_p = Array_addItem(&state_p->frames);
+			frame_p->textureCoordOffset = getVec2f(0, 63);
+			frame_p->duration = 10;
+		}
+	
+	}
+
+	{
+		Animation_State *state_p = Array_addItem(&player_p->animation.states);
+
+		String_set(state_p->name, "walking", STRING_SIZE);
+
+		Array_init(&state_p->frames, sizeof(Animation_Frame));
+
+		{
+			Animation_Frame *frame_p = Array_addItem(&state_p->frames);
 			frame_p->textureCoordOffset = getVec2f(0, 0);
 			frame_p->duration = 10;
 		}
@@ -227,6 +280,18 @@ void World_initPlayer(World *world_p, Vec2f pos, enum ScaleType scaleType){
 		{
 			Animation_Frame *frame_p = Array_addItem(&state_p->frames);
 			frame_p->textureCoordOffset = getVec2f(15, 0);
+			frame_p->duration = 10;
+		}
+
+		{
+			Animation_Frame *frame_p = Array_addItem(&state_p->frames);
+			frame_p->textureCoordOffset = getVec2f(30, 0);
+			frame_p->duration = 10;
+		}
+
+		{
+			Animation_Frame *frame_p = Array_addItem(&state_p->frames);
+			frame_p->textureCoordOffset = getVec2f(45, 0);
 			frame_p->duration = 10;
 		}
 	
