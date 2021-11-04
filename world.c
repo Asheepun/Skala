@@ -297,6 +297,21 @@ void World_initPlayer(World *world_p, Vec2f pos, enum ScaleType scaleType){
 	
 	}
 
+	{
+		Animation_State *state_p = Array_addItem(&player_p->animation.states);
+
+		String_set(state_p->name, "no-legs", STRING_SIZE);
+
+		Array_init(&state_p->frames, sizeof(Animation_Frame));
+
+		{
+			Animation_Frame *frame_p = Array_addItem(&state_p->frames);
+			frame_p->textureCoordOffset = getVec2f(0, 84);
+			frame_p->duration = 10;
+		}
+	
+	}
+
 }
 
 size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Renderer2D_Color color, char *texture, float alpha, enum SpriteLayer layer){
@@ -465,15 +480,15 @@ size_t World_addDoor(World *world_p, Vec2f pos, Vec2f size, enum ScaleType scale
 
 	EntityHeader_init(&door_p->entityHeader);
 
-	//Physics_init(&doorKey_p->physics);
-	//doorKey_p->gravity = 0.35;
-
 	Body body;
 	Body_init(&body, pos, size);
 
 	door_p->bodyPairID = World_addBodyPair(world_p, body, scaleType, STATIC, DOOR);
 
 	door_p->spriteIndex = World_addSprite(world_p, pos, body.size, SCALE_TYPE_COLORS[scaleType], "door", 1, GAME_LAYER_OBSTACLES);
+
+	Sprite *sprite_p = World_getSpriteByIndex(world_p, door_p->spriteIndex);
+	sprite_p->textureArea = getVec2f(20, 60);
 
 	return door_p->entityHeader.ID;
 

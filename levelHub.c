@@ -476,11 +476,13 @@ void World_initLevelHub(World *world_p){
 
 	//elevator to ending
 	
-	World_addObstacle(world_p, getVec2f(0, cloudY - HEIGHT), getVec2f(100, -cloudY + 2 * HEIGHT - 40), NONE);
+	World_addObstacle(world_p, getVec2f(0, cloudY - HEIGHT + 100), getVec2f(100, -cloudY + 2 * HEIGHT - 40 - 100), NONE);
 
 	World_addObstacle(world_p, getVec2f(200, cloudY), getVec2f(100, -cloudY + HEIGHT - 130), NONE);
 
-	World_addObstacle(world_p, getVec2f(100, cloudY - HEIGHT), getVec2f(200, HEIGHT - 60), NONE);
+	World_addObstacle(world_p, getVec2f(100, cloudY - HEIGHT + 100), getVec2f(200 - 10, HEIGHT - 60 - 100), NONE);
+
+	World_addScaleField(world_p, getVec2f(0, cloudY - HEIGHT), getVec2f(300 - 10, 100), NONE);
 
 	World_addObstacle(world_p, getVec2f(200, cloudY), getVec2f(100, -cloudY + HEIGHT - 130), NONE);
 
@@ -882,8 +884,9 @@ void World_initLevelHub(World *world_p){
 		&& SaveData_hasFlag(&world_p->saveData, "completed-scale-field-levels")
 		|| levelDoor_p->levelHubRoom == PLAYER_POSITION_ROOM
 		&& SaveData_hasFlag(&world_p->saveData, "completed-player-position-levels")){
-			String_set(sprite_p->texture, "level-door", SMALL_STRING_SIZE);
-			sprite_p->color = COLOR_GREY;
+			//String_set(sprite_p->texture, "level-door", SMALL_STRING_SIZE);
+			String_set(sprite_p->texture, "level-door-empty", SMALL_STRING_SIZE);
+			//sprite_p->color = COLOR_GREY;
 		}
 
 	}

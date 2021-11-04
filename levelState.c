@@ -1599,12 +1599,11 @@ void World_levelState(World *world_p){
 
 		sprite_p->facing = world_p->player.facing;
 
-		if(world_p->playerHasNoLegs){
-			String_set(sprite_p->texture, "player-no-legs", SMALL_STRING_SIZE);
-		}
-
 		//animate
-		if(playerBodyPair_p->physics.velocity.y < 0){
+		if(world_p->playerHasNoLegs){
+			Animation_setState(&world_p->player.animation, "no-legs");
+		}
+		else if(playerBodyPair_p->physics.velocity.y < 0){
 			Animation_setState(&world_p->player.animation, "jumping");
 		}
 		else if(playerBodyPair_p->physics.velocity.y > 0){
