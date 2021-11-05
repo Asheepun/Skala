@@ -1018,8 +1018,9 @@ void World_initLevelHub(World *world_p){
 				targetColor = COLOR_GREEN;
 			}
 
+			//set new level door color
 			String_set(World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex)->texture, "level-door", SMALL_STRING_SIZE);
-			World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex)->color = COLOR_GREY;
+			World_getSpriteByIndex(world_p, levelDoor_p->spriteIndex)->color = COLOR_WHITE;
 
 			Vec2f pos = levelDoor_p->body.pos;
 
@@ -1036,8 +1037,10 @@ void World_initLevelHub(World *world_p){
 				targetPos = getVec2f(1300, cloudY - 70);
 			}
 
-			size_t levelDoorWithStarSpriteIndex = World_addSprite(world_p, pos, getVec2f(20, 15), COLOR_WHITE, "level-door-completed", 1, GAME_LAYER_FOREGROUND);
+			size_t levelDoorWithStarSpriteIndex = World_addSprite(world_p, pos, getVec2f(20, 15), COLOR_WHITE, "level-door-completed", 1, GAME_LAYER_PARTICLES);
+			size_t levelDoorWithCrownSpriteIndex = World_addSprite(world_p, pos, getVec2f(20, 15), COLOR_WHITE, "level-door-empty", 1, GAME_LAYER_PARTICLES);
 
+			//add uncompleted door particle
 			{
 				Particle *particle_p = World_addParticle(world_p, levelDoorWithStarSpriteIndex);
 				
@@ -1045,7 +1048,25 @@ void World_initLevelHub(World *world_p){
 				particle_p->body.size = getVec2f(20, 15);
 
 				Particle_addEvent(particle_p, PARTICLE_REMOVE_EVENT, 0, property, startTime, 0);
+			}
+
+			//add empty level door particle
+			{
+				Particle *particle_p = World_addParticle(world_p, levelDoorWithCrownSpriteIndex);
 				
+				particle_p->body.pos = pos;
+				particle_p->body.size = getVec2f(20, 15);
+
+				property.alpha = 0;
+
+				Particle_addEvent(particle_p, PARTICLE_SET_EVENT, PARTICLE_ALPHA, property, 0, 0);
+
+				property.alpha = 1;
+
+				float startDelay = 60 * 1.5;
+				float fadeInTime = 40;
+
+				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, property, startTime + startDelay, fadeInTime);
 			}
 
 			pos.x += 5;
