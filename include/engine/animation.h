@@ -30,6 +30,8 @@ void Animation_init(Animation *, char *);
 
 void Animation_free(Animation *);
 
+void Animation_clear(Animation *);
+
 void Animation_setState(Animation *, char *);
 
 void Animation_updateFrame(Animation *);

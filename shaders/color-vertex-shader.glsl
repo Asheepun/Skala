@@ -1,18 +1,20 @@
 #version 100
 
+precision mediump float;
+
 attribute vec2 vertexPosition;
 
 uniform float posX;
 uniform float posY;
 
-uniform float width;
-uniform float height;
+uniform float spriteWidth;
+uniform float spriteHeight;
 
 void main(){
 
 	gl_Position = vec4(
-		posX + width + -1.0 + vertexPosition.x * width,
-		-posY + -height + 1.0 + vertexPosition.y * height,
+		posX + spriteWidth + -1.0 + vertexPosition.x * spriteWidth,
+		-posY + -spriteHeight + 1.0 + vertexPosition.y * spriteHeight,
 		0.0,
 		1.0
 	);

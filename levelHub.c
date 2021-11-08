@@ -947,7 +947,8 @@ void World_initLevelHub(World *world_p){
 	}
 
 	//add scale field to ending
-	if(SaveData_hasFlag(&world_p->saveData, "completed-no-legs-levels")){
+	if(SaveData_hasFlag(&world_p->saveData, "completed-no-legs-levels")
+	|| true){
 		World_addScaleField(world_p, getVec2f(1360 + 130, cloudY - 50), getVec2f(40, 30), ALL);
 
 		World_addTextSprite(world_p, getVec2f(1360 + 105, cloudY - 150), "Ascend", "times30", COLOR_WHITE, GAME_LAYER_TEXT);

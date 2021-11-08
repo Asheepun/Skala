@@ -18,15 +18,31 @@ void Animation_init(Animation *animation_p, char *initialState){
 
 void Animation_free(Animation *animation_p){
 	
-	for(int i = 0; i < animation_p->states.length; i++){
+	while(animation_p->states.length > 0){
 
-		Animation_State *state_p = Array_getItemPointerByIndex(&animation_p->states, i);
+		Animation_State *state_p = Array_getItemPointerByIndex(&animation_p->states, 0);
 
 		Array_free(&state_p->frames);
+
+		Array_removeItemByIndex(&animation_p->states, 0);
 
 	}
 
 	Array_free(&animation_p->states);
+
+}
+
+void Animation_clear(Animation *animation_p){
+	
+	while(animation_p->states.length > 0){
+
+		Animation_State *state_p = Array_getItemPointerByIndex(&animation_p->states, 0);
+
+		Array_free(&state_p->frames);
+
+		Array_removeItemByIndex(&animation_p->states, 0);
+
+	}
 
 }
 

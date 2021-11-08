@@ -20,6 +20,7 @@ void Array_init(Array *array_p,  unsigned int itemSize){
 
 void Array_free(Array *array_p){
 	free(array_p->items);
+	array_p->length = 0;
 }
 
 void EntityHeader_init(EntityHeader *entityHeader_p){
@@ -232,4 +233,5 @@ void IndexSafeArray_clear(IndexSafeArray *indexSafeArray_p){
 void IndexSafeArray_free(IndexSafeArray *indexSafeArray_p){
 	free(indexSafeArray_p->items);
 	indexSafeArray_p->items = NULL;
+	indexSafeArray_p->deepestIndex = 0;
 }
