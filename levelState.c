@@ -1323,12 +1323,40 @@ void World_levelState(World *world_p){
 
 		Particle *particle_p = Array_getItemPointerByIndex(&world_p->particles, i);
 
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, particle_p->spriteIndex);
+
+		if(particle_p->isEmitter
+		&& sprite_p->alpha > 0
+		&& particle_p->counter > 0){
+
+			Vec2f pos = particle_p->body.pos;
+			Vec2f_add(&pos, getVec2f(1 + 8 * getRandom(), 1 + 8 * getRandom()));
+			
+			size_t newSpriteIndex = World_addSprite(world_p, pos, getVec2f(1, 1), sprite_p->color, "obstacle", 1, GAME_LAYER_PARTICLES);
+			Particle *newParticle_p = World_addParticle(world_p, newSpriteIndex);
+
+			newParticle_p->body.pos = pos;
+			newParticle_p->body.size = getVec2f(1, 1);
+
+			newParticle_p->physics.velocity = getVec2f((getRandom() - 0.5) * 0.2, 0.1 + 0.15 * getRandom());
+
+			union ParticleProperty property;
+
+			int fadeOutStartTime = (0.5 + getRandom() * 0.7) * 60;
+			int fadeOutTime = (0.1 + getRandom() * 0.1) * 60;
+
+			property.alpha = 0;
+
+			Particle_addEvent(newParticle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, property, fadeOutStartTime, fadeOutTime);
+
+			Particle_addEvent(newParticle_p, PARTICLE_REMOVE_EVENT, 0, property, fadeOutStartTime + fadeOutTime, 0);
+
+		}
+
 		//little optimization
 		//if(particle_p->events.length == 0){
 			//continue;
 		//}
-
-		Sprite *sprite_p = World_getSpriteByIndex(world_p, particle_p->spriteIndex);
 
 		bool removed = false;
 

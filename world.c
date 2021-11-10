@@ -55,7 +55,7 @@ void World_init(World *world_p){
 			maxLength = 1024;
 		}
 		if(i == GAME_LAYER_PARTICLES){
-			maxLength = 1024 * 2;
+			maxLength = 1024 * 4;
 		}
 
 		IndexSafeArray_init(&world_p->spriteLayers[i], sizeof(Sprite), maxLength);
@@ -600,6 +600,8 @@ Particle *World_addParticle(World *world_p, unsigned spriteIndex){
 	particle_p->spriteIndex = spriteIndex;
 
 	particle_p->counter = 0;
+
+	particle_p->isEmitter = false;
 
 	Array_init(&particle_p->events, sizeof(ParticleEvent));
 

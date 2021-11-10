@@ -978,9 +978,9 @@ void World_initLevelHub(World *world_p){
 
 	world_p->addedRoomLevels = true;
 
-	//doOpenGateParticleEffect = true;
+	doOpenGateParticleEffect = true;
 	//openGateParticleEffectRoom = NO_LEGS_ROOM;
-	//openGateParticleEffectRoom = DOOR_KEY_ROOM;
+	openGateParticleEffectRoom = DOOR_KEY_ROOM;
 	//openGateParticleEffectRoom = ALL_FROM_TOP_ROOM;
 	//openGateParticleEffectRoom = FIRST_SCALE_ROOM;
 	//openGateParticleEffectRoom = PLAYER_POSITION_ROOM;
@@ -1080,6 +1080,8 @@ void World_initLevelHub(World *world_p){
 				
 				particle_p->body.pos = pos;
 				particle_p->body.size = getVec2f(10, 10);
+
+				particle_p->isEmitter = true;
 
 				property.alpha = 0;
 

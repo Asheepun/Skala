@@ -305,6 +305,9 @@ typedef struct Particle{
 	//size_t spriteID;
 	unsigned int spriteIndex;
 
+	//misc
+	bool isEmitter;
+
 	//temp stuff
 	Renderer2D_Color targetColor;
 	bool targeting;
