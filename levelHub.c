@@ -947,8 +947,7 @@ void World_initLevelHub(World *world_p){
 	}
 
 	//add scale field to ending
-	if(SaveData_hasFlag(&world_p->saveData, "completed-no-legs-levels")
-	|| true){
+	if(SaveData_hasFlag(&world_p->saveData, "completed-no-legs-levels")){
 		World_addScaleField(world_p, getVec2f(1360 + 130, cloudY - 50), getVec2f(40, 30), ALL);
 
 		World_addTextSprite(world_p, getVec2f(1360 + 105, cloudY - 150), "Ascend", "times30", COLOR_WHITE, GAME_LAYER_TEXT);
@@ -978,9 +977,9 @@ void World_initLevelHub(World *world_p){
 
 	world_p->addedRoomLevels = true;
 
-	doOpenGateParticleEffect = true;
+	//doOpenGateParticleEffect = true;
 	//openGateParticleEffectRoom = NO_LEGS_ROOM;
-	openGateParticleEffectRoom = DOOR_KEY_ROOM;
+	//openGateParticleEffectRoom = DOOR_KEY_ROOM;
 	//openGateParticleEffectRoom = ALL_FROM_TOP_ROOM;
 	//openGateParticleEffectRoom = FIRST_SCALE_ROOM;
 	//openGateParticleEffectRoom = PLAYER_POSITION_ROOM;

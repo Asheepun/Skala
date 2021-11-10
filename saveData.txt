@@ -1,12 +1,12 @@
 :playerPos
-3836 68
+330 -240
 :doorKeys
-6260 -160
+6260 -200
 :doors
+3350 180 20 60
 4020 180 20 60
 :flags
-removed-title-text
 :levelsWithDoorKey
 make-it-bigger-2
-:completedLevels
 get-key-up-2
+:completedLevels
