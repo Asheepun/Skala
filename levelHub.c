@@ -337,9 +337,6 @@ void World_initLevelHub(World *world_p){
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX - *currentRoomWidth, -HEIGHT + 125), "scale-field-3", SCALE_FIELD_ROOM);
 	*currentRoomWidth += normalLevelDistance;
 
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX - *currentRoomWidth, -HEIGHT + 125), "get-over-the-field", SCALE_FIELD_ROOM);
-	*currentRoomWidth += normalLevelDistance;
-
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX - *currentRoomWidth, -HEIGHT + 125), "layers-of-fields", SCALE_FIELD_ROOM);
 	*currentRoomWidth += normalLevelDistance;
 
@@ -347,6 +344,9 @@ void World_initLevelHub(World *world_p){
 	*currentRoomWidth += normalLevelDistance;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX - *currentRoomWidth, -HEIGHT + 125), "point-field-cage", SCALE_FIELD_ROOM);
+	*currentRoomWidth += normalLevelDistance;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX - *currentRoomWidth, -HEIGHT + 125), "circle-scale-fields-escape", SCALE_FIELD_ROOM);
 	*currentRoomWidth += normalLevelDistance;
 
 	*currentRoomWidth += 20;

@@ -1002,21 +1002,32 @@ Swamp
 :levelName
 layers-of-fields
 :screenName
-Transfers
+Sea
 :levelCode
 
 	World_restore(world_p);
 
-	World_initPlayer(world_p, getVec2f(70, 200), NONE);
+	World_initPlayer(world_p, getVec2f(30, 50), NONE);
 
-	World_addPoint(world_p, getVec2f(420, 10), NONE);
+	World_addPoint(world_p, getVec2f(440, 100), NONE);
 
-	World_addObstacle(world_p, getVec2f(0, 250), getVec2f(WIDTH, 20), NONE);
+	World_addObstacle(world_p, getVec2f(0, 70), getVec2f(100, 200), NONE);
 
-	World_addObstacle(world_p, getVec2f(340, 210), getVec2f(20, 30), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 50, 190), getVec2f(50, 80), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 20, 210), getVec2f(20, 40), NONE);
+	//World_addObstacle(world_p, getVec2f(50, 50), getVec2f(50, 50), NONE);
 
+	//World_addObstacle(world_p, getVec2f(340, 210), getVec2f(20, 30), NONE);
+
+	//World_addObstacle(world_p, getVec2f(WIDTH - 20, 210), getVec2f(20, 40), NONE);
+	//
+	World_addScaleField(world_p, getVec2f(100, 150), getVec2f(WIDTH - 150, HEIGHT - 150), ALL_FROM_TOP);
+
+	World_addScaleField(world_p, getVec2f(WIDTH - 50, 150), getVec2f(50, 40), ALL_FROM_TOP);
+
+	//World_addScaleField(world_p, getVec2f(50, 50), getVec2f(50, 160), ALL_FROM_TOP);
+
+	/*
 	World_addScaleField(world_p, getVec2f(360, 0), getVec2f(100, 50), ALL);
 
 	World_addScaleField(world_p, getVec2f(360, 50), getVec2f(100, 50), ALL_FROM_TOP);
@@ -1026,6 +1037,7 @@ Transfers
 	World_addScaleField(world_p, getVec2f(360, 150), getVec2f(100, 50), ALL_FROM_TOP);
 
 	World_addScaleField(world_p, getVec2f(360, 200), getVec2f(100, 50), ALL);
+	*/
 
 :levelName
 player-position-1
@@ -1797,3 +1809,25 @@ Ascent
 	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(20, 100), NONE);
 
 	World_addScaleField(world_p, getVec2f(WIDTH - 50, 0), getVec2f(50, HEIGHT), ALL_FROM_TOP);
+
+:levelName
+circle-scale-fields-escape
+:screenName
+Dime
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(70, 30), NONE);
+
+	World_addPoint(world_p, getVec2f(WIDTH - 80, 150), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(150, 60), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 200, 0), getVec2f(20, HEIGHT), NONE);
+
+	World_addScaleField(world_p, getVec2f(WIDTH - 130, 120), getVec2f(100, 100), ALL);
+
+	World_addScaleField(world_p, getVec2f(WIDTH - 230, 120), getVec2f(100, 100), ALL_FROM_TOP);
+
+	World_addScaleField(world_p, getVec2f(WIDTH - 230, 0), getVec2f(100, 40), NONE);

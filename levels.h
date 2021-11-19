@@ -91,8 +91,9 @@ void World_generateLevel79(World *);
 void World_generateLevel80(World *);
 void World_generateLevel81(World *);
 void World_generateLevel82(World *);
+void World_generateLevel83(World *);
 
-static const size_t LEVELS_LENGTH = 82;
+static const size_t LEVELS_LENGTH = 83;
 
 static Level levels[255] = {
 	"bug-testing-level",
@@ -237,7 +238,7 @@ static Level levels[255] = {
 	"Swamp",
 	World_generateLevel47,
 	"layers-of-fields",
-	"Transfers",
+	"Sea",
 	World_generateLevel48,
 	"player-position-1",
 	"Coordination",
@@ -341,6 +342,9 @@ static Level levels[255] = {
 	"scale-position-block-5.2",
 	"Ascent",
 	World_generateLevel82,
+	"circle-scale-fields-escape",
+	"Dime",
+	World_generateLevel83,
 };
 
 #endif
