@@ -175,7 +175,7 @@ static unsigned int OS_KEY_IDENTIFIERS[] = {
 
 	VK_SPACE,
 	VK_ESCAPE,
-	VK_ENTER,
+	VK_RETURN,
 
 };
 #endif
