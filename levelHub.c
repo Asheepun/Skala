@@ -524,7 +524,7 @@ void World_initLevelHub(World *world_p){
 	currentRoomWidth = &noLegsLevelsRoomWidth;
 
 	int noLegsLevelsRoomY = cloudY - 65;
-	*currentRoomX = 1720;
+	*currentRoomX = 1710;
 
 	*currentRoomWidth += 60;
 

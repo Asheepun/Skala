@@ -320,7 +320,7 @@ Cliff Tunnel 2
 
 	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(160, 70), NONE);
 
-	World_addObstacle(world_p, getVec2f(160, 250), getVec2f(WIDTH - 160, 20), NONE);
+	World_addObstacle(world_p, getVec2f(160, 250), getVec2f(WIDTH - 300, 20), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH, 10), NONE);
 
@@ -328,9 +328,11 @@ Cliff Tunnel 2
 
 	World_addObstacle(world_p, getVec2f(240, 10), getVec2f(30, 70), NONE);
 
-	World_addObstacle(world_p, getVec2f(230, 190), getVec2f(60, 70), NONE);
+	World_addObstacle(world_p, getVec2f(160, 200), getVec2f(120, 70), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 80, 40), getVec2f(80, HEIGHT - 60), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 80, 40), getVec2f(80, 80), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 100), getVec2f(20, HEIGHT - 100), NONE);
 
 :levelName
 cooler-scaling-level-1
@@ -1538,6 +1540,8 @@ Hurdle
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 30, -HEIGHT), getVec2f(30, 2 * HEIGHT), NONE);
 
+	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH, 20), NONE);
+
 :levelName
 no-legs-scale-field-key
 :screenName
@@ -1830,6 +1834,6 @@ Dime
 
 	World_addScaleField(world_p, getVec2f(WIDTH - 130, 120), getVec2f(100, 100), ALL);
 
-	World_addScaleField(world_p, getVec2f(WIDTH - 230, 120), getVec2f(100, 100), ALL_FROM_TOP);
+	World_addScaleField(world_p, getVec2f(WIDTH - 260, 120), getVec2f(130, 100), ALL_FROM_TOP);
 
 	World_addScaleField(world_p, getVec2f(WIDTH - 230, 0), getVec2f(100, 40), NONE);
