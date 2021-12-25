@@ -1081,6 +1081,8 @@ Mirror
 
 	World_addObstacle(world_p, getVec2f(80, 150), getVec2f(40, 40), ALL_FROM_TOP);
 
+	//World_addObstacle(world_p, getVec2f(0, 0), getVec2f(40, 120), NONE);
+
 :levelName
 player-position-3
 :screenName
@@ -1134,6 +1136,8 @@ Magic Bean
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 150, 90), getVec2f(150, 120), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(20, HEIGHT), NONE);
 
 	World_addScaleField(world_p, getVec2f(100, 190), getVec2f(50, 20), ALL);
 

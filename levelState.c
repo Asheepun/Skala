@@ -118,9 +118,19 @@ void World_levelState(World *world_p){
 
 			BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
+			float playerPosX = playerBodyPair_p->body.pos.x;
+			float playerPosY = (world_p->levelHeight - playerBodyPair_p->body.pos.y - playerBodyPair_p->body.size.y);
+
+			if(playerPosX < 1){
+				playerPosX = 1;
+			}
+			if(playerPosY < 1){
+				playerPosY = 1;
+			}
+
 			//NEED TO FIX THIS SOMEHOW!!!!
-			bodyPair_p->playerPositionScale.x = playerBodyPair_p->originBody.pos.x / playerBodyPair_p->body.pos.x;
-			bodyPair_p->playerPositionScale.y = (world_p->levelHeight - playerBodyPair_p->originBody.pos.y - playerBodyPair_p->originBody.size.y) / (world_p->levelHeight - playerBodyPair_p->body.pos.y - playerBodyPair_p->body.size.y);
+			bodyPair_p->playerPositionScale.x = playerBodyPair_p->originBody.pos.x / playerPosX;
+			bodyPair_p->playerPositionScale.y = (world_p->levelHeight - playerBodyPair_p->originBody.pos.y - playerBodyPair_p->originBody.size.y) / playerPosY;
 
 		}
 	
