@@ -1115,4 +1115,17 @@ void World_initLevelHub(World *world_p){
 	
 	}
 
+	//add music areas
+	World_addMusicArea(world_p, getVec2f(firstLevelsRoomX, 0), getVec2f(elevatorRoomX - firstLevelsRoomX, HEIGHT), "music/first-levels");
+
+	World_addMusicArea(world_p, getVec2f(elevatorRoomX, 0), getVec2f(elevatorRoomWidth, HEIGHT), "KEEP_CURRENT");
+
+	World_addMusicArea(world_p, getVec2f(doorKeyLevelsRoomX, 0), getVec2f(doorKeyLevelsRoomWidth, 150), "music/door-key-levels");
+
+	World_addMusicArea(world_p, getVec2f(allFromTopLevelsRoomX, 150), getVec2f(allFromTopLevelsRoomWidth, 120), "music/all-from-top-levels");
+
+	World_addMusicArea(world_p, getVec2f(allFromTopLevelsRoomX + allFromTopLevelsRoomWidth - 100, 0), getVec2f(100, HEIGHT), "music/all-from-top-levels");
+
+	World_addMusicArea(world_p, getVec2f(xySwitchLevelsRoomX, -HEIGHT), getVec2f(xySwitchLevelsRoomWidth + 100, HEIGHT), "music/scale-field-levels");
+
 }

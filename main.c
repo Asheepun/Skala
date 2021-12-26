@@ -172,7 +172,6 @@ void Engine_start(){
 		"scaling",
 		*/
 
-		"old/music/outside",
 		"music/outside",
 		"music/first-levels",
 		"music/door-key-levels",
@@ -189,20 +188,30 @@ void Engine_start(){
 	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_SFX);
 
 	//setup music
-	world.currentMusicVolume = 0.0;
-	world.previousMusicVolume = 0.0;
+	Array_init(&world.musicIDs, sizeof(size_t));
 
-	world.outsideMusicID = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
-	world.firstLevelsMusicID = Audio_playSound("music/first-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
-	world.doorKeyLevelsMusicID = Audio_playSound("music/door-key-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
-	world.allFromTopLevelsMusicID = Audio_playSound("music/all-from-top-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
-	world.scaleFieldLevelsMusicID = Audio_playSound("music/scale-field-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+	{
+		size_t *ID_p = Array_addItem(&world.musicIDs);
+		*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+	}
+	{
+		size_t *ID_p = Array_addItem(&world.musicIDs);
+		*ID_p = Audio_playSound("music/first-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+	}
+	{
+		size_t *ID_p = Array_addItem(&world.musicIDs);
+		*ID_p = Audio_playSound("music/door-key-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
 
-	world.currentMusicID = world.doorKeyLevelsMusicID;
-	world.previousMusicID = world.currentMusicID;
-
-	Audio_setSoundVolumeByID(world.currentMusicID, world.currentMusicVolume);
-	Audio_setSoundVolumeByID(world.previousMusicID, world.previousMusicVolume);
+		world.currentMusicID = *ID_p;
+	}
+	{
+		size_t *ID_p = Array_addItem(&world.musicIDs);
+		*ID_p = Audio_playSound("music/all-from-top-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+	}
+	{
+		size_t *ID_p = Array_addItem(&world.musicIDs);
+		*ID_p = Audio_playSound("music/scale-field-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+	}
 
 	//make star background texture
 	{

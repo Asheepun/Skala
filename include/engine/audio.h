@@ -32,6 +32,12 @@ float Audio_getSoundVolumeByID(size_t);
 
 void Audio_setSoundVolumeByID(size_t, float);
 
+void Audio_increaseSoundVolumeByID(size_t, float);
+
+void Audio_decreaseSoundVolumeByID(size_t, float);
+
 void Audio_setSoundTimeByID(size_t, int);
+
+char *Audio_getSoundNameByID(size_t);
 
 #endif

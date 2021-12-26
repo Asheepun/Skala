@@ -244,10 +244,50 @@ void Audio_setSoundVolumeByID(size_t ID, float newVolume){
 	
 }
 
+void Audio_increaseSoundVolumeByID(size_t ID, float increment){
+
+	Sound *sound_p = Array_getItemPointerByID(&sounds, ID);
+	
+	sound_p->volume += increment;
+
+	if(sound_p->volume > 1){
+		sound_p->volume = 1;
+	}
+	if(sound_p->volume < 0){
+		sound_p->volume = 0;
+	}
+	
+}
+
+void Audio_decreaseSoundVolumeByID(size_t ID, float decrement){
+
+	Sound *sound_p = Array_getItemPointerByID(&sounds, ID);
+	
+	sound_p->volume -= decrement;
+
+	if(sound_p->volume > 1){
+		sound_p->volume = 1;
+	}
+	if(sound_p->volume < 0){
+		sound_p->volume = 0;
+	}
+	
+}
+
 void Audio_setSoundTimeByID(size_t ID, int newTime){
 
 	Sound *sound_p = Array_getItemPointerByID(&sounds, ID);
 	
 	sound_p->currentFrame = newTime;
+
+}
+
+char *Audio_getSoundNameByID(size_t ID){
+
+	Sound *sound_p = Array_getItemPointerByID(&sounds, ID);
+
+	SoundData *soundData_p = &soundData[sound_p->soundDataIndex];
+
+	return soundData_p->name;
 
 }

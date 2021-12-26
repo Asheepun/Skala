@@ -355,6 +355,11 @@ typedef struct SaveData{
 	Array doors;
 }SaveData;
 
+typedef struct MusicArea{
+	Body body;
+	char musicName[STRING_SIZE];
+}MusicArea;
+
 typedef struct World{
 
 	Key keys[255];
@@ -439,16 +444,9 @@ typedef struct World{
 
 	//music
 	size_t currentMusicID;
-	size_t previousMusicID;
-	
-	float currentMusicVolume;
-	float previousMusicVolume;
 
-	size_t outsideMusicID;
-	size_t firstLevelsMusicID;
-	size_t doorKeyLevelsMusicID;
-	size_t allFromTopLevelsMusicID;
-	size_t scaleFieldLevelsMusicID;
+	Array musicIDs;
+	Array musicAreas;
 
 }World;
 
@@ -525,7 +523,8 @@ static const Renderer2D_Color SCALING_SCALE_TYPE_COLORS[] = {
 static int FADE_TRANSITION_TIME = 60;
 
 static float MUSIC_VOLUME_FACTOR = 1.0;
-static float MUSIC_FADE_SPEED = 0.01;
+static float MUSIC_FADE_IN_SPEED = 0.01;
+static float MUSIC_FADE_OUT_SPEED = 0.01;
 
 //functions
 
@@ -556,6 +555,7 @@ size_t World_addDoor(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addDoorKey(World *, Vec2f, enum ScaleType);
 size_t World_addScaleField(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addLevelDoor(World *, Vec2f, char *, enum LevelHubRoom);
+void World_addMusicArea(World *, Vec2f, Vec2f, char *);
 //size_t World_addParticle(World *, Vec2f, Vec2f, char *, int, Renderer2D_Color, Renderer2D_Color);
 size_t World_addShadow(World *, Vec2f, Vec2f);
 

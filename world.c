@@ -45,6 +45,7 @@ void World_init(World *world_p){
 	Array_init(&world_p->scaleFields, sizeof(ScaleField));
 	Array_init(&world_p->levelDoors, sizeof(LevelDoor));
 	Array_init(&world_p->particles, sizeof(Particle));
+	Array_init(&world_p->musicAreas, sizeof(MusicArea));
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 
@@ -148,6 +149,7 @@ void World_restore(World *world_p){
 	Array_clear(&world_p->scaleFields);
 	Array_clear(&world_p->levelDoors);
 	Array_clear(&world_p->particles);
+	Array_clear(&world_p->musicAreas);
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 		//Array_clear(&world_p->spriteLayers[i]);
@@ -1206,3 +1208,12 @@ Vec2f World_BodyPair_getLastScaleFromExponent(World *world_p, BodyPair *bodyPair
 
 }
 
+void World_addMusicArea(World *world_p, Vec2f pos, Vec2f size, char *musicName){
+
+	MusicArea *musicArea_p = Array_addItem(&world_p->musicAreas);
+
+	musicArea_p->body.pos = pos;
+	musicArea_p->body.size = size;
+	String_set(musicArea_p->musicName, musicName, STRING_SIZE);
+	
+}

@@ -1840,52 +1840,55 @@ void World_levelState(World *world_p){
 	}
 
 	//handle music
-	if(world_p->currentMusicVolume < 1){
-		world_p->currentMusicVolume += MUSIC_FADE_SPEED;
-	}else{
-		world_p->currentMusicVolume = 1.0;
-	}
+	for(int i = 0; i < world_p->musicIDs.length; i++){
 
-	if(world_p->previousMusicVolume > 0){
-		world_p->previousMusicVolume -= MUSIC_FADE_SPEED;
-	}else{
-		world_p->previousMusicVolume = 0.0;
+		size_t ID = *(size_t *)Array_getItemPointerByIndex(&world_p->musicIDs, i);
+
+		printf("ID: %i, volume: %f\n", ID, Audio_getSoundVolumeByID(ID));
+
+		if(ID == world_p->currentMusicID){
+			Audio_increaseSoundVolumeByID(ID, MUSIC_FADE_IN_SPEED);
+		}else{
+			Audio_decreaseSoundVolumeByID(ID, MUSIC_FADE_OUT_SPEED);
+		}
+	
 	}
 
 	if(world_p->currentState == LEVEL_HUB_STATE){
-		if(playerBodyPair_p->body.pos.x < 1700
-		&& world_p->currentMusicID != world_p->outsideMusicID){
 
-			world_p->previousMusicID = world_p->currentMusicID;
-			world_p->currentMusicID = world_p->outsideMusicID;
-			
-			float tmpVolume = world_p->previousMusicVolume;
-			world_p->previousMusicVolume = world_p->currentMusicVolume;
-			world_p->currentMusicVolume = tmpVolume;
+		size_t newID = 0;
 
-			Audio_setSoundTimeByID(world_p->currentMusicID, 0);
+		for(int i = 0; i < world_p->musicAreas.length; i++){
 
+			MusicArea *musicArea_p = Array_getItemPointerByIndex(&world_p->musicAreas, i);
+
+			if(checkBodyToBodyCol(playerBodyPair_p->body, musicArea_p->body)){
+
+				if(strcmp(musicArea_p->musicName, "KEEP_CURRENT") == 0){
+					newID = world_p->currentMusicID;
+					continue;
+				}
+
+				for(int j = 0; j < world_p->musicIDs.length; j++){
+
+					size_t ID = *(size_t *)Array_getItemPointerByIndex(&world_p->musicIDs, j);
+
+					if(strcmp(musicArea_p->musicName, Audio_getSoundNameByID(ID)) == 0){
+						newID = ID;
+					}
+
+				}
+			}
+		
 		}
-		if(playerBodyPair_p->body.pos.x >= 1700
-		&& world_p->currentMusicID != world_p->firstLevelsMusicID){
 
-			world_p->previousMusicID = world_p->currentMusicID;
-			world_p->currentMusicID = world_p->firstLevelsMusicID;
-			
-			float tmpVolume = world_p->previousMusicVolume;
-			world_p->previousMusicVolume = world_p->currentMusicVolume;
-			world_p->currentMusicVolume = tmpVolume;
-
-			Audio_setSoundTimeByID(world_p->currentMusicID, 0);
-
+		if(world_p->currentMusicID != newID){
+			Audio_setSoundTimeByID(newID, 0);
 		}
+
+		world_p->currentMusicID = newID;
 	}
 
-	printf("VOLUMES:\n");
-	printf("current: %f\n", world_p->currentMusicVolume);
-	printf("previous: %f\n", world_p->previousMusicVolume);
-	
-	Audio_setSoundVolumeByID(world_p->previousMusicID, world_p->previousMusicVolume * MUSIC_VOLUME_FACTOR);
-	Audio_setSoundVolumeByID(world_p->currentMusicID, world_p->currentMusicVolume * MUSIC_VOLUME_FACTOR);
+	printf("ID: %i\n", world_p->currentMusicID);
 
 }
