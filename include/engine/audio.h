@@ -14,8 +14,6 @@ enum Audio_SoundTypeEnum{
 	AUDIO_SOUND_TYPE_MUSIC,
 };
 
-size_t Audio_playSound(char *, float, bool, enum Audio_SoundTypeEnum);
-
 void Audio_init(char **, int);
 
 void Audio_setVolume(float, enum Audio_SoundTypeEnum);
@@ -29,5 +27,11 @@ void Audio_stopSoundByID(size_t);
 void Audio_resumeSoundByID(size_t);
 
 void Audio_killSoundByID(size_t);
+
+float Audio_getSoundVolumeByID(size_t);
+
+void Audio_setSoundVolumeByID(size_t, float);
+
+void Audio_setSoundTimeByID(size_t, int);
 
 #endif

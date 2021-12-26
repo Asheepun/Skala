@@ -20,7 +20,6 @@
 #include "engine/strings.h"
 #include "game.h"
 #include "levels.h"
-//#include "audio.h"
 
 static World world;
 
@@ -152,6 +151,7 @@ void Engine_start(){
 
 	//load audio
 	char *soundAssets[] = {
+		/*
 		"player-jump",
 		"player-jump-1",
 		"player-land",
@@ -170,22 +170,39 @@ void Engine_start(){
 		//"end-scaling",
 		//"end-scaling-1",
 		"scaling",
+		*/
 
+		"old/music/outside",
 		"music/outside",
+		"music/first-levels",
+		"music/door-key-levels",
+		"music/all-from-top-levels",
+		"music/scale-field-levels",
 	};
 
 	int soundAssetsLength = sizeof(soundAssets) / sizeof(char *);
 
 	Audio_init(soundAssets, soundAssetsLength);
 
-	Audio_playSound("music/outside", 1.0, true, AUDIO_SOUND_TYPE_MUSIC);
+	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_MUSIC);
 
-	//Audio_setVolume(0.5, AUDIO_SOUND_TYPE_MUSIC);
+	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_SFX);
 
-	//Audio_setVolume(0.5, AUDIO_SOUND_TYPE_SFX);
+	//setup music
+	world.currentMusicVolume = 0.0;
+	world.previousMusicVolume = 0.0;
 
-	Audio_setVolume(0, AUDIO_SOUND_TYPE_MUSIC);
-	Audio_setVolume(0, AUDIO_SOUND_TYPE_SFX);
+	world.outsideMusicID = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+	world.firstLevelsMusicID = Audio_playSound("music/first-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+	world.doorKeyLevelsMusicID = Audio_playSound("music/door-key-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+	world.allFromTopLevelsMusicID = Audio_playSound("music/all-from-top-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+	world.scaleFieldLevelsMusicID = Audio_playSound("music/scale-field-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+
+	world.currentMusicID = world.doorKeyLevelsMusicID;
+	world.previousMusicID = world.currentMusicID;
+
+	Audio_setSoundVolumeByID(world.currentMusicID, world.currentMusicVolume);
+	Audio_setSoundVolumeByID(world.previousMusicID, world.previousMusicVolume);
 
 	//make star background texture
 	{

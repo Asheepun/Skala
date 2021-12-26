@@ -187,7 +187,7 @@ void World_levelState(World *world_p){
 		if((world_p->actions[JUMP_ACTION].down)
 		&& playerPhysics_p->onGround){
 			playerPhysics_p->velocity.y += player_p->jumpSpeed;
-			Audio_playSound("player-jump-1", 3.0, false, AUDIO_SOUND_TYPE_SFX);
+			//Audio_playSound("player-jump-1", 3.0, false, AUDIO_SOUND_TYPE_SFX);
 			//Audio_playSound("player-land", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 		}
 
@@ -1059,7 +1059,7 @@ void World_levelState(World *world_p){
 		&& bodyPair1_p->entityType == PLAYER){
 		//&& !(world_p->actions[JUMP_ACTION].down
 		//&& !world_p->scaling)){
-			Audio_playSound("player-jump-1", 0.5, false, AUDIO_SOUND_TYPE_SFX);
+			//Audio_playSound("player-jump-1", 0.5, false, AUDIO_SOUND_TYPE_SFX);
 		}
 
 	}
@@ -1128,7 +1128,7 @@ void World_levelState(World *world_p){
 
 	if(playerGotKey){
 		if(!player_p->holdingKey){
-			Audio_playSound("pickup-key-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+			//Audio_playSound("pickup-key-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 		}
 		player_p->holdingKey = true;
 	}else{
@@ -1146,7 +1146,7 @@ void World_levelState(World *world_p){
 
 			if(checkBodyPairToBodyPairCollision(*doorBodyPair_p, *doorKeyBodyPair_p)){
 
-				Audio_playSound("open-door-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+				//Audio_playSound("open-door-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 
 				World_removeDoorByID(world_p, door_p->entityHeader.ID);
 				World_removeDoorKeyByID(world_p, doorKey_p->entityHeader.ID);
@@ -1193,7 +1193,7 @@ void World_levelState(World *world_p){
 
 			i--;
 			
-			Audio_playSound("pickup-star-3", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+			//Audio_playSound("pickup-star-3", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 
 		}
 
@@ -1838,5 +1838,54 @@ void World_levelState(World *world_p){
 		}
 
 	}
+
+	//handle music
+	if(world_p->currentMusicVolume < 1){
+		world_p->currentMusicVolume += MUSIC_FADE_SPEED;
+	}else{
+		world_p->currentMusicVolume = 1.0;
+	}
+
+	if(world_p->previousMusicVolume > 0){
+		world_p->previousMusicVolume -= MUSIC_FADE_SPEED;
+	}else{
+		world_p->previousMusicVolume = 0.0;
+	}
+
+	if(world_p->currentState == LEVEL_HUB_STATE){
+		if(playerBodyPair_p->body.pos.x < 1700
+		&& world_p->currentMusicID != world_p->outsideMusicID){
+
+			world_p->previousMusicID = world_p->currentMusicID;
+			world_p->currentMusicID = world_p->outsideMusicID;
+			
+			float tmpVolume = world_p->previousMusicVolume;
+			world_p->previousMusicVolume = world_p->currentMusicVolume;
+			world_p->currentMusicVolume = tmpVolume;
+
+			Audio_setSoundTimeByID(world_p->currentMusicID, 0);
+
+		}
+		if(playerBodyPair_p->body.pos.x >= 1700
+		&& world_p->currentMusicID != world_p->firstLevelsMusicID){
+
+			world_p->previousMusicID = world_p->currentMusicID;
+			world_p->currentMusicID = world_p->firstLevelsMusicID;
+			
+			float tmpVolume = world_p->previousMusicVolume;
+			world_p->previousMusicVolume = world_p->currentMusicVolume;
+			world_p->currentMusicVolume = tmpVolume;
+
+			Audio_setSoundTimeByID(world_p->currentMusicID, 0);
+
+		}
+	}
+
+	printf("VOLUMES:\n");
+	printf("current: %f\n", world_p->currentMusicVolume);
+	printf("previous: %f\n", world_p->previousMusicVolume);
+	
+	Audio_setSoundVolumeByID(world_p->previousMusicID, world_p->previousMusicVolume * MUSIC_VOLUME_FACTOR);
+	Audio_setSoundVolumeByID(world_p->currentMusicID, world_p->currentMusicVolume * MUSIC_VOLUME_FACTOR);
 
 }

@@ -227,3 +227,27 @@ void Audio_killSoundByID(size_t ID){
 	//pthread_mutex_unlock(&soundMutex);
 
 }
+
+float Audio_getSoundVolumeByID(size_t ID){
+
+	Sound *sound_p = Array_getItemPointerByID(&sounds, ID);
+
+	return sound_p->volume;
+	
+}
+
+void Audio_setSoundVolumeByID(size_t ID, float newVolume){
+
+	Sound *sound_p = Array_getItemPointerByID(&sounds, ID);
+	
+	sound_p->volume = newVolume;
+	
+}
+
+void Audio_setSoundTimeByID(size_t ID, int newTime){
+
+	Sound *sound_p = Array_getItemPointerByID(&sounds, ID);
+	
+	sound_p->currentFrame = newTime;
+
+}

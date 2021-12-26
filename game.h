@@ -437,6 +437,19 @@ typedef struct World{
 	size_t movementKeysTextParticleID;
 	size_t menuKeyTextParticleID;
 
+	//music
+	size_t currentMusicID;
+	size_t previousMusicID;
+	
+	float currentMusicVolume;
+	float previousMusicVolume;
+
+	size_t outsideMusicID;
+	size_t firstLevelsMusicID;
+	size_t doorKeyLevelsMusicID;
+	size_t allFromTopLevelsMusicID;
+	size_t scaleFieldLevelsMusicID;
+
 }World;
 
 //global variables
@@ -510,6 +523,9 @@ static const Renderer2D_Color SCALING_SCALE_TYPE_COLORS[] = {
 };
 
 static int FADE_TRANSITION_TIME = 60;
+
+static float MUSIC_VOLUME_FACTOR = 1.0;
+static float MUSIC_FADE_SPEED = 0.01;
 
 //functions
 
