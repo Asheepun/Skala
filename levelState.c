@@ -44,10 +44,14 @@ void World_initLevel(World *world_p){
 	if(world_p->scalingByPlayerPosition){
 		backgroundColor = COLOR_DARK_GREY;
 	}
+	if(world_p->scalingByPlayerSpeed){
+		//backgroundColor = COLOR_DARK_YELLOW;
+	}
 
 	World_addSprite(world_p, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), backgroundColor, "obstacle", 1, GAME_LAYER_BACKGROUND);
 
-	if(world_p->scalingByPlayerPosition){
+	if(world_p->scalingByPlayerPosition
+	|| world_p->scalingByPlayerSpeed){
 		//Audio_playSound("begin-scaling-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 	}
 
@@ -104,13 +108,32 @@ void World_levelState(World *world_p){
 
 		bodyPair_p->lastScaleExponent = bodyPair_p->scaleExponent;
 		bodyPair_p->playerPositionLastScale = bodyPair_p->playerPositionScale;
+		bodyPair_p->playerSpeedLastScale = bodyPair_p->playerSpeedScale;
 	
 	}
 
 	world_p->scaleDirection = getVec2f(0, 0);
 
 	//control scale
-	if(world_p->scalingByPlayerPosition){
+	if(world_p->scalingByPlayerSpeed){
+
+		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
+
+		float deltaX = fabs(playerBodyPair_p->body.pos.x - world_p->lastPlayerPos.x);
+		float deltaY = fabs(playerBodyPair_p->body.pos.y - world_p->lastPlayerPos.y);
+
+		world_p->lastPlayerPos = playerBodyPair_p->body.pos;
+
+		for(int i = 0; i < world_p->bodyPairs.length; i++){
+
+			BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+
+			bodyPair_p->playerSpeedScale.x = pow(PLAYER_SPEED_SCALE_EXPONENT, -deltaX);
+			bodyPair_p->playerSpeedScale.y = pow(PLAYER_SPEED_SCALE_EXPONENT, -deltaY);
+
+		}
+	
+	}else if(world_p->scalingByPlayerPosition){
 
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
 
@@ -309,6 +332,11 @@ void World_levelState(World *world_p){
 		Vec2f lastScale = World_BodyPair_getLastScaleFromExponent(world_p, bodyPair_p);
 		Vec2f origin = world_p->origin;
 
+		if(world_p->scalingByPlayerSpeed){
+			scale = bodyPair_p->playerSpeedScale;
+			lastScale = bodyPair_p->playerSpeedLastScale;
+		}
+
 		if(world_p->scalingByPlayerPosition){
 			scale = bodyPair_p->playerPositionScale;
 			lastScale = bodyPair_p->playerPositionLastScale;
@@ -365,6 +393,7 @@ void World_levelState(World *world_p){
 						bodyPair1_p->body.pos.x = bodyPair1_p->lastBody.pos.x;
 						bodyPair1_p->scaleExponent.x = bodyPair1_p->lastScaleExponent.x;
 						bodyPair1_p->playerPositionScale.x = bodyPair1_p->playerPositionLastScale.x;
+						bodyPair1_p->playerSpeedScale.x = bodyPair1_p->playerSpeedLastScale.x;
 
 						bodyPair1_p->isStuckX = true;
 
@@ -605,6 +634,11 @@ void World_levelState(World *world_p){
 		Vec2f lastScale = World_BodyPair_getLastScaleFromExponent(world_p, bodyPair_p);
 		Vec2f origin = world_p->origin;
 
+		if(world_p->scalingByPlayerSpeed){
+			scale = bodyPair_p->playerSpeedScale;
+			lastScale = bodyPair_p->playerSpeedLastScale;
+		}
+
 		if(world_p->scalingByPlayerPosition){
 			scale = bodyPair_p->playerPositionScale;
 			lastScale = bodyPair_p->playerPositionLastScale;
@@ -664,6 +698,7 @@ void World_levelState(World *world_p){
 						//bodyPair1_p->scale.y = bodyPair1_p->lastScale.y;
 						bodyPair1_p->scaleExponent.y = bodyPair1_p->lastScaleExponent.y;
 						bodyPair1_p->playerPositionScale.y = bodyPair1_p->playerPositionLastScale.y;
+						bodyPair1_p->playerSpeedScale.y = bodyPair1_p->playerSpeedLastScale.y;
 
 						bodyPair1_p->isStuckY = true;
 
@@ -1773,6 +1808,14 @@ void World_levelState(World *world_p){
 
 		}
 
+		//secret area camera
+		if(playerBodyPair_p->body.pos.x > 6440){
+			if(playerBodyPair_p->body.pos.y > -HEIGHT * 5 - 100){
+				world_p->cameraTarget.x = -6440 + WIDTH / 2;
+			}
+			cameraSpeedX = 20;
+		}
+
 		//make it so that camera follows player up
 		if(playerBodyPair_p->body.pos.y < -HEIGHT * 3.2 + 100){
 			world_p->cameraTarget.y = -playerBodyPair_p->body.pos.y + HEIGHT - 100;
@@ -1817,6 +1860,14 @@ void World_levelState(World *world_p){
 
 		sprite_p->body.pos.x = -world_p->renderer.offset.x * 0.3;
 		sprite_p->body.pos.y = (-world_p->renderer.offset.y - HEIGHT * 16 + offsetY) * 0.4;
+
+		if(SaveData_hasFlag(&world_p->saveData, "completed-secret-levels")){
+			Sprite *sprite_p = World_getSpriteByIndex(world_p, world_p->herculesStarBackgroundSpriteIndex);
+
+			sprite_p->body.pos.x = -(world_p->renderer.offset.x) * 0.3 + 760;
+			sprite_p->body.pos.y = (-world_p->renderer.offset.y) * 0.4;
+		
+		}
 
 	}
 

@@ -138,6 +138,7 @@ void World_restore(World *world_p){
 
 	world_p->scaling = false;
 	world_p->scalingByPlayerPosition = false;
+	world_p->scalingByPlayerSpeed = false;
 	world_p->playerHasNoLegs = false;
 
 	Array_clear(&world_p->buttons);
@@ -191,6 +192,8 @@ void World_initPlayer(World *world_p, Vec2f pos, enum ScaleType scaleType){
 	Body body;
 
 	Body_init(&body, pos, getVec2f(14, 20));
+
+	world_p->lastPlayerPos = pos;
 
 	player_p->bodyPairID = World_addBodyPair(world_p, body, scaleType, MOVABLE, PLAYER);
 
@@ -422,6 +425,8 @@ size_t World_addBodyPair(World *world_p, Body body, enum ScaleType scaleType, en
 	//bodyPair_p->lastScaleIndexX = ORIGIN_SCALE_INDEX;
 	//bodyPair_p->lastScaleIndexY = ORIGIN_SCALE_INDEX;
 
+	bodyPair_p->playerSpeedScale = getVec2f(1, 1);
+	bodyPair_p->playerSpeedLastScale = getVec2f(1, 1);
 	bodyPair_p->playerPositionScale = getVec2f(1, 1);
 	bodyPair_p->playerPositionLastScale = getVec2f(1, 1);
 	//bodyPair_p->scale = getVec2f(1, 1);

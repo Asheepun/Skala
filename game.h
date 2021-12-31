@@ -115,6 +115,7 @@ enum LevelHubRoom{
 	SCALE_FIELD_ROOM,
 	PLAYER_POSITION_ROOM,
 	NO_LEGS_ROOM,
+	SECRET_ROOM,
 	NUMBER_OF_LEVEL_HUB_ROOMS,
 };
 
@@ -208,6 +209,8 @@ typedef struct BodyPair{
 	//Vec2f lastScale;
 	Vec2f playerPositionScale;
 	Vec2f playerPositionLastScale;
+	Vec2f playerSpeedScale;
+	Vec2f playerSpeedLastScale;
 	Vec2f scaleExponent;
 	Vec2f lastScaleExponent;
 	//Vec2f origin;
@@ -413,7 +416,9 @@ typedef struct World{
 	float scaleSpeed;
 
 	bool scalingByPlayerPosition;
+	bool scalingByPlayerSpeed;
 	bool playerHasNoLegs;
+	Vec2f lastPlayerPos;
 
 	Player player;
 
@@ -437,6 +442,7 @@ typedef struct World{
 	bool playerHasLanded;
 
 	size_t starBackgroundSpriteIndex;
+	size_t herculesStarBackgroundSpriteIndex;
 
 	size_t titleTextParticleID;
 	size_t movementKeysTextParticleID;
@@ -525,6 +531,8 @@ static int FADE_TRANSITION_TIME = 60;
 static float MUSIC_VOLUME_FACTOR = 1.0;
 static float MUSIC_FADE_IN_SPEED = 0.01;
 static float MUSIC_FADE_OUT_SPEED = 0.01;
+
+static float PLAYER_SPEED_SCALE_EXPONENT = 1.2;
 
 //functions
 

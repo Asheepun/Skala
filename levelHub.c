@@ -75,6 +75,9 @@ void World_initLevelHub(World *world_p){
 	int noLegsLevelsRoomX = 0;
 	int noLegsLevelsRoomWidth = 0;
 
+	int secretLevelsRoomX = 0;
+	int secretLevelsRoomWidth = 0;
+
 	int *currentRoomX;
 	int *currentRoomWidth;
 	int *currentFloorY;
@@ -724,9 +727,33 @@ void World_initLevelHub(World *world_p){
 	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth, HEIGHT - 60), getVec2f(140, 60), NONE);
 
 	//add boundries
-	World_addScaleField(world_p, getVec2f(startingAreaX, cloudY), getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 140, HEIGHT), NONE);
+	World_addScaleField(world_p, getVec2f(startingAreaX, cloudY), getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 140 - 700, HEIGHT), NONE);
 
-	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100, -HEIGHT * 6), getVec2f(500, HEIGHT * 7), NONE);
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100, -HEIGHT * 5 - 140), getVec2f(500, HEIGHT * 7), NONE);
+
+	//secret area
+
+	currentRoomX = &secretLevelsRoomX;
+	currentRoomWidth = &secretLevelsRoomWidth;
+
+	*currentRoomX = playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 230;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 185), "throw-key-1", SECRET_ROOM);
+	*currentRoomWidth += 70;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 185), "throw-key-2", SECRET_ROOM);
+	*currentRoomWidth += 70;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 185), "key-fall-through", SECRET_ROOM);
+
+	*currentRoomWidth += 90;
+
+	//add secret area obstacles
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100 - 300, -HEIGHT * 6), getVec2f(60, HEIGHT - 100), NONE);
+
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100 - 300, -HEIGHT * 7), getVec2f(WIDTH * 2, HEIGHT), NONE);
+
+	World_addObstacle(world_p, getVec2f(secretLevelsRoomX + secretLevelsRoomWidth, -HEIGHT * 6), getVec2f(WIDTH, HEIGHT), NONE);
 
 	//add walls
 
@@ -846,6 +873,17 @@ void World_initLevelHub(World *world_p){
 				SaveData_addFlag(&world_p->saveData, "completed-no-legs-levels");
 
 			}
+			
+			if(i == SECRET_ROOM){
+
+				if(!SaveData_hasFlag(&world_p->saveData, "completed-secret-levels")){
+					doOpenGateParticleEffect = true;
+					openGateParticleEffectRoom = SECRET_ROOM;
+				}
+
+				SaveData_addFlag(&world_p->saveData, "completed-secret-levels");
+
+			}
 
 		}
 
@@ -883,7 +921,9 @@ void World_initLevelHub(World *world_p){
 		|| levelDoor_p->levelHubRoom == SCALE_FIELD_ROOM
 		&& SaveData_hasFlag(&world_p->saveData, "completed-scale-field-levels")
 		|| levelDoor_p->levelHubRoom == PLAYER_POSITION_ROOM
-		&& SaveData_hasFlag(&world_p->saveData, "completed-player-position-levels")){
+		&& SaveData_hasFlag(&world_p->saveData, "completed-player-position-levels")
+		|| levelDoor_p->levelHubRoom == SECRET_ROOM
+		&& SaveData_hasFlag(&world_p->saveData, "completed-secret-levels")){
 			//String_set(sprite_p->texture, "level-door", SMALL_STRING_SIZE);
 			String_set(sprite_p->texture, "level-door-empty", SMALL_STRING_SIZE);
 			//sprite_p->color = COLOR_GREY;
@@ -955,6 +995,11 @@ void World_initLevelHub(World *world_p){
 		World_addObstacle(world_p, getVec2f(1360 + 130, cloudY - 50), getVec2f(40, 30), NONE);
 	}
 
+	//add hercules star sign
+	if(SaveData_hasFlag(&world_p->saveData, "completed-secret-levels")){
+		world_p->herculesStarBackgroundSpriteIndex = World_addSprite(world_p, getVec2f(1000, 0), getVec2f(200, 200), COLOR_WHITE, "hercules", 1, GAME_LAYER_BACKGROUND);
+	}
+
 	//add saved door keys
 	for(int i = 0; i < world_p->saveData.doorKeys.length; i++){
 
@@ -983,6 +1028,7 @@ void World_initLevelHub(World *world_p){
 	//openGateParticleEffectRoom = ALL_FROM_TOP_ROOM;
 	//openGateParticleEffectRoom = FIRST_SCALE_ROOM;
 	//openGateParticleEffectRoom = PLAYER_POSITION_ROOM;
+	openGateParticleEffectRoom = SECRET_ROOM;
 
 
 	//open gate particle effect
@@ -1016,6 +1062,9 @@ void World_initLevelHub(World *world_p){
 			}
 			if(openGateParticleEffectRoom == NO_LEGS_ROOM){
 				targetColor = COLOR_GREEN;
+			}
+			if(openGateParticleEffectRoom == SECRET_ROOM){
+				targetColor = COLOR_WHITE;
 			}
 
 			//set new level door color

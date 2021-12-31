@@ -92,8 +92,12 @@ void World_generateLevel80(World *);
 void World_generateLevel81(World *);
 void World_generateLevel82(World *);
 void World_generateLevel83(World *);
+void World_generateLevel84(World *);
+void World_generateLevel85(World *);
+void World_generateLevel86(World *);
+void World_generateLevel87(World *);
 
-static const size_t LEVELS_LENGTH = 83;
+static const size_t LEVELS_LENGTH = 87;
 
 static Level levels[255] = {
 	"bug-testing-level",
@@ -345,6 +349,18 @@ static Level levels[255] = {
 	"circle-scale-fields-escape",
 	"Dime",
 	World_generateLevel83,
+	"climb-with-point",
+	"Ladder",
+	World_generateLevel84,
+	"throw-key-1",
+	"Locker",
+	World_generateLevel85,
+	"throw-key-2",
+	"Locker 2",
+	World_generateLevel86,
+	"key-fall-through",
+	"Locker 2",
+	World_generateLevel87,
 };
 
 #endif

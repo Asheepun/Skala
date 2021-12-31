@@ -55,7 +55,7 @@ void Engine_start(){
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
 
-	//String_set(world.currentLevel, "no-legs-point-hole", STRING_SIZE);
+	//String_set(world.currentLevel, "key-fall-through", STRING_SIZE);
 
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
 	//World_switchToAndInitState(&world, LEVEL_STATE);
@@ -102,6 +102,7 @@ void Engine_start(){
 		"karlavagnen",
 		"orion",
 		"skorpionen",
+		"hercules",
 
 		//furniture
 		"furniture/hat-shelf",
@@ -184,8 +185,9 @@ void Engine_start(){
 	Audio_init(soundAssets, soundAssetsLength);
 
 	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_MUSIC);
-
 	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_SFX);
+
+	Audio_setVolume(0.0, AUDIO_SOUND_TYPE_MUSIC);
 
 	//setup music
 	Array_init(&world.musicIDs, sizeof(size_t));
