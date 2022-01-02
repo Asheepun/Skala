@@ -22,10 +22,10 @@ void World_initLevelHub(World *world_p){
 	World_initPlayer(world_p, world_p->saveData.playerPos, NONE);
 	world_p->snapCamera = true;
 
-	//{
-		//BodyPair *bodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
-		//bodyPair_p->body.size = getVec2f(60, 20);
-	//}
+	{
+		BodyPair *bodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
+		//bodyPair_p->body.pos = getVec2f(200, -HEIGHT * 6 - 100);
+	}
 
 	//BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
 	//world_p->cameraPos.x = WIDTH / 2 - playerBodyPair_p->body.pos.x;
@@ -517,7 +517,7 @@ void World_initLevelHub(World *world_p){
 	{
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
 
-		playerBodyPair_p->body.pos.x = 1400;
+		playerBodyPair_p->body.pos.x = 1600;
 		playerBodyPair_p->body.pos.y = cloudY - 200;
 	}
 	*/
@@ -727,31 +727,30 @@ void World_initLevelHub(World *world_p){
 	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth, HEIGHT - 60), getVec2f(140, 60), NONE);
 
 	//add boundries
-	World_addScaleField(world_p, getVec2f(startingAreaX, cloudY), getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 140 - 700, HEIGHT), NONE);
+	World_addScaleField(world_p, getVec2f(startingAreaX, cloudY), getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 140 - 300, HEIGHT), NONE);
 
-	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100, -HEIGHT * 5 - 140), getVec2f(500, HEIGHT * 7), NONE);
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100, -HEIGHT * 5 - 100), getVec2f(500, HEIGHT * 7), NONE);
 
 	//secret area
-
 	currentRoomX = &secretLevelsRoomX;
 	currentRoomWidth = &secretLevelsRoomWidth;
 
 	*currentRoomX = playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 230;
 
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 185), "throw-key-1", SECRET_ROOM);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 145), "throw-key-1", SECRET_ROOM);
 	*currentRoomWidth += 70;
 
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 185), "throw-key-2", SECRET_ROOM);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 145), "throw-key-2", SECRET_ROOM);
 	*currentRoomWidth += 70;
 
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 185), "key-fall-through", SECRET_ROOM);
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 145), "key-fall-through", SECRET_ROOM);
 
 	*currentRoomWidth += 90;
 
 	//add secret area obstacles
-	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100 - 300, -HEIGHT * 6), getVec2f(60, HEIGHT - 100), NONE);
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100 - 300, -HEIGHT * 6), getVec2f(60, HEIGHT - 80), NONE);
 
-	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100 - 300, -HEIGHT * 7), getVec2f(WIDTH * 2, HEIGHT), NONE);
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100 - 300, -HEIGHT * 7), getVec2f(WIDTH * 2, HEIGHT + 40), NONE);
 
 	World_addObstacle(world_p, getVec2f(secretLevelsRoomX + secretLevelsRoomWidth, -HEIGHT * 6), getVec2f(WIDTH, HEIGHT), NONE);
 
@@ -922,6 +921,8 @@ void World_initLevelHub(World *world_p){
 		&& SaveData_hasFlag(&world_p->saveData, "completed-scale-field-levels")
 		|| levelDoor_p->levelHubRoom == PLAYER_POSITION_ROOM
 		&& SaveData_hasFlag(&world_p->saveData, "completed-player-position-levels")
+		|| levelDoor_p->levelHubRoom == NO_LEGS_ROOM
+		&& SaveData_hasFlag(&world_p->saveData, "completed-no-legs-levels")
 		|| levelDoor_p->levelHubRoom == SECRET_ROOM
 		&& SaveData_hasFlag(&world_p->saveData, "completed-secret-levels")){
 			//String_set(sprite_p->texture, "level-door", SMALL_STRING_SIZE);
@@ -1028,7 +1029,7 @@ void World_initLevelHub(World *world_p){
 	//openGateParticleEffectRoom = ALL_FROM_TOP_ROOM;
 	//openGateParticleEffectRoom = FIRST_SCALE_ROOM;
 	//openGateParticleEffectRoom = PLAYER_POSITION_ROOM;
-	openGateParticleEffectRoom = SECRET_ROOM;
+	//openGateParticleEffectRoom = SECRET_ROOM;
 
 
 	//open gate particle effect
@@ -1175,6 +1176,12 @@ void World_initLevelHub(World *world_p){
 
 	World_addMusicArea(world_p, getVec2f(allFromTopLevelsRoomX + allFromTopLevelsRoomWidth - 100, 0), getVec2f(100, HEIGHT), "music/all-from-top-levels");
 
-	World_addMusicArea(world_p, getVec2f(xySwitchLevelsRoomX, -HEIGHT), getVec2f(xySwitchLevelsRoomWidth + 100, HEIGHT), "music/scale-field-levels");
+	World_addMusicArea(world_p, getVec2f(xySwitchLevelsRoomX, -HEIGHT + 50), getVec2f(xySwitchLevelsRoomWidth + 100, HEIGHT - 50), "music/scale-field-levels");
+
+	World_addMusicArea(world_p, getVec2f(playerPositionLevelsRoomX, 0), getVec2f(playerPositionLevelsRoomWidth + WIDTH, HEIGHT), "music/player-position-levels");
+
+	World_addMusicArea(world_p, getVec2f(secretLevelsRoomX - 90, -HEIGHT * 6), getVec2f(secretLevelsRoomWidth + 100, 160), "music/secret-room-levels");
+
+	World_addMusicArea(world_p, getVec2f(294, -HEIGHT * 7), getVec2f(noLegsLevelsRoomX + noLegsLevelsRoomWidth, HEIGHT), "music/no-legs-levels");
 
 }
