@@ -1172,7 +1172,28 @@ void World_initLevelHub(World *world_p){
 
 	World_addMusicArea(world_p, getVec2f(doorKeyLevelsRoomX, 0), getVec2f(doorKeyLevelsRoomWidth, 150), "music/door-key-levels");
 
-	World_addMusicArea(world_p, getVec2f(allFromTopLevelsRoomX, 150), getVec2f(allFromTopLevelsRoomWidth, 120), "music/all-from-top-levels");
+	{
+		bool doorOpened = true;
+
+		//check if door exists
+		for(int i = 0; i < world_p->doors.length; i++){
+
+			Door *door_p = Array_getItemPointerByIndex(&world_p->doors, i);
+			BodyPair *bodyPair_p = World_getBodyPairByID(world_p, door_p->bodyPairID);
+
+			if(bodyPair_p->body.pos.x == 3350 && bodyPair_p->body.pos.y == 180){
+				doorOpened = false;
+			}
+		}
+
+		if(doorOpened){
+			World_addMusicArea(world_p, getVec2f(allFromTopLevelsRoomX, 150), getVec2f(allFromTopLevelsRoomWidth, 120), "music/all-from-top-levels");
+		}else{
+			World_addMusicArea(world_p, getVec2f(allFromTopLevelsRoomX + 220, 150), getVec2f(allFromTopLevelsRoomWidth - 220, 120), "music/all-from-top-levels");
+
+			World_addMusicArea(world_p, getVec2f(allFromTopLevelsRoomX , 150), getVec2f(220, 120), "KEEP_CURRENT");
+		}
+	}
 
 	World_addMusicArea(world_p, getVec2f(allFromTopLevelsRoomX + allFromTopLevelsRoomWidth - 100, 0), getVec2f(100, HEIGHT), "music/all-from-top-levels");
 
