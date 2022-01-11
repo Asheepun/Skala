@@ -106,16 +106,30 @@ float *WavReader_getDataFromWavFile(char *path, int *numberOfPcmFrames_p){
 
 		int indexF32 = floor((float)i * resamplingFactor);
 
+		/*
+		float averageValue = 0;
+
+		for(int j = 0; j < numberOfChannels; j++){
+			averageValue += ((float)audioData[i * numberOfChannels + j]) / (float)pow(2, bitsPerSample - 1);
+		}
+
+		averageValue /= numberOfChannels;
+
+		audioDataF32[indexF32] = averageValue;
+		*/
 		audioDataF32[indexF32] = ((float)audioData[i * numberOfChannels]) / (float)pow(2, bitsPerSample - 1);
 
 	}
 
+	/*
 	for(int i = 0; i < resampledNumberOfPcmFrames; i++){
 		if(audioDataF32[i] == 0
-		|| audioDataF32[i] == -0){
+		&& audioDataF32[i - 1] != 0
+		&& audioDataF32[i + 1] != 0){
 			audioDataF32[i] = (audioDataF32[(i - 1)] + audioDataF32[(i + 1)]) / 2;
 		}
 	}
+	*/
 
 	local_printf("\nFINNISHED PROCESSING DATA\n");
 

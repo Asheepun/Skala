@@ -1960,7 +1960,7 @@ Locker 2
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 60, 0), getVec2f(40, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(20, 20), getVec2f(80, 30), NONE);
+	World_addObstacle(world_p, getVec2f(20, 20), getVec2f(70, 30), NONE);
 
 	World_addDoor(world_p, getVec2f(WIDTH - 140, HEIGHT - 100), getVec2f(20, 60), NONE);
 

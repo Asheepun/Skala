@@ -40,7 +40,13 @@ Array sounds;
 
 float volumes[2];
 
+size_t startTicks = 0;
+size_t endTicks = 0;
+size_t deltaTime = 0;
+
 void data_callback(ma_device* device_p, void* output_p, const void* input_p, ma_uint32 frameCount){
+
+	startTicks = clock();
 
 	//pthread_mutex_lock(&soundMutex);
 
@@ -68,11 +74,18 @@ void data_callback(ma_device* device_p, void* output_p, const void* input_p, ma_
 			}
 		}
 
-		for(int i = 0; i < frameCount * CHANNEL_COUNT; i++){
-			outputF32_p[i] += soundData_p->data[sound_p->currentFrame * CHANNEL_COUNT + i] * sound_p->volume * volumes[sound_p->type];
+		for(int j = 0; j < frameCount * CHANNEL_COUNT; j++){
+			outputF32_p[j] += soundData_p->data[sound_p->currentFrame * CHANNEL_COUNT + j] * sound_p->volume * volumes[sound_p->type];
 		}
 	
 	}
+
+	endTicks = clock();
+
+	deltaTime = (endTicks - startTicks) / (CLOCKS_PER_SEC / 1000000);
+
+	//printf("callback time: %i\n", deltaTime);
+	//printf("framcount: %i\n", frameCount);
 
 	//pthread_mutex_unlock(&soundMutex);
 
@@ -88,24 +101,26 @@ void Audio_init(char **soundFiles, int soundFilesLength){
 
 		soundData_p->name = soundFiles[i];
 
-		//ma_decoder decoder;
-
 		char path[255];
 
 		sprintf(path, "assets/audio/%s.wav", soundFiles[i]);
 
-		//result = ma_decoder_init_file(path, &decoderConfig, &decoder);
-		//if (result != MA_SUCCESS){
-			//printf("Could not read file: %s\n", path);
-		//}
+		/*
+		ma_decoder decoder;
+
+		result = ma_decoder_init_file(path, &decoderConfig, &decoder);
+		if (result != MA_SUCCESS){
+			printf("Could not read file: %s\n", path);
+		}
 		
 		
-		//soundData_p->framesLength = ma_decoder_get_length_in_pcm_frames(&decoder);
-		//soundData_p->data = malloc(sizeof(float) * soundData_p->framesLength * CHANNEL_COUNT);
+		soundData_p->framesLength = ma_decoder_get_length_in_pcm_frames(&decoder);
+		soundData_p->data = malloc(sizeof(float) * soundData_p->framesLength * CHANNEL_COUNT);
 
-		//ma_decoder_seek_to_pcm_frame(&decoder, 0);
+		ma_decoder_seek_to_pcm_frame(&decoder, 0);
 
-		//ma_decoder_read_pcm_frames(&decoder, soundData_p->data, soundData_p->framesLength * CHANNEL_COUNT);
+		ma_decoder_read_pcm_frames(&decoder, soundData_p->data, soundData_p->framesLength * CHANNEL_COUNT);
+		*/
 
 		soundData_p->data = WavReader_getDataFromWavFile(path, &soundData_p->framesLength);
 
@@ -129,6 +144,8 @@ void Audio_init(char **soundFiles, int soundFilesLength){
     deviceConfig.playback.channels = CHANNEL_COUNT;
     deviceConfig.sampleRate        = SAMPLE_RATE;
     deviceConfig.dataCallback      = data_callback;
+
+	//deviceConfig.periodSizeInMilliseconds = 200;
 
     if (ma_device_init(NULL, &deviceConfig, &device) != MA_SUCCESS) {
         printf("Failed to open playback device.\n");

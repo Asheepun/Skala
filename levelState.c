@@ -1895,7 +1895,7 @@ void World_levelState(World *world_p){
 
 		size_t ID = *(size_t *)Array_getItemPointerByIndex(&world_p->musicIDs, i);
 
-		printf("ID: %i, volume: %f\n", ID, Audio_getSoundVolumeByID(ID));
+		//printf("ID: %i, volume: %f\n", ID, Audio_getSoundVolumeByID(ID));
 
 		if(ID == world_p->currentMusicID){
 			Audio_increaseSoundVolumeByID(ID, MUSIC_FADE_IN_SPEED);
@@ -1940,6 +1940,6 @@ void World_levelState(World *world_p){
 		world_p->currentMusicID = newID;
 	}
 
-	printf("ID: %i\n", world_p->currentMusicID);
+	//printf("ID: %i\n", world_p->currentMusicID);
 
 }
