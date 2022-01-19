@@ -1766,13 +1766,21 @@ void World_generateLevel87(World *world_p){
 
 	World_addPoint(world_p, getVec2f(WIDTH - 95, 195), NONE);
 
-	World_addObstacle(world_p, getVec2f(0, HEIGHT - 40), getVec2f(WIDTH - 20, 40), NONE);
+	World_addObstacle(world_p, getVec2f(70, HEIGHT - 40), getVec2f(WIDTH - 90, 40), NONE);
 
 	World_addScaleField(world_p, getVec2f(80, 80), getVec2f(WIDTH - 100, 40), NONE);
 
-	World_addObstacle(world_p, getVec2f(0, 120), getVec2f(WIDTH - 20, 20), NONE);
+	World_addObstacle(world_p, getVec2f(80, 120), getVec2f(WIDTH - 100, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(0, 80), getVec2f(80, HEIGHT - 80), NONE);
+	World_addObstacle(world_p, getVec2f(0, 80), getVec2f(80, 40), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, 110), getVec2f(50, HEIGHT - 110), NONE);
+
+	World_addObstacle(world_p, getVec2f(70, 120), getVec2f(10, HEIGHT - 120), NONE);
+
+	World_addScaleField(world_p, getVec2f(50, 120), getVec2f(20, HEIGHT - 120), NONE);
+
+	World_addObstacle(world_p, getVec2f(70, 110), getVec2f(10, 10), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(20, HEIGHT), NONE);
 
@@ -1784,7 +1792,7 @@ void World_generateLevel87(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 60, 0), getVec2f(40, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(20, 20), getVec2f(70, 30), NONE);
+	World_addObstacle(world_p, getVec2f(20, 20), getVec2f(80, 30), NONE);
 
 	World_addDoor(world_p, getVec2f(WIDTH - 140, HEIGHT - 100), getVec2f(20, 60), NONE);
 

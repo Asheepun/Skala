@@ -1320,6 +1320,15 @@ void World_levelState(World *world_p){
 			){
 
 				bodyPair_p->scaleType = scaleField_p->scaleType;
+
+				if(scaleField_p->scaleType == NONE){
+					if(bodyPair_p->body.size.x < 1){
+						bodyPair_p->isStuckX = true;
+					}
+					if(bodyPair_p->body.size.y < 1){
+						bodyPair_p->isStuckY = true;
+					}
+				}
 				
 			}
 		
@@ -1632,6 +1641,7 @@ void World_levelState(World *world_p){
 			sprite_p->color = COLOR_RED;
 			String_set(sprite_p->texture, "obstacle", SMALL_STRING_SIZE);
 			sprite_p = World_Sprite_setToLayer_returnsNewPointerAndUpdatesIndex(world_p, sprite_p, &doorKey_p->spriteIndex, GAME_LAYER_BLOCKED_ENTITIES);
+
 		}
 		if(doorKeyBodyPair_p->isStuckY){
 			sprite_p->body.size.y = 1;
@@ -1890,6 +1900,7 @@ void World_levelState(World *world_p){
 
 	}
 
+	/*
 	//handle music
 	for(int i = 0; i < world_p->musicIDs.length; i++){
 
@@ -1941,5 +1952,6 @@ void World_levelState(World *world_p){
 	}
 
 	//printf("ID: %i\n", world_p->currentMusicID);
+	*/
 
 }

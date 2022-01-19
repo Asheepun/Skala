@@ -16,7 +16,7 @@
 #include "engine/engine.h"
 #include "engine/renderer2d.h"
 #include "engine/array.h"
-#include "engine/audio.h"
+//#include "engine/audio.h"
 #include "engine/strings.h"
 #include "game.h"
 #include "levels.h"
@@ -55,7 +55,7 @@ void Engine_start(){
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
 
-	//String_set(world.currentLevel, "no-legs-drag-key", STRING_SIZE);
+	//String_set(world.currentLevel, "key-fall-through", STRING_SIZE);
 
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
 	//World_switchToAndInitState(&world, LEVEL_STATE);
@@ -150,9 +150,9 @@ void Engine_start(){
 
 	}
 
+	/*
 	//load audio
 	char *soundAssets[] = {
-		/*
 		"old/player-jump",
 		"player-jump-1",
 		"player-land",
@@ -171,7 +171,6 @@ void Engine_start(){
 		//"end-scaling",
 		//"end-scaling-1",
 		"scaling",
-		*/
 
 		"music/outside",
 		"music/first-levels",
@@ -229,6 +228,7 @@ void Engine_start(){
 		size_t *ID_p = Array_addItem(&world.musicIDs);
 		*ID_p = Audio_playSound("music/secret-room-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
 	}
+	*/
 
 	//make star background texture
 	{
@@ -482,8 +482,8 @@ void Engine_draw(){
 				pos.x = (sprite_p->body.pos.x);
 				pos.y = (sprite_p->body.pos.y);
 
-				size.x = round(sprite_p->body.size.x);
-				size.y = round(sprite_p->body.size.y);
+				size.x = ceil(sprite_p->body.size.x);
+				size.y = ceil(sprite_p->body.size.y);
 
 				if(pos.x + size.x < -world.renderer.offset.x
 				|| pos.y + size.y < -world.renderer.offset.y
