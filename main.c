@@ -55,10 +55,10 @@ void Engine_start(){
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
 
-	//String_set(world.currentLevel, "key-fall-through", STRING_SIZE);
+	String_set(world.currentLevel, "bug-testing-level", STRING_SIZE);
 
-	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
-	//World_switchToAndInitState(&world, LEVEL_STATE);
+	//World_switchToAndInitState(&world, LEVEL_HUB_STATE);
+	World_switchToAndInitState(&world, LEVEL_STATE);
 
 	//set up engine and renderer
 	Engine_setWindowTitle("Skala");
@@ -103,6 +103,15 @@ void Engine_start(){
 		"orion",
 		"skorpionen",
 		"hercules",
+
+		"arrow-right",
+		"arrow-left",
+		"arrow-down",
+		"arrow-up",
+		"arrow-down-right",
+		"arrow-down-left",
+		"arrow-up-right",
+		"arrow-up-left",
 
 		//furniture
 		"furniture/hat-shelf",

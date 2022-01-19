@@ -14,13 +14,12 @@ bug-testing-level
 
 	World_addObstacle(world_p, getVec2f(100, 100), getVec2f(40, 60), ALL);
 
-	World_addObstacle(world_p, getVec2f(200, 100), getVec2f(40, 100), ALL_FROM_TOP);
-
-	World_addObstacle(world_p, getVec2f(300, 100), getVec2f(40, 100), ALL);
 
 	//World_addObstacle(world_p, getVec2f(300, 100), getVec2f(40, 80), ALL);
 
 	World_addObstacle(world_p, getVec2f(400, 100), getVec2f(40, 100), NONE);
+
+	World_addDoorKey(world_p, getVec2f(100, 100), ALL);
 
 :levelName
 level-1
