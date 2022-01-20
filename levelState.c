@@ -1377,80 +1377,90 @@ void World_levelState(World *world_p){
 
 		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
-		if(bodyPair_p->scaleType != NONE){
+		if(bodyPair_p->scaleType != NONE
+		|| bodyPair_p->entityType == PLAYER
+		|| bodyPair_p->entityType == DOOR_KEY){
 
 			Vec2f pos = getVec2f(100, 100);
 			Vec2f size = getVec2f(15, 15);
 			char spriteName[STRING_SIZE];
+			bool oub = false;
 
 			bool up = false;
 			bool down = false;
 			bool left = false;
 			bool right = false;
 
+			//up
 			if(bodyPair_p->body.pos.y + bodyPair_p->body.size.y < 0){
-				up = true;
-			}
-			if(bodyPair_p->body.pos.y > HEIGHT){
-				down = true;
-			}
-			if(bodyPair_p->body.pos.x + bodyPair_p->body.size.x < 0){
-				left = true;
-			}
-			if(bodyPair_p->body.pos.x > WIDTH){
-				right = true;
-			}
-
-			if(up){
 				size = getVec2f(15, 17);
 				pos.x = bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 - size.x / 2;
 				pos.y = 20;
 				String_set(spriteName, "arrow-up", STRING_SIZE);
+				oub = true;
 			}
-			if(down){
+			//down
+			if(bodyPair_p->body.pos.y > HEIGHT){
 				size = getVec2f(15, 17);
 				pos.x = bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 - size.x / 2;
 				pos.y = HEIGHT - 30;
 				String_set(spriteName, "arrow-down", STRING_SIZE);
+				oub = true;
 			}
-			if(left){
+			//left
+			if(bodyPair_p->body.pos.x + bodyPair_p->body.size.x < 0){
 				size = getVec2f(17, 15);
 				pos.x = 40;
 				pos.y = bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 - size.y / 2;
 				String_set(spriteName, "arrow-left", STRING_SIZE);
+				oub = true;
 			}
-			if(right){
+			//right
+			if(bodyPair_p->body.pos.x > WIDTH){
 				size = getVec2f(17, 15);
 				pos.x = WIDTH - 50;
 				pos.y = bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 - size.y / 2;
 				String_set(spriteName, "arrow-right", STRING_SIZE);
+				oub = true;
 			}
-			if(up && left){
+			//up left
+			if(bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 < 0
+			&& bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 < 0){
 				size = getVec2f(15, 15);
 				pos.x = 40;
 				pos.y = 20;
 				String_set(spriteName, "arrow-up-left", STRING_SIZE);
+				oub = true;
 			}
-			if(up && right){
+			//up right
+			if(bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 < 0
+			&& bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 > WIDTH){
 				size = getVec2f(15, 15);
 				pos.x = WIDTH - 50;
 				pos.y = 20;
 				String_set(spriteName, "arrow-up-right", STRING_SIZE);
+				oub = true;
 			}
-			if(down && left){
+			//down left
+			if(bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 > HEIGHT
+			&& bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 < 0){
 				size = getVec2f(15, 15);
 				pos.x = 40;
 				pos.y = HEIGHT - 30;
 				String_set(spriteName, "arrow-down-left", STRING_SIZE);
+				oub = true;
 			}
-			if(down && right){
+			//down right
+			if(bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 > HEIGHT
+			&& bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 > WIDTH){
 				size = getVec2f(15, 15);
 				pos.x = WIDTH - 50;
 				pos.y = HEIGHT - 30;
 				String_set(spriteName, "arrow-down-right", STRING_SIZE);
+				oub = true;
 			}
 
-			if(up || down || left || right){
+			if(oub){
 
 				float distanceFromCenter = getMagVec2f(getSubVec2f(bodyPair_p->body.pos, getVec2f(WIDTH / 2, HEIGHT / 2)));
 				distanceFromCenter -= 300;
@@ -1459,13 +1469,13 @@ void World_levelState(World *world_p){
 				}
 				float sizeScaleFactor = pow(2, -distanceFromCenter / 10000);
 
-				size_t newSpriteIndex = World_addSprite(world_p, pos, size, COLOR_RED, spriteName, 1, GAME_LAYER_PARTICLES);
+				size_t newSpriteIndex = World_addSprite(world_p, pos, size, COLOR_ORANGE, spriteName, 1, GAME_LAYER_PARTICLES);
 
 				Particle *newParticle_p = World_addParticle(world_p, newSpriteIndex);
 
-				Vec2f_mulByFloat(&size, sizeScaleFactor);
+				//Vec2f_mulByFloat(&size, sizeScaleFactor);
 
-				newParticle_p->body.pos = getSubVec2f(pos, getDivVec2fFloat(size, 2));
+				newParticle_p->body.pos = pos;
 				newParticle_p->body.size = size;
 
 				union ParticleProperty property;

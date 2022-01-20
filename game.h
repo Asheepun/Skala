@@ -487,6 +487,7 @@ static const Renderer2D_Color COLOR_GREEN 				= { 0.00, 		1.00, 		0.00 };
 static const Renderer2D_Color COLOR_PURPLE 				= { 1.00, 		0.00, 		1.00 };
 static const Renderer2D_Color COLOR_BLUE 				= { 0.00, 		0.00, 		1.00 };
 static const Renderer2D_Color COLOR_YELLOW 				= { 1.00, 		1.00, 		0.00 };
+static const Renderer2D_Color COLOR_ORANGE 				= { 1.00, 		0.60, 		0.00 };
 
 static const Renderer2D_Color COLOR_GREY_BACKGROUND 	= { 0.00, 		0.00, 		0.00 };
 static const Renderer2D_Color COLOR_GREEN_BACKGROUND 	= { 0.00, 		0.5, 		0.00 };
