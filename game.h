@@ -448,6 +448,8 @@ typedef struct World{
 	size_t movementKeysTextParticleID;
 	size_t menuKeyTextParticleID;
 
+	bool obstaclesNeedArrows;
+
 	//music
 	size_t currentMusicID;
 

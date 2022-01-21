@@ -139,6 +139,8 @@ Platform
 
 	World_restore(world_p);
 
+	world_p->obstaclesNeedArrows = true;
+
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(380, 90), NONE);
@@ -154,6 +156,8 @@ Bridge
 :levelCode
 
 	World_restore(world_p);
+
+	world_p->obstaclesNeedArrows = true;
 
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
@@ -617,6 +621,8 @@ Cell
 
 	World_restore(world_p);
 
+	world_p->obstaclesNeedArrows = true;
+
 	World_initPlayer(world_p, getVec2f(200, 150), NONE);
 
 	//World_addPoint(world_p, getVec2f(380, 170), NONE);
@@ -1068,6 +1074,8 @@ Mirror
 
 	World_restore(world_p);
 
+	world_p->obstaclesNeedArrows = true;
+
 	world_p->scalingByPlayerPosition = true;
 
 	World_initPlayer(world_p, getVec2f(100, 100), NONE);
@@ -1505,6 +1513,8 @@ Pick
 
 	World_restore(world_p);
 
+	world_p->obstaclesNeedArrows = true;
+
 	world_p->playerHasNoLegs = true;
 
 	World_initPlayer(world_p, getVec2f(150, 100), ALL);
@@ -1629,6 +1639,8 @@ Rider
 
 	World_restore(world_p);
 
+	world_p->obstaclesNeedArrows = true;
+
 	world_p->scalingByPlayerPosition = true;
 
 	World_initPlayer(world_p, getVec2f(50, 190), NONE);
@@ -1644,6 +1656,8 @@ Kick flip
 :levelCode
 
 	World_restore(world_p);
+
+	world_p->obstaclesNeedArrows = true;
 
 	world_p->scalingByPlayerPosition = true;
 
@@ -1733,6 +1747,8 @@ Diver
 
 	World_restore(world_p);
 
+	world_p->obstaclesNeedArrows = true;
+
 	world_p->scalingByPlayerPosition = true;
 
 	World_initPlayer(world_p, getVec2f(70, 30), NONE);
@@ -1752,6 +1768,8 @@ Conger
 :levelCode
 
 	World_restore(world_p);
+
+	world_p->obstaclesNeedArrows = true;
 
 	world_p->scalingByPlayerPosition = true;
 
@@ -1802,6 +1820,8 @@ Ascent
 :levelCode
 
 	World_restore(world_p);
+
+	world_p->obstaclesNeedArrows = true;
 
 	world_p->scalingByPlayerPosition = true;
 

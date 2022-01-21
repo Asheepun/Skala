@@ -161,6 +161,8 @@ void World_restore(World *world_p){
 
 	world_p->endingFlashAlpha = 0;
 
+	world_p->obstaclesNeedArrows = false;
+
 	//free player animation
 	Animation_clear(&world_p->player.animation);
 

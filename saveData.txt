@@ -1,12 +1,18 @@
 :playerPos
-330 -240
+3427 208
 :doorKeys
-6260 -200
+6260 -160
 :doors
-3350 180 20 60
-4020 180 20 60
 :flags
+removed-title-text
 :levelsWithDoorKey
-make-it-bigger-2
-get-key-up-2
 :completedLevels
+level-1
+get-key-up-2
+point-pikaboo
+make-it-bigger-2
+point-field-cage
+player-position-1
+player-position-2
+player-position-jumping-key-1
+no-legs

@@ -24,7 +24,7 @@ void World_initLevelHub(World *world_p){
 
 	{
 		BodyPair *bodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
-		//bodyPair_p->body.pos = getVec2f(1400, -HEIGHT * 6 - 100);
+		//bodyPair_p->body.pos = getVec2f(1600, -HEIGHT * 6 - 100);
 	}
 
 	//BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);

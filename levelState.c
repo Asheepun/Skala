@@ -630,6 +630,12 @@ void World_levelState(World *world_p){
 
 		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
+		//things that are below or to the left of the origin cannot be scaled might have to remove if bugs appear
+		if(bodyPair_p->body.pos.y > HEIGHT + 1//buffer in case of floating point bug
+		&& bodyPair_p->scaleType == ALL){
+			continue;
+		}
+
 		Vec2f scale = World_BodyPair_getScaleFromExponent(world_p, bodyPair_p);
 		Vec2f lastScale = World_BodyPair_getLastScaleFromExponent(world_p, bodyPair_p);
 		Vec2f origin = world_p->origin;
@@ -1217,7 +1223,6 @@ void World_levelState(World *world_p){
 
 		Point *point_p = Array_getItemPointerByIndex(&world_p->points, i);
 
-		//Body *pointBody_p = &((BodyPair *)Array_getItemPointerByID(&world_p->bodyPairs, point_p->bodyPairID))->body;
 		BodyPair *pointBodyPair_p = Array_getItemPointerByID(&world_p->bodyPairs, point_p->bodyPairID);
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
 	
@@ -1248,19 +1253,6 @@ void World_levelState(World *world_p){
 			String_set(world_p->currentLevel, levelDoor_p->levelName, STRING_SIZE);
 
 			world_p->saveData.playerPos = playerBodyPair_p->body.pos;
-
-			//save doors and door keys
-			//Array_clear(world_p->saveData.doors);
-			//Array_clear(world_p->saveData.doorKeys);
-
-			//for(int i = 0; i < world_p->doors.length; i++){
-				//Body *doorBody_p = Array_addItem(&world_p->saveData.doors);
-				//*doorBody_p = World_getBodyPairByID(((Door *)Array_getItemPointerByIndex(&world_p->doors, i))->bodyPairID)->body;
-			//}
-			//for(int i = 0; i < world_p->doors.length; i++){
-				//Vec2f *doorKeyPos_p = Array_addItem(&world_p->saveData.doorKeys);
-				//doorBody_p = World_getBodyPairByID(((Door *)Array_getItemPointerByIndex(&world_p->doors, i))->bodyPairID)->body;
-			//}
 
 			World_fadeTransitionToState(world_p, LEVEL_STATE);
 
@@ -1373,119 +1365,96 @@ void World_levelState(World *world_p){
 	*/
 
 	//add arrows pointing to bodypairs outside of screen
-	for(int i = 0; i < world_p->bodyPairs.length; i++){
+	if(world_p->currentState == LEVEL_STATE){
+		for(int i = 0; i < world_p->bodyPairs.length; i++){
 
-		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
+			BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
-		if(bodyPair_p->scaleType != NONE
-		|| bodyPair_p->entityType == PLAYER
-		|| bodyPair_p->entityType == DOOR_KEY){
+			if((bodyPair_p->scaleType != NONE
+			|| bodyPair_p->entityType == PLAYER
+			|| bodyPair_p->entityType == DOOR_KEY)
+			&& !(bodyPair_p->entityType == OBSTACLE
+			&& !world_p->obstaclesNeedArrows)){
 
-			Vec2f pos = getVec2f(100, 100);
-			Vec2f size = getVec2f(15, 15);
-			char spriteName[STRING_SIZE];
-			bool oub = false;
+				Vec2f pos = getVec2f(100, 100);
+				Vec2f size = getVec2f(15, 15);
+				char spriteName[STRING_SIZE];
+				bool oub = false;
 
-			bool up = false;
-			bool down = false;
-			bool left = false;
-			bool right = false;
+				float sizeScaleFactor = 1;
 
-			//up
-			if(bodyPair_p->body.pos.y + bodyPair_p->body.size.y < 0){
-				size = getVec2f(15, 17);
-				pos.x = bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 - size.x / 2;
-				pos.y = 20;
-				String_set(spriteName, "arrow-up", STRING_SIZE);
-				oub = true;
-			}
-			//down
-			if(bodyPair_p->body.pos.y > HEIGHT){
-				size = getVec2f(15, 17);
-				pos.x = bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 - size.x / 2;
-				pos.y = HEIGHT - 30;
-				String_set(spriteName, "arrow-down", STRING_SIZE);
-				oub = true;
-			}
-			//left
-			if(bodyPair_p->body.pos.x + bodyPair_p->body.size.x < 0){
-				size = getVec2f(17, 15);
-				pos.x = 40;
-				pos.y = bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 - size.y / 2;
-				String_set(spriteName, "arrow-left", STRING_SIZE);
-				oub = true;
-			}
-			//right
-			if(bodyPair_p->body.pos.x > WIDTH){
-				size = getVec2f(17, 15);
-				pos.x = WIDTH - 50;
-				pos.y = bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 - size.y / 2;
-				String_set(spriteName, "arrow-right", STRING_SIZE);
-				oub = true;
-			}
-			//up left
-			if(bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 < 0
-			&& bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 < 0){
-				size = getVec2f(15, 15);
-				pos.x = 40;
-				pos.y = 20;
-				String_set(spriteName, "arrow-up-left", STRING_SIZE);
-				oub = true;
-			}
-			//up right
-			if(bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 < 0
-			&& bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 > WIDTH){
-				size = getVec2f(15, 15);
-				pos.x = WIDTH - 50;
-				pos.y = 20;
-				String_set(spriteName, "arrow-up-right", STRING_SIZE);
-				oub = true;
-			}
-			//down left
-			if(bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 > HEIGHT
-			&& bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 < 0){
-				size = getVec2f(15, 15);
-				pos.x = 40;
-				pos.y = HEIGHT - 30;
-				String_set(spriteName, "arrow-down-left", STRING_SIZE);
-				oub = true;
-			}
-			//down right
-			if(bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 > HEIGHT
-			&& bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 > WIDTH){
-				size = getVec2f(15, 15);
-				pos.x = WIDTH - 50;
-				pos.y = HEIGHT - 30;
-				String_set(spriteName, "arrow-down-right", STRING_SIZE);
-				oub = true;
-			}
+				sizeScaleFactor = pow(2, (300 - getMagVec2f(getSubVec2f(getAddVec2f(bodyPair_p->body.pos, getDivVec2fFloat(bodyPair_p->body.size, 2)), getVec2f(WIDTH / 2, HEIGHT / 2)))) / 2000);
 
-			if(oub){
-
-				float distanceFromCenter = getMagVec2f(getSubVec2f(bodyPair_p->body.pos, getVec2f(WIDTH / 2, HEIGHT / 2)));
-				distanceFromCenter -= 300;
-				if(distanceFromCenter < 0){
-					distanceFromCenter = 0;
+				//up
+				if(bodyPair_p->body.pos.y + bodyPair_p->body.size.y < 0){
+					size = getVec2f(15, 17);
+					pos.x = bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2;
+					pos.y = 20;
+					String_set(spriteName, "arrow-up", STRING_SIZE);
+					oub = true;
 				}
-				float sizeScaleFactor = pow(2, -distanceFromCenter / 10000);
+				//down
+				if(bodyPair_p->body.pos.y > HEIGHT){
+					sizeScaleFactor = pow(2, (HEIGHT - bodyPair_p->body.pos.y) / 200);
+					size = getVec2f(15, 17);
+					pos.x = bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2;
+					pos.y = HEIGHT - 30;
+					String_set(spriteName, "arrow-down", STRING_SIZE);
+					oub = true;
+				}
+				//right
+				if(bodyPair_p->body.pos.x > WIDTH){
+					size = getVec2f(17, 15);
+					pos.x = WIDTH - 50;
+					pos.y = bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2;
+					String_set(spriteName, "arrow-right", STRING_SIZE);
+					oub = true;
+				}
+				//up right
+				if(bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 < 0
+				&& bodyPair_p->body.pos.x > WIDTH
+				|| bodyPair_p->body.pos.y + bodyPair_p->body.size.y < 0
+				&& bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 > WIDTH){
+					size = getVec2f(15, 15);
+					pos.x = WIDTH - 50;
+					pos.y = 20;
+					String_set(spriteName, "arrow-up-right", STRING_SIZE);
+					oub = true;
+				}
+				//down right
+				if(bodyPair_p->body.pos.y + bodyPair_p->body.size.y / 2 > HEIGHT
+				&& bodyPair_p->body.pos.x > WIDTH
+				|| bodyPair_p->body.pos.y > HEIGHT
+				&& bodyPair_p->body.pos.x + bodyPair_p->body.size.x / 2 > WIDTH){
+					size = getVec2f(15, 15);
+					pos.x = WIDTH - 50;
+					pos.y = HEIGHT - 30;
+					String_set(spriteName, "arrow-down-right", STRING_SIZE);
+					oub = true;
+				}
 
-				size_t newSpriteIndex = World_addSprite(world_p, pos, size, COLOR_ORANGE, spriteName, 1, GAME_LAYER_PARTICLES);
+				if(oub){
 
-				Particle *newParticle_p = World_addParticle(world_p, newSpriteIndex);
+					size_t newSpriteIndex = World_addSprite(world_p, pos, size, COLOR_ORANGE, spriteName, 1, GAME_LAYER_PARTICLES);
 
-				//Vec2f_mulByFloat(&size, sizeScaleFactor);
+					Particle *newParticle_p = World_addParticle(world_p, newSpriteIndex);
 
-				newParticle_p->body.pos = pos;
-				newParticle_p->body.size = size;
+					Vec2f_mulByFloat(&size, sizeScaleFactor);
 
-				union ParticleProperty property;
+					Vec2f_sub(&pos, getDivVec2fFloat(size, 2));
 
-				Particle_addEvent(newParticle_p, PARTICLE_REMOVE_EVENT, 0, property, 1, 0);
-			
+					newParticle_p->body.pos = pos;
+					newParticle_p->body.size = size;
+
+					union ParticleProperty property;
+
+					Particle_addEvent(newParticle_p, PARTICLE_REMOVE_EVENT, 0, property, 1, 0);
+				
+				}
+
 			}
-
+		
 		}
-	
 	}
 
 	//update particles

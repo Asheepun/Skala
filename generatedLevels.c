@@ -128,6 +128,8 @@ void World_generateLevel9(World *world_p){
 
 	World_restore(world_p);
 
+	world_p->obstaclesNeedArrows = true;
+
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(380, 90), NONE);
@@ -141,6 +143,8 @@ void World_generateLevel9(World *world_p){
 void World_generateLevel10(World *world_p){
 
 	World_restore(world_p);
+
+	world_p->obstaclesNeedArrows = true;
 
 	World_initPlayer(world_p, getVec2f(70, 100), NONE);
 
@@ -544,6 +548,8 @@ void World_generateLevel30(World *world_p){
 void World_generateLevel31(World *world_p){
 
 	World_restore(world_p);
+
+	world_p->obstaclesNeedArrows = true;
 
 	World_initPlayer(world_p, getVec2f(200, 150), NONE);
 
@@ -962,6 +968,8 @@ void World_generateLevel50(World *world_p){
 
 	World_restore(world_p);
 
+	world_p->obstaclesNeedArrows = true;
+
 	world_p->scalingByPlayerPosition = true;
 
 	World_initPlayer(world_p, getVec2f(100, 100), NONE);
@@ -1365,6 +1373,8 @@ void World_generateLevel69(World *world_p){
 
 	World_restore(world_p);
 
+	world_p->obstaclesNeedArrows = true;
+
 	world_p->playerHasNoLegs = true;
 
 	World_initPlayer(world_p, getVec2f(150, 100), ALL);
@@ -1479,6 +1489,8 @@ void World_generateLevel74(World *world_p){
 
 	World_restore(world_p);
 
+	world_p->obstaclesNeedArrows = true;
+
 	world_p->scalingByPlayerPosition = true;
 
 	World_initPlayer(world_p, getVec2f(50, 190), NONE);
@@ -1492,6 +1504,8 @@ void World_generateLevel74(World *world_p){
 void World_generateLevel75(World *world_p){
 
 	World_restore(world_p);
+
+	world_p->obstaclesNeedArrows = true;
 
 	world_p->scalingByPlayerPosition = true;
 
@@ -1573,6 +1587,8 @@ void World_generateLevel79(World *world_p){
 
 	World_restore(world_p);
 
+	world_p->obstaclesNeedArrows = true;
+
 	world_p->scalingByPlayerPosition = true;
 
 	World_initPlayer(world_p, getVec2f(70, 30), NONE);
@@ -1590,6 +1606,8 @@ void World_generateLevel79(World *world_p){
 void World_generateLevel80(World *world_p){
 
 	World_restore(world_p);
+
+	world_p->obstaclesNeedArrows = true;
 
 	world_p->scalingByPlayerPosition = true;
 
@@ -1636,6 +1654,8 @@ void World_generateLevel81(World *world_p){
 void World_generateLevel82(World *world_p){
 
 	World_restore(world_p);
+
+	world_p->obstaclesNeedArrows = true;
 
 	world_p->scalingByPlayerPosition = true;
 
