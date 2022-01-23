@@ -713,7 +713,7 @@ void World_initLevelHub(World *world_p){
 	World_addObstacle(world_p, getVec2f(houseX + houseWidth - 60, -100), getVec2f(60, 100), NONE);
 
 	int roofWidth = houseX + houseWidth - xySwitchLevelsRoomX + 60 * 2;
-	for(int i = 0; i < roofWidth / 10; i++){
+	for(int i = 0; i < roofWidth / 10 / 2; i++){
 		World_addObstacle(world_p, getVec2f(xySwitchLevelsRoomX - 60 + i * 10, -HEIGHT + 70 - i * 10), getVec2f(roofWidth - i * 20, 10), NONE);
 	}
 

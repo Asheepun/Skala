@@ -555,6 +555,8 @@ Key Hole
 
 	World_addObstacle(world_p, getVec2f(60, 210), getVec2f(20, 20), NONE);
 
+	World_addObstacle(world_p, getVec2f(0, HEIGHT), getVec2f(BIG_BLOCKING_SIZE, BIG_BLOCKING_SIZE), NONE);
+
 	World_addDoor(world_p, getVec2f(300, 60), getVec2f(20, 60), NONE);
 
 	World_addDoorKey(world_p, getVec2f(120, 210), ALL);
@@ -584,6 +586,8 @@ Key Hole 2
 	World_addDoor(world_p, getVec2f(300, 60), getVec2f(20, 60), NONE);
 
 	World_addObstacle(world_p, getVec2f(60, 210), getVec2f(20, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, HEIGHT), getVec2f(BIG_BLOCKING_SIZE, BIG_BLOCKING_SIZE), NONE);
 
 	World_addDoor(world_p, getVec2f(210, 0), getVec2f(20, 60), NONE);
 
