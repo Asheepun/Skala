@@ -1312,15 +1312,6 @@ void World_levelState(World *world_p){
 			){
 
 				bodyPair_p->scaleType = scaleField_p->scaleType;
-
-				if(scaleField_p->scaleType == NONE){
-					if(bodyPair_p->body.size.x < 1){
-						bodyPair_p->isStuckX = true;
-					}
-					if(bodyPair_p->body.size.y < 1){
-						bodyPair_p->isStuckY = true;
-					}
-				}
 				
 			}
 		
@@ -1328,41 +1319,21 @@ void World_levelState(World *world_p){
 	
 	}
 
-	/*
-	//add particles to scale fields
-	for(int i = 0; i < world_p->scaleFields.length; i++){
+	//make small and non scalable objects appear as stuck
+	for(int i = 0; i < world_p->bodyPairs.length; i++){
 
-		ScaleField *scaleField_p = Array_getItemPointerByIndex(&world_p->scaleFields, i);
+		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
 
-		scaleField_p->particleCounter++;
-
-		float area = scaleField_p->body.size.x * scaleField_p->body.size.y;
-		int frequency = 10;
-
-		if(scaleField_p->particleCounter % frequency == 0){
-
-			Vec2f pos = scaleField_p->body.pos;
-			Vec2f size = getVec2f(round(3 + getRandom() * 2), 3 + round(getRandom() * 2));
-
-			pos.x += 5 + getRandom() * (scaleField_p->body.size.x - 12);
-			pos.y += 5 + getRandom() * (scaleField_p->body.size.y - 12);
-
-			size_t spriteIndex = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[scaleField_p->scaleType], "obstacle", 0, GAME_LAYER_PARTICLES);
-			Particle *particle_p = World_addParticle(world_p, spriteIndex);
-
-			union ParticleProperty targetAlpha1;
-			union ParticleProperty targetAlpha2;
-			targetAlpha1.alpha = 0.5 + getRandom() * 0.3;
-			targetAlpha2.alpha = 0;
-
-			Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, targetAlpha1, 0, 2000 / 60);
-			Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, targetAlpha2, 5000 / 60, 2000 / 60);
-			Particle_addRemoveEvent(particle_p, 7000 / 60);
-
+		if(bodyPair_p->scaleType == NONE){
+			if(bodyPair_p->body.size.x < 1){
+				bodyPair_p->isStuckX = true;
+			}
+			if(bodyPair_p->body.size.y < 1){
+				bodyPair_p->isStuckY = true;
+			}
 		}
-
+	
 	}
-	*/
 
 	//add arrows pointing to bodypairs outside of screen
 	if(world_p->currentState == LEVEL_STATE){
@@ -1435,7 +1406,13 @@ void World_levelState(World *world_p){
 
 				if(oub){
 
-					size_t newSpriteIndex = World_addSprite(world_p, pos, size, COLOR_ORANGE, spriteName, 1, GAME_LAYER_PARTICLES);
+					Renderer2D_Color color = SCALE_TYPE_COLORS[bodyPair_p->scaleType];
+
+					//if(bodyPair_p->entityType == PLAYER){
+						//color = COLOR_YELLOW;
+					//}
+
+					size_t newSpriteIndex = World_addSprite(world_p, pos, size, color, spriteName, 1.0, GAME_LAYER_PARTICLES);
 
 					Particle *newParticle_p = World_addParticle(world_p, newSpriteIndex);
 

@@ -49,14 +49,14 @@ void World_init(World *world_p){
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 
-		unsigned int maxLength = 32;
+		unsigned int maxLength = 64;
 
 		if(i == GAME_LAYER_FURNITURE
 		|| i == GAME_LAYER_OBSTACLES){
 			maxLength = 1024;
 		}
 		if(i == GAME_LAYER_PARTICLES){
-			maxLength = 1024 * 4;
+			maxLength = 1024 * 2;
 		}
 
 		IndexSafeArray_init(&world_p->spriteLayers[i], sizeof(Sprite), maxLength);

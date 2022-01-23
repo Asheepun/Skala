@@ -4,6 +4,8 @@ bug-testing-level
 
 	World_restore(world_p);
 
+	world_p->obstaclesNeedArrows = true;
+
 	World_initPlayer(world_p, getVec2f(270, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(1380, 170), NONE);
@@ -183,9 +185,11 @@ Filter
 
 	World_addObstacle(world_p, getVec2f(350, 0), getVec2f(20, HEIGHT), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20 + BIG_BLOCKING_SIZE, HEIGHT), NONE);
 
 	World_addObstacle(world_p, getVec2f(370, 0), getVec2f(90, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(370, -BIG_BLOCKING_SIZE), getVec2f(BIG_BLOCKING_SIZE, BIG_BLOCKING_SIZE), NONE);
 
 	World_addObstacle(world_p, getVec2f(370, HEIGHT - 20), getVec2f(90, 20), NONE);
 
@@ -209,7 +213,9 @@ Filter 2
 
 	World_addObstacle(world_p, getVec2f(350, 0), getVec2f(20, HEIGHT), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20 + BIG_BLOCKING_SIZE, HEIGHT), NONE);
+
+	World_addObstacle(world_p, getVec2f(370, -BIG_BLOCKING_SIZE), getVec2f(BIG_BLOCKING_SIZE, BIG_BLOCKING_SIZE), NONE);
 
 	World_addObstacle(world_p, getVec2f(370, 0), getVec2f(90, 20), NONE);
 	
@@ -233,7 +239,9 @@ Filter 3
 
 	World_addObstacle(world_p, getVec2f(350, 0), getVec2f(20, HEIGHT), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, HEIGHT), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20 + BIG_BLOCKING_SIZE, HEIGHT), NONE);
+
+	World_addObstacle(world_p, getVec2f(0, -BIG_BLOCKING_SIZE), getVec2f(BIG_BLOCKING_SIZE, BIG_BLOCKING_SIZE), NONE);
 
 	World_addObstacle(world_p, getVec2f(370, 0), getVec2f(90, 20), NONE);
 
@@ -541,7 +549,7 @@ Key Hole
 
 	World_addObstacle(world_p, getVec2f(0, 230), getVec2f(220, 40), NONE);
 
-	World_addObstacle(world_p, getVec2f(220, 120), getVec2f(260, 150), NONE);
+	World_addObstacle(world_p, getVec2f(220, 120), getVec2f(260 + BIG_BLOCKING_SIZE, 150), NONE);
 
 	World_addObstacle(world_p, getVec2f(300, 0), getVec2f(20, 60), NONE);
 
@@ -559,7 +567,7 @@ Key Hole 2
 
 	World_restore(world_p);
 
-	World_initPlayer(world_p, getVec2f(70, 50), NONE);
+	World_initPlayer(world_p, getVec2f(90, 50), NONE);
 
 	World_addPoint(world_p, getVec2f(380, 70), NONE);
 
@@ -569,7 +577,7 @@ Key Hole 2
 
 	World_addObstacle(world_p, getVec2f(0, 230), getVec2f(220, 40), NONE);
 
-	World_addObstacle(world_p, getVec2f(220, 120), getVec2f(260, 150), NONE);
+	World_addObstacle(world_p, getVec2f(220, 120), getVec2f(260 + BIG_BLOCKING_SIZE, 150), NONE);
 
 	World_addObstacle(world_p, getVec2f(300, 0), getVec2f(20, 60), NONE);
 

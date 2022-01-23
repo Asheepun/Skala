@@ -460,6 +460,8 @@ typedef struct World{
 
 //global variables
 
+static int BIG_BLOCKING_SIZE = 10000000;
+
 //static int WIDTH = 320 * 1.5;
 //static int HEIGHT = 180 * 1.5;
 static const int WIDTH = 480;
