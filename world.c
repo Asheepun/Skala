@@ -380,13 +380,14 @@ size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, char *fontName
 
 }
 
-size_t World_addButton(World *world_p, Vec2f pos, Vec2f size, char *texture, enum SpriteLayer layer){
+size_t World_addButton(World *world_p, Vec2f pos, Vec2f size, char *texture, enum SpriteLayer layer, enum MenuState menuState){
 
 	Button *button_p = Array_addItem(&world_p->buttons);
 
 	EntityHeader_init(&button_p->entityHeader);
 
 	button_p->buttonType = SPRITE_BUTTON;
+	button_p->menuState = menuState;
 
 	button_p->spriteIndex = World_addSprite(world_p, pos, size, COLOR_WHITE, texture, 1, layer);
 
@@ -394,13 +395,14 @@ size_t World_addButton(World *world_p, Vec2f pos, Vec2f size, char *texture, enu
 
 }
 
-size_t World_addTextButton(World *world_p, Vec2f pos, char *text, enum SpriteLayer layer){
+size_t World_addTextButton(World *world_p, Vec2f pos, char *text, enum SpriteLayer layer, enum MenuState menuState){
 	
 	Button *button_p = Array_addItem(&world_p->buttons);
 
 	EntityHeader_init(&button_p->entityHeader);
 
 	button_p->buttonType = TEXT_BUTTON;
+	button_p->menuState = menuState;
 
 	button_p->spriteIndex = World_addTextSprite(world_p, pos, text, "times20", COLOR_WHITE, layer);
 

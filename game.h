@@ -137,6 +137,12 @@ enum ParticleEventType{
 	PARTICLE_LERP_EVENT,
 };
 
+enum MenuState{
+	MENU_STATE_MAIN,
+	MENU_STATE_SETTINGS,
+	NUMBER_OF_MENU_STATES,
+};
+
 union ParticleProperty{
 	Vec2f pos;
 	Vec2f size;
@@ -194,6 +200,7 @@ typedef struct Button{
 	//size_t spriteID;
 	unsigned int spriteIndex;
 	enum ButtonType buttonType;
+	enum MenuState menuState;
 }Button;
 
 typedef struct BodyPair{
@@ -559,8 +566,8 @@ void World_initPlayer(World *, Vec2f, enum ScaleType);
 
 size_t World_addSprite(World *, Vec2f, Vec2f, Renderer2D_Color, char *, float, enum SpriteLayer);
 size_t World_addTextSprite(World *, Vec2f, char *, char *, Renderer2D_Color, enum SpriteLayer);
-size_t World_addButton(World *, Vec2f, Vec2f, char *, enum SpriteLayer);
-size_t World_addTextButton(World *, Vec2f, char *, enum SpriteLayer);
+size_t World_addButton(World *, Vec2f, Vec2f, char *, enum SpriteLayer, enum MenuState);
+size_t World_addTextButton(World *, Vec2f, char *, enum SpriteLayer, enum MenuState);
 size_t World_addObstacle(World *, Vec2f, Vec2f, enum ScaleType);
 size_t World_addBodyPair(World *, Body, enum ScaleType, enum CollisionWeight, enum EntityType);
 size_t World_addPoint(World *, Vec2f, enum ScaleType);

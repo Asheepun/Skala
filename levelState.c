@@ -255,7 +255,6 @@ void World_levelState(World *world_p){
 		}
 
 		if(world_p->currentState == LEVEL_HUB_STATE){
-			playerBody_p->pos = world_p->saveData.playerPos;
 			World_initLevelHub(world_p);
 		}
 
@@ -1415,6 +1414,8 @@ void World_levelState(World *world_p){
 					size_t newSpriteIndex = World_addSprite(world_p, pos, size, color, spriteName, 1.0, GAME_LAYER_PARTICLES);
 
 					Particle *newParticle_p = World_addParticle(world_p, newSpriteIndex);
+
+					sizeScaleFactor *= 0.9;
 
 					Vec2f_mulByFloat(&size, sizeScaleFactor);
 
