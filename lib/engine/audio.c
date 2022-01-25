@@ -48,6 +48,10 @@ pthread_mutex_t soundMutex = PTHREAD_MUTEX_INITIALIZER;
 
 int firstFramesLeft = 0;
 int framesLeft = 0;
+int deltaFrames = 0;
+int lastDeltaFrames = 0;
+
+int loadedSoundFiles = 0;
 
 void *renderLoop(void *ptr){
 
@@ -63,7 +67,13 @@ void *renderLoop(void *ptr){
 
 		int framesToWrite = 4 * PERIOD_SIZE;
 
-		if(abs(firstFramesLeft - framesLeft) < framesToWrite){
+		deltaFrames = abs(firstFramesLeft - framesLeft);
+		lastDeltaFrames = deltaFrames;
+
+		int deltaDeltaFrames = abs(deltaFrames - lastDeltaFrames);
+
+		if(deltaFrames < framesToWrite
+		|| deltaDeltaFrames == 0){
 
 			pthread_mutex_lock(&soundMutex);
 
@@ -76,7 +86,8 @@ void *renderLoop(void *ptr){
 				Sound *sound_p = Array_getItemPointerByIndex(&sounds, i);
 				SoundData *soundData_p = &soundData[sound_p->soundDataIndex];
 				
-				if(sound_p->stopped){
+				if(sound_p->stopped
+				|| sound_p->soundDataIndex >= loadedSoundFiles){
 					continue;
 				}
 
@@ -115,31 +126,55 @@ void *renderLoop(void *ptr){
 
 }
 
-void Audio_init(char **soundFiles, int soundFilesLength){
+int soundFilesLength;
 
+void *loadAudioFiles(void *ptr){
+
+	for(int i = 0; i < soundFilesLength; i++){
+
+		SoundData *soundData_p = &soundData[i];
+
+		char path[255];
+
+		sprintf(path, "assets/audio/%s.wav", soundData_p->name);
+
+		soundData_p->data = WavReader_getDataFromWavFile(path, &soundData_p->framesLength);
+
+		printf("Loaded WAV file: %s\n", soundData_p->name);
+
+		loadedSoundFiles++;
+		
+	}
+
+}
+
+void Audio_init(char **soundFiles, int soundFilesLengthIn){
+
+	soundFilesLength = soundFilesLengthIn;
+
+	//set names for audio before load
 	for(int i = 0; i < soundFilesLength; i++){
 
 		SoundData *soundData_p = &soundData[i];
 
 		soundData_p->name = soundFiles[i];
 
-		char path[255];
-
-		sprintf(path, "assets/audio/%s.wav", soundFiles[i]);
-
-		soundData_p->data = WavReader_getDataFromWavFile(path, &soundData_p->framesLength);
-
-		printf("Loaded WAV file: %s\n", soundData_p->name);
-		
 	}
-	
+
 	soundDataLength = soundFilesLength;
 
+	//load audio on seperate thread
+	//loadAudioFiles(NULL);
+	pthread_t loadThread;
+	pthread_create(&loadThread, NULL, loadAudioFiles, NULL);
+
+	//init sound and volume handling
 	Array_init(&sounds, sizeof(Sound));
 
 	volumes[AUDIO_SOUND_TYPE_SFX] = 1.0;
 	volumes[AUDIO_SOUND_TYPE_MUSIC] = 1.0;
 
+	//init native sound device
 	device = snd_pcm_open(&handle, "default", SND_PCM_STREAM_PLAYBACK, 0);
 
 	snd_pcm_hw_params_alloca(&params);
@@ -160,8 +195,9 @@ void Audio_init(char **soundFiles, int soundFilesLength){
 
 	snd_pcm_status_malloc(&status);
 
-	pthread_t thread;
-	pthread_create(&thread, NULL, renderLoop, NULL);
+	//start render loop on seperate thread
+	pthread_t renderThread;
+	pthread_create(&renderThread, NULL, renderLoop, NULL);
 
 }
 
