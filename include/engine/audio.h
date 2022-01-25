@@ -5,9 +5,16 @@
 #include "stdlib.h"
 #include "stddef.h"
 
-#define SAMPLE_FORMAT ma_format_f32
-#define CHANNEL_COUNT 1
-#define SAMPLE_RATE 48000
+static int SAMPLE_RATE = 44100;
+static int NUMBER_OF_CHANNELS = 2;
+static int FRAME_SIZE = 4;
+static int PERIOD_SIZE = 64;
+//static int PERIOD_SIZE = 256;
+//static int PERIOD_SIZE = 8 * 256;
+
+static int pcmFramesPerFrame = 44100 / 60;
+
+static float CONSTANT_VOLUME_FACTOR = 0.5;
 
 enum Audio_SoundTypeEnum{
 	AUDIO_SOUND_TYPE_SFX,

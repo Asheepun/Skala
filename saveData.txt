@@ -1,5 +1,5 @@
 :playerPos
-3419 68
+3848 208
 :doorKeys
 6260 -160
 :doors
@@ -31,6 +31,12 @@ door-key-level-1
 door-key-level-2
 floor-is-door
 get-key-up-1
+get-key-up-2
 key-in-box
 push-key-with-point
-get-key-up-2
+all-from-top-1
+all-from-top-2
+all-from-top-3
+get-under-cup
+point-pikaboo
+key-obstacle-course

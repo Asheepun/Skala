@@ -1,0 +1,3023 @@
+Sorting...
+Full Text Search...
+abyss/oldstable 2.1.5-7 amd64
+  de novo, parallel, sequence assembler for short reads
+
+afew/oldstable,oldstable 1.3.0-1 all
+  Tagging script for notmuch mail
+
+afnix/oldstable 2.8.1-2 amd64
+  Compiler and run-time for the AFNIX programming language
+
+afnix-doc/oldstable,oldstable 2.8.1-2 all
+  Compiler and run-time for the AFNIX programming language (documentation)
+
+alsaplayer-common/oldstable 0.99.81-2 amd64
+  audio player (common files)
+
+apt-mirror/oldstable,oldstable 0.5.4-1 all
+  APT sources mirroring tool
+
+argon2/oldstable 0~20171227-0.2 amd64
+  memory-hard hashing function - utility
+
+astroid/oldstable 0.14-2.1 amd64
+  graphical notmuch email client
+
+atftpd/oldstable 0.7.git20120829-3.2~deb10u2 amd64
+  advanced TFTP server
+
+atig/oldstable 0.6.1-3 amd64
+  Another Twitter IRC gateway
+
+autodir/oldstable 0.99.9-10+b1 amd64
+  Automatically creates home and group directories for LDAP/NIS/SQL/local accounts
+
+autodock-vina/oldstable 1.1.2-5+b1 amd64
+  docking of small molecules to proteins
+
+balsa/oldstable 2.5.6-2+deb10u1 amd64
+  e-mail client for GNOME
+
+barrnap/oldstable,oldstable 0.9+dfsg-1 all
+  rapid ribosomal RNA prediction
+
+bgpdump/oldstable 1.6.0-1+deb10u1 amd64
+  Translate binary zebra/quagga/MRT files into readable output
+
+bless/oldstable,oldstable 0.6.0-5.1 all
+  A full featured hexadecimal editor
+
+bruteforce-salted-openssl/oldstable 1.4.1-1 amd64
+  try to find the passphrase for files encrypted with OpenSSL
+
+buku/oldstable,oldstable 4.1+ds-2 all
+  Powerful command-line bookmark manager
+
+cacti-spine/oldstable 1.2.2-1 amd64
+  Multi-Threading poller for cacti
+
+carbon-c-relay/oldstable 3.4-1 amd64
+  Carbon-compatible graphite line mode relay
+
+chezscheme/oldstable,oldstable 9.5+dfsg-6 all
+  Reliable, high performance Scheme compiler
+
+cl-bordeaux-threads/oldstable,oldstable 0.8.6-1 all
+  Portable threads library for Common Lisp
+
+cl-hunchentoot/oldstable,oldstable 1.2.38-1 all
+  Common Lisp web server formerly known as TBNL
+
+cl-lparallel/oldstable,oldstable 20160825-1 all
+  parallel programming in Common Lisp
+
+cl-ppcre/oldstable,oldstable 20180805.git2115632-1 all
+  Portable Perl-compatible regular expressions for Common Lisp
+
+clamav/oldstable,oldstable-updates 0.103.3+dfsg-0+deb10u1 amd64
+  anti-virus utility for Unix - command-line interface
+
+clamav-base/oldstable,oldstable,oldstable-updates,oldstable-updates 0.103.3+dfsg-0+deb10u1 all
+  anti-virus utility for Unix - base package
+
+clamav-daemon/oldstable,oldstable-updates 0.103.3+dfsg-0+deb10u1 amd64
+  anti-virus utility for Unix - scanner daemon
+
+clamav-docs/oldstable,oldstable,oldstable-updates,oldstable-updates 0.103.3+dfsg-0+deb10u1 all
+  anti-virus utility for Unix - documentation
+
+clamav-freshclam/oldstable,oldstable-updates 0.103.3+dfsg-0+deb10u1 amd64
+  anti-virus utility for Unix - virus database update utility
+
+clamav-milter/oldstable,oldstable-updates 0.103.3+dfsg-0+deb10u1 amd64
+  anti-virus utility for Unix - sendmail integration
+
+clamav-testfiles/oldstable,oldstable,oldstable-updates,oldstable-updates 0.103.3+dfsg-0+deb10u1 all
+  anti-virus utility for Unix - test files
+
+clamdscan/oldstable,oldstable-updates 0.103.3+dfsg-0+deb10u1 amd64
+  anti-virus utility for Unix - scanner client
+
+clojure/oldstable,oldstable 1.10.0-1 all
+  Lisp dialect for the JVM
+
+codeblocks-contrib/oldstable 16.01+dfsg-2.1 amd64
+  contrib plugins for Code::Blocks IDE
+
+cpuinfo/oldstable 0.0~git20190201.d5e37ad-1 amd64
+  CPU INFOrmation library (binary utilities)
+
+default-libmysqlclient-dev/oldstable 1.0.5 amd64
+  MySQL database development files (metapackage)
+
+default-libmysqld-dev/oldstable 1.0.5 amd64
+  MySQL embedded database development files (metapackage)
+
+default-mysql-client/oldstable,oldstable 1.0.5 all
+  MySQL database client binaries (metapackage)
+
+default-mysql-client-core/oldstable,oldstable 1.0.5 all
+  MySQL database core client binaries (metapackage)
+
+default-mysql-server/oldstable,oldstable 1.0.5 all
+  MySQL database server binaries and system database setup (metapackage)
+
+default-mysql-server-core/oldstable,oldstable 1.0.5 all
+  MySQL database server binaries (metapackage)
+
+diod/oldstable 1.0.24-4 amd64
+  I/O forwarding server for 9P
+
+dustmite/oldstable 0~20170126.e95dff8-3 amd64
+  Tool for minimizing D source code
+
+ebook-dev-alp/oldstable,oldstable 200407-2 all
+  Advanced Linux Programming
+
+elpa-concurrent/oldstable,oldstable 0.5.1-2 all
+  higher level library for concurrent tasks
+
+elpa-fsm/oldstable,oldstable 0.2.1-2 all
+  state machine library
+
+elpa-notmuch/oldstable,oldstable 0.28.4-1 all
+  thread-based email index, search and tagging (emacs interface)
+
+epsilon-bin/oldstable 0.9.2+dfsg-4 amd64
+  Library for wavelet image compression - tools
+
+erlang-yaws/oldstable,oldstable 2.0.6+dfsg-1+deb10u1 amd64
+  Erlang application which implements HTTP webserver
+
+eterm/oldstable 0.9.6-5+deb10u1 amd64
+  Enlightened Terminal Emulator
+
+fasttree/oldstable 2.1.10-2 amd64
+  phylogenetic trees from alignments of nucleotide or protein sequences
+
+feersum/oldstable 1.406-3 amd64
+  PSGI engine for Perl based on EV/libev
+
+fio/oldstable 3.12-2 amd64
+  flexible I/O tester
+
+firebird3.0-server/oldstable 3.0.5.33100.ds4-2 amd64
+  Firebird Server - an RDBMS based on InterBase 6.0 code
+
+fractalnow/oldstable 0.8.2-2 amd64
+  Fast, advanced fractal generator
+
+freecontact/oldstable 1.0.21-7+b1 amd64
+  fast protein contact predictor
+
+fteqcc/oldstable 3343+svn3400-3+b2 amd64
+  FTE QuakeC compiler
+
+fxt-tools/oldstable 0.3.8-2 amd64
+  Multithreaded tracing library
+
+gambc/oldstable 4.8.8-3.1 amd64
+  Gambit Scheme interpreter and compiler
+
+gfio/oldstable 3.12-2 amd64
+  flexible I/O tester - gui frontend
+
+gftp/oldstable,oldstable 2.0.19-5 all
+  X/GTK+ and console FTP client (metapackage)
+
+gftp-common/oldstable 2.0.19-5 amd64
+  shared files for other gFTP packages
+
+gftp-gtk/oldstable 2.0.19-5 amd64
+  X/GTK+ FTP client
+
+gftp-text/oldstable 2.0.19-5 amd64
+  colored FTP client using GLib
+
+gir1.2-gtk-vnc-2.0/oldstable 0.9.0-1.1 amd64
+  GObject introspection data for GTK-VNC
+
+gitinspector/oldstable,oldstable 0.4.4+dfsg-5 all
+  statistical analysis tool for git repositories
+
+glbinding-doc/oldstable,oldstable 2.1.1-2 all
+  documentation for glbinding
+
+glbinding-tools/oldstable 2.1.1-2 amd64
+  command-line tools for glbinding
+
+glibc-doc/oldstable,oldstable 2.28-10 all
+  GNU C Library: Documentation
+
+golang-github-bmatsuo-lmdb-go-dev/oldstable,oldstable 1.8.0+git20170215.a14b5a3-2 all
+  Bindings for the LMDB C library
+
+golang-github-bsm-pool-dev/oldstable,oldstable 0.8.0-4 all
+  simple connection pool library for Golang
+
+golang-github-hanwen-go-fuse-dev/oldstable,oldstable 0.0~git20190214.58dcd77-1 all
+  Native Go bindings for the FUSE kernel module
+
+golang-github-hashicorp-golang-lru-dev/oldstable,oldstable 0.5.0-1 all
+  Golang LRU cache
+
+golang-github-karlseguin-ccache-dev/oldstable,oldstable 2.0.2+git20161222.2.12c7ffd-1 all
+  Golang LRU Cache for high concurrency
+
+golang-github-nebulouslabs-fastrand-dev/oldstable,oldstable 0.0~git20170512.60b6156-1 all
+  10x faster than crypto/rand
+
+golang-github-patrickmn-go-cache-dev/oldstable,oldstable 2.1.0-1 all
+  in-memory key:value store/cache (similar to Memcached)
+
+golang-github-paulbellamy-ratecounter-dev/oldstable,oldstable 0.2.0+git20170719.a803f0e-3 all
+  thread-safe RateCounter implementation in Golang
+
+golang-github-pmylund-go-cache-dev/oldstable,oldstable 0.0~git20150304-2 all
+  Go library for in-memory key/value store similar to memcached
+
+golang-github-viki-org-dnscache-dev/oldstable,oldstable 0.0~git20130720.0.c70c1f2-1 all
+  DNS cache for Go
+
+golang-gopkg-eapache-queue.v1-dev/oldstable,oldstable 1.0.2-4 all
+  fast golang queue using ring-buffer
+
+golang-gopkg-fatih-pool.v2-dev/oldstable,oldstable 0.0~git20171010.010e0b7-3 all
+  thread safe connection pool for net.Conn interface
+
+guile-library/oldstable 0.2.6.1-1 amd64
+  Library of useful Guile modules
+
+guymager/oldstable 0.8.8-3 amd64
+  Forensic imaging tool based on Qt
+
+gvncviewer/oldstable 0.9.0-1.1 amd64
+  VNC viewer using gtk-vnc
+
+health-check/oldstable 0.03.00-1 amd64
+  process monitoring tool
+
+hwloc/oldstable 1.11.12-3 amd64
+  Hierarchical view of the machine - utilities
+
+hwloc-nox/oldstable 1.11.12-3 amd64
+  Hierarchical view of the machine - non-X version of utilities
+
+hyphy-pt/oldstable 2.3.14+dfsg-1 amd64
+  Hypothesis testing using Phylogenies (pthreads version)
+
+icinga2/oldstable 2.10.3-2+deb10u1 amd64
+  host and network monitoring system
+
+icinga2-bin/oldstable 2.10.3-2+deb10u1 amd64
+  host and network monitoring system - daemon
+
+icinga2-classicui/oldstable,oldstable 2.10.3-2+deb10u1 all
+  host and network monitoring system - classic UI
+
+icinga2-common/oldstable,oldstable 2.10.3-2+deb10u1 all
+  host and network monitoring system - common files
+
+icinga2-doc/oldstable,oldstable 2.10.3-2+deb10u1 all
+  host and network monitoring system - documentation
+
+icinga2-ido-mysql/oldstable 2.10.3-2+deb10u1 amd64
+  host and network monitoring system - MySQL support
+
+icinga2-ido-pgsql/oldstable 2.10.3-2+deb10u1 amd64
+  host and network monitoring system - PostgreSQL support
+
+imgsizer/oldstable,oldstable 2.7-3 all
+  Adds WIDTH and HEIGHT attributes to IMG tags in HTML files
+
+intel-mkl/oldstable 2019.2.187-1 amd64
+  Intel® Math Kernel Library (Intel® MKL)
+
+intel-mkl-cluster/oldstable 2019.2.187-1 amd64
+  Intel® Math Kernel Library (Intel® MKL) (Cluster)
+
+intel-mkl-doc/oldstable,oldstable 2019.2.187-1 all
+  Intel® Math Kernel Library (Intel® MKL) (Doc)
+
+intel-mkl-full/oldstable 2019.2.187-1 amd64
+  Intel® Math Kernel Library (Intel® MKL) (Full)
+
+intel-mkl-linktool/oldstable 2019.2.187-1 i386
+  Intel(R) Math Kernel Library (Intel(R) MKL) Link Tool v4.7
+
+intercal/oldstable 30:0.30-2 amd64
+  INTERCAL de-obfuscator
+
+iperf/oldstable 2.0.12+dfsg1-2 amd64
+  Internet Protocol bandwidth measuring tool
+
+jdim/oldstable 0.1.0-1 amd64
+  simple browser for "2ch-style" web forum sites
+
+jitterdebugger/oldstable 0.3.1-1 amd64
+  Real time response measurement tool
+
+kcachegrind/oldstable 4:17.08.3-2 amd64
+  visualisation tool for the Valgrind profiler
+
+kcachegrind-converters/oldstable,oldstable 4:17.08.3-2 all
+  format converters for KCachegrind profiler visualisation tool
+
+kmldonkey/oldstable 2.0.5+kde4.3.3-5 amd64
+  advanced GUI for MLDonkey
+
+knews/oldstable 1.0b.1-32 amd64
+  Graphical threaded news reader
+
+knocker/oldstable 0.7.1-6 amd64
+  Simple and easy to use TCP security port scanner
+
+knot-resolver/oldstable 3.2.1-3 amd64
+  caching, DNSSEC-validating DNS resolver
+
+ksmtuned/oldstable 4.20150325+b1 amd64
+  enables and tunes Kernel Samepage Merging
+
+kwave/oldstable 18.08.1-1 amd64
+  sound editor for KDE
+
+lbzip2/oldstable 2.5-2 amd64
+  fast, multi-threaded bzip2 utility
+
+lemon/oldstable 3.27.2-3+deb10u1 amd64
+  LALR(1) Parser Generator for C or C++
+
+lib32itm1/oldstable 8.3.0-6 amd64
+  GNU Transactional Memory Library (32bit)
+
+lib32itm1-amd64-cross/oldstable,oldstable 8.3.0-2cross1 all
+  GNU Transactional Memory Library (32bit)
+
+lib32itm1-dbg/oldstable 8.3.0-6 amd64
+  GNU Transactional Memory Library (32 bit debug symbols)
+
+lib32itm1-ppc64-cross/oldstable,oldstable 8.3.0-2cross2 all
+  GNU Transactional Memory Library (32bit)
+
+lib32itm1-s390x-cross/oldstable,oldstable 8.3.0-2cross1 all
+  GNU Transactional Memory Library (32bit)
+
+lib32itm1-sparc64-cross/oldstable,oldstable 8.3.0-2cross2 all
+  GNU Transactional Memory Library (32bit)
+
+lib32itm1-x32-cross/oldstable,oldstable 8.3.0-2cross2 all
+  GNU Transactional Memory Library (32bit)
+
+lib64itm1/oldstable 8.3.0-6 i386
+  GNU Transactional Memory Library (64bit)
+
+lib64itm1-dbg/oldstable 8.3.0-6 i386
+  GNU Transactional Memory Library (64bit debug symbols)
+
+lib64itm1-i386-cross/oldstable,oldstable 8.3.0-2cross1 all
+  GNU Transactional Memory Library (64bit)
+
+lib64itm1-x32-cross/oldstable,oldstable 8.3.0-2cross2 all
+  GNU Transactional Memory Library (64bit)
+
+libace-6.4.5/oldstable 6.4.5+dfsg-1+b12 amd64
+  C++ network programming framework
+
+libace-flreactor-6.4.5/oldstable 6.4.5+dfsg-1+b12 amd64
+  ACE-GUI reactor integration for FLTK
+
+libace-foxreactor-6.4.5/oldstable 6.4.5+dfsg-1+b12 amd64
+  ACE-GUI reactor integration for FOX
+
+libace-tkreactor-6.4.5/oldstable 6.4.5+dfsg-1+b12 amd64
+  ACE-GUI reactor integration for Tk
+
+libace-xtreactor-6.4.5/oldstable 6.4.5+dfsg-1+b12 amd64
+  ACE-GUI reactor integration for Xt
+
+libags-audio-dev/oldstable 2.1.53-2 amd64
+  Advanced Gtk+ Sequencer audio processing engine (Development files)
+
+libags-audio-doc/oldstable,oldstable 2.1.53-2 all
+  Advanced Gtk+ Sequencer audio processing engine (API documentation)
+
+libags-audio2/oldstable 2.1.53-2 amd64
+  Advanced Gtk+ Sequencer audio processing library
+
+libags-dev/oldstable 2.1.53-2 amd64
+  Advanced Gtk+ Sequencer core library (Development files)
+
+libags-doc/oldstable,oldstable 2.1.53-2 all
+  Advanced Gtk+ Sequencer core library (API documentation)
+
+libags2/oldstable 2.1.53-2 amd64
+  Advanced Gtk+ Sequencer core library
+
+libapache2-mod-php7.3/oldstable,now 7.3.31-1~deb10u1 amd64 [installed,automatic]
+  server-side, HTML-embedded scripting language (Apache 2 module)
+
+libapache2-mod-vhost-ldap/oldstable 2.4.0-1 amd64
+  Apache 2 module for Virtual Hosting from LDAP
+
+libapache2-mpm-itk/oldstable 2.4.7-04-1 amd64
+  multiuser module for Apache
+
+libapr-memcache-dev/oldstable 0.7.0-3+b1 amd64
+  memcache client - development libraries
+
+libapr-memcache0/oldstable 0.7.0-3+b1 amd64
+  memcache client - shared library
+
+libarcus-dev/oldstable 3.3.0-2 amd64
+  message queue for Cura based on protobuf (development files)
+
+libarcus3/oldstable 3.3.0-2 amd64
+  message queue for Cura based on protobuf (shared library)
+
+libargon2-0/oldstable 0~20171227-0.2 amd64
+  memory-hard hashing function - runtime library
+
+libargon2-1/oldstable,now 0~20171227-0.2 amd64 [installed]
+  memory-hard hashing function - runtime library
+
+libargon2-dev/oldstable 0~20171227-0.2 amd64
+  memory-hard hashing function - development files
+
+libasr-dev/oldstable 1.0.2-2 amd64
+  asynchronous DNS resolver (development files)
+
+libasr0/oldstable 1.0.2-2 amd64
+  asynchronous DNS resolver
+
+libasync-interrupt-perl/oldstable,now 1.24-1+b1 amd64 [installed,automatic]
+  module to allow C/XS libraries to interrupt perl
+
+libbasicplayer-java/oldstable,oldstable 3.0-6 all
+  threaded simple player class based on JavaSound API
+
+libblis-pthread-dev/oldstable 0.5.1-11 amd64
+  BLAS-like Library Instantiation Software Framework
+
+libblis2-pthread/oldstable 0.5.1-11 amd64
+  BLAS-like Library Instantiation Software Framework - shared library
+
+libblis64-2-pthread/oldstable 0.5.1-11 amd64
+  BLAS-like Library Instantiation Software Framework - shared library
+
+libblis64-pthread-dev/oldstable 0.5.1-11 amd64
+  BLAS-like Library Instantiation Software Framework
+
+libblosc-dev/oldstable 1.15.1+ds1-1 amd64
+  high performance meta-compressor optimized for binary data (development files)
+
+libblosc1/oldstable 1.15.1+ds1-1 amd64
+  high performance meta-compressor optimized for binary data
+
+libbobcat-dev/oldstable 4.08.06-1 amd64
+  headers and documentation for the Bobcat library
+
+libbobcat4/oldstable 4.08.06-1 amd64
+  run-time (shared) Bobcat library
+
+libboost-atomic-dev/oldstable 1.67.0.1 amd64
+  atomic data types, operations, and memory ordering constraints (default version)
+
+libboost-atomic1.67-dev/oldstable 1.67.0-13+deb10u1 amd64
+  atomic data types, operations, and memory ordering constraints
+
+libboost-atomic1.67.0/oldstable,now 1.67.0-13+deb10u1 amd64 [installed,automatic]
+  atomic data types, operations, and memory ordering constraints
+
+libboost-chrono-dev/oldstable 1.67.0.1 amd64
+  C++ representation of time duration, time point, and clocks (default version)
+
+libboost-chrono1.67-dev/oldstable 1.67.0-13+deb10u1 amd64
+  C++ representation of time duration, time point, and clocks
+
+libboost-chrono1.67.0/oldstable,now 1.67.0-13+deb10u1 amd64 [installed,automatic]
+  C++ representation of time duration, time point, and clocks
+
+libboost-context-dev/oldstable 1.67.0.1 amd64
+  provides a sort of cooperative multitasking on a single thread (default version)
+
+libboost-context1.67-dev/oldstable 1.67.0-13+deb10u1 amd64
+  provides a sort of cooperative multitasking on a single thread
+
+libboost-context1.67.0/oldstable 1.67.0-13+deb10u1 amd64
+  provides a sort of cooperative multitasking on a single thread
+
+libboost-coroutine-dev/oldstable 1.67.0.1 amd64
+  provides a sort of cooperative multitasking on a single thread (default version)
+
+libboost-coroutine1.67-dev/oldstable 1.67.0-13+deb10u1 amd64
+  provides a sort of cooperative multitasking on a single thread
+
+libboost-coroutine1.67.0/oldstable 1.67.0-13+deb10u1 amd64
+  provides a sort of cooperative multitasking on a single thread
+
+libboost-fiber-dev/oldstable 1.67.0.1 amd64
+  cooperatively-scheduled micro-/userland-threads (default version)
+
+libboost-fiber1.67-dev/oldstable 1.67.0-13+deb10u1 amd64
+  cooperatively-scheduled micro-/userland-threads
+
+libboost-fiber1.67.0/oldstable 1.67.0-13+deb10u1 amd64
+  cooperatively-scheduled micro-/userland-threads
+
+libboost-thread-dev/oldstable 1.67.0.1 amd64
+  portable C++ multi-threading (default version)
+
+libboost-thread1.67-dev/oldstable 1.67.0-13+deb10u1 amd64
+  portable C++ multi-threading
+
+libboost-thread1.67.0/oldstable,now 1.67.0-13+deb10u1 amd64 [installed,automatic]
+  portable C++ multi-threading
+
+libcapstone3/oldstable 4.0.1+really+3.0.5-1 amd64
+  lightweight multi-architecture disassembly framework - library
+
+libcarrotsearch-randomizedtesting-java/oldstable,oldstable 2.1.17-2 all
+  Randomized testing infrastructure for JUnit, Ant and Maven
+
+libcbor0/oldstable 0.5.0+dfsg-2 amd64
+  library for parsing and generating CBOR (RFC 7049)
+
+libccgnu2-1.8-0v5/oldstable 1.8.1-7 amd64
+  GNU package for creating portable C++ programs
+
+libccrtp-dev/oldstable 2.0.9-2.3 amd64
+  Common C++ class framework for RTP packets - development files
+
+libclamav-dev/oldstable,oldstable-updates 0.103.3+dfsg-0+deb10u1 amd64
+  anti-virus utility for Unix - development files
+
+libclamav9/oldstable,oldstable-updates 0.103.3+dfsg-0+deb10u1 amd64
+  anti-virus utility for Unix - library
+
+libclamunrar/oldstable,oldstable 0.102.3-0+deb10u1 all
+  anti-virus utility for Unix - unrar support
+
+libclamunrar9/oldstable 0.102.3-0+deb10u1 amd64
+  anti-virus utility for Unix - unrar support
+
+libclass-insideout-perl/oldstable,oldstable 1.14-2 all
+  safe, simple inside-out object construction kit
+
+libclojure-java/oldstable,oldstable 1.10.0-1 all
+  Lisp dialect for the JVM (library)
+
+libclojure-maven-plugin-java/oldstable,oldstable 1.7.1-2 all
+  Clojure plugin for Maven
+
+libclthreads-dev/oldstable 2.4.0-7 amd64
+  POSIX threads C++ access library (development files)
+
+libclthreads2/oldstable 2.4.0-7 amd64
+  POSIX threads C++ access library  (shared library)
+
+libclucene-contribs1v5/oldstable,now 2.3.3.4+dfsg-1 amd64 [installed,automatic]
+  language specific text analyzers (runtime)
+
+libclucene-core1v5/oldstable,now 2.3.3.4+dfsg-1 amd64 [installed,automatic]
+  core library for full-featured text search engine (runtime)
+
+libclucene-dev/oldstable 2.3.3.4+dfsg-1 amd64
+  library for full-featured text search engine (development)
+
+libcml-smlnj/oldstable 110.79-4 amd64
+  Concurrent ML extension of SML
+
+libcmlutil-smlnj/oldstable 110.79-4 amd64
+  Concurrent ML utility library
+
+libcom-hypirion-io-clojure/oldstable,oldstable 0.3.1-3 all
+  I/O redirection, signal handling, and console utilities
+
+libcommoncpp2-dev/oldstable 1.8.1-7 amd64
+  Header files and static libraries for Common C++ "2"
+
+libcommoncpp2-doc/oldstable,oldstable 1.8.1-7 all
+  Documentation files for Common C++ "2"
+
+libconcurrent-java/oldstable,oldstable 1.3.4-4 all
+  utility classes for concurrent java programming
+
+libconfig++-dev/oldstable 1.5-0.4 amd64
+  parsing/manipulation of structured config files (C++ development)
+
+libconfig-dev/oldstable 1.5-0.4 amd64
+  parsing/manipulation of structured config files (development)
+
+libconversant-disruptor-java/oldstable,oldstable 1.2.11-1 all
+  Very low latency Java BlockingQueue
+
+libcoro-perl/oldstable 6.540-1 amd64
+  Perl framework implementing coroutines
+
+libcorona-perl/oldstable,oldstable 0.1004-4 all
+  Coro based PSGI web server
+
+libcothreads-ocaml-dev/oldstable 0.10-4+b1 amd64
+  concurrent programming library for OCaml
+
+libcpuinfo-dev/oldstable 0.0~git20190201.d5e37ad-1 amd64
+  CPU INFOrmation library (header file)
+
+libcpuinfo0/oldstable 0.0~git20190201.d5e37ad-1 amd64
+  CPU INFOrmation library (shared object)
+
+libcsfml-system2.5/oldstable 2.5-1 amd64
+  Libraries for the C Binding of SFML - System Part
+
+libcurl3-gnutls/oldstable,oldstable,now 7.64.0-4+deb10u2 amd64 [installed,automatic]
+  easy-to-use client-side URL transfer library (GnuTLS flavour)
+
+libcurl3-nss/oldstable,oldstable 7.64.0-4+deb10u2 amd64
+  easy-to-use client-side URL transfer library (NSS flavour)
+
+libcurl4/oldstable,oldstable,now 7.64.0-4+deb10u2 amd64 [installed,automatic]
+  easy-to-use client-side URL transfer library (OpenSSL flavour)
+
+libcurl4-doc/oldstable,oldstable,oldstable,oldstable 7.64.0-4+deb10u2 all
+  documentation for libcurl
+
+libcurl4-gnutls-dev/oldstable,oldstable 7.64.0-4+deb10u2 amd64
+  development files and documentation for libcurl (GnuTLS flavour)
+
+libcurl4-nss-dev/oldstable,oldstable 7.64.0-4+deb10u2 amd64
+  development files and documentation for libcurl (NSS flavour)
+
+libcurl4-openssl-dev/oldstable,oldstable 7.64.0-4+deb10u2 amd64
+  development files and documentation for libcurl (OpenSSL flavour)
+
+libcxxtools-dev/oldstable 2.2.1-2 amd64
+  library of unrelated but useful C++ classes
+
+libcxxtools9v5/oldstable 2.2.1-2 amd64
+  library of unrelated but useful C++ classes
+
+libczmq-dev/oldstable 4.2.0-2 amd64
+  High-level C binding for ZeroMQ (development files)
+
+libczmq4/oldstable 4.2.0-2 amd64
+  High-level C binding for ZeroMQ
+
+libdancer2-plugin-database-perl/oldstable,oldstable 2.17-1 all
+  module for easy database connections for Dancer2 applications
+
+libdbd-mysql-perl/oldstable,now 4.050-2 amd64 [installed,automatic]
+  Perl5 database interface to the MariaDB/MySQL database
+
+libdbix-class-perl/oldstable,oldstable 0.082841-1 all
+  extensible and flexible object <-> relational mapper
+
+libdisruptor-java/oldstable,oldstable 3.4.2-2 all
+  Disruptor - High Performance Inter-Thread Messaging Library for Java
+
+libdistorm64-1/oldstable 1.7.30-1 amd64
+  ultimate disassembler library for x86 code
+
+libdlib-data/oldstable,oldstable 19.10-3 all
+  C++ toolkit for machine learning and computer vision - models
+
+libdlib-dev/oldstable 19.10-3 amd64
+  C++ toolkit for machine learning and computer vision - development
+
+libdlib19/oldstable 19.10-3 amd64
+  C++ toolkit for machine learning and computer vision - library
+
+libduppy-ocaml/oldstable 0.8.0-1 amd64
+  Advanced scheduler for OCaml (Runtime library)
+
+libduppy-ocaml-dev/oldstable 0.8.0-1 amd64
+  Advanced scheduler for OCaml (Development package)
+
+libeio1/oldstable 1.21.1-5 amd64
+  EFL non-blocking, threaded I/O
+
+libemail-thread-perl/oldstable,oldstable 0.712-2 all
+  library providing threading for Email::Simple objects
+
+libepsilon-dev/oldstable 0.9.2+dfsg-4 amd64
+  Library for wavelet image compression - development files
+
+libepsilon1/oldstable 0.9.2+dfsg-4 amd64
+  Library for wavelet image compression
+
+libevent-pthreads-2.1-6/oldstable 2.1.8-stable-4 amd64
+  Asynchronous event notification library (pthreads)
+
+libexene-smlnj/oldstable 110.79-4 amd64
+  Concurrent ML library for the X Window System
+
+libfccp-dev/oldstable,oldstable 0.0+git20160525~9bf299c-2 all
+  Fast C++ CSV Parser
+
+libfile-map-perl/oldstable 0.66-1 amd64
+  Perl module providing simple and safe memory mapping
+
+libfilezilla-dev/oldstable 0.15.1-1 amd64
+  build high-performing platform-independent programs (development)
+
+libfilezilla0/oldstable 0.15.1-1 amd64
+  build high-performing platform-independent programs (runtime lib)
+
+libforks-perl/oldstable 0.36-2+b4 amd64
+  Perl module to emulate threads with fork
+
+libfreecontact-dev/oldstable 1.0.21-7+b1 amd64
+  fast protein contact predictor library - development files
+
+libfreecontact-doc/oldstable,oldstable 1.0.21-7 all
+  documentation for libfreecontact
+
+libfreecontact-perl/oldstable 0.08-7+b1 amd64
+  fast protein contact predictor - binding for Perl
+
+libfreecontact0v5/oldstable 1.0.21-7+b1 amd64
+  fast protein contact predictor library
+
+libfreeimage-dev/oldstable,oldstable 3.18.0+ds2-1+deb10u1 amd64
+  Support library for graphics image formats (development files)
+
+libfreeimage3/oldstable,oldstable 3.18.0+ds2-1+deb10u1 amd64
+  Support library for graphics image formats (library)
+
+libfreeimageplus-dev/oldstable,oldstable 3.18.0+ds2-1+deb10u1 amd64
+  C++ wrappers for FreeImage (development files)
+
+libfreeimageplus-doc/oldstable,oldstable,oldstable,oldstable 3.18.0+ds2-1+deb10u1 all
+  C++ wrappers for FreeImage (documentation)
+
+libfreeimageplus3/oldstable,oldstable 3.18.0+ds2-1+deb10u1 amd64
+  C++ wrappers for freeimage (library)
+
+libfxt-dev/oldstable 0.3.8-2 amd64
+  Multithreaded tracing library
+
+libfxt0/oldstable 0.3.8-2 amd64
+  Multithreaded tracing library
+
+libgc-dev/oldstable 1:7.6.4-0.4 amd64
+  conservative garbage collector for C (development)
+
+libgc1c2/oldstable,now 1:7.6.4-0.4 amd64 [installed,automatic]
+  conservative garbage collector for C and C++
+
+libghc-abstract-deque-dev/oldstable 0.3-9+b2 amd64
+  abstract, parameterized interface to mutable Deques
+
+libghc-abstract-deque-doc/oldstable,oldstable 0.3-9 all
+  abstract, parameterized interface to mutable Deques; documentation
+
+libghc-abstract-deque-prof/oldstable 0.3-9+b2 amd64
+  abstract, parameterized interface to mutable Deques; profiling libraries
+
+libghc-async-dev/oldstable 2.2.1-2+b2 amd64
+  run IO operations asynchronously and wait for their results
+
+libghc-async-doc/oldstable,oldstable 2.2.1-2 all
+  run IO operations asynchronously and wait for their results; documentation
+
+libghc-async-prof/oldstable 2.2.1-2+b2 amd64
+  run IO operations asynchronously and wait for their results; profiling libs
+
+libghc-auto-update-dev/oldstable 0.1.4-5+b2 amd64
+  efficiently run periodic, on-demand actions
+
+libghc-auto-update-doc/oldstable,oldstable 0.1.4-5 all
+  efficiently run periodic, on-demand actions; documentation
+
+libghc-auto-update-prof/oldstable 0.1.4-5+b2 amd64
+  efficiently run periodic, on-demand actions; profiling libraries
+
+libghc-concurrent-output-dev/oldstable 1.10.6-2+b2 amd64
+  ungarble output from several threads
+
+libghc-concurrent-output-doc/oldstable,oldstable 1.10.6-2 all
+  ungarble output from several threads; documentation
+
+libghc-concurrent-output-prof/oldstable 1.10.6-2+b2 amd64
+  ungarble output from several threads; profiling libraries
+
+libghc-dns-dev/oldstable 3.0.4-3+b1 amd64
+  pure Haskell DNS library
+
+libghc-dns-doc/oldstable,oldstable 3.0.4-3 all
+  pure Haskell DNS library; documentation
+
+libghc-dns-prof/oldstable 3.0.4-3+b1 amd64
+  pure Haskell DNS library; profiling libraries
+
+libghc-hint-dev/oldstable 0.8.0-3+b2 amd64
+  runtime Haskell interpreter (GHC API wrapper)
+
+libghc-hint-doc/oldstable,oldstable 0.8.0-3 all
+  runtime Haskell interpreter (GHC API wrapper); documentation
+
+libghc-hint-prof/oldstable 0.8.0-3+b2 amd64
+  runtime Haskell interpreter (GHC API wrapper); profiling libraries
+
+libghc-monad-par-extras-dev/oldstable 0.3.3-10+b2 amd64
+  Combinators and extra features for Par monads
+
+libghc-monad-par-extras-doc/oldstable,oldstable 0.3.3-10 all
+  Combinators and extra features for Par monads; documentation
+
+libghc-monad-par-extras-prof/oldstable 0.3.3-10+b2 amd64
+  Combinators and extra features for Par monads; profiling libraries
+
+libghc-mueval-dev/oldstable 0.9.3-4+b1 amd64
+  safely evaluate pure Haskell expressions
+
+libghc-mueval-doc/oldstable,oldstable 0.9.3-4 all
+  safely evaluate pure Haskell expressions; documentation
+
+libghc-mueval-prof/oldstable 0.9.3-4+b1 amd64
+  safely evaluate pure Haskell expressions; profiling libraries
+
+libghc-safesemaphore-dev/oldstable 0.10.1-10+b2 amd64
+  exception safe alternatives to QSem, QSemN, and SampleVar - GHC libraries
+
+libghc-safesemaphore-doc/oldstable,oldstable 0.10.1-10 all
+  exception safe alternatives to QSem, QSemN, and SampleVar - documentation; documentation
+
+libghc-safesemaphore-prof/oldstable 0.10.1-10+b2 amd64
+  exception safe alternatives to QSem, QSemN, and SampleVar - GHC profiling data; profiling libraries
+
+libghc-say-dev/oldstable 0.1.0.1-2+b2 amd64
+  send textual messages to a Handle in a thread-friendly way
+
+libghc-say-doc/oldstable,oldstable 0.1.0.1-2 all
+  send textual messages to a Handle in a thread-friendly way; documentation
+
+libghc-say-prof/oldstable 0.1.0.1-2+b2 amd64
+  send textual messages to a Handle in a thread-friendly way; profiling libraries
+
+libghc-shelly-dev/oldstable 1.8.1-1+b1 amd64
+  shell-like (systems) programming in Haskell
+
+libghc-shelly-doc/oldstable,oldstable 1.8.1-1 all
+  shell-like (systems) programming in Haskell; documentation
+
+libghc-shelly-prof/oldstable 1.8.1-1+b1 amd64
+  shell-like (systems) programming in Haskell; profiling libraries
+
+libghc-threads-dev/oldstable 0.5.1.6-3+b2 amd64
+  Fork threads and wait for their result
+
+libghc-threads-doc/oldstable,oldstable 0.5.1.6-3 all
+  Fork threads and wait for their result; documentation
+
+libghc-threads-prof/oldstable 0.5.1.6-3+b2 amd64
+  Fork threads and wait for their result; profiling libraries
+
+libghc-unbounded-delays-dev/oldstable 0.1.1.0-3+b2 amd64
+  Unbounded thread delays and timeouts
+
+libghc-unbounded-delays-doc/oldstable,oldstable 0.1.1.0-3 all
+  Unbounded thread delays and timeouts; documentation
+
+libghc-unbounded-delays-prof/oldstable 0.1.1.0-3+b2 amd64
+  Unbounded thread delays and timeouts; profiling libraries
+
+libglbinding-dev/oldstable 2.1.1-2 amd64
+  development files for glbinding
+
+libglbinding2/oldstable 2.1.1-2 amd64
+  cross-platform C++ binding for OpenGL
+
+libglewmx1.13/oldstable 1.13.0-4+b11 amd64
+  OpenGL Extension Wrangler (Multiple Rendering Contexts)
+
+libgnuradio-pmt3.7.13/oldstable 3.7.13.4-4+b1 amd64
+  gnuradio pmt container library
+
+libgnustep-base1.26/oldstable 1.26.0-4+deb10u1 amd64
+  GNUstep Base library
+
+libgoogle-perftools-dev/oldstable 2.7-1 amd64
+  libraries for CPU and heap analysis, plus an efficient thread-caching malloc
+
+libgoogle-perftools4/oldstable 2.7-1 amd64
+  libraries for CPU and heap analysis, plus an efficient thread-caching malloc
+
+libgringotts-dev/oldstable 1:1.2.1-16 amd64
+  development files for the gringotts data encapsulation library
+
+libgringotts2/oldstable 1:1.2.1-16 amd64
+  gringotts data encapsulation and encryption library
+
+libgroove-dev/oldstable 4.3.0-5 amd64
+  audio dispatching library (development files)
+
+libgroove4/oldstable 4.3.0-5 amd64
+  music player backend
+
+libgtk-vnc-1.0-0/oldstable 0.9.0-1.1 amd64
+  VNC viewer widget for GTK+2 (runtime libraries)
+
+libgtk-vnc-1.0-dev/oldstable 0.9.0-1.1 amd64
+  VNC viewer widget for GTK+2 (development files)
+
+libgtk-vnc-2.0-0/oldstable 0.9.0-1.1 amd64
+  VNC viewer widget for GTK+3 (runtime libraries)
+
+libgtk-vnc-2.0-dev/oldstable 0.9.0-1.1 amd64
+  VNC viewer widget for GTK+3 (development files)
+
+libgvnc-1.0-0/oldstable 0.9.0-1.1 amd64
+  VNC GObject wrapper (runtime libraries)
+
+libgvnc-1.0-dev/oldstable 0.9.0-1.1 amd64
+  VNC GObject wrapper (development files)
+
+libhashkit-dev/oldstable 1.0.18-4.2 amd64
+  libmemcached hashing functions and algorithms (development files)
+
+libhashkit2/oldstable 1.0.18-4.2 amd64
+  libmemcached hashing functions and algorithms
+
+libhawtdispatch-java/oldstable,oldstable 1.22-2 all
+  libdispatch style API for Java and Scala
+
+libhpptools-dev/oldstable,oldstable 1.1.1-3 all
+  various C++ header tools
+
+libhttp-async-perl/oldstable,oldstable 0.33-1 all
+  module for parallel non-blocking processing of multiple HTTP requests
+
+libhttp-server-simple-mason-perl/oldstable,oldstable 0.14-2 all
+  abstract baseclass for a standalone mason server
+
+libhttp-server-simple-perl/oldstable,oldstable 0.52-1 all
+  simple stand-alone HTTP server
+
+libhwloc-common/oldstable,oldstable 1.11.12-3 all
+  Hierarchical view of the machine - common files
+
+libhwloc-contrib-plugins/oldstable 1.11.12-3+deb10u1 amd64
+  Hierarchical view of the machine - contrib plugins
+
+libhwloc-dev/oldstable 1.11.12-3 amd64
+  Hierarchical view of the machine - static libs and headers
+
+libhwloc-doc/oldstable,oldstable 1.11.12-3 all
+  Hierarchical view of the machine - documentation
+
+libhwloc-plugins/oldstable 1.11.12-3 amd64
+  Hierarchical view of the machine - plugins
+
+libhwloc5/oldstable 1.11.12-3 amd64
+  Hierarchical view of the machine - shared libs
+
+libilmbase23/oldstable,now 2.2.1-2 amd64 [installed,automatic]
+  several utility libraries from ILM used by OpenEXR
+
+libio-aio-perl/oldstable 4.60-1+b1 amd64
+  asynchronous IO module for Perl
+
+libircclient-dev/oldstable 1.9-1 amd64
+  development files for libircclient
+
+libircclient1/oldstable 1.9-1 amd64
+  C library to create IRC clients
+
+libitm1/oldstable,now 8.3.0-6 amd64 [installed,automatic]
+  GNU Transactional Memory Library
+
+libitm1-alpha-cross/oldstable,oldstable 8.3.0-2cross2 all
+  GNU Transactional Memory Library
+
+libitm1-amd64-cross/oldstable,oldstable 8.3.0-2cross1 all
+  GNU Transactional Memory Library
+
+libitm1-arm64-cross/oldstable,oldstable 8.3.0-2cross1 all
+  GNU Transactional Memory Library
+
+libitm1-dbg/oldstable 8.3.0-6 amd64
+  GNU Transactional Memory Library (debug symbols)
+
+libitm1-i386-cross/oldstable,oldstable 8.3.0-2cross1 all
+  GNU Transactional Memory Library
+
+libitm1-ppc64-cross/oldstable,oldstable 8.3.0-2cross2 all
+  GNU Transactional Memory Library
+
+libitm1-ppc64el-cross/oldstable,oldstable 8.3.0-2cross1 all
+  GNU Transactional Memory Library
+
+libitm1-s390x-cross/oldstable,oldstable 8.3.0-2cross1 all
+  GNU Transactional Memory Library
+
+libitm1-sh4-cross/oldstable,oldstable 8.3.0-2cross2 all
+  GNU Transactional Memory Library
+
+libitm1-sparc64-cross/oldstable,oldstable 8.3.0-2cross2 all
+  GNU Transactional Memory Library
+
+libitm1-x32-cross/oldstable,oldstable 8.3.0-2cross2 all
+  GNU Transactional Memory Library
+
+libivykis0/oldstable 0.42.3-1 amd64
+  Asynchronous I/O readiness notification library
+
+libjamon-java/oldstable,oldstable 2.7-7 all
+  Java API for easy monitoring production applications
+
+libjas-java/oldstable,oldstable 2.5.4408-1 all
+  Java object-oriented type-safe Algebra System
+
+libjboss-modules-java/oldstable,oldstable 1.9.0-1 all
+  Modular Classloading System
+
+libjboss-threads-java/oldstable,oldstable 2.3.3-1 all
+  JBoss Threads
+
+libjboss-xnio-java/oldstable,oldstable 3.7.0-1 all
+  simplified low-level I/O layer for NIO
+
+libjcip-annotations-java/oldstable,oldstable 20060626-5 all
+  Java Concurrency In Practice annotations library
+
+libjcip-annotations-java-doc/oldstable,oldstable 20060626-5 all
+  Java Concurrency In Practice annotations library documentation
+
+libjcsp-java/oldstable,oldstable 1.1-rc4-2 all
+  Java library providing Communicating Sequential Processes (CSP) features
+
+libjcsp-java-doc/oldstable,oldstable 1.1-rc4-2 all
+  Documentation for libjcsp-java
+
+libjemalloc-dev/oldstable 5.1.0-3 amd64
+  development files and documentation for jemalloc
+
+libjemalloc2/oldstable 5.1.0-3 amd64
+  general-purpose scalable concurrent malloc(3) implementation
+
+libjetty9-extra-java/oldstable,oldstable,oldstable,oldstable 9.4.16-0+deb10u1 all
+  Java servlet engine and webserver -- extra libraries
+
+libjthread-dbg/oldstable 1.3.1-3+b2 amd64
+  JThread cross-platform threading library debugging symbols
+
+libjthread-dev/oldstable 1.3.1-3+b2 amd64
+  JThread cross-platform library headers
+
+libjthread-doc/oldstable,oldstable 1.3.1-3 all
+  JThread cross-platform threading library documentation
+
+libjthread1.3.1/oldstable 1.3.1-3+b2 amd64
+  JThread cross-platform threading library
+
+libkf5threadweaver-dev/oldstable 5.54.0-1 amd64
+  ThreadWeaver library to help multithreaded programming in Qt
+
+libkf5threadweaver-doc/oldstable,oldstable 5.54.0-1 all
+  ThreadWeaver library to help multithreaded programming in Qt
+
+libkf5threadweaver5/oldstable 5.54.0-1 amd64
+  ThreadWeaver library to help multithreaded programming in Qt
+
+libknopflerfish-osgi-framework-java/oldstable,oldstable 6.1.1-3 all
+  Java framework implementing the OSGi R6 version
+
+libleveldb1d/oldstable 1.20-2.1 amd64
+  fast key-value storage library
+
+liblinux-pid-perl/oldstable 0.04-1+b6 amd64
+  wrapper around the getpid() and getppid() C functions
+
+liblockdep-dev/oldstable 4.19.208-1 amd64
+  Runtime locking correctness validator (development files)
+
+liblockdep4.19/oldstable 4.19.208-1 amd64
+  Runtime locking correctness validator (shared library)
+
+liblog4cplus-1.1-9/oldstable 1.1.2-3.2 amd64
+  C++ logging API modeled after the Java log4j API - shared library
+
+liblog4cplus-dbg/oldstable 1.1.2-3.2 amd64
+  C++ logging API modeled after the Java log4j API - debug library
+
+liblog4cplus-dev/oldstable 1.1.2-3.2 amd64
+  C++ logging API modeled after the Java log4j API - development library
+
+liblog4j2-java/oldstable,oldstable 2.17.0-1~deb10u1 all
+  Apache Log4j - Logging Framework for Java
+
+liblog4shib-dev/oldstable 2.0.0-2 amd64
+  log4j-style configurable logging library for C++ (development)
+
+liblog4shib-doc/oldstable,oldstable 2.0.0-2 all
+  log4j-style configurable logging library for C++ (API docs)
+
+liblog4shib2/oldstable 2.0.0-2 amd64
+  log4j-style configurable logging library for C++ (runtime)
+
+liblttng-ctl-dev/oldstable 2.10.6-1 amd64
+  LTTng control and utility library (development files)
+
+liblttng-ctl0/oldstable 2.10.6-1 amd64
+  LTTng control and utility library
+
+liblwt-glib-ocaml/oldstable 2.7.1-4+b1 amd64
+  cooperative GLib bindings for OCaml (runtime)
+
+liblwt-glib-ocaml-dev/oldstable 2.7.1-4+b1 amd64
+  cooperative GLib bindings for OCaml
+
+liblwt-ocaml/oldstable 2.7.1-4+b1 amd64
+  cooperative light-weight thread library for OCaml (runtime)
+
+liblwt-ocaml-dev/oldstable 2.7.1-4+b1 amd64
+  cooperative light-weight thread library for OCaml
+
+liblwt-ocaml-doc/oldstable,oldstable 2.7.1-4 all
+  cooperative light-weight thread library (documentation)
+
+liblwt-ssl-ocaml/oldstable 2.7.1-4+b1 amd64
+  cooperative OpenSSL bindings for OCaml (runtime)
+
+liblwt-ssl-ocaml-dev/oldstable 2.7.1-4+b1 amd64
+  cooperative OpenSSL bindings for OCaml
+
+libmail-thread-perl/oldstable,oldstable 2.55-2 all
+  library for threading email by In-Reply-To and References
+
+libmapnik-dev/oldstable 3.0.22+ds-1 amd64
+  C++ toolkit for developing GIS applications (devel)
+
+libmapnik3.0/oldstable 3.0.22+ds-1 amd64
+  C++ toolkit for developing GIS applications (libraries)
+
+libmariadb-dev/oldstable 1:10.3.31-0+deb10u1 amd64
+  MariaDB database development files
+
+libmariadb-dev-compat/oldstable 1:10.3.31-0+deb10u1 amd64
+  MariaDB Connector/C, compatibility symlinks
+
+libmariadb3/oldstable,now 1:10.3.31-0+deb10u1 amd64 [installed,automatic]
+  MariaDB database client library
+
+libmariadbclient-dev/oldstable 1:10.3.31-0+deb10u1 amd64
+  MariaDB database development files (transitional package)
+
+libmariadbd-dev/oldstable 1:10.3.31-0+deb10u1 amd64
+  MariaDB embedded database, development files
+
+libmariadbd19/oldstable 1:10.3.31-0+deb10u1 amd64
+  MariaDB embedded database, shared library
+
+libmbedcrypto3/oldstable 2.16.0-1 amd64
+  lightweight crypto and SSL/TLS library - crypto library
+
+libmbedtls-dev/oldstable 2.16.0-1 amd64
+  lightweight crypto and SSL/TLS library - development files
+
+libmbedtls-doc/oldstable,oldstable 2.16.0-1 all
+  lightweight crypto and SSL/TLS library - documentation
+
+libmbedtls12/oldstable 2.16.0-1 amd64
+  lightweight crypto and SSL/TLS library - tls library
+
+libmbedx509-0/oldstable 2.16.0-1 amd64
+  lightweight crypto and SSL/TLS library - x509 certificate library
+
+libmemcached-dbg/oldstable 1.0.18-4.2 amd64
+  Debug Symbols for libmemcached
+
+libmemcached-dev/oldstable 1.0.18-4.2 amd64
+  C and C++ client library to the memcached server (development files)
+
+libmemcached-libmemcached-perl/oldstable 1.001801+dfsg-2+b4 amd64
+  thin, fast, full interface to the libmemcached client API
+
+libmemcached-tools/oldstable 1.0.18-4.2 amd64
+  Commandline tools for talking to memcached via libmemcached
+
+libmemcached11/oldstable 1.0.18-4.2 amd64
+  C and C++ client library to the memcached server
+
+libmemcachedutil2/oldstable 1.0.18-4.2 amd64
+  library implementing connection pooling for libmemcached
+
+libmicrohttpd-dev/oldstable 0.9.62-1 amd64
+  library embedding HTTP server functionality (development)
+
+libmicrohttpd12/oldstable 0.9.62-1 amd64
+  library embedding HTTP server functionality
+
+libmina-java/oldstable,oldstable 1.1.7.dfsg-13 all
+  Java network application framework
+
+libmina-java-doc/oldstable,oldstable 1.1.7.dfsg-13 all
+  Java network application framework - documentation
+
+libmina2-java/oldstable,oldstable 2.0.19-2 all
+  Java network application framework
+
+libmina2-java-doc/oldstable,oldstable 2.0.19-2 all
+  Java network application framework - documentation
+
+libmkl-avx/oldstable 2019.2.187-1 amd64
+  Intel® MKL: Kernel library for Intel® AVX enabled processors
+
+libmkl-avx2/oldstable 2019.2.187-1 amd64
+  Intel® MKL: Kernel library for Intel® AVX2 enabled processors
+
+libmkl-avx512/oldstable 2019.2.187-1 amd64
+  Intel® MKL: Kernel library for Intel® AVX-512 enabled processors
+
+libmkl-avx512-mic/oldstable 2019.2.187-1 amd64
+  Intel® MKL : Kernel library for Intel® AVX-512 Xeon Phi processors
+
+libmkl-blacs-intelmpi-ilp64/oldstable 2019.2.187-1 amd64
+  Intel® MKL : ILP64 BLACS routines for Intel® MPI and MPICH2+
+
+libmkl-blacs-intelmpi-lp64/oldstable 2019.2.187-1 amd64
+  Intel® MKL : LP64 BLACS routines for Intel® MPI and MPICH2+
+
+libmkl-blacs-openmpi-ilp64/oldstable 2019.2.187-1 amd64
+  Intel® MKL : ILP64 version of BLACS routines for Open MPI
+
+libmkl-blacs-openmpi-lp64/oldstable 2019.2.187-1 amd64
+  Intel® MKL : LP64 version of BLACS routines for Open MPI
+
+libmkl-blacs-sgimpt-ilp64/oldstable 2019.2.187-1 amd64
+  Intel® MKL : ILP64 version of BLACS routines for SGI MPT
+
+libmkl-blacs-sgimpt-lp64/oldstable 2019.2.187-1 amd64
+  Intel® MKL : LP64 version of BLACS routines for SGI MPI Toolkit
+
+libmkl-cdft-core/oldstable 2019.2.187-1 amd64
+  Intel® MKL : Cluster version of FFT functions
+
+libmkl-cluster-dev/oldstable 2019.2.187-1 amd64
+  Static libs of intel-MKL: Cluster
+
+libmkl-computational-dev/oldstable 2019.2.187-1 amd64
+  Static libs of intel-MKL: Computational Layer
+
+libmkl-core/oldstable 2019.2.187-1 amd64
+  Intel® MKL: Library dispatcher of Computational Layer
+
+libmkl-def/oldstable 2019.2.187-1 amd64
+  Intel® MKL: Default kernel library
+
+libmkl-dev/oldstable 2019.2.187-1 amd64
+  Intel® Math Kernel Library (Intel® MKL) (Dev)
+
+libmkl-full-dev/oldstable 2019.2.187-1 amd64
+  Intel® Math Kernel Library (Intel® MKL) (Full Version Dev)
+
+libmkl-gf/oldstable 2019.2.187-1 i386
+  Intel® MKL: (ia32) Interface library for the GNU Fortran compiler
+
+libmkl-gf-ilp64/oldstable 2019.2.187-1 amd64
+  Intel® MKL: ILP64 interface library for the GNU Fortran compilers
+
+libmkl-gf-lp64/oldstable 2019.2.187-1 amd64
+  Intel® MKL: LP64 interface library for the GNU Fortran compilers
+
+libmkl-gnu-thread/oldstable 2019.2.187-1 amd64
+  Intel® MKL: OpenMP threading library for GNU Fortran/C compilers
+
+libmkl-intel/oldstable 2019.2.187-1 i386
+  Intel® MKL: (ia32) Interface library for the Intel compilers
+
+libmkl-intel-ilp64/oldstable 2019.2.187-1 amd64
+  Intel® MKL: ILP64 interface library for the Intel compilers
+
+libmkl-intel-lp64/oldstable 2019.2.187-1 amd64
+  Intel® MKL: LP64 interface library for the Intel compilers
+
+libmkl-intel-thread/oldstable 2019.2.187-1 amd64
+  Intel® MKL: OpenMP threading library for the Intel compilers
+
+libmkl-interface-dev/oldstable 2019.2.187-1 amd64
+  Static libs of intel-MKL: Interface Layer
+
+libmkl-locale/oldstable 2019.2.187-1 amd64
+  Intel MKL: Locale Files Used by All Shared Objects
+
+libmkl-mc/oldstable 2019.2.187-1 amd64
+  Intel® MKL: Kernel library for Intel® SSSE3 enabled processors
+
+libmkl-mc3/oldstable 2019.2.187-1 amd64
+  Intel® MKL: Kernel library for Intel® SSE4.2 enabled processors
+
+libmkl-meta-cluster/oldstable 2019.2.187-1 amd64
+  Metapackage for Intel-MKL: Shared Object for Cluster
+
+libmkl-meta-computational/oldstable 2019.2.187-1 amd64
+  Metapackage of intel-MKL: Shared Objects for Computaional Layer
+
+libmkl-meta-interface/oldstable 2019.2.187-1 amd64
+  Metapackage of intel-MKL: Shared Objects of Interface Layer
+
+libmkl-meta-threading/oldstable 2019.2.187-1 amd64
+  Metapackage of intel-MKL: Shared Objects of Threading Layer
+
+libmkl-p4/oldstable 2019.2.187-1 i386
+  Intel® MKL : Pentium 4 processor kernel library
+
+libmkl-p4m/oldstable 2019.2.187-1 i386
+  Intel® MKL : Kernel library for Intel SSSE3 enabled processors
+
+libmkl-p4m3/oldstable 2019.2.187-1 i386
+  Intel® MKL : Kernel library for Intel SSE4.2 enabled processors
+
+libmkl-pgi-thread/oldstable 2019.2.187-1 amd64
+  Intel® MKL: OpenMP threading library for the PGI compiler
+
+libmkl-rt/oldstable 2019.2.187-1 amd64
+  Intel® MKL: Single Dynamic Library (SDL)
+
+libmkl-scalapack-ilp64/oldstable 2019.2.187-1 amd64
+  Intel® MKL : ScaLAPACK routine library supporting ILP64 interface
+
+libmkl-scalapack-lp64/oldstable 2019.2.187-1 amd64
+  Intel® MKL : ScaLAPACK routine library supporting LP64 interface
+
+libmkl-sequential/oldstable 2019.2.187-1 amd64
+  Intel® MKL: Sequential library
+
+libmkl-tbb-thread/oldstable 2019.2.187-1 amd64
+  Intel® MKL: Intel TBB threading library for the Intel compilers
+
+libmkl-threading-dev/oldstable 2019.2.187-1 amd64
+  Static libs of intel-MKL: Threading Layer
+
+libmkl-vml-avx/oldstable 2019.2.187-1 amd64
+  Intel® MKL : VM/VS/DF optimized for Intel® AVX enabled processors
+
+libmkl-vml-avx2/oldstable 2019.2.187-1 amd64
+  Intel® MKL : VM/VS/DF optimized for Intel® AVX2 enabled processors
+
+libmkl-vml-avx512/oldstable 2019.2.187-1 amd64
+  Intel® MKL : VM/VS/DF optimized for AVX-512 on Xeon® processors
+
+libmkl-vml-avx512-mic/oldstable 2019.2.187-1 amd64
+  Intel® MKL : VM/VS/DF optimized for AVX-512 on Xeon Phi™ processors
+
+libmkl-vml-cmpt/oldstable 2019.2.187-1 amd64
+  Intel® MKL : VM/VS/DF for conditional numerical reproducibility
+
+libmkl-vml-def/oldstable 2019.2.187-1 amd64
+  Intel® MKL : VM/VS/DF part of default kernels
+
+libmkl-vml-ia/oldstable 2019.2.187-1 i386
+  Intel® MKL : VM/VS/DF default kernel for newer Intel architecture
+
+libmkl-vml-mc/oldstable 2019.2.187-1 amd64
+  Intel® MKL : VM/VS/DF for Intel® SSSE3 enabled processors
+
+libmkl-vml-mc2/oldstable 2019.2.187-1 amd64
+  Intel® MKL : VM/VS/DF for 45nm Hi-k Core2 and Xeon processor
+
+libmkl-vml-mc3/oldstable 2019.2.187-1 amd64
+  Intel® MKL : VM/VS/DF for Intel® SSE4.2 enabled processors
+
+libmkl-vml-p4/oldstable 2019.2.187-1 i386
+  Intel® MKL : VM/VS/DF part of Pentium 4 processor kernel
+
+libmkl-vml-p4m/oldstable 2019.2.187-1 i386
+  Intel® MKL : VM/VS/DF for Intel® SSSE3 enabled processors
+
+libmkl-vml-p4m2/oldstable 2019.2.187-1 i386
+  Intel® MKL : VM/VS/DF for 45nm Hi-k Core2 and Intel Xeon® processor
+
+libmkl-vml-p4m3/oldstable 2019.2.187-1 i386
+  Intel® MKL : VM/VS/DF for Intel® SSE4.2 enabled processors
+
+libmkldnn-dev/oldstable 0.17.4-1 amd64
+  Intel Math Kernel Library for Deep Neural Networks (dev)
+
+libmkldnn-doc/oldstable,oldstable 0.17.4-1 all
+  Math Kernel Library for Deep Neural Networks (doc)
+
+libmkldnn0/oldstable 0.17.4-1 amd64
+  Intel Math Kernel Library for Deep Neural Networks (lib)
+
+libmono-parallel4.0-cil/oldstable,oldstable 5.18.0.240+dfsg-3 all
+  Mono.Parallel library (for CLI 4.0)
+
+libmono-profiler-gui-thread-check/oldstable 2.99.3-3 amd64
+  Mono profiler library to debug GUI threading issues
+
+libmono-system-reactive-windows-threading2.2-cil/oldstable,oldstable 5.18.0.240+dfsg-3 all
+  Mono System.Reactive.Windows.Threading Library (for CLI 4.5)
+
+libmono-system-threading-tasks-dataflow4.0-cil/oldstable,oldstable 5.18.0.240+dfsg-3 all
+  Mono System.Threading.Tasks.Dataflow library (for CLI 4.0)
+
+libmono-tasklets4.0-cil/oldstable,oldstable 5.18.0.240+dfsg-3 all
+  Mono Tasklets library (for CLI 4.0)
+
+libmuroard3/oldstable 0.1.14-6 amd64
+  minimalist RoarAudio sound daemon (library package)
+
+libnabrit3/oldstable 0.5.1-2 amd64
+  LV2 bridging helper library
+
+libnaga-java/oldstable,oldstable 3.0+svn80-2 all
+  Simplified Java NIO asynchronous sockets
+
+libneon27/oldstable 0.30.2-3 amd64
+  HTTP and WebDAV client library
+
+libneon27-gnutls/oldstable,now 0.30.2-3 amd64 [installed,automatic]
+  HTTP and WebDAV client library (GnuTLS enabled)
+
+libnet-daemon-perl/oldstable,oldstable 0.48-1.1 all
+  Perl module for building portable Perl daemons easily
+
+libnet-server-coro-perl/oldstable,oldstable 1.3-2 all
+  co-operative multithreaded server using Coro
+
+libnet-z3950-simpleserver-perl/oldstable 1.21-1 amd64
+  simple perl API for building Z39.50 servers
+
+libnews-scan-perl/oldstable,oldstable 0.53-4 all
+  Perl module to report Usenet newsgroup stats
+
+libnginx-mod-http-lua/oldstable,oldstable 1.14.2-2+deb10u4 amd64
+  Lua module for Nginx
+
+libnotmuch-dev/oldstable 0.28.4-1 amd64
+  thread-based email index, search and tagging (development)
+
+libnotmuch5/oldstable 0.28.4-1 amd64
+  thread-based email index, search and tagging (runtime)
+
+libnpth-mingw-w64-dev/oldstable,oldstable 1.6-1 all
+  replacement for GNU Pth using system threads (Windows dev)
+
+libnpth0/oldstable,now 1.6-1 amd64 [installed,automatic]
+  replacement for GNU Pth using system threads
+
+libnpth0-dev/oldstable 1.6-1 amd64
+  headers for libnpth0
+
+libnspr4/oldstable,now 2:4.20-1 amd64 [installed,automatic]
+  NetScape Portable Runtime Library
+
+libnspr4-dev/oldstable 2:4.20-1 amd64
+  Development files for the NetScape Portable Runtime library
+
+libntirpc-dev/oldstable 1.7.1-1 amd64
+  new transport-independent RPC library - development files
+
+libntirpc1.7/oldstable 1.7.1-1 amd64
+  new transport-independent RPC library
+
+libobject-forkaware-perl/oldstable,oldstable 0.005-1 all
+  module to make an object aware of process forks and threads
+
+liboggplay1/oldstable 0.2.1~git20091227-5 amd64
+  Library for playing OGG multimedia
+
+liboggplay1-dev/oldstable 0.2.1~git20091227-5 amd64
+  Library for playing OGG multimedia (development files)
+
+libomnithread4/oldstable 4.2.2-0.9+b1 amd64
+  C++ threading library
+
+libomnithread4-dbg/oldstable 4.2.2-0.9+b1 amd64
+  C++ threading library debugging symbols
+
+libomnithread4-dev/oldstable 4.2.2-0.9+b1 amd64
+  C++ threading library development files
+
+libomp-7-dev/oldstable 1:7.0.1-8+deb10u2 amd64
+  LLVM OpenMP runtime - dev package
+
+libomp-7-doc/oldstable,oldstable 1:7.0.1-8+deb10u2 all
+  LLVM OpenMP runtime - Documentation
+
+libomp-dev/oldstable 1:7.0-47 amd64
+  LLVM OpenMP runtime - dev package
+
+libomp5/oldstable 1:7.0-47 amd64
+  LLVM OpenMP runtime
+
+libomp5-7/oldstable 1:7.0.1-8+deb10u2 amd64
+  LLVM OpenMP runtime
+
+libopenhft-affinity-java/oldstable,oldstable 2.2-2 all
+  OpenHFT Java Thread Affinity library
+
+libopenhft-chronicle-threads-java/oldstable,oldstable 1.1.6-2 all
+  OpenHFT thread pool library
+
+libopenhft-lang-java/oldstable,oldstable 6.7.6-2 all
+  High Performance Java library for High Frequency Trading
+
+libopenthreads-dev/oldstable 3.2.3+dfsg1-3 amd64
+  Object-Oriented (OO) thread interface for C++, development files
+
+libopenthreads20/oldstable 3.2.3+dfsg1-3 amd64
+  Object-Oriented (OO) thread interface for C++, shared libs
+
+libopenusb-dev/oldstable 1.1.11-2 amd64
+  alternative userspace USB programming library
+
+libopenusb-doc/oldstable,oldstable 1.1.11-2 all
+  alternative userspace USB programming library
+
+libopenusb0/oldstable 1.1.11-2 amd64
+  alternative userspace USB programming library
+
+libosip2-dev/oldstable 4.1.0-2.1 amd64
+  development files for the SIP library
+
+libotbopenthreadsadapters-6.6-1/oldstable 6.6.1+dfsg-1+b1 amd64
+  ORFEO Toolbox library - OTBOpenThreadsAdapters
+
+libp8-platform-dev/oldstable 2.1.0.1+dfsg1-2 amd64
+  Pulse-Eight's platform support library -- development files
+
+libp8-platform2/oldstable 2.1.0.1+dfsg1-2 amd64
+  Pulse-Eight's platform support library
+
+libparse-yapp-perl/oldstable,oldstable 1.21-2 all
+  Perl module for creating fully reentrant LALR parser OO Perl modules
+
+libpcl1/oldstable 1.12-1 amd64
+  Portable Coroutine Library (PCL)
+
+libpcl1-dev/oldstable 1.12-1 amd64
+  Portable Coroutine Library (PCL), development files
+
+libpcre-ocaml/oldstable 7.2.3-2+b1 amd64
+  OCaml bindings for PCRE (runtime)
+
+libpcre-ocaml-dev/oldstable 7.2.3-2+b1 amd64
+  OCaml bindings for PCRE (Perl Compatible Regular Expression)
+
+libperformance-dev/oldstable 0.5.0-1+b2 amd64
+  GNUstep performance library (development files)
+
+libperformance0.5/oldstable 0.5.0-1+b2 amd64
+  GNUstep performance library (runtime library)
+
+libperformance0.5-dbg/oldstable 0.5.0-1+b2 amd64
+  GNUstep performance library (debugging symbols)
+
+libperlbal-perl/oldstable,oldstable 1.80-3 all
+  Perlbal libraries; embed perlbal into another app
+
+libpoe-component-pool-thread-perl/oldstable,oldstable 0.015-2 all
+  POE Managed Boss/Worker thread pool
+
+libpoe-perl/oldstable,oldstable 2:1.3670-2 all
+  event-driven component architecture for Perl
+
+libposix-atfork-perl/oldstable 0.02-1+b7 amd64
+  hook registrations at fork(2)
+
+libpqtypes-dev/oldstable 1.5.1-5 amd64
+  parameterized queries libpq extension - development
+
+libpqtypes0/oldstable 1.5.1-5 amd64
+  parameterized queries libpq extension - shared library
+
+libproc-fastspawn-perl/oldstable 1.2-1+b1 amd64
+  module to fork+exec, or spawn, a subprocess as quickly as possible
+
+libprocess-cpp-dev/oldstable 3.0.1-5+b1 amd64
+  C++11 library for handling processes (dev headers and libraries)
+
+libprocess-cpp-doc/oldstable,oldstable 3.0.1-5 all
+  C++11 library for handling processes (documentation)
+
+libprocess-cpp3/oldstable 3.0.1-5+b1 amd64
+  C++11 library for handling processes (runtime libraries)
+
+libpth-dev/oldstable 2.0.7-20+b2 amd64
+  GNU Portable Threads (development)
+
+libpth20/oldstable 2.0.7-20+b2 amd64
+  GNU Portable Threads
+
+libpthread-stubs0-dev/oldstable,now 0.4-1 amd64 [installed]
+  pthread stubs not provided by native libc, development files
+
+librandom-numbers-dev/oldstable 0.3.2-1+b1 amd64
+  Robot OS random numbers library - development files
+
+librandom-numbers0d/oldstable 0.3.2-1+b1 amd64
+  Robot OS random numbers library
+
+libre2-5/oldstable 20190101+dfsg-2 amd64
+  efficient, principled regular expression library
+
+libre2-dev/oldstable 20190101+dfsg-2 amd64
+  efficient, principled regular expression library, development kit
+
+librhash-dev/oldstable 1.3.8-1 amd64
+  header files and a static library for librhash
+
+librhash0/oldstable 1.3.8-1 amd64
+  shared library for hash functions computing
+
+librsb-dev/oldstable 1.2.0-rc7-6 amd64
+  recursive sparse blocks matrix computations library (development)
+
+librsb-doc/oldstable,oldstable 1.2.0-rc7-6 all
+  recursive sparse blocks matrix computations library (documentation)
+
+librsb0/oldstable 1.2.0-rc7-6 amd64
+  recursive sparse blocks matrix computations library
+
+librttopo-dev/oldstable 1.0.0-1 amd64
+  Tuscany Region topology library - Development files
+
+librttopo1/oldstable 1.0.0-1 amd64
+  Tuscany Region topology library
+
+librust-futures-cpupool+with-deprecated-dev/oldstable 0.1.8-1 amd64
+  Thread pools implementation which hand out futures - feature "with-deprecated"
+
+librust-futures-cpupool-dev/oldstable 0.1.8-1 amd64
+  Thread pools implementation which hand out futures - Rust source code
+
+librust-git2+curl-dev/oldstable 0.7.5-1 amd64
+  Bindings to libgit2 for interoperating with git repositories - feature "curl"
+
+librust-git2+default-dev/oldstable 0.7.5-1 amd64
+  Bindings to libgit2 for interoperating with git repositories - feature "default"
+
+librust-git2+https-dev/oldstable 0.7.5-1 amd64
+  Bindings to libgit2 for interoperating with git repositories - feature "https"
+
+librust-git2+openssl-probe-dev/oldstable 0.7.5-1 amd64
+  Bindings to libgit2 for interoperating with git repositories - feature "openssl-probe"
+
+librust-git2+openssl-sys-dev/oldstable 0.7.5-1 amd64
+  Bindings to libgit2 for interoperating with git repositories - feature "openssl-sys"
+
+librust-git2+ssh-dev/oldstable 0.7.5-1 amd64
+  Bindings to libgit2 for interoperating with git repositories - feature "ssh"
+
+librust-git2+ssh-key-from-memory-dev/oldstable 0.7.5-1 amd64
+  Bindings to libgit2 for interoperating with git repositories - feature "ssh_key_from_memory"
+
+librust-git2-dev/oldstable 0.7.5-1 amd64
+  Bindings to libgit2 for interoperating with git repositories - Rust source code
+
+librust-scoped-threadpool-dev/oldstable 0.1.9-1 amd64
+  Scoped and cached threadpools - Rust source code
+
+librust-scoped-tls-dev/oldstable 0.1.2-1 amd64
+  Library implementation of the standard library's old `scoped_thread_local!` macro for providing scoped access to thread local storage (TLS) so any type can be stored into TLS - Rust source code
+
+librust-shared-child-dev/oldstable 0.3.3-1 amd64
+  Using child processes from multiple threads - Rust source code
+
+librust-thread-id-dev/oldstable 3.3.0-1 amd64
+  Get a unique thread ID - Rust source code
+
+librust-thread-local-dev/oldstable 0.3.6-1 amd64
+  Per-object thread-local storage - Rust source code
+
+librust-threadpool-dev/oldstable 1.7.1-1 amd64
+  Thread pool for running a number of jobs on a fixed set of worker threads - Rust source code
+
+librust-tokio-current-thread-dev/oldstable 0.1.4-1 amd64
+  Manage many tasks concurrently on the current thread - Rust source code
+
+librust-tokio-threadpool-dev/oldstable 0.1.7-1 amd64
+  Task scheduler backed by a work-stealing thread pool - Rust source code
+
+libsejda-eventstudio-java/oldstable,oldstable 1.0.6-2 all
+  pure Java event bus implementation
+
+libsendmail-milter-perl/oldstable 0.18-8+b5 amd64
+  Interface to Sendmail's Mail Filter API
+
+libsendmail-pmilter-perl/oldstable,oldstable 1.00-1 all
+  Perl implementation of the Sendmail Milter protocol
+
+libsfml-system2.5/oldstable 2.5.1+dfsg-1 amd64
+  Simple and Fast Multimedia Library - System part
+
+libsignal-mask-perl/oldstable,oldstable 0.008-1 all
+  module for easy handling of signal masks
+
+libsimple-http-java/oldstable,oldstable 4.1.21-1 all
+  high-performance, embeddable Java HTTP engine
+
+libsimple-http-java-doc/oldstable,oldstable 4.1.21-1 all
+  Documentation for libsimple-http-java
+
+libspdlog-dev/oldstable 1:1.3.1-1 amd64
+  Very fast, header only, C++ logging library
+
+libspin-java/oldstable,oldstable 1.5+dfsg-8 all
+  transparent threading solution for non-freezing Swing applications
+
+libspin-java-doc/oldstable,oldstable 1.5+dfsg-8 all
+  transparent threading solution for non-freezing Swing applications (docs)
+
+libspqr2/oldstable 1:5.4.0+dfsg-1 amd64
+  sparse QR factorization library
+
+libsqlclient-dev/oldstable 1.8.1-3+b1 amd64
+  SQL client library for GNUstep (development files)
+
+libsqlclient1.8/oldstable 1.8.1-3+b1 amd64
+  SQL client library for GNUstep (runtime library)
+
+libsqlexpr-ocaml/oldstable 0.5.5-3+b1 amd64
+  type-safe, convenient SQLite database access (runtime)
+
+libsqlexpr-ocaml-dev/oldstable 0.5.5-3+b1 amd64
+  type-safe, convenient SQLite database access (development)
+
+libst-dev/oldstable 1.9-3.1 amd64
+  State Threads Library - Development files
+
+libst1/oldstable 1.9-3.1 amd64
+  State Threads Library
+
+libsundials-nvecparallel-pthread3/oldstable 3.1.2+dfsg-3+b1 amd64
+  Pthread vector operations library (SUNDIALS library)
+
+libsys-mmap-perl/oldstable 0.19-1+b1 amd64
+  module for using POSIX mmap
+
+libtachyon-dev-common/oldstable,oldstable 0.99~b6+dsx-9 all
+  Parallel/Multiprocessor Ray Tracing Library - development - common material
+
+libtachyon-mpi-dev/oldstable 0.99~b6+dsx-9 amd64
+  Parallel/Multiprocessor Ray Tracing Library - development - default MPI flavour
+
+libtachyon-mpich-0/oldstable 0.99~b6+dsx-9 amd64
+  Parallel/Multiprocessor Ray Tracing Library - runtime - MPICH flavour
+
+libtachyon-mpich-0-dev/oldstable 0.99~b6+dsx-9 amd64
+  Parallel/Multiprocessor Ray Tracing Library - development - MPICH flavour
+
+libtachyon-mt-0/oldstable 0.99~b6+dsx-9 amd64
+  Parallel/Multiprocessor Ray Tracing Library - runtime - MT flavour
+
+libtachyon-mt-0-dev/oldstable 0.99~b6+dsx-9 amd64
+  Parallel/Multiprocessor Ray Tracing Library - development - MT flavour
+
+libtachyon-openmpi-0/oldstable 0.99~b6+dsx-9 amd64
+  Parallel/Multiprocessor Ray Tracing Library - runtime - OpenMPI flavour
+
+libtachyon-openmpi-0-dev/oldstable 0.99~b6+dsx-9 amd64
+  Parallel/Multiprocessor Ray Tracing Library - development - OpenMPI flavour
+
+libtachyon-serial-0/oldstable 0.99~b6+dsx-9 amd64
+  Parallel/Multiprocessor Ray Tracing Library - runtime - serial flavour
+
+libtachyon-serial-0-dev/oldstable 0.99~b6+dsx-9 amd64
+  Parallel/Multiprocessor Ray Tracing Library - development - serial flavour
+
+libtbb-dev/oldstable 2018~U6-4 amd64
+  parallelism library for C++ - development files
+
+libtbb-doc/oldstable,oldstable 2018~U6-4 all
+  parallelism library for C++ - documentation
+
+libtbb2/oldstable 2018~U6-4 amd64
+  parallelism library for C++ - runtime files
+
+libtcl8.6/oldstable,now 8.6.9+dfsg-2 amd64 [installed,automatic]
+  Tcl (the Tool Command Language) v8.6 - run-time library files
+
+libtcmalloc-minimal4/oldstable 2.7-1 amd64
+  efficient thread-caching malloc
+
+libtecla-dev/oldstable 1.6.3-2.1 amd64
+  interactive command line editing facilities (development)
+
+libtecla1/oldstable 1.6.3-2.1 amd64
+  interactive command line editing facilities
+
+libthread-conveyor-monitored-perl/oldstable,oldstable 0.14-1 all
+  module to monitor a conveyor belt for specific content
+
+libthread-conveyor-perl/oldstable,oldstable 0.19-1 all
+  thread-safe conveyor belt for any data-structure
+
+libthread-pool-dev/oldstable 1.0.0-2 amd64
+  C++ thread pool library (devel)
+
+libthread-pool-perl/oldstable,oldstable 0.33-2 all
+  group of threads for performing similar jobs
+
+libthread-pool-simple-perl/oldstable,oldstable 0.25-2 all
+  Perl implementation of a simple thread pool
+
+libthread-pool0/oldstable 1.0.0-2 amd64
+  C++ thread pool library
+
+libthread-queue-any-perl/oldstable,oldstable 1.14-2 all
+  module implementing thread-safe queues for any data-structure
+
+libthread-serialize-perl/oldstable,oldstable 1.01-1 all
+  module to serialize data-structures between threads
+
+libthread-sigmask-perl/oldstable 0.004-2+b5 amd64
+  module for thread specific signal masks
+
+libthread-tie-perl/oldstable,oldstable 0.13-1 all
+  alternative separate thread implementation of shared variables
+
+libthreadweaver4/oldstable 4:4.14.38-3 amd64
+  ThreadWeaver Library for the KDE Platform
+
+libtntnet-dev/oldstable 2.2.1-3+b1 amd64
+  Tntnet library development headers
+
+libtntnet12v5/oldstable 2.2.1-3+b1 amd64
+  Tntnet libraries
+
+libtrilinos-kokkos-dev/oldstable 12.12.1-7 amd64
+  Trilinos Kokkos programming model - development files
+
+libtrilinos-kokkos-kernels-dev/oldstable 12.12.1-7 amd64
+  Kokkos local computational kernels - development files
+
+libtrilinos-kokkos-kernels12/oldstable 12.12.1-7 amd64
+  Kokkos local computational kernels - runtime files
+
+libtrilinos-kokkos12/oldstable 12.12.1-7 amd64
+  Trilinos Kokkos programming model - runtime files
+
+libtrilinos-shylu-dev/oldstable 12.12.1-7 amd64
+  solving sparse linear systems - development files
+
+libtrilinos-shylu12/oldstable 12.12.1-7 amd64
+  solving sparse linear systems - runtime files
+
+libtsan0/oldstable,now 8.3.0-6 amd64 [installed,automatic]
+  ThreadSanitizer -- a Valgrind-based detector of data races (runtime)
+
+libtsan0-amd64-cross/oldstable,oldstable 8.3.0-2cross1 all
+  ThreadSanitizer -- a Valgrind-based detector of data races (runtime)
+
+libtsan0-arm64-cross/oldstable,oldstable 8.3.0-2cross1 all
+  ThreadSanitizer -- a Valgrind-based detector of data races (runtime)
+
+libtsan0-dbg/oldstable 8.3.0-6 amd64
+  ThreadSanitizer -- a Valgrind-based detector of data races (debug symbols)
+
+libtsan0-ppc64-cross/oldstable,oldstable 8.3.0-2cross2 all
+  ThreadSanitizer -- a Valgrind-based detector of data races (runtime)
+
+libtsan0-ppc64el-cross/oldstable,oldstable 8.3.0-2cross1 all
+  ThreadSanitizer -- a Valgrind-based detector of data races (runtime)
+
+libucommon-dev/oldstable 7.0.0-16 amd64
+  lightweight C++ threading and sockets - development files
+
+libucommon8/oldstable 7.0.0-16 amd64
+  lightweight C++ threading and sockets - shared libraries
+
+libui-utilcpp-dev/oldstable 1.8.5-3+b1 amd64
+  UI C++ utility library (development)
+
+libui-utilcpp9v5/oldstable 1.8.5-3+b1 amd64
+  UI C++ utility library (run time)
+
+libunibilium4/oldstable 2.0.0-4 amd64
+  simple, self-contained terminfo library
+
+libuv1/oldstable,oldstable,now 1.24.1-1+deb10u1 amd64 [installed,automatic]
+  asynchronous event notification library - runtime library
+
+libuv1-dev/oldstable,oldstable,now 1.24.1-1+deb10u1 amd64 [installed,automatic]
+  asynchronous event notification library - development files
+
+libvisualvm-jni/oldstable 1.4.2-2 amd64
+  All-in-One Java Troubleshooting Tool (JNI libraries)
+
+libwandio1/oldstable 3.0.21-1+b2 amd64
+  multi-threaded file compression and decompression library
+
+libwandio1-dev/oldstable 3.0.21-1+b2 amd64
+  development headers for the libwandio library
+
+libwebsocketpp-dev/oldstable 0.8.1-1 amd64
+  C++/Boost Asio based websocket client/server library. Dev package
+
+libwebsocketpp-doc/oldstable,oldstable 0.8.1-1 all
+  C++/Boost Asio based websocket client/server library. Doc package
+
+libwibble-dev/oldstable 1.1-2 amd64
+  Library of various useful C++ code
+
+libwxbase3.0-0v5/oldstable,now 3.0.4+dfsg-8 amd64 [installed,automatic]
+  wxBase library (runtime) - non-GUI support classes of wxWidgets toolkit
+
+libwxbase3.0-dev/oldstable 3.0.4+dfsg-8 amd64
+  wxBase library (development) - non-GUI support classes of wxWidgets toolkit
+
+libx32itm1/oldstable 8.3.0-6 amd64
+  GNU Transactional Memory Library (x32)
+
+libx32itm1-amd64-cross/oldstable,oldstable 8.3.0-2cross1 all
+  GNU Transactional Memory Library (x32)
+
+libx32itm1-dbg/oldstable 8.3.0-6 amd64
+  GNU Transactional Memory Library (x32 debug symbols)
+
+libx32itm1-i386-cross/oldstable,oldstable 8.3.0-2cross1 all
+  GNU Transactional Memory Library (x32)
+
+libxcb-composite0/oldstable 1.13.1-2 amd64
+  X C Binding, composite extension
+
+libxcb-composite0-dev/oldstable 1.13.1-2 amd64
+  X C Binding, composite extension, development files
+
+libxcb-damage0/oldstable 1.13.1-2 amd64
+  X C Binding, damage extension
+
+libxcb-damage0-dev/oldstable 1.13.1-2 amd64
+  X C Binding, damage extension, development files
+
+libxcb-doc/oldstable,oldstable 1.13.1-2 all
+  X C Binding, development documentation
+
+libxcb-dpms0/oldstable 1.13.1-2 amd64
+  X C Binding, dpms extension
+
+libxcb-dpms0-dev/oldstable 1.13.1-2 amd64
+  X C Binding, dpms extension, development files
+
+libxcb-dri2-0/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, dri2 extension
+
+libxcb-dri2-0-dev/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, dri2 extension, development files
+
+libxcb-dri3-0/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, dri3 extension
+
+libxcb-dri3-dev/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, dri3 extension, development files
+
+libxcb-glx0/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, glx extension
+
+libxcb-glx0-dev/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, glx extension, development files
+
+libxcb-present-dev/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, present extension, development files
+
+libxcb-present0/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, present extension
+
+libxcb-randr0/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, randr extension
+
+libxcb-randr0-dev/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, randr extension, development files
+
+libxcb-record0/oldstable 1.13.1-2 amd64
+  X C Binding, record extension
+
+libxcb-record0-dev/oldstable 1.13.1-2 amd64
+  X C Binding, record extension, development files
+
+libxcb-render0/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, render extension
+
+libxcb-render0-dev/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, render extension, development files
+
+libxcb-res0/oldstable 1.13.1-2 amd64
+  X C Binding, res extension
+
+libxcb-res0-dev/oldstable 1.13.1-2 amd64
+  X C Binding, res extension, development files
+
+libxcb-screensaver0/oldstable 1.13.1-2 amd64
+  X C Binding, screensaver extension
+
+libxcb-screensaver0-dev/oldstable 1.13.1-2 amd64
+  X C Binding, screensaver extension, development files
+
+libxcb-shape0/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, shape extension
+
+libxcb-shape0-dev/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, shape extension, development files
+
+libxcb-shm0/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, shm extension
+
+libxcb-shm0-dev/oldstable 1.13.1-2 amd64
+  X C Binding, shm extension, development files
+
+libxcb-sync-dev/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, sync extension, development files
+
+libxcb-sync1/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, sync extension
+
+libxcb-xf86dri0/oldstable 1.13.1-2 amd64
+  X C Binding, xf86dri extension
+
+libxcb-xf86dri0-dev/oldstable 1.13.1-2 amd64
+  X C Binding, xf86dri extension, development files
+
+libxcb-xfixes0/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, xfixes extension
+
+libxcb-xfixes0-dev/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, xfixes extension, development files
+
+libxcb-xinerama0/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, xinerama extension
+
+libxcb-xinerama0-dev/oldstable 1.13.1-2 amd64
+  X C Binding, xinerama extension, development files
+
+libxcb-xinput-dev/oldstable 1.13.1-2 amd64
+  X C Binding, xinput extension, development files
+
+libxcb-xinput0/oldstable 1.13.1-2 amd64
+  X C Binding, xinput extension
+
+libxcb-xkb-dev/oldstable 1.13.1-2 amd64
+  X C Binding, XKEYBOARD extension, development files
+
+libxcb-xkb1/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, XKEYBOARD extension
+
+libxcb-xtest0/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, xtest extension
+
+libxcb-xtest0-dev/oldstable 1.13.1-2 amd64
+  X C Binding, xtest extension, development files
+
+libxcb-xv0/oldstable 1.13.1-2 amd64
+  X C Binding, xv extension
+
+libxcb-xv0-dev/oldstable 1.13.1-2 amd64
+  X C Binding, xv extension, development files
+
+libxcb-xvmc0/oldstable 1.13.1-2 amd64
+  X C Binding, xvmc extension
+
+libxcb-xvmc0-dev/oldstable 1.13.1-2 amd64
+  X C Binding, xvmc extension, development files
+
+libxcb1/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding
+
+libxcb1-dev/oldstable,now 1.13.1-2 amd64 [installed,automatic]
+  X C Binding, development files
+
+libxdffileio-dev/oldstable 0.3-2.1 amd64
+  Library to read/write EEG data file formats (development files)
+
+libxdffileio0/oldstable 0.3-2.1 amd64
+  Library to read/write EEG data file formats
+
+libxmlrpcpp-dev/oldstable 1.14.3+ds1-5+deb10u2 amd64
+  development files for Robot OS libxmlrpcpp
+
+libxmlrpcpp2d/oldstable 1.14.3+ds1-5+deb10u2 amd64
+  Robot OS version of xml-rpc protocol library
+
+libxstr-ocaml-dev/oldstable 0.2.1-22+b1 amd64
+  OCaml library for frequent string operations
+
+libxz-java/oldstable,oldstable 1.8-2 all
+  Java library with a complete implementation of XZ data compression
+
+libxz-java-doc/oldstable,oldstable 1.8-2 all
+  Documentation for libxz-java
+
+libyder-dev/oldstable 1.4.4-4 amd64
+  logging library written in C - development
+
+libyder2.0/oldstable 1.4.4-4 amd64
+  logging library written in C
+
+libzc-dev/oldstable 0.4.1-1 amd64
+  fast password cracking library for zip archives (dev)
+
+libzc4/oldstable 0.4.1-1 amd64
+  fast password cracking library for zip archives
+
+libzdb-dev/oldstable 3.1-0.2+b1 amd64
+  Zild Database Library [devel]
+
+libzdb11/oldstable 3.1-0.2+b1 amd64
+  Zild Database Library [runtime]
+
+libzen-dev/oldstable 0.4.37-1 amd64
+  ZenLib C++ utility library -- development files
+
+libzen-doc/oldstable,oldstable 0.4.37-1 all
+  ZenLib C++ utility library -- documentation
+
+libzen0v5/oldstable 0.4.37-1 amd64
+  ZenLib C++ utility library -- runtime
+
+libzookeeper-mt-dev/oldstable 3.4.13-2 amd64
+  Development files for multi threaded zookeeper C bindings
+
+libzookeeper-mt2/oldstable 3.4.13-2 amd64
+  Multi threaded C bindings for zookeeper
+
+libzookeeper-st-dev/oldstable 3.4.13-2 amd64
+  Development files for single threaded zookeeper C bindings
+
+libzookeeper-st2/oldstable 3.4.13-2 amd64
+  Single threaded C bindings for zookeeper
+
+libzthread-2.3-2/oldstable 2.3.2-8 amd64
+  Object-oriented synchronization library for C++
+
+libzthread-dev/oldstable 2.3.2-8 amd64
+  Object-oriented synchronization library for C++
+
+likwid/oldstable 4.3.3+dfsg1-1 amd64
+  toolsuite for performance oriented programmers
+
+linkchecker/oldstable 9.4.0-2 amd64
+  check websites and HTML documents for broken links
+
+linkchecker-web/oldstable,oldstable 9.4.0-2 all
+  check websites and HTML documents for broken links (web client)
+
+lockdep/oldstable,oldstable 4.19.208-1 all
+  Runtime locking correctness validator
+
+lttng-modules-dkms/oldstable,oldstable 2.10.8-1+deb10u1 all
+  Linux Trace Toolkit (LTTng) kernel modules (DKMS)
+
+lttng-tools/oldstable 2.10.6-1 amd64
+  LTTng control and utility programs
+
+lttv/oldstable 1.5-3+b1 amd64
+  Linux Trace Toolkit Viewer
+
+lurker/oldstable 2.3-6 amd64
+  archive tool for mailing lists with search engine
+
+mapnik-doc/oldstable,oldstable 3.0.22+ds-1 all
+  C++ toolkit for developing GIS applications (doc)
+
+mapnik-utils/oldstable 3.0.22+ds-1 amd64
+  C++ toolkit for developing GIS applications (utilities)
+
+mariadb-client-10.3/oldstable,now 1:10.3.31-0+deb10u1 amd64 [installed,automatic]
+  MariaDB database client binaries
+
+mariadb-client-core-10.3/oldstable,now 1:10.3.31-0+deb10u1 amd64 [installed,automatic]
+  MariaDB database core client binaries
+
+mariadb-common/oldstable,oldstable,now 1:10.3.31-0+deb10u1 all [installed,automatic]
+  MariaDB common metapackage
+
+mariadb-server/oldstable,oldstable,now 1:10.3.31-0+deb10u1 all [installed]
+  MariaDB database server (metapackage depending on the latest version)
+
+mariadb-server-10.3/oldstable,now 1:10.3.31-0+deb10u1 amd64 [installed,automatic]
+  MariaDB database server binaries
+
+mariadb-server-core-10.3/oldstable,now 1:10.3.31-0+deb10u1 amd64 [installed,automatic]
+  MariaDB database core server files
+
+mariadb-test/oldstable 1:10.3.31-0+deb10u1 amd64
+  MariaDB database regression test suite
+
+mariadb-test-data/oldstable,oldstable 1:10.3.31-0+deb10u1 all
+  MariaDB database regression test suite - data files
+
+mblaze/oldstable 0.5.1-1 amd64
+  UNIX utilities to deal with Maildir
+
+medusa/oldstable 2.2-6 amd64
+  fast, parallel, modular, login brute-forcer for network services
+
+mew/oldstable,oldstable 1:6.8-4+deb10u1 all
+  mail reader supporting PGP/MIME for Emacs
+
+mew-beta/oldstable,oldstable 7.0.50~6.8+0.20190228-1+deb10u1 all
+  mail reader supporting PGP/MIME for Emacs (development version)
+
+mh-e/oldstable,oldstable 8.5-2.1 all
+  Emacs interface to the MH mail system
+
+mhonarc/oldstable,oldstable 2.6.19-2 all
+  Mail to HTML converter
+
+mikutter/oldstable,oldstable 3.8.6+dfsg-1 all
+  plugin-extensible Twitter client
+
+mktorrent/oldstable 1.1-1 amd64
+  simple command line utility to create BitTorrent metainfo files
+
+mptp/oldstable 0.2.4-1 amd64
+  single-locus species delimitation
+
+mueval/oldstable 0.9.3-4+b1 amd64
+  Safely evaluate pure Haskell expressions - executables
+
+multicat/oldstable 2.3-1 amd64
+  Set of tools for multicast and transport stream manipulation
+
+muroard-dev/oldstable 0.1.14-6 amd64
+  minimalist RoarAudio sound daemon (development files)
+
+muse/oldstable 3.0.2+ds1-1 amd64
+  Qt-based audio/MIDI sequencer
+
+mutrace/oldstable 0.2.0-3 amd64
+  mutex and realtime memory allocation profiling tools
+
+mutt/oldstable,oldstable 1.10.1-2.1+deb10u5 amd64
+  text-based mailreader supporting MIME, GPG, PGP and threading
+
+mydumper/oldstable 0.9.5-1+deb10u1 amd64
+  High-performance MySQL backup tool
+
+mydumper-doc/oldstable,oldstable 0.9.5-1+deb10u1 all
+  High-performance MySQL backup tool - documentation
+
+mysql-common/oldstable,oldstable,now 5.8+1.0.5 all [installed,automatic]
+  MySQL database common files, e.g. /etc/mysql/my.cnf
+
+mysqltuner/oldstable,oldstable 1.7.13-1 all
+  high-performance MySQL tuning script
+
+nbdkit/oldstable 1.10.3-1 amd64
+  toolkit for creating NBD servers
+
+neomutt/oldstable 20180716+dfsg.1-1+deb10u2 amd64
+  command line mail reader based on Mutt, with added features
+
+netsniff-ng/oldstable 0.6.5-1 amd64
+  Linux network packet sniffer toolkit
+
+nginx-extras/oldstable,oldstable 1.14.2-2+deb10u4 amd64
+  nginx web/proxy server (extended version)
+
+nginx-full/oldstable,oldstable 1.14.2-2+deb10u4 amd64
+  nginx web/proxy server (standard version)
+
+nginx-light/oldstable,oldstable 1.14.2-2+deb10u4 amd64
+  nginx web/proxy server (basic version)
+
+node-yazl/oldstable,oldstable 2.0.2-1 all
+  yet another zip library - Node.js module
+
+notmuch/oldstable 0.28.4-1 amd64
+  thread-based email index, search and tagging
+
+notmuch-emacs/oldstable,oldstable 0.28.4-1 all
+  thread-based email index, search and tagging (transitional package)
+
+notmuch-mutt/oldstable,oldstable 0.28.4-1 all
+  thread-based email index, search and tagging (Mutt interface)
+
+notmuch-vim/oldstable,oldstable 0.28.4-1 all
+  thread-based email index, search and tagging (vim interface)
+
+numatop/oldstable 2.1-2 amd64
+  NUMA runtime observation tool
+
+odin/oldstable 2.0.3-1 amd64
+  develop, simulate and run magnetic resonance sequences
+
+olsrd-plugins/oldstable 0.6.6.2-1 amd64
+  various plugins to enhance olsrd
+
+openmpi-bin/oldstable 3.1.3-11 amd64
+  high performance message passing library -- binaries
+
+paje.app/oldstable 1.98-1+b7 amd64
+  generic visualization tool (Gantt chart and more)
+
+parafly/oldstable 0.0.2013.01.21-4 amd64
+  parallel command processing using OpenMP
+
+pbzip2/oldstable 1.1.9-1+b1 amd64
+  parallel bzip2 implementation
+
+pd-iemnet/oldstable 0.2.1-2 amd64
+  Pd library for low-level networking (IEM implementation)
+
+pd-mrpeach-net/oldstable 0.1~svn17647-3 amd64
+  Pd library for low-level networking
+
+pd-py/oldstable 0.2.2+git20170625.1.88fc77a-2 amd64
+  Python scripting objects for Pure Data
+
+pdsh/oldstable 2.31-3+b1 amd64
+  Efficient rsh-like utility, for using hosts in parallel
+
+pepper/oldstable 0.3.3-3 amd64
+  Source code repository statistics and report tool
+
+perl-stacktrace/oldstable 0.09-3+b1 amd64
+  Create stack traces of a running perl processes
+
+perlbal/oldstable,oldstable 1.80-3 all
+  Perl-based reverse proxy load balancer and web server
+
+pixz/oldstable 1.0.6-2+b1 amd64
+  parallel, indexing XZ compressor/decompressor
+
+plzip/oldstable 1.8-3 amd64
+  parallel, lossless data compressor based on the LZMA algorithm
+
+pnscan/oldstable 1.12+git20180612-1 amd64
+  Multi threaded port scanner
+
+postgresql-11-pllua/oldstable 1:2.0.1-1 amd64
+  Lua procedural language for PostgreSQL 11
+
+prelude-manager/oldstable 4.1.1-2 amd64
+  Security Information and Events Management System [ Manager ]
+
+pstack/oldstable 1.3.1-1+b1 amd64
+  Display stack trace of a running process
+
+pth-dbg/oldstable 2.0.7-20+b2 amd64
+  GNU Portable Threads (debug)
+
+puma/oldstable 3.12.0-2+deb10u2 amd64
+  threaded HTTP 1.1 server for Ruby/Rack applications
+
+pycassa-doc/oldstable,oldstable 1.11.2.1-1 all
+  Documentation for the Pycassa library
+
+pyftpd/oldstable,oldstable 0.8.5+nmu1 all
+  ftp daemon with advanced features
+
+pyotherside-doc/oldstable,oldstable 1.5.3-1 all
+  asynchronous Python 3 Bindings for Qt 5 (documentation)
+
+pyotherside-tests/oldstable 1.5.3-1 amd64
+  Asynchronous Python 3 Bindings for Qt 5 (tests)
+
+pypy/oldstable 7.0.0+dfsg-3 amd64
+  fast alternative implementation of Python - PyPy interpreter
+
+pypy-argon2/oldstable 18.3.0-1 amd64
+  Argon2 password hashing library - PyPy Module
+
+pypy3/oldstable 7.0.0+dfsg-3 amd64
+  fast alternative implementation of Python 3.x - PyPy interpreter
+
+pyro/oldstable,oldstable 1:3.16-3 all
+  distributed object system for Python
+
+pyro4/oldstable,oldstable 4.75-1 all
+  distributed object middleware for Python (RPC)
+
+python-amqplib/oldstable,oldstable 1.0.2-1 all
+  simple non-threaded Python AMQP client library
+
+python-amqplib-doc/oldstable,oldstable 1.0.2-1 all
+  simple non-threaded Python AMQP client library (Documentation)
+
+python-argon2/oldstable 18.3.0-1 amd64
+  Argon2 password hashing library - Python 2.x Module
+
+python-argon2-doc/oldstable,oldstable 18.3.0-1 all
+  Argon2 password hashing library - Python Module Documentation
+
+python-cachecontrol/oldstable,oldstable 0.11.7-1 all
+  caching algorithms in httplib2 for use with requests
+
+python-click-threading/oldstable,oldstable 0.4.4-1 all
+  Utilities for multithreading in click - Python 2.7
+
+python-darts.lib.utils.lru/oldstable,oldstable 0.5-4 all
+  Simple dictionary with LRU behaviour in Python2
+
+python-darts.lib.utils.lru-doc/oldstable,oldstable 0.5-4 all
+  Simple dictionary with LRU behaviour in Python (common documentation)
+
+python-dogpile.cache/oldstable,oldstable 0.6.2-6 all
+  caching front-end based on the Dogpile lock - Python 2.x
+
+python-dogpile.cache-doc/oldstable,oldstable 0.6.2-6 all
+  caching front-end based on the Dogpile lock - doc
+
+python-elasticsearch/oldstable,oldstable 5.4.0-1 all
+  Python client for Elasticsearch
+
+python-elasticsearch-doc/oldstable,oldstable 5.4.0-1 all
+  Python client for Elasticsearch (Documentation)
+
+python-eventlet/oldstable,oldstable 0.20.0-6 all
+  concurrent networking library - Python 2.x
+
+python-eventlet-doc/oldstable,oldstable 0.20.0-6 all
+  concurrent networking library - doc
+
+python-fibranet/oldstable,oldstable 10-3.1 all
+  cooperative threading and event driven framework
+
+python-filelock/oldstable,oldstable 3.0.10-1 all
+  platform independent file locking module (Python 2)
+
+python-freecontact/oldstable 1.1-4 amd64
+  fast protein contact predictor - binding for Python
+
+python-futurist/oldstable,oldstable 1.6.0-2 all
+  useful additions to futures, from the future - Python 2.x
+
+python-futurist-doc/oldstable,oldstable 1.6.0-2 all
+  useful additions to futures, from the future - doc
+
+python-greenlet/oldstable 0.4.15-2 amd64
+  Lightweight in-process concurrent programming
+
+python-greenlet-dbg/oldstable 0.4.15-2 amd64
+  Lightweight in-process concurrent programming - debugging symbols
+
+python-greenlet-dev/oldstable 0.4.15-2 amd64
+  Lightweight in-process concurrent programming - development files
+
+python-greenlet-doc/oldstable,oldstable 0.4.15-2 all
+  Lightweight in-process concurrent programming - documentation
+
+python-imaplib2/oldstable,oldstable 2.57-5 all
+  Threaded Python IMAP4 client
+
+python-jpy/oldstable 0.9.0-2 amd64
+  Bi-directional Python-Java bridge
+
+python-kazoo/oldstable,oldstable 2.5.0-1 all
+  higher level API to Apache Zookeeper (Python 2)
+
+python-lupa/oldstable 1.6+dfsg-3 amd64
+  Python wrapper around LuaJIT (Python2 version)
+
+python-mapnik/oldstable 1:0.0~20180723-588fc9062-2 amd64
+  Python 2 interface to the mapnik library
+
+python-myghty/oldstable,oldstable 1.1-6 all
+  Python based templating framework originally based on HTML::Mason
+
+python-myghtyutils/oldstable,oldstable 0.52-5 all
+  Set of utility classes used by Myghty templating
+
+python-oslo.service/oldstable,oldstable 1.31.8-1 all
+  library for running OpenStack services - Python 2.x
+
+python-oslo.service-doc/oldstable,oldstable 1.31.8-1 all
+  library for running OpenStack services - doc
+
+python-ovsdbapp/oldstable,oldstable 0.12.2-1 all
+  library for creating OVSDB applications - Python 2.7
+
+python-ovsdbapp-doc/oldstable,oldstable 0.12.2-1 all
+  library for creating OVSDB applications - doc
+
+python-pprofile/oldstable,oldstable 2.0.2-1 all
+  Line-granularity, deterministic and statistic Python profiler
+
+python-psycopg2/oldstable 2.7.7-1 amd64
+  Python module for PostgreSQL
+
+python-psycopg2-doc/oldstable,oldstable 2.7.7-1 all
+  Python module for PostgreSQL (documentation package)
+
+python-pthreading/oldstable,oldstable 0.1.4-2 all
+  Reimplementation of Python locking objects with libpthread
+
+python-pycassa/oldstable,oldstable 1.11.2.1-1 all
+  Client library for Apache Cassandra
+
+python-pykdtree/oldstable 1.3.1-2 amd64
+  Fast kd-tree implementation with OpenMP-enabled queries (Python 2 version)
+
+python-pykka/oldstable,oldstable 1.2.1-4 all
+  Actor model library (Python 2)
+
+python-pylibmc/oldstable 1.5.2-1+b1 amd64
+  libmemcached wrapper
+
+python-pylibmc-doc/oldstable,oldstable 1.5.2-1 all
+  libmemcached wrapper (Documentation)
+
+python-pytest-httpbin/oldstable,oldstable 0.3.0-4 all
+  py.test plugin providing a local httpbin
+
+python-pytest-timeout/oldstable,oldstable 1.3.3-1 all
+  Pytest plugin to abort hanging tests - Python 2.X
+
+python-slixmpp-doc/oldstable,oldstable 1.4.2-1 all
+  Threadless, event-based XMPP Python library (documentation)
+
+python-subprocess32/oldstable 3.5.3-1 amd64
+  backport of the Py3 stdlib subprocess module for Py2
+
+python-toro/oldstable,oldstable 1.0.1-3 all
+  Synchronization primitives for Tornado coroutines
+
+python-urllib3/oldstable,oldstable 1.24.1-1 all
+  HTTP library with thread-safe connection pooling for Python
+
+python-wsgi-intercept/oldstable,oldstable 1.5.0-2 all
+  installs a WSGI application in place of a real URI for testing
+
+python-xcbgen/oldstable,oldstable 1.13-1 all
+  X C Binding - protocol binding generator
+
+python2-pyro4/oldstable,oldstable 4.75-1 all
+  distributed object middleware for Python (RPC), Python2 modules
+
+python3-amqplib/oldstable,oldstable 1.0.2-1 all
+  simple non-threaded Python AMQP client library (Python3 version)
+
+python3-arcus/oldstable 3.3.0-2 amd64
+  message queue for Cura based on protobuf (Python bindings)
+
+python3-argon2/oldstable 18.3.0-1 amd64
+  Argon2 password hashing library - Python 3.x Module
+
+python3-cachecontrol/oldstable,oldstable 0.11.7-1 all
+  caching algorithms in httplib2 for use with requests
+
+python3-click-threading/oldstable,oldstable 0.4.4-1 all
+  Utilities for multithreading in click - Python 3.x
+
+python3-darts.lib.utils.lru/oldstable,oldstable 0.5-4 all
+  Simple dictionary with LRU behaviour in Python3
+
+python3-django-rest-hooks/oldstable,oldstable 1.5.0-1 all
+  Add webhook subscriptions to Django apps (Python3 version)
+
+python3-dogpile.cache/oldstable,oldstable 0.6.2-6 all
+  caching front-end based on the Dogpile lock - Python 3.x
+
+python3-elasticsearch/oldstable,oldstable 5.4.0-1 all
+  Python client for Elasticsearch (Python3 version)
+
+python3-engineio/oldstable,oldstable 3.0.0+dfsg-1 all
+  python3 implementation of the Engine.IO realtime server
+
+python3-eventlet/oldstable,oldstable 0.20.0-6 all
+  concurrent networking library - Python 3.x
+
+python3-filelock/oldstable,oldstable 3.0.10-1 all
+  platform independent file locking module (Python 3)
+
+python3-freecontact/oldstable 1.1-4 amd64
+  fast protein contact predictor - binding for Python3
+
+python3-futurist/oldstable,oldstable 1.6.0-2 all
+  useful additions to futures, from the future - Python 3.x
+
+python3-greenlet/oldstable 0.4.15-2 amd64
+  Lightweight in-process concurrent programming (python3)
+
+python3-greenlet-dbg/oldstable 0.4.15-2 amd64
+  Lightweight in-process concurrent programming - debugging symbols (python3)
+
+python3-h11/oldstable,oldstable 0.8.1-1 all
+  Pure-Python, bring-your-own-I/O implementation of HTTP/1.1 (Python 3)
+
+python3-imaplib2/oldstable,oldstable 2.57-5 all
+  Threaded Python IMAP4 client (Python 3)
+
+python3-jpy/oldstable 0.9.0-2 amd64
+  Bi-directional Python-Java bridge (Python3)
+
+python3-kazoo/oldstable,oldstable 2.5.0-1 all
+  higher level API to Apache Zookeeper (Python 3)
+
+python3-lttng/oldstable 2.10.6-1 amd64
+  LTTng control and utility Python bindings
+
+python3-lttnganalyses/oldstable,oldstable 0.6.1-2 all
+  LTTng 2.0 trace analysis tools (Python 3)
+
+python3-lupa/oldstable 1.6+dfsg-3 amd64
+  Python wrapper around LuaJIT or Lua (Python3 version)
+
+python3-mapnik/oldstable 1:0.0~20180723-588fc9062-2 amd64
+  Python 3 interface to the mapnik library
+
+python3-oslo.service/oldstable,oldstable 1.31.8-1 all
+  library for running OpenStack services - Python 3.x
+
+python3-ovsdbapp/oldstable,oldstable 0.12.2-1 all
+  library for creating OVSDB applications - Python 3.x
+
+python3-persist-queue/oldstable,oldstable 0.4.0-1 all
+  thread-safe disk based persistent queue
+
+python3-pprofile/oldstable,oldstable 2.0.2-1 all
+  Line-granularity, deterministic and statistic Python 3 profiler
+
+python3-psycopg2/oldstable 2.7.7-1 amd64
+  Python 3 module for PostgreSQL
+
+python3-pykdtree/oldstable 1.3.1-2 amd64
+  Fast kd-tree implementation with OpenMP-enabled queries (Python 3 version)
+
+python3-pykka/oldstable,oldstable 1.2.1-4 all
+  Actor model library (Python 3)
+
+python3-pylibmc/oldstable 1.5.2-1+b1 amd64
+  libmemcached wrapper (Python3 version)
+
+python3-pyro4/oldstable,oldstable 4.75-1 all
+  distributed object middleware for Python (RPC), Python3 modules
+
+python3-pytest-httpbin/oldstable,oldstable 0.3.0-4 all
+  py.test plugin providing a local httpbin (Python 3)
+
+python3-pytest-timeout/oldstable,oldstable 1.3.3-1 all
+  Pytest plugin to abort hanging tests - Python 3.X
+
+python3-slixmpp/oldstable,oldstable 1.4.2-1 all
+  Threadless, event-based XMPP Python 3 library
+
+python3-slixmpp-lib/oldstable 1.4.2-1 amd64
+  Threadless, event-based XMPP Python 3 library (optional binary module)
+
+python3-sshtunnel/oldstable,oldstable 0.1.4-2 all
+  SSH tunnels to remote server
+
+python3-tesserocr/oldstable 2.4.0-4 amd64
+  Python wrapper for the tesseract-ocr API (Python3 version)
+
+python3-toro/oldstable,oldstable 1.0.1-3 all
+  Synchronization primitives for Tornado coroutines (python3)
+
+python3-urllib3/oldstable,oldstable,now 1.24.1-1 all [installed,automatic]
+  HTTP library with thread-safe connection pooling for Python3
+
+python3-wsgi-intercept/oldstable,oldstable 1.5.0-2 all
+  installs a WSGI application in place of a real URI for testing (python3)
+
+qml-module-io-thp-pyotherside/oldstable 1.5.3-1 amd64
+  asynchronous Python 3 Bindings for Qt 5 (QML plugin)
+
+quagga/oldstable 1.2.4-3 amd64
+  network routing daemons (metapackage)
+
+quagga-core/oldstable 1.2.4-3 amd64
+  network routing daemons (core abstraction layer)
+
+r-cran-rcppprogress/oldstable,oldstable 0.4.1-1 all
+  interruptible progress bar for C++ in GNU R packages
+
+rebuildd/oldstable,oldstable 0.4.2 all
+  build daemon aiming at rebuilding Debian packages
+
+recoll/oldstable,oldstable 1.24.3-3 all
+  Personal full text search package
+
+rng-tools/oldstable 2-unofficial-mt.14-1+b2 amd64
+  Daemon to use a Hardware TRNG
+
+rng-tools-debian/oldstable 2-unofficial-mt.14-3 amd64
+  daemon to use a Hardware TRNG (classic version)
+
+rsem/oldstable 1.3.1+dfsg-1 amd64
+  RNA-Seq by Expectation-Maximization
+
+rsyslog/oldstable,now 8.1901.0-1 amd64 [installed]
+  reliable system and kernel logging daemon
+
+rt-app/oldstable 0.3-2 amd64
+  Test application which simulates a real-time periodic load
+
+rtirq-init/oldstable,oldstable 20150216-2 all
+  startup script for realtime-preempt enabled kernels
+
+rtkit/oldstable,now 0.11-6 amd64 [installed,automatic]
+  Realtime Policy and Watchdog Daemon
+
+ruby-barrier/oldstable,oldstable 1.0.2-1 all
+  Ruby threads synchronization using a barrier method
+
+ruby-batch-loader/oldstable,oldstable 1.2.2-1 all
+  Powerful tool to avoid N+1 DB or HTTP queries
+
+ruby-blockenspiel/oldstable,oldstable 0.5.0-3 all
+  Comprehensive implementation of Ruby DSL blocks
+
+ruby-celluloid/oldstable,oldstable 0.16.0-5 all
+  actor-based concurrent object framework for ruby
+
+ruby-celluloid-io/oldstable,oldstable 0.16.2-5 all
+  Ruby library providing an event-driven IO system for Celluloid actors
+
+ruby-concurrent/oldstable,oldstable 1.0.5-3 all
+  modern concurrency tools for Ruby
+
+ruby-concurrent-ext/oldstable 1.0.5-1+b2 amd64
+  C extensions to optimize concurrent-ruby under MRI
+
+ruby-cookiejar/oldstable,oldstable 0.3.3-1 all
+  client-side HTTP cookie library
+
+ruby-ddmetrics/oldstable,oldstable 1.0.1-1 all
+  Non-timeseries measurements for Ruby programs
+
+ruby-delayer-deferred/oldstable,oldstable 2.0.0-3 all
+  Ruby implementation of JSDeferred
+
+ruby-em-redis/oldstable,oldstable 0.3.0+gh-2 all
+  eventmachine-based implementation of the Redis protocol
+
+ruby-em-synchrony/oldstable,oldstable 1.0.5-2 all
+  fiber aware EventMachine libraries
+
+ruby-eventmachine/oldstable 1.0.7-4.2 amd64
+  Ruby/EventMachine library
+
+ruby-fast-gettext/oldstable,oldstable 2.0.0-1 all
+  Fast GetText implementation for Ruby
+
+ruby-fast-stemmer/oldstable 1.0.2-1+b10 amd64
+  Fast Porter stemmer based on a C version of algorithm for Ruby
+
+ruby-hamster/oldstable,oldstable 3.0.0-2 all
+  Efficient, immutable, thread-safe collection classes for Ruby
+
+ruby-innertube/oldstable,oldstable 1.1.0-4 all
+  thread-safe re-entrant resource pool
+
+ruby-kyotocabinet/oldstable 1.32-2+b5 amd64
+  Straightforward implementation of DBM - Ruby bindings
+
+ruby-log4r/oldstable,oldstable 1.1.10-4 all
+  Logging library for Ruby
+
+ruby-metriks/oldstable,oldstable 0.9.9.6-1 all
+  experimental threadsafe, low-impact measurement library for Ruby
+
+ruby-nio4r/oldstable 2.3.1-1 amd64
+  Ruby library providing a selector API for monitoring IO objects
+
+ruby-parallel/oldstable,oldstable 1.12.1-2 all
+  library to run any kind of code in parallel processes
+
+ruby-peach/oldstable,oldstable 0.5.1-3 all
+  parallel execution of each and map in Ruby
+
+ruby-re2/oldstable 1.1.1-2+b3 amd64
+  Ruby bindings to re2
+
+ruby-redis/oldstable,oldstable 3.3.5-1 all
+  Ruby client library for Redis
+
+ruby-request-store/oldstable,oldstable 1.3.0-1 all
+  per-request global variable storage for Rack-based web servers
+
+ruby-sequel/oldstable,oldstable 5.15.0-1 all
+  Simple, flexible, and powerful SQL database access toolkit for Ruby
+
+ruby-sidekiq/oldstable,oldstable 5.2.3+dfsg-1 all
+  Simple, efficient background processing for Ruby
+
+ruby-sidekiq-cron/oldstable,oldstable 1.1.0-3 all
+  scheduling add-on for Sidekiq
+
+ruby-threach/oldstable,oldstable 0.2.0-2 all
+  Threaded each
+
+ruby-thread-order/oldstable,oldstable 1.1.0-1 all
+  test helper for ordering threaded code
+
+ruby-thread-safe/oldstable,oldstable 0.3.6-1 all
+  thread-safe collections and utilities for Ruby
+
+runlim/oldstable 1.10-5 amd64
+  tool for sampling time and memory usage
+
+sagan/oldstable 1.2.0-1 amd64
+  Real-time System & Event Log Monitoring System
+
+sagan-rules/oldstable,oldstable 1:20170725-1 all
+  Real-time System & Event Log Monitoring System [rules]
+
+scheme48/oldstable 1.9.2-1 amd64
+  simple, modular, and lightweight Scheme implementation
+
+scheme48-doc/oldstable,oldstable 1.9.2-1 all
+  Documentation for the Scheme48 implementation of Scheme
+
+scotch/oldstable 6.0.6-2 amd64
+  programs and libraries for graph, mesh and hypergraph partitioning
+
+slrn/oldstable 1.0.3+dfsg-3 amd64
+  threaded text-mode news reader
+
+smalt/oldstable 0.7.6-8 amd64
+  Sequence Mapping and Alignment Tool
+
+smalt-examples/oldstable,oldstable 0.7.6-8 all
+  Sequence Mapping and Alignment Tool (examples)
+
+spek/oldstable 0.8.2-4+b3 amd64
+  acoustic spectrum analyser
+
+spin/oldstable 6.4.9+dfsg-1 amd64
+  formal software verification tool
+
+stiff/oldstable 2.4.0-3 amd64
+  convert scientific FITS images to the TIFF format
+
+stockfish/oldstable 9-2 amd64
+  strong chess engine, to play chess against
+
+strongswan-charon/oldstable 5.7.2-1+deb10u1 amd64
+  strongSwan Internet Key Exchange daemon
+
+styx/oldstable 2.0.1-1+b1 amd64
+  combined parser/scanner generator for C/C++
+
+sucrack/oldstable 1.2.3-5 amd64
+  multithreaded su bruteforcer
+
+sunpinyin-utils/oldstable 3.0.0~rc1+ds1-2 amd64
+  Simplified Chinese Input Method from SUN (utilities)
+
+sup-mail/oldstable,oldstable 0.22.1-2 all
+  thread-centric mailer with tagging and fast search
+
+suricata/oldstable 1:4.1.2-2+deb10u1 amd64
+  Next Generation Intrusion Detection and Prevention Tool
+
+swarp/oldstable 2.38.0+dfsg-4 amd64
+  Resample and co-add together FITS images
+
+swi-prolog/oldstable 8.0.2+dfsg-3+deb10u1 amd64
+  ISO/Edinburgh-style Prolog interpreter
+
+swi-prolog-bdb/oldstable 8.0.2+dfsg-3+deb10u1 amd64
+  Berkeley DB interface for SWI-Prolog
+
+swi-prolog-java/oldstable 8.0.2+dfsg-3+deb10u1 amd64
+  Bidirectional interface between SWI-Prolog and Java
+
+swi-prolog-nox/oldstable 8.0.2+dfsg-3+deb10u1 amd64
+  ISO/Edinburgh-style Prolog interpreter (without X support)
+
+swi-prolog-odbc/oldstable 8.0.2+dfsg-3+deb10u1 amd64
+  ODBC library for SWI-Prolog
+
+swi-prolog-x/oldstable 8.0.2+dfsg-3+deb10u1 amd64
+  User interface library for SWI-Prolog (with X support)
+
+syncache/oldstable,oldstable 1.4-1 all
+  Thread-safe time-limited cache for Ruby
+
+tachyon/oldstable,oldstable 0.99~b6+dsx-9 all
+  Parallel/Multiprocessor Standalone Ray Tracer - metapackage
+
+tachyon-bin-nox/oldstable 0.99~b6+dsx-9 amd64
+  Parallel/Multiprocessor Standalone Ray Tracer - with no X support
+
+tachyon-bin-ogl/oldstable 0.99~b6+dsx-9 amd64
+  Parallel/Multiprocessor Standalone Ray Tracer - with OpenGL display
+
+tachyon-doc/oldstable,oldstable 0.99~b6+dsx-9 all
+  Parallel/Multiprocessor Ray Tracing System - reference manual
+
+tbb-examples/oldstable 2018~U6-4 amd64
+  parallelism library for C++ - example files
+
+tcl-thread/oldstable 1:2.8.4-1 amd64
+  Tcl extension implementing script level access to Tcl threading capabilities
+
+tcl8.6/oldstable,now 8.6.9+dfsg-2 amd64 [installed,automatic]
+  Tcl (the Tool Command Language) v8.6 - shell
+
+testng/oldstable,oldstable 6.9.12-4 all
+  testing framework for Java
+
+texlive-latex-extra/oldstable,oldstable,now 2018.20190227-2 all [installed]
+  TeX Live: LaTeX additional packages
+
+threadscope/oldstable 0.2.11.1-2 amd64
+  graphical thread profiler for Haskell programs
+
+tntnet/oldstable 2.2.1-3+b1 amd64
+  modular, multithreaded web application server for C++
+
+tntnet-demos/oldstable 2.2.1-3+b1 amd64
+  demo web applications for Tntnet
+
+tntnet-doc/oldstable,oldstable 2.2.1-3 all
+  documentation for Tntnet
+
+trinity/oldstable 1.8-6 amd64
+  system call fuzz tester
+
+trn4/oldstable 4.0-test77-12 amd64
+  Threaded USENET news reader, based on rn (4.0 beta test)
+
+tuna/oldstable 0.12-1 amd64
+  Application tuning GUI & command line utility
+
+uanytun/oldstable 0.3.7-1 amd64
+  tiny implementation of the secure anycast tunneling protocol
+
+ucommon-doc/oldstable,oldstable 7.0.0-16 all
+  lightweight C++ threading and sockets - documentation
+
+ucommon-utils/oldstable 7.0.0-16 amd64
+  lightweight C++ threading and sockets - utilities
+
+uftrace/oldstable 0.9.0-1 amd64
+  Traces and analyzes execution of programs written in C/C++
+
+unhide/oldstable 20130526-3+deb10u1 amd64
+  Forensic tool to find hidden processes and ports
+
+unscd/oldstable 0.53-1+b1 amd64
+  Micro Name Service Caching Daemon
+
+unworkable/oldstable 0.53-4+b2 amd64
+  efficient, simple and secure bittorrent client
+
+uuid-runtime/oldstable,now 2.33.1-0.1 amd64 [installed,automatic]
+  runtime components for the Universally Unique ID library
+
+uwsgi/oldstable 2.0.18-1 amd64
+  fast, self-healing application container server
+
+uwsgi-core/oldstable 2.0.18-1 amd64
+  fast, self-healing application container server (core)
+
+uwsgi-emperor/oldstable 2.0.18-1 amd64
+  fast, self-healing application container server (emperor scripts)
+
+uwsgi-plugin-rbthreads/oldstable 2.0.18-1 amd64
+  Ruby native threads plugin for uWSGI (ruby2.5)
+
+uwsgi-plugins-all/oldstable 2.0.18-1 amd64
+  all available plugins for uWSGI
+
+valgrind/oldstable 1:3.14.0-3 amd64
+  instrumentation framework for building dynamic analysis tools
+
+valgrind-dbg/oldstable 1:3.14.0-3 amd64
+  instrumentation framework for building dynamic analysis tools (debug)
+
+valgrind-mpi/oldstable 1:3.14.0-3 amd64
+  instrumentation framework for building dynamic analysis tools (MPI module)
+
+velvetoptimiser/oldstable,oldstable 2.2.6-2 all
+  automatically optimise Velvet do novo assembly parameters
+
+visualvm/oldstable,oldstable 1.4.2-2 all
+  All-in-One Java Troubleshooting Tool
+
+vsearch/oldstable 2.10.4-1 amd64
+  tool for processing metagenomic sequences
+
+vspline-dev/oldstable,oldstable 0.4.1-1 all
+  header-only C++ template library for uniform b-spline processing
+
+winpdb/oldstable,oldstable 1.4.8-3 all
+  Platform independent Python debugger
+
+wl/oldstable,oldstable 2.15.9+0.20161228-5 all
+  mail/news reader supporting IMAP for emacsen
+
+wl-beta/oldstable,oldstable 2.15.9+0.20190205-2 all
+  mail/news reader supporting IMAP for emacsen (development version)
+
+wmf/oldstable 1.0.5-7 amd64
+  Web Mail Folder
+
+xcb-proto/oldstable,oldstable 1.13-1 all
+  X C Binding - protocol descriptions
+
+xfslibs-dev/oldstable 4.20.0-1 amd64
+  XFS filesystem-specific static libraries and headers
+
+xfsprogs/oldstable 4.20.0-1 amd64
+  Utilities for managing the XFS filesystem
+
+xz-utils/oldstable,now 5.2.4-1 amd64 [installed,automatic]
+  XZ-format compression utilities
+
+yaws/oldstable,oldstable,oldstable,oldstable 2.0.6+dfsg-1+deb10u1 all
+  High performance HTTP 1.1 webserver written in Erlang
+
+yaws-doc/oldstable,oldstable,oldstable,oldstable 2.0.6+dfsg-1+deb10u1 all
+  Documentation and examples for Yaws webserver
+
+zsh-theme-powerlevel9k/oldstable,oldstable 0.6.6-1 all
+  powerlevel9k is a theme for zsh which uses powerline fonts
+

@@ -3,11 +3,16 @@
 #include "engine/array.h"
 #include "engine/wav-reader.h"
 
-#define MINIAUDIO_IMPLEMENTATION
-#include "miniaudio/miniaudio.h"
+#include "alsa/asoundlib.h"
 
+#include "pthread.h"
+#include "stdarg.h"
+#include "stddef.h"
+#include "string.h"
 #include "stdio.h"
-//#include "pthread.h"
+#include "time.h"
+#include "unistd.h"
+#include "math.h"
 
 typedef struct Sound{
 	EntityHeader entityHeader;
@@ -20,17 +25,10 @@ typedef struct Sound{
 }Sound;
 
 typedef struct SoundData{
-	float *data;
+	int16_t *data;
 	int framesLength;
 	char *name;
 }SoundData;
-
-ma_result result;
-ma_decoder_config decoderConfig;
-ma_device device;
-ma_device_config deviceConfig;
-
-//pthread_mutex_t soundMutex = PTHREAD_MUTEX_INITIALIZER;
 
 SoundData soundData[255];
 
@@ -40,60 +38,84 @@ Array sounds;
 
 float volumes[2];
 
-size_t startTicks = 0;
-size_t endTicks = 0;
-size_t deltaTime = 0;
+int device;
+int dir;
+snd_pcm_t *handle;
+snd_pcm_hw_params_t *params;
+snd_pcm_status_t *status;
 
-void data_callback(ma_device* device_p, void* output_p, const void* input_p, ma_uint32 frameCount){
+pthread_mutex_t soundMutex = PTHREAD_MUTEX_INITIALIZER;
 
-	startTicks = clock();
+int firstFramesLeft = 0;
+int framesLeft = 0;
 
-	//pthread_mutex_lock(&soundMutex);
+void *renderLoop(void *ptr){
 
-	float *outputF32_p = (float *)output_p;
-	MA_ASSERT(device_p->playback.format == SAMPLE_FORMAT);
+	while(true){
 
-	for(int i = 0; i < sounds.length; i++){
+		snd_pcm_status(handle, status);
 
-		Sound *sound_p = Array_getItemPointerByIndex(&sounds, i);
-		SoundData *soundData_p = &soundData[sound_p->soundDataIndex];
-		
-		if(sound_p->stopped){
-			continue;
+		framesLeft = snd_pcm_status_get_avail(status);
+
+		if(firstFramesLeft == 0){
+			firstFramesLeft = framesLeft;
 		}
 
-		sound_p->currentFrame += frameCount;
+		int framesToWrite = 4 * PERIOD_SIZE;
 
-		if(sound_p->currentFrame + frameCount > soundData_p->framesLength){
-			if(sound_p->loop){
-				sound_p->currentFrame = 0;
-			}else{
-				Array_removeItemByIndex(&sounds, i);
-				i--;
-				continue;
+		if(abs(firstFramesLeft - framesLeft) < framesToWrite){
+
+			pthread_mutex_lock(&soundMutex);
+
+			//mix sound frames
+			int16_t mixedFrames[framesToWrite * NUMBER_OF_CHANNELS];
+			memset(mixedFrames, 0, framesToWrite * NUMBER_OF_CHANNELS * sizeof(int16_t));
+
+			for(int i = 0; i < sounds.length; i++){
+
+				Sound *sound_p = Array_getItemPointerByIndex(&sounds, i);
+				SoundData *soundData_p = &soundData[sound_p->soundDataIndex];
+				
+				if(sound_p->stopped){
+					continue;
+				}
+
+				sound_p->currentFrame += framesToWrite;
+
+				if(sound_p->currentFrame + framesToWrite > soundData_p->framesLength - framesToWrite){
+					if(sound_p->loop){
+						sound_p->currentFrame = 0;
+					}else{
+						Array_removeItemByIndex(&sounds, i);
+						i--;
+						continue;
+					}
+				}
+
+				for(int j = 0; j < framesToWrite * NUMBER_OF_CHANNELS; j++){
+					mixedFrames[j] += (int16_t)((float)soundData_p->data[sound_p->currentFrame * NUMBER_OF_CHANNELS + j] * sound_p->volume * volumes[sound_p->type] * CONSTANT_VOLUME_FACTOR);
+				}
+			
 			}
+
+			pthread_mutex_unlock(&soundMutex);
+			
+			//write frames to sound card
+			snd_pcm_writei(handle, mixedFrames, framesToWrite);
+
 		}
 
-		for(int j = 0; j < frameCount * CHANNEL_COUNT; j++){
-			outputF32_p[j] += soundData_p->data[sound_p->currentFrame * CHANNEL_COUNT + j] * sound_p->volume * volumes[sound_p->type];
-		}
-	
+		int sleepTime = 1000000.0 * PERIOD_SIZE / (float)SAMPLE_RATE;
+
+		usleep(sleepTime);
+		
 	}
 
-	endTicks = clock();
-
-	deltaTime = (endTicks - startTicks) / (CLOCKS_PER_SEC / 1000000);
-
-	//printf("callback time: %i\n", deltaTime);
-	//printf("framcount: %i\n", frameCount);
-
-	//pthread_mutex_unlock(&soundMutex);
+	return NULL;
 
 }
 
 void Audio_init(char **soundFiles, int soundFilesLength){
-
-	//decoderConfig = ma_decoder_config_init(SAMPLE_FORMAT, CHANNEL_COUNT, SAMPLE_RATE);
 
 	for(int i = 0; i < soundFilesLength; i++){
 
@@ -105,29 +127,8 @@ void Audio_init(char **soundFiles, int soundFilesLength){
 
 		sprintf(path, "assets/audio/%s.wav", soundFiles[i]);
 
-		/*
-		ma_decoder decoder;
-
-		result = ma_decoder_init_file(path, &decoderConfig, &decoder);
-		if (result != MA_SUCCESS){
-			printf("Could not read file: %s\n", path);
-		}
-		
-		
-		soundData_p->framesLength = ma_decoder_get_length_in_pcm_frames(&decoder);
-		soundData_p->data = malloc(sizeof(float) * soundData_p->framesLength * CHANNEL_COUNT);
-
-		ma_decoder_seek_to_pcm_frame(&decoder, 0);
-
-		ma_decoder_read_pcm_frames(&decoder, soundData_p->data, soundData_p->framesLength * CHANNEL_COUNT);
-		*/
-
 		soundData_p->data = WavReader_getDataFromWavFile(path, &soundData_p->framesLength);
 
-		//for(int i = 0; i < soundData_p->framesLength; i++){
-			//printf("%f\n", soundData_p->data[i]);
-		//}
-		
 		printf("Loaded WAV file: %s\n", soundData_p->name);
 		
 	}
@@ -139,47 +140,44 @@ void Audio_init(char **soundFiles, int soundFilesLength){
 	volumes[AUDIO_SOUND_TYPE_SFX] = 1.0;
 	volumes[AUDIO_SOUND_TYPE_MUSIC] = 1.0;
 
-    deviceConfig = ma_device_config_init(ma_device_type_playback);
-    deviceConfig.playback.format   = SAMPLE_FORMAT;
-    deviceConfig.playback.channels = CHANNEL_COUNT;
-    deviceConfig.sampleRate        = SAMPLE_RATE;
-    deviceConfig.dataCallback      = data_callback;
+	device = snd_pcm_open(&handle, "default", SND_PCM_STREAM_PLAYBACK, 0);
 
-	//deviceConfig.periodSizeInMilliseconds = 200;
+	snd_pcm_hw_params_alloca(&params);
 
-    if (ma_device_init(NULL, &deviceConfig, &device) != MA_SUCCESS) {
-        printf("Failed to open playback device.\n");
-    }
+	snd_pcm_hw_params_any(handle, params);
 
-    if (ma_device_start(&device) != MA_SUCCESS) {
-        printf("Failed to start playback device.\n");
-    }
+	snd_pcm_hw_params_set_access(handle, params, SND_PCM_ACCESS_RW_INTERLEAVED);
+
+	snd_pcm_hw_params_set_format(handle, params, SND_PCM_FORMAT_S16_LE);
+
+	snd_pcm_hw_params_set_channels(handle, params, NUMBER_OF_CHANNELS);
+
+	snd_pcm_hw_params_set_rate_near(handle, params, &SAMPLE_RATE, &dir);
+
+	snd_pcm_hw_params_set_period_size_near(handle, params, (snd_pcm_uframes_t* )&PERIOD_SIZE, &dir);
+
+	snd_pcm_hw_params(handle, params);
+
+	snd_pcm_status_malloc(&status);
+
+	pthread_t thread;
+	pthread_create(&thread, NULL, renderLoop, NULL);
 
 }
 
 void Audio_setVolume(float volume, enum Audio_SoundTypeEnum soundType){
 
-	//pthread_mutex_lock(&soundMutex);
-
 	volumes[soundType] = volume;
-
-	//pthread_mutex_unlock(&soundMutex);
 
 }
 
 float Audio_getVolume(enum Audio_SoundTypeEnum soundType){
 
-	//pthread_mutex_lock(&soundMutex);
-
 	return volumes[soundType];
-
-	//pthread_mutex_unlock(&soundMutex);
 
 }
 
 size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_SoundTypeEnum soundType){
-
-	//pthread_mutex_lock(&soundMutex);
 
 	int soundDataIndex = -1;
 	for(int i = 0; i < soundDataLength; i++){
@@ -194,7 +192,11 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 		return -1;
 	}
 
+	pthread_mutex_lock(&soundMutex);
+
 	Sound *sound_p = Array_addItem(&sounds);
+
+	pthread_mutex_unlock(&soundMutex);
 
 	EntityHeader_init(&sound_p->entityHeader);
 
@@ -205,43 +207,29 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 	sound_p->type = soundType;
 	sound_p->stopped = false;
 
-	//pthread_mutex_unlock(&soundMutex);
-
 	return sound_p->entityHeader.ID;
 
 }
 
 void Audio_stopSoundByID(size_t ID){
 
-	//pthread_mutex_lock(&soundMutex);
-
 	Sound *sound_p = Array_getItemPointerByID(&sounds, ID);
 
 	sound_p->stopped = true;
-
-	//pthread_mutex_unlock(&soundMutex);
 
 }
 
 void Audio_resumeSoundByID(size_t ID){
 
-	//pthread_mutex_lock(&soundMutex);
-
 	Sound *sound_p = Array_getItemPointerByID(&sounds, ID);
 
 	sound_p->stopped = false;
-
-	//pthread_mutex_unlock(&soundMutex);
 
 }
 
 void Audio_killSoundByID(size_t ID){
 
-	//pthread_mutex_lock(&soundMutex);
-
 	Array_removeItemByID(&sounds, ID);
-
-	//pthread_mutex_unlock(&soundMutex);
 
 }
 

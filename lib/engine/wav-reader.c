@@ -13,8 +13,8 @@
 #define BITS_PER_SAMPLE_INDEX 34
 #define DATA_SIZE_INDEX 40
 
-#define DESIRED_SAMPLE_RATE 48000
-#define DESIRED_NUMBER_OF_CHANNELS 1
+#define DESIRED_SAMPLE_RATE 44100
+#define DESIRED_NUMBER_OF_CHANNELS 2
 
 //#define LOG_INFO_WAV_READER
 
@@ -31,7 +31,7 @@ void local_printf(const char *format, ...){
 
 }
 
-float *WavReader_getDataFromWavFile(char *path, int *numberOfPcmFrames_p){
+int16_t *WavReader_getDataFromWavFile(char *path, int *numberOfPcmFrames_p){
 
 	FILE *fileHandle = NULL;
 	
@@ -84,16 +84,33 @@ float *WavReader_getDataFromWavFile(char *path, int *numberOfPcmFrames_p){
 
 	local_printf("\nBEGAN PROCESSING DATA\n");
 
-	int16_t *audioData = malloc(sizeof(int16_t) * numberOfPcmFrames * numberOfChannels);
+	int16_t *rawAudioData = malloc(sizeof(int16_t) * numberOfPcmFrames * numberOfChannels);
+
+	memset(rawAudioData, 0, sizeof(int16_t) * numberOfPcmFrames * numberOfChannels);
 
 	fseek(fileHandle, 44, SEEK_SET);
 
-	fread(audioData, 1, dataSize, fileHandle);
+	fread(rawAudioData, 1, dataSize, fileHandle);
 
-	float resamplingFactor = (float)DESIRED_SAMPLE_RATE / (float)sampleRate;
+	//float resamplingFactor = (float)DESIRED_SAMPLE_RATE / (float)sampleRate;
 
-	int resampledNumberOfPcmFrames = (float)numberOfPcmFrames * resamplingFactor;
+	//int resampledNumberOfPcmFrames = (float)numberOfPcmFrames * resamplingFactor;
 
+	//resample data
+	int resampledNumberOfPcmFrames = numberOfPcmFrames;
+
+	int16_t *audioData = malloc(resampledNumberOfPcmFrames * sizeof(int16_t) * DESIRED_NUMBER_OF_CHANNELS);
+	memset(audioData, 0, resampledNumberOfPcmFrames * sizeof(int16_t) * DESIRED_NUMBER_OF_CHANNELS);
+
+	for(int i = 0; i < resampledNumberOfPcmFrames; i++){
+
+		for(int j = 0; j < DESIRED_NUMBER_OF_CHANNELS; j++){
+			audioData[i * DESIRED_NUMBER_OF_CHANNELS + j] = rawAudioData[i * numberOfChannels];
+		}
+	
+	}
+
+	/*
 	float *audioDataF32 = malloc(sizeof(float) * resampledNumberOfPcmFrames * DESIRED_NUMBER_OF_CHANNELS);
 
 	memset(audioDataF32, 0, sizeof(float) * resampledNumberOfPcmFrames * DESIRED_NUMBER_OF_CHANNELS);
@@ -104,41 +121,33 @@ float *WavReader_getDataFromWavFile(char *path, int *numberOfPcmFrames_p){
 
 	for(int i = 0; i < numberOfPcmFrames; i++){
 
-		int indexF32 = floor((float)i * resamplingFactor);
+		int index = floor((float)i * resamplingFactor);
 
-		/*
-		float averageValue = 0;
-
-		for(int j = 0; j < numberOfChannels; j++){
-			averageValue += ((float)audioData[i * numberOfChannels + j]) / (float)pow(2, bitsPerSample - 1);
-		}
-
-		averageValue /= numberOfChannels;
-
-		audioDataF32[indexF32] = averageValue;
-		*/
 		audioDataF32[indexF32] = ((float)audioData[i * numberOfChannels]) / (float)pow(2, bitsPerSample - 1);
 
 	}
 
-	/*
 	for(int i = 0; i < resampledNumberOfPcmFrames; i++){
-		if(audioDataF32[i] == 0
-		&& audioDataF32[i - 1] != 0
-		&& audioDataF32[i + 1] != 0){
-			audioDataF32[i] = (audioDataF32[(i - 1)] + audioDataF32[(i + 1)]) / 2;
+		if(audioData[i] == 0
+		&& audioData[i - 1] != 0
+		&& audioData[i + 1] != 0){
+			audioData[i] = (audioData[(i - 1)] + audioData[(i + 1)]) / 2;
 		}
 	}
 	*/
 
 	local_printf("\nFINNISHED PROCESSING DATA\n");
 
-	free(audioData);
+	//free(audioData);
 
 	fclose(fileHandle);
 
 	*numberOfPcmFrames_p = resampledNumberOfPcmFrames;
 
-	return audioDataF32;
+	free(rawAudioData);
+
+	return audioData;
+
+	//return audioDataF32;
 
 }
