@@ -68,7 +68,7 @@ HWND hwnd;
 //int windowHeight = 450;
 int clientWidth = 800;
 int clientHeight = 450;
-bool isFullscreen = false;
+bool Engine_isFullscreen = false;
 
 int Engine_elapsedFrames = 0;
 
@@ -670,33 +670,33 @@ void Engine_centerWindow(){
 void Engine_toggleFullscreen(){
 
 #ifdef _WIN32
-	if(!isFullscreen){
+	if(!Engine_isFullscreen){
 		SetWindowLongPtrA(hwnd, -16, WS_VISIBLE);
 
 		SetWindowPos(hwnd, NULL, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_SHOWWINDOW);
 
-		isFullscreen = true;
+		Engine_isFullscreen = true;
 	}else{
 		SetWindowLongPtrA(hwnd, -16, WS_OVERLAPPEDWINDOW);
 		Engine_setWindowSize(480 * 2, 270 * 2);
 
-		isFullscreen = false;
+		Engine_isFullscreen = false;
 	}
 #endif
 
 #ifdef __linux__
-	if(!isFullscreen){
+	if(!Engine_isFullscreen){
 
 		Engine_setWindowSize(DisplayWidth(dpy, screenNumber), DisplayHeight(dpy, screenNumber));
 		Engine_centerWindow();
 
-		isFullscreen = true;
+		Engine_isFullscreen = true;
 	}else{
 
 		Engine_setWindowSize(480 * 2, 270 * 2);
 		Engine_centerWindow();
 	
-		isFullscreen = false;
+		Engine_isFullscreen = false;
 	}
 #endif
 

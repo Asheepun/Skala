@@ -30,6 +30,8 @@ void Engine_start(){
 	//set up world and game
 	World_init(&world);
 
+	Settings_init(&world.settings);
+
 	for(int i = 0; i < 16; i++){
 		Action_init(&world.actions[i]);
 	}
@@ -197,7 +199,7 @@ void Engine_start(){
 	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_MUSIC);
 	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_SFX);
 
-	//Audio_setVolume(0.0, AUDIO_SOUND_TYPE_MUSIC);
+	Audio_setVolume(0.0, AUDIO_SOUND_TYPE_MUSIC);
 
 	//setup music
 	Array_init(&world.musicIDs, sizeof(size_t));
@@ -425,6 +427,8 @@ void Engine_update(float deltaTime){
 		world.actions[i].downedNoRepeat = false;
 		world.actions[i].upped = false;
 	}
+
+	World_Settings_updateWorld(&world, &world.settings);
 
 }
 

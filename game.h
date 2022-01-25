@@ -203,6 +203,12 @@ typedef struct Button{
 	enum MenuState menuState;
 }Button;
 
+typedef struct Settings{
+	float musicVolume;
+	float sfxVolume;
+	bool fullscreenOn;
+}Settings;
+
 typedef struct BodyPair{
 	EntityHeader entityHeader;
 
@@ -375,6 +381,8 @@ typedef struct World{
 	Key keys[255];
 
 	Action actions[16];
+
+	Settings settings;
 
 	SaveData saveData;
 	Array roomLevels[NUMBER_OF_LEVEL_HUB_ROOMS];
@@ -632,6 +640,8 @@ float BodyPair_getScaleFromBodyY(BodyPair *);
 Vec2f World_BodyPair_getScaleFromExponent(World *, BodyPair *);
 Vec2f World_BodyPair_getLastScaleFromExponent(World *, BodyPair *);
 
+void World_setButtonTextByID(World *, size_t, char *);
+
 //FILE: components.c
 
 void Body_init(Body *, Vec2f, Vec2f);
@@ -679,6 +689,10 @@ void World_initLevelHub(World *);
 void World_initMenu(World *);
 
 void World_menuState(World *);
+
+void Settings_init(Settings *);
+
+void World_Settings_updateWorld(World *, Settings *);
 
 //FILE saving.c
 

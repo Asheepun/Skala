@@ -112,7 +112,7 @@ extern Engine_Key ENGINE_KEYS[ENGINE_KEYS_LENGTH];
 
 extern int clientWidth;
 extern int clientHeight;
-extern bool isFullscreen;
+extern bool Engine_isFullscreen;
 
 extern int Engine_elapsedFrames;
 

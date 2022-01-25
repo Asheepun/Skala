@@ -1,4 +1,5 @@
 #include "engine/engine.h"
+#include "engine/audio.h"
 
 #include "game.h"
 #include "math.h"
@@ -12,6 +13,9 @@ int returnButtonID;
 int quitButtonID;
 
 int returnToMainButtonID;
+int fullscreenButtonID;
+int musicVolumeButtonID;
+int sfxVolumeButtonID;
 
 size_t menuBackgroundSpriteIndex;
 
@@ -82,6 +86,21 @@ void World_initMenu(World *world_p){
 		int buttonsLeftOffset = 100;
 		int buttonsTopOffset = 60;
 		int buttonsMargin = 30;
+
+		musicVolumeButtonID = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Music Volume: 100% <- +>", MENU_LAYER_TEXT, MENU_STATE_SETTINGS);
+		activeButtonIDs[MENU_STATE_SETTINGS][activeButtonIDsLength[MENU_STATE_SETTINGS]] = musicVolumeButtonID;
+		activeButtonIDsLength[MENU_STATE_SETTINGS]++;
+		buttonsTopOffset += buttonsMargin;
+
+		sfxVolumeButtonID = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Sfx Volume: 100% <- +>", MENU_LAYER_TEXT, MENU_STATE_SETTINGS);
+		activeButtonIDs[MENU_STATE_SETTINGS][activeButtonIDsLength[MENU_STATE_SETTINGS]] = sfxVolumeButtonID;
+		activeButtonIDsLength[MENU_STATE_SETTINGS]++;
+		buttonsTopOffset += buttonsMargin;
+
+		fullscreenButtonID = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Fullscreen", MENU_LAYER_TEXT, MENU_STATE_SETTINGS);
+		activeButtonIDs[MENU_STATE_SETTINGS][activeButtonIDsLength[MENU_STATE_SETTINGS]] = fullscreenButtonID;
+		activeButtonIDsLength[MENU_STATE_SETTINGS]++;
+		buttonsTopOffset += buttonsMargin;
 
 		returnToMainButtonID = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Return", MENU_LAYER_TEXT, MENU_STATE_SETTINGS);
 		activeButtonIDs[MENU_STATE_SETTINGS][activeButtonIDsLength[MENU_STATE_SETTINGS]] = returnToMainButtonID;
@@ -167,7 +186,8 @@ void World_menuState(World *world_p){
 
 	if(activeButtonIDs[currentMenuState][currentButton] == returnButtonID
 	&& pressingButton
-	|| world_p->actions[BACK_ACTION].downed){
+	|| (world_p->actions[BACK_ACTION].downed
+	&& currentMenuState == MENU_STATE_MAIN)){
 
 		//clean up menu sprites
 		World_removeSpriteByIndex(world_p, menuBackgroundSpriteIndex);
@@ -184,14 +204,85 @@ void World_menuState(World *world_p){
 
 	}
 
-	if(activeButtonIDs[currentMenuState][currentButton] == returnToMainButtonID
+	if(activeButtonIDs[currentMenuState][currentButton] == musicVolumeButtonID){
+
+		if(world_p->actions[RIGHT_ACTION].downed){
+			world_p->settings.musicVolume += 0.05;
+		}
+		if(world_p->actions[LEFT_ACTION].downed){
+			world_p->settings.musicVolume -= 0.05;
+		}
+
+		if(world_p->settings.musicVolume < 0){
+			world_p->settings.musicVolume = 0;
+		}
+		if(world_p->settings.musicVolume > 1){
+			world_p->settings.musicVolume = 1;
+		}
+	
+	}
+	
+	if(activeButtonIDs[currentMenuState][currentButton] == sfxVolumeButtonID){
+
+		if(world_p->actions[RIGHT_ACTION].downed){
+			world_p->settings.sfxVolume += 0.05;
+		}
+		if(world_p->actions[LEFT_ACTION].downed){
+			world_p->settings.sfxVolume -= 0.05;
+		}
+
+		if(world_p->settings.sfxVolume < 0){
+			world_p->settings.sfxVolume = 0;
+		}
+		if(world_p->settings.sfxVolume > 1){
+			world_p->settings.sfxVolume = 1;
+		}
+	
+	}
+
+	if(activeButtonIDs[currentMenuState][currentButton] == fullscreenButtonID
 	&& pressingButton){
+
+		Engine_toggleFullscreen();
+		return;
+
+	}
+
+	if(activeButtonIDs[currentMenuState][currentButton] == returnToMainButtonID
+	&& pressingButton
+	|| (world_p->actions[BACK_ACTION].downed
+	&& currentMenuState == MENU_STATE_SETTINGS)){
 
 		currentMenuState = MENU_STATE_MAIN;
 		currentButton = activeButtonIDsLength[MENU_STATE_MAIN] - 3;
 
 		return;
 	
+	}
+
+	//update volume button texts
+	{
+		char text[SMALL_STRING_SIZE];
+		String_set(text, "", SMALL_STRING_SIZE);
+
+		sprintf(text, "Music Volume: %i\% <-+>", (int)round(100.0 * Audio_getVolume(AUDIO_SOUND_TYPE_MUSIC)));
+
+		World_setButtonTextByID(world_p, musicVolumeButtonID,text);
+	}
+	{
+		char text[SMALL_STRING_SIZE];
+		String_set(text, "", SMALL_STRING_SIZE);
+
+		sprintf(text, "Sfx Volume: %i\% <-+>", (int)round(100.0 * Audio_getVolume(AUDIO_SOUND_TYPE_SFX)));
+
+		World_setButtonTextByID(world_p, sfxVolumeButtonID,text);
+	}
+
+	//update fullscreen button text
+	if(Engine_isFullscreen){
+		World_setButtonTextByID(world_p, fullscreenButtonID, "Fullscreen: On");
+	}else{
+		World_setButtonTextByID(world_p, fullscreenButtonID, "Fullscreen: Off");
 	}
 
 	//set button colors and visibility
@@ -220,4 +311,21 @@ void World_menuState(World *world_p){
 		}
 	}
 	
+}
+
+void Settings_init(Settings *settings_p){
+
+	settings_p->fullscreenOn = true;
+	settings_p->musicVolume = 0.5;
+	settings_p->sfxVolume = 0.5;
+
+	settings_p->musicVolume = 0.0;
+
+}
+
+void World_Settings_updateWorld(World *world_p, Settings *settings_p){
+
+	Audio_setVolume(settings_p->musicVolume, AUDIO_SOUND_TYPE_MUSIC);
+	Audio_setVolume(settings_p->sfxVolume, AUDIO_SOUND_TYPE_SFX);
+
 }

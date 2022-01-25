@@ -1226,3 +1226,12 @@ void World_addMusicArea(World *world_p, Vec2f pos, Vec2f size, char *musicName){
 	String_set(musicArea_p->musicName, musicName, STRING_SIZE);
 	
 }
+
+void World_setButtonTextByID(World *world_p, size_t buttonID, char *text){
+
+	Button *button_p = World_getButtonByID(world_p, buttonID);
+	Sprite *sprite_p = World_getSpriteByIndex(world_p, button_p->spriteIndex);
+
+	String_set(sprite_p->text, text, SMALL_STRING_SIZE);
+
+}

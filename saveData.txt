@@ -1,17 +1,16 @@
 :playerPos
-3836 208
+4108 -131
 :doorKeys
 6260 -160
 :doors
-4020 180 20 60
 360 140 40 90
 :flags
 removed-title-text
 completed-door-key-levels
 added-gate-door
 completed-all-from-top-levels
+completed-first-scale-levels
 :levelsWithDoorKey
-make-it-bigger-2
 :completedLevels
 level-1
 level-2
@@ -42,3 +41,10 @@ get-under-cup
 point-pikaboo
 key-obstacle-course
 key-in-cage-all-from-top
+player-position-1
+make-it-bigger-1
+make-it-bigger-2
+point-cage
+point-cage-2
+point-cage-3
+scale-field-1
