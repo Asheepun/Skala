@@ -319,7 +319,7 @@ void Settings_init(Settings *settings_p){
 	settings_p->musicVolume = 0.5;
 	settings_p->sfxVolume = 0.5;
 
-	settings_p->musicVolume = 0.0;
+	//settings_p->musicVolume = 0.0;
 
 }
 

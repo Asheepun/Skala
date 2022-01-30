@@ -183,6 +183,7 @@ void Engine_start(){
 		*/
 
 		"music/outside",
+		/*
 		"music/first-levels",
 		"music/door-key-levels",
 		"music/all-from-top-levels",
@@ -190,6 +191,7 @@ void Engine_start(){
 		"music/player-position-levels",
 		"music/no-legs-levels",
 		"music/secret-room-levels",
+		*/
 	};
 
 	int soundAssetsLength = sizeof(soundAssets) / sizeof(char *);
@@ -199,15 +201,16 @@ void Engine_start(){
 	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_MUSIC);
 	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_SFX);
 
-	Audio_setVolume(0.0, AUDIO_SOUND_TYPE_MUSIC);
+	//Audio_setVolume(0.0, AUDIO_SOUND_TYPE_MUSIC);
 
 	//setup music
 	Array_init(&world.musicIDs, sizeof(size_t));
 
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/outside", 1.0, true, AUDIO_SOUND_TYPE_MUSIC);
 	}
+	/*
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
 		*ID_p = Audio_playSound("music/first-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
@@ -238,6 +241,7 @@ void Engine_start(){
 		size_t *ID_p = Array_addItem(&world.musicIDs);
 		*ID_p = Audio_playSound("music/secret-room-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
 	}
+	*/
 
 	//make star background texture
 	{

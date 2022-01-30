@@ -1963,6 +1963,7 @@ void World_levelState(World *world_p){
 
 	}
 
+	/*
 	//handle music
 	for(int i = 0; i < world_p->musicIDs.length; i++){
 
@@ -2012,5 +2013,6 @@ void World_levelState(World *world_p){
 
 		world_p->currentMusicID = newID;
 	}
+	*/
 
 }
