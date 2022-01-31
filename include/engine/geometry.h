@@ -19,6 +19,10 @@ float getSquare(float);
 
 float getRandom();
 
+float getLarger(float, float);
+
+float getSmaller(float, float);
+
 //VEC2F FUNCTIONS
 Vec2f getVec2f(float, float);
 

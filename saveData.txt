@@ -6,7 +6,6 @@
 3350 180 20 60
 4020 180 20 60
 :flags
-removed-title-text
 :levelsWithDoorKey
 make-it-bigger-2
 get-key-up-2

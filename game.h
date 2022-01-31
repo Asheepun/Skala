@@ -613,6 +613,9 @@ Body BodyPair_getDeltaBody(BodyPair);
 
 bool checkBodyPairToBodyPairCollision(BodyPair, BodyPair);
 
+bool checkBodyPairToBodyPairMoveBoxCollisionY(BodyPair, BodyPair);
+bool checkBodyPairToBodyPairMoveBoxCollisionX(BodyPair, BodyPair);
+
 bool checkIfBodyPairsCanCollide(BodyPair, BodyPair);
 
 void World_fadeTransitionToState(World *, enum WorldState);

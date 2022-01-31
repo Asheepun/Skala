@@ -31,6 +31,28 @@ float getRandom(){
 	
 }
 
+float getLarger(float x1, float x2){
+
+	if(x1 >= x2){
+		return x1;
+	}
+	if(x1 <= x2){
+		return x2;
+	}
+	
+}
+
+float getSmaller(float x1, float x2){
+
+	if(x1 <= x2){
+		return x1;
+	}
+	if(x1 >= x2){
+		return x2;
+	}
+	
+}
+
 //VEC2F FUNCTIONS
 
 Vec2f getVec2f(float x, float y){

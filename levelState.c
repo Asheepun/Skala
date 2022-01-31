@@ -380,7 +380,8 @@ void World_levelState(World *world_p){
 					continue;
 				}
 
-				if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+				if((checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+				|| checkBodyPairToBodyPairMoveBoxCollisionX(*bodyPair1_p, *bodyPair2_p))
 				&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
 				&& i != j){
 
@@ -690,7 +691,8 @@ void World_levelState(World *world_p){
 					continue;
 				}
 
-				if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+				if((checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+				|| checkBodyPairToBodyPairMoveBoxCollisionY(*bodyPair1_p, *bodyPair2_p))
 				&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
 				&& i != j){
 

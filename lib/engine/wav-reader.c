@@ -94,11 +94,11 @@ int16_t *WavReader_getDataFromWavFile(char *path, int *numberOfPcmFrames_p){
 
 	fread(rawAudioData, 1, dataSize, fileHandle);
 
-	//float resamplingFactor = (float)DESIRED_SAMPLE_RATE / (float)sampleRate;
+	float resamplingFactor = (float)SAMPLE_RATE / (float)sampleRate;
 
-	//int resampledNumberOfPcmFrames = (float)numberOfPcmFrames * resamplingFactor;
+	int resampledNumberOfPcmFrames = (float)numberOfPcmFrames * resamplingFactor;
 
-	int resampledNumberOfPcmFrames = (float)numberOfPcmFrames * (float)L / (float)M;
+	//int resampledNumberOfPcmFrames = (float)numberOfPcmFrames * (float)L / (float)M;
 
 	int16_t *audioData = malloc(sizeof(int16_t) * resampledNumberOfPcmFrames * NUMBER_OF_CHANNELS);
 

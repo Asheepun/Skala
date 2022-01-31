@@ -919,58 +919,101 @@ bool isBetween(float a, float b, float c){
 }
 
 bool checkBodyPairToBodyPairCollision(BodyPair bodyPair1, BodyPair bodyPair2){
-	
-	if(/*checkBodyToBodyColCastToInt(BodyPair_getDeltaBody(bodyPair1), BodyPair_getDeltaBody(bodyPair2))*/true){
 
-		//if(checkBodyToBodyColRoundFloats(bodyPair1.body, bodyPair2.body)
-		//if(checkBodyToBodyCol(bodyPair1.body, bodyPair2.body)
-		if(checkBodyToBodyColRoundTo2Dec(bodyPair1.body, bodyPair2.body)
-
-		//|| checkBodyToBodyColRoundFloats(BodyPair_getDeltaBody(bodyPair1), BodyPair_getDeltaBody(bodyPair2))
-
-		//&& !(
-			
-		//)
-
-		//&& !(bodyPair1.lastBody.pos.x < 
-		
-		//|| (bodyPair1.body.pos.x + bodyPair1.body.size.x > bodyPair2.body.pos.x
-		//&& bodyPair1.body.pos.x < bodyPair2.body.pos.x + bodyPair2.body.size.x
-		//&& bodyPair1.body.size.x >= 1 && bodyPair2.body.size.x >= 1
-		//&& bodyPair1.body.size.y >= 1 && bodyPair2.body.size.y >= 1)
-//
-		//&& (bodyPair1.body.pos.y > bodyPair2.body.pos.y && bodyPair1.body.pos.y > bodyPair2.lastBody.pos.y
-			//
-		//)
-			){
-		//&& bodyPair1.lastBody.size.x >= 1 && bodyPair2.lastBody.size.x >= 1//make it so that small things don't appear on the wrong side when they are scaled up
-		//&& bodyPair1.lastBody.size.y >= 1 && bodyPair2.lastBody.size.y >= 1){
-			return true;
-		}
-
-		//return true;
+	if(checkBodyToBodyColRoundTo2Dec(bodyPair1.body, bodyPair2.body)){
+		return true;
 	}
 
 	return false;
 
-	/*
-	if((bodyPair1.body.size.x < fabs(bodyPair1.body.pos.x - bodyPair1.lastBody.pos.x)
-	|| bodyPair1.body.size.x < fabs(bodyPair2.body.pos.x - bodyPair2.lastBody.pos.x)
-	|| bodyPair1.body.size.y < fabs(bodyPair1.body.pos.y - bodyPair1.lastBody.pos.y)
-	|| bodyPair1.body.size.y < fabs(bodyPair2.body.pos.y - bodyPair2.lastBody.pos.y)
-	|| bodyPair2.body.size.x < fabs(bodyPair2.body.pos.x - bodyPair2.lastBody.pos.x)
-	|| bodyPair2.body.size.x < fabs(bodyPair2.body.pos.x - bodyPair2.lastBody.pos.x)
-	|| bodyPair2.body.size.y < fabs(bodyPair1.body.pos.y - bodyPair1.lastBody.pos.y)
-	|| bodyPair2.body.size.y < fabs(bodyPair1.body.pos.y - bodyPair1.lastBody.pos.y))
-	&& bodyPair1.body.size.x >= 1 && bodyPair2.body.size.x >= 1
-	&& bodyPair1.body.size.y >= 1 && bodyPair2.body.size.y >= 1
-	&& bodyPair1.lastBody.size.x >= 1 && bodyPair2.lastBody.size.x >= 1
-	&& bodyPair1.lastBody.size.y >= 1 && bodyPair2.lastBody.size.y >= 1){
-		return checkBodyToBodyColCastToInt(BodyPair_getDeltaBody(bodyPair1), BodyPair_getDeltaBody(bodyPair2));
+}
+
+bool checkBodyPairToBodyPairMoveBoxCollisionY(BodyPair bodyPair1, BodyPair bodyPair2){
+
+	Body moveBox1;
+	moveBox1.pos.x = bodyPair1.body.pos.x;
+	moveBox1.size.x = bodyPair1.body.size.x;
+	if(bodyPair1.body.pos.y > bodyPair1.lastBody.pos.y){
+		moveBox1.pos.y = bodyPair1.lastBody.pos.y;
+		moveBox1.size.y = bodyPair1.body.pos.y - bodyPair1.lastBody.pos.y + bodyPair1.body.size.y;
 	}else{
-		return checkBodyToBodyColCastToInt(bodyPair1.body, bodyPair2.body);
+		moveBox1.pos.y = bodyPair1.body.pos.y;
+		moveBox1.size.y = bodyPair1.lastBody.pos.y - bodyPair1.body.pos.y + bodyPair1.lastBody.size.y;
 	}
-	*/
+
+	Body moveBox2;
+	moveBox2.pos.x = bodyPair2.body.pos.x;
+	moveBox2.size.x = bodyPair2.body.size.x;
+	if(bodyPair2.body.pos.y > bodyPair1.lastBody.pos.y){
+		moveBox2.pos.y = bodyPair2.lastBody.pos.y;
+		moveBox2.size.y = bodyPair2.body.pos.y - bodyPair2.lastBody.pos.y + bodyPair2.body.size.y;
+	}else{
+		moveBox2.pos.y = bodyPair2.body.pos.y;
+		moveBox2.size.y = bodyPair2.lastBody.pos.y - bodyPair2.body.pos.y + bodyPair2.lastBody.size.y;
+	}
+
+	if(bodyPair1.body.size.x < 1
+	|| bodyPair1.body.size.y < 1
+	|| bodyPair2.body.size.x < 1
+	|| bodyPair2.body.size.y < 1){
+		return false;
+	}
+
+	if(roundTo2Dec(moveBox1.pos.x + moveBox1.size.x) > roundTo2Dec(moveBox2.pos.x)
+	&& roundTo2Dec(moveBox1.pos.x) < roundTo2Dec(moveBox2.pos.x + moveBox2.size.x)
+	&& (roundTo2Dec(moveBox1.pos.y) > roundTo2Dec(moveBox2.pos.y)
+	&& roundTo2Dec(moveBox1.pos.y + moveBox1.size.y) < roundTo2Dec(moveBox2.pos.y + moveBox2.size.y)
+	|| roundTo2Dec(moveBox2.pos.y) > roundTo2Dec(moveBox1.pos.y)
+	&& roundTo2Dec(moveBox2.pos.y + moveBox2.size.y) < roundTo2Dec(moveBox1.pos.y + moveBox1.size.y))){
+		return true;
+	}
+
+	return false;
+
+}
+
+bool checkBodyPairToBodyPairMoveBoxCollisionX(BodyPair bodyPair1, BodyPair bodyPair2){
+
+	Body moveBox1;
+	moveBox1.pos.y = bodyPair1.body.pos.y;
+	moveBox1.size.y = bodyPair1.body.size.y;
+	if(bodyPair1.body.pos.x > bodyPair1.lastBody.pos.x){
+		moveBox1.pos.x = bodyPair1.lastBody.pos.x;
+		moveBox1.size.x = bodyPair1.body.pos.x - bodyPair1.lastBody.pos.x + bodyPair1.body.size.x;
+	}else{
+		moveBox1.pos.x = bodyPair1.body.pos.x;
+		moveBox1.size.x = bodyPair1.lastBody.pos.x - bodyPair1.body.pos.x + bodyPair1.lastBody.size.x;
+	}
+
+	Body moveBox2;
+	moveBox2.pos.y = bodyPair2.body.pos.y;
+	moveBox2.size.y = bodyPair2.body.size.y;
+	if(bodyPair2.body.pos.x > bodyPair1.lastBody.pos.x){
+		moveBox2.pos.x = bodyPair2.lastBody.pos.x;
+		moveBox2.size.x = bodyPair2.body.pos.x - bodyPair2.lastBody.pos.x + bodyPair2.body.size.x;
+	}else{
+		moveBox2.pos.x = bodyPair2.body.pos.x;
+		moveBox2.size.x = bodyPair2.lastBody.pos.x - bodyPair2.body.pos.x + bodyPair2.lastBody.size.x;
+	}
+
+	if(bodyPair1.body.size.x < 1
+	|| bodyPair1.body.size.y < 1
+	|| bodyPair2.body.size.x < 1
+	|| bodyPair2.body.size.y < 1){
+		return false;
+	}
+
+	if(roundTo2Dec(moveBox1.pos.y + moveBox1.size.y) > roundTo2Dec(moveBox2.pos.y)
+	&& roundTo2Dec(moveBox1.pos.y) < roundTo2Dec(moveBox2.pos.y + moveBox2.size.y)
+	&& (roundTo2Dec(moveBox1.pos.x) > roundTo2Dec(moveBox2.pos.x)
+	&& roundTo2Dec(moveBox1.pos.x + moveBox1.size.x) < roundTo2Dec(moveBox2.pos.x + moveBox2.size.x)
+	|| roundTo2Dec(moveBox2.pos.x) > roundTo2Dec(moveBox1.pos.x)
+	&& roundTo2Dec(moveBox2.pos.x + moveBox2.size.x) < roundTo2Dec(moveBox1.pos.x + moveBox1.size.x))){
+		return true;
+	}
+
+	return false;
+
 }
 
 bool checkIfBodyPairsCanCollide(BodyPair bodyPair1, BodyPair bodyPair2){
