@@ -1030,6 +1030,7 @@ void World_initLevelHub(World *world_p){
 	//openGateParticleEffectRoom = FIRST_SCALE_ROOM;
 	//openGateParticleEffectRoom = PLAYER_POSITION_ROOM;
 	//openGateParticleEffectRoom = SECRET_ROOM;
+	//openGateParticleEffectRoom = SCALE_FIELD_ROOM;
 
 
 	//open gate particle effect
@@ -1037,7 +1038,7 @@ void World_initLevelHub(World *world_p){
 
 		int counter = 0;
 
-		for(int i = 0; i < world_p->levelDoors.length; i++){
+		for(int i = world_p->levelDoors.length - 1; i >= 0; i--){
 
 			LevelDoor *levelDoor_p = Array_getItemPointerByIndex(&world_p->levelDoors, i);
 
@@ -1074,7 +1075,7 @@ void World_initLevelHub(World *world_p){
 
 			Vec2f pos = levelDoor_p->body.pos;
 
-			int startTime = 2000 / 60 * counter;
+			int startTime = 2000 / 60 * counter + 1000 / 60;
 			union ParticleProperty property;
 
 			Vec2f targetPos = getVec2f(0, HEIGHT - 100);
@@ -1129,6 +1130,31 @@ void World_initLevelHub(World *world_p){
 				
 				particle_p->body.pos = pos;
 				particle_p->body.size = getVec2f(10, 10);
+
+				particle_p->edge = PARTICLE_EDGE_LEFT;
+
+				if(openGateParticleEffectRoom == DOOR_KEY_ROOM){
+					particle_p->edgePos = startingAreaX;
+				}
+				if(openGateParticleEffectRoom == SCALE_FIELD_ROOM){
+					particle_p->edgePos = startingAreaX + 60 + 40;
+				}
+				if(openGateParticleEffectRoom == ALL_FROM_TOP_ROOM){
+					particle_p->edgePos = startingAreaX + 120 + 40;
+				}
+				if(openGateParticleEffectRoom == FIRST_SCALE_ROOM){
+					particle_p->edgePos = startingAreaX + 180 + 40;
+				}
+				if(openGateParticleEffectRoom == NO_LEGS_ROOM){
+					particle_p->edgePos = 1360 + 105 - 40;
+				}
+				if(openGateParticleEffectRoom == PLAYER_POSITION_ROOM){
+					particle_p->edge = PARTICLE_EDGE_UP;
+					particle_p->edgePos = -300;
+				}
+				if(openGateParticleEffectRoom == SECRET_ROOM){
+					particle_p->edgePos = startingAreaX + 1000;
+				}
 
 				particle_p->isEmitter = true;
 

@@ -614,6 +614,7 @@ Particle *World_addParticle(World *world_p, unsigned spriteIndex){
 	particle_p->counter = 0;
 
 	particle_p->isEmitter = false;
+	particle_p->edge = PARTICLE_EDGE_NONE;
 
 	Array_init(&particle_p->events, sizeof(ParticleEvent));
 

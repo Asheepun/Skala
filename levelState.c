@@ -1455,6 +1455,18 @@ void World_levelState(World *world_p){
 
 		Sprite *sprite_p = World_getSpriteByIndex(world_p, particle_p->spriteIndex);
 
+		if(particle_p->edge == PARTICLE_EDGE_UP
+		&& particle_p->body.pos.y < particle_p->edgePos
+		|| particle_p->edge == PARTICLE_EDGE_DOWN
+		&& particle_p->body.pos.y > particle_p->edgePos
+		|| particle_p->edge == PARTICLE_EDGE_LEFT
+		&& particle_p->body.pos.x < particle_p->edgePos
+		|| particle_p->edge == PARTICLE_EDGE_RIGHT
+		&& particle_p->body.pos.x > particle_p->edgePos){
+			World_removeParticleByID(world_p, particle_p->entityHeader.ID);
+			i--;
+		}
+
 		if(particle_p->isEmitter
 		&& sprite_p->alpha > 0
 		&& particle_p->counter > 0){
@@ -1475,6 +1487,11 @@ void World_levelState(World *world_p){
 			int fadeOutStartTime = (0.5 + getRandom() * 0.7) * 60;
 			int fadeOutTime = (0.1 + getRandom() * 0.1) * 60;
 
+			if(getMagVec2f(particle_p->physics.velocity) > 5){
+				fadeOutStartTime += 1500;
+				newParticle_p->physics.velocity.y *= 0.2;
+			}
+
 			property.alpha = 0;
 
 			Particle_addEvent(newParticle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, property, fadeOutStartTime, fadeOutTime);
@@ -1482,11 +1499,6 @@ void World_levelState(World *world_p){
 			Particle_addEvent(newParticle_p, PARTICLE_REMOVE_EVENT, 0, property, fadeOutStartTime + fadeOutTime, 0);
 
 		}
-
-		//little optimization
-		//if(particle_p->events.length == 0){
-			//continue;
-		//}
 
 		bool removed = false;
 

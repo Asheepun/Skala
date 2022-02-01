@@ -24,13 +24,6 @@
 
 //enums
 
-//*temporary
-enum ParticleType{
-	LEVEL_COMPLETE_PARTICLE,
-	FADE_IN_PARTICLE,
-};
-//*temporary
-
 enum Actions{
 	UP_ACTION,
 	DOWN_ACTION,
@@ -135,6 +128,19 @@ enum ParticleEventType{
 	PARTICLE_REMOVE_EVENT,
 	PARTICLE_LINEAR_FADE_EVENT,
 	PARTICLE_LERP_EVENT,
+};
+
+enum ParticleEventActivationType{
+	PARTICLE_TIME_EVENT,
+	PARTICLE_EDGE_EVENT,
+};
+
+enum ParticleEdge{
+	PARTICLE_EDGE_UP,
+	PARTICLE_EDGE_DOWN,
+	PARTICLE_EDGE_LEFT,
+	PARTICLE_EDGE_RIGHT,
+	PARTICLE_EDGE_NONE,
 };
 
 enum MenuState{
@@ -324,13 +330,8 @@ typedef struct Particle{
 
 	//misc
 	bool isEmitter;
-
-	//temp stuff
-	Renderer2D_Color targetColor;
-	bool targeting;
-	int activationCounter;
-	enum ParticleType type;
-
+	enum ParticleEdge edge;
+	int edgePos;
 }Particle;
 
 typedef struct ParticleEvent{
