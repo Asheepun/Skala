@@ -57,7 +57,7 @@ void Engine_start(){
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
 
-	//String_set(world.currentLevel, "cooler-scaling-level-3", STRING_SIZE);
+	//String_set(world.currentLevel, "scale-position-block-6", STRING_SIZE);
 
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
 	//World_switchToAndInitState(&world, LEVEL_STATE);

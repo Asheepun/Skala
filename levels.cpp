@@ -1805,6 +1805,8 @@ Conger
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 20, 210), getVec2f(20, 60), NONE);
 
+	World_addObstacle(world_p, getVec2f(0, -BIG_BLOCKING_SIZE), getVec2f(10, BIG_BLOCKING_SIZE + HEIGHT), NONE);
+
 	World_addObstacle(world_p, getVec2f(200, 190), getVec2f(WIDTH - 200, 20), NONE);
 
 	World_addScaleField(world_p, getVec2f(220, 210), getVec2f(WIDTH - 220, 60), NONE);
