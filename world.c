@@ -162,6 +162,7 @@ void World_restore(World *world_p){
 	world_p->endingFlashAlpha = 0;
 
 	world_p->obstaclesNeedArrows = false;
+	world_p->obstaclesCannotCollideWithEachOther = false;
 
 	//free player animation
 	Animation_clear(&world_p->player.animation);
@@ -930,6 +931,8 @@ bool checkBodyPairToBodyPairCollision(BodyPair bodyPair1, BodyPair bodyPair2){
 
 bool checkBodyPairToBodyPairMoveBoxCollisionY(BodyPair bodyPair1, BodyPair bodyPair2){
 
+	//return false;
+
 	Body moveBox1;
 	moveBox1.pos.x = bodyPair1.body.pos.x;
 	moveBox1.size.x = bodyPair1.body.size.x;
@@ -973,6 +976,8 @@ bool checkBodyPairToBodyPairMoveBoxCollisionY(BodyPair bodyPair1, BodyPair bodyP
 }
 
 bool checkBodyPairToBodyPairMoveBoxCollisionX(BodyPair bodyPair1, BodyPair bodyPair2){
+
+	//return false;
 
 	Body moveBox1;
 	moveBox1.pos.y = bodyPair1.body.pos.y;

@@ -464,6 +464,7 @@ typedef struct World{
 	size_t menuKeyTextParticleID;
 
 	bool obstaclesNeedArrows;
+	bool obstaclesCannotCollideWithEachOther;
 
 	//music
 	size_t currentMusicID;

@@ -383,7 +383,10 @@ void World_levelState(World *world_p){
 				if((checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
 				|| checkBodyPairToBodyPairMoveBoxCollisionX(*bodyPair1_p, *bodyPair2_p))
 				&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
-				&& i != j){
+				&& i != j
+				&& !(world_p->obstaclesCannotCollideWithEachOther
+				&& bodyPair1_p->entityType == OBSTACLE
+				&& bodyPair2_p->entityType == OBSTACLE)){
 
 					if(bodyPair1_p->lastBody.size.x < 1
 					&& (bodyPair2_p->entityType == OBSTACLE
@@ -694,7 +697,10 @@ void World_levelState(World *world_p){
 				if((checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
 				|| checkBodyPairToBodyPairMoveBoxCollisionY(*bodyPair1_p, *bodyPair2_p))
 				&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
-				&& i != j){
+				&& i != j
+				&& !(world_p->obstaclesCannotCollideWithEachOther
+				&& bodyPair1_p->entityType == OBSTACLE
+				&& bodyPair2_p->entityType == OBSTACLE)){
 
 					if(bodyPair1_p->lastBody.size.y < 1
 					&& (bodyPair2_p->entityType == OBSTACLE
@@ -956,7 +962,7 @@ void World_levelState(World *world_p){
 	Array_free(&collisions);
 	Array_free(&lastCollisions);
 
-	//apply physics
+	//apply physics and update last bodies
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
 
 		BodyPair *bodyPair_p = Array_getItemPointerByIndex(&world_p->bodyPairs, i);
@@ -974,6 +980,9 @@ void World_levelState(World *world_p){
 
 		//reset acceleration
 		bodyPair_p->physics.acceleration = getVec2f(0, 0);
+
+		//update last bodies
+		bodyPair_p->lastBody = bodyPair_p->body;
 			
 	}
 
@@ -1001,7 +1010,8 @@ void World_levelState(World *world_p){
 		for(int j = 0; j < world_p->bodyPairs.length; j++){
 			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
-			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+			if((checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+			|| checkBodyPairToBodyPairMoveBoxCollisionX(*bodyPair1_p, *bodyPair2_p))
 			&& i != j
 			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
 			&& bodyPair1_p->collisionWeight == MOVABLE
@@ -1064,7 +1074,8 @@ void World_levelState(World *world_p){
 
 			BodyPair *bodyPair2_p = Array_getItemPointerByIndex(&world_p->bodyPairs, j);
 
-			if(checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+			if((checkBodyPairToBodyPairCollision(*bodyPair1_p, *bodyPair2_p)
+			|| checkBodyPairToBodyPairMoveBoxCollisionY(*bodyPair1_p, *bodyPair2_p))
 			&& i != j
 			&& checkIfBodyPairsCanCollide(*bodyPair1_p, *bodyPair2_p)
 			&& bodyPair1_p->collisionWeight == MOVABLE

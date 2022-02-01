@@ -483,7 +483,7 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(200, cloudY), getVec2f(100, -cloudY + HEIGHT - 130), NONE);
 
-	World_addObstacle(world_p, getVec2f(100, cloudY - HEIGHT - 1000), getVec2f(200 - 10, HEIGHT - 60 - 100 + 1000), NONE);
+	World_addObstacle(world_p, getVec2f(0, cloudY - HEIGHT - BIG_BLOCKING_SIZE), getVec2f(300 - 10, HEIGHT - 60 + BIG_BLOCKING_SIZE), NONE);
 
 	//World_addScaleField(world_p, getVec2f(0, cloudY - HEIGHT), getVec2f(300 - 10, 100), NONE);
 
