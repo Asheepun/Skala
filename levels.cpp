@@ -387,9 +387,15 @@ Hedge
 
 	World_addPoint(world_p, getVec2f(400, 170), ALL);
 
-	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), ALL);
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(320, 60), ALL);
 
-	World_addObstacle(world_p, getVec2f(320, 0 - 2200), getVec2f(20, HEIGHT - 60 + 2200), ALL);
+	World_addObstacle(world_p, getVec2f(340, 210), getVec2f(WIDTH - 340, 60), ALL);
+
+	int size = 2200;
+
+	World_addObstacle(world_p, getVec2f(320, 0 - size), getVec2f(20, HEIGHT + size), ALL);
+
+	World_addObstacle(world_p, getVec2f(0, 0 - size - BIG_BLOCKING_SIZE), getVec2f(340, BIG_BLOCKING_SIZE), ALL);
 
 :levelName
 cooler-scaling-level-4
