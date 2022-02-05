@@ -1181,8 +1181,7 @@ void World_levelState(World *world_p){
 
 	if(playerGotKey){
 		if(!player_p->holdingKey){
-			printf("called playSound\n");
-			Audio_playSound("pickup-key-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+			Audio_playSoundVariation("pickup-key", 3, 1.0, false, AUDIO_SOUND_TYPE_SFX);
 		}
 		player_p->holdingKey = true;
 	}else{

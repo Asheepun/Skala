@@ -1,5 +1,5 @@
 :playerPos
-3210 68
+3219 68
 :doorKeys
 6260 -160
 :doors

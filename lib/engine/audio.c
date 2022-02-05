@@ -2,6 +2,8 @@
 
 #include "engine/array.h"
 #include "engine/wav-reader.h"
+#include "engine/geometry.h"
+#include "engine/strings.h"
 
 #include "alsa/asoundlib.h"
 
@@ -253,6 +255,19 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 	sound_p->stopped = false;
 
 	return sound_p->entityHeader.ID;
+
+}
+
+size_t Audio_playSoundVariation(char *soundName, int variations, float volume, bool loop, enum Audio_SoundTypeEnum soundType){
+
+	char variationName[STRING_SIZE];
+
+	int variationNumber = (int)((float)variations * getRandom()) + 1;
+
+	memset(variationName, 0, sizeof(char) * STRING_SIZE);
+	sprintf(variationName, "%s-%i", soundName, variationNumber);
+
+	return Audio_playSound(variationName, volume, loop, soundType);
 
 }
 

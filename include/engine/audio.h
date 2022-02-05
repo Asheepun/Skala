@@ -27,6 +27,8 @@ void Audio_setVolume(float, enum Audio_SoundTypeEnum);
 
 float Audio_getVolume(enum Audio_SoundTypeEnum);
 
+size_t Audio_playSoundVariation(char *, int, float, bool, enum Audio_SoundTypeEnum);
+
 size_t Audio_playSound(char *, float, bool, enum Audio_SoundTypeEnum);
 
 void Audio_stopSoundByID(size_t);

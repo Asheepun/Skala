@@ -183,6 +183,8 @@ void Engine_start(){
 		*/
 
 		"pickup-key-1",
+		"pickup-key-2",
+		"pickup-key-3",
 
 		"music/outside",
 		"music/first-levels",
