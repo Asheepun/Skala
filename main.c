@@ -182,6 +182,8 @@ void Engine_start(){
 		"scaling",
 		*/
 
+		"pickup-key-1",
+
 		"music/outside",
 		"music/first-levels",
 		"music/door-key-levels",

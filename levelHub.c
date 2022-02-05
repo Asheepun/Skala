@@ -1051,7 +1051,7 @@ void World_initLevelHub(World *world_p){
 				targetColor = COLOR_GREEN;
 			}
 			if(openGateParticleEffectRoom == DOOR_KEY_ROOM){
-				targetColor = COLOR_GREY;
+				targetColor = COLOR_YELLOWRED;
 			}
 			if(openGateParticleEffectRoom == ALL_FROM_TOP_ROOM){
 				targetColor = COLOR_PURPLE;

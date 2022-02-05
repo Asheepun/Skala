@@ -53,6 +53,9 @@ int lastDeltaFrames = 0;
 
 int loadedSoundFiles = 0;
 
+int preBurnLoops = 10;
+int loopCount = 0;
+
 void *renderLoop(void *ptr){
 
 	while(true){
@@ -72,8 +75,10 @@ void *renderLoop(void *ptr){
 
 		int deltaDeltaFrames = abs(deltaFrames - lastDeltaFrames);
 
+		loopCount++;
+
 		if(deltaFrames < framesToWrite
-		|| deltaDeltaFrames == 0){
+		|| loopCount < preBurnLoops){
 
 			pthread_mutex_lock(&soundMutex);
 
@@ -110,6 +115,10 @@ void *renderLoop(void *ptr){
 			}
 
 			pthread_mutex_unlock(&soundMutex);
+
+			if(loopCount < preBurnLoops){
+				memset(mixedFrames, 0, framesToWrite * NUMBER_OF_CHANNELS * sizeof(int16_t));
+			}
 			
 			//write frames to sound card
 			snd_pcm_writei(handle, mixedFrames, framesToWrite);
