@@ -85,7 +85,7 @@ void *renderLoop(void *ptr){
 
 		loopCount++;
 
-		printf("%i\n", deltaFrames);
+		//printf("%i\n", deltaFrames);
 		//printf("framesToWrite: %i\n", deltaFrames);
 
 		if(deltaFrames < framesToWrite

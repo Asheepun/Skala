@@ -1200,32 +1200,69 @@ void World_levelState(World *world_p){
 			if(checkBodyPairToBodyPairCollision(*doorBodyPair_p, *doorKeyBodyPair_p)){
 
 				//particle effect
-				Vec2f pos = doorBodyPair_p->body.pos;
-				Vec2f size = doorBodyPair_p->body.size;
+				{
+					Vec2f pos = doorBodyPair_p->body.pos;
+					Vec2f size = doorBodyPair_p->body.size;
 
-				size_t particleSpriteIndex = World_addSprite(world_p, pos, size, COLOR_WHITE, "door", 1, GAME_LAYER_PARTICLES);
-				Sprite *sprite_p = World_getSpriteByIndex(world_p, particleSpriteIndex);
-				sprite_p->textureArea = getVec2f(20, 60);
+					size_t particleSpriteIndex = World_addSprite(world_p, pos, size, COLOR_WHITE, "door", 1, GAME_LAYER_PARTICLES);
+					Sprite *sprite_p = World_getSpriteByIndex(world_p, particleSpriteIndex);
+					sprite_p->textureArea = getVec2f(20, 60);
 
-				Particle *particle_p = World_addParticle(world_p, particleSpriteIndex);
+					Particle *particle_p = World_addParticle(world_p, particleSpriteIndex);
 
-				particle_p->body.pos = pos;
-				particle_p->body.size = size;
+					particle_p->body.pos = pos;
+					particle_p->body.size = size;
 
-				int fadeOutTime = (300 + getRandom() * 200) / 60;
+					int fadeOutTime = (300 + getRandom() * 200) / 60;
 
-				union ParticleProperty property;
-				property.alpha = 0;
+					union ParticleProperty property;
 
-				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, property, 0, fadeOutTime);
+					property.alpha = 0;
+					Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, property, 0, fadeOutTime);
 
-				property.size = getVec2f(size.x, 0);
+					property.size = getVec2f(size.x, 0);
+					Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_SIZE, property, 0, fadeOutTime);
 
-				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_SIZE, property, 0, fadeOutTime);
+					property.pos = getVec2f(pos.x, pos.y + size.y / 2);
+					Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_POS, property, 0, fadeOutTime);
 
-				property.pos = getVec2f(pos.x, pos.y + size.y / 2);
+					Particle_addEvent(particle_p, PARTICLE_REMOVE_EVENT, 0, property, fadeOutTime, 0);
+				}
+				{
 
-				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_POS, property, 0, fadeOutTime);
+					Vec2f pos = doorKeyBodyPair_p->body.pos;
+					Vec2f size = doorKeyBodyPair_p->body.size;
+
+					size_t particleSpriteIndex = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[doorKeyBodyPair_p->scaleType], "door-key", 1, GAME_LAYER_PARTICLES);
+					Sprite *sprite_p = World_getSpriteByIndex(world_p, particleSpriteIndex);
+					Sprite *originalSprite_p = World_getSpriteByIndex(world_p, doorKey_p->spriteIndex);
+
+					sprite_p->textureArea = getVec2f(20, 10);
+					sprite_p->facing = originalSprite_p->facing;
+					//sprite_p->
+
+					Particle *particle_p = World_addParticle(world_p, particleSpriteIndex);
+
+					particle_p->body.pos = pos;
+					particle_p->body.size = size;
+
+					int fadeOutStartTime = 0;
+					//int fadeOutStartTime = (300 + getRandom() * 200) / 60;
+					int fadeOutTime = (600 + getRandom() * 500) / 60;
+
+					union ParticleProperty property;
+
+					property.alpha = 0;
+					Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, property, fadeOutStartTime, fadeOutTime);
+
+					property.size = getVec2f(size.x, 0);
+					Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_SIZE, property, fadeOutStartTime, fadeOutTime);
+
+					property.pos = getVec2f(pos.x, pos.y + size.y / 2);
+					Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_POS, property, fadeOutStartTime, fadeOutTime);
+
+					Particle_addEvent(particle_p, PARTICLE_REMOVE_EVENT, 0, property, fadeOutStartTime + fadeOutTime , 0);
+				}
 
 				//sound effect
 				Audio_playSound("open-door-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
