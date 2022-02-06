@@ -1,9 +1,7 @@
 :playerPos
-3219 68
+5858 178
 :doorKeys
-6260 -160
 :doors
-360 140 40 90
 :flags
 removed-title-text
 completed-door-key-levels
@@ -11,6 +9,7 @@ added-gate-door
 completed-all-from-top-levels
 completed-first-scale-levels
 completed-scale-field-levels
+completed-player-position-levels
 :levelsWithDoorKey
 :completedLevels
 cooler-scaling-level-3
@@ -54,3 +53,16 @@ layers-of-fields
 two-scale-fields
 point-field-cage
 circle-scale-fields-escape
+player-position-1
+player-position-2
+player-position-3
+player-position-jumping-key-1
+player-position-jumping-key-2
+player-position-jumping-key-3
+scale-position-block
+scale-position-block-2
+scale-position-block-5
+scale-position-block-5.2
+scale-position-block-6
+airport-control
+grow-through-jumping

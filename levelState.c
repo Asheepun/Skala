@@ -1199,11 +1199,42 @@ void World_levelState(World *world_p){
 
 			if(checkBodyPairToBodyPairCollision(*doorBodyPair_p, *doorKeyBodyPair_p)){
 
-				//Audio_playSound("open-door-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+				//particle effect
+				Vec2f pos = doorBodyPair_p->body.pos;
+				Vec2f size = doorBodyPair_p->body.size;
 
+				size_t particleSpriteIndex = World_addSprite(world_p, pos, size, COLOR_WHITE, "door", 1, GAME_LAYER_PARTICLES);
+				Sprite *sprite_p = World_getSpriteByIndex(world_p, particleSpriteIndex);
+				sprite_p->textureArea = getVec2f(20, 60);
+
+				Particle *particle_p = World_addParticle(world_p, particleSpriteIndex);
+
+				particle_p->body.pos = pos;
+				particle_p->body.size = size;
+
+				int fadeOutTime = (300 + getRandom() * 200) / 60;
+
+				union ParticleProperty property;
+				property.alpha = 0;
+
+				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, property, 0, fadeOutTime);
+
+				property.size = getVec2f(size.x, 0);
+
+				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_SIZE, property, 0, fadeOutTime);
+
+				property.pos = getVec2f(pos.x, pos.y + size.y / 2);
+
+				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_POS, property, 0, fadeOutTime);
+
+				//sound effect
+				Audio_playSound("open-door-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+
+				//remove door and key
 				World_removeDoorByID(world_p, door_p->entityHeader.ID);
 				World_removeDoorKeyByID(world_p, doorKey_p->entityHeader.ID);
 
+				//update save data in level hub state
 				if(world_p->currentState == LEVEL_HUB_STATE){
 
 					Array_clear(&world_p->saveData.doors);
@@ -1580,6 +1611,40 @@ void World_levelState(World *world_p){
 
 					if(particleEvent_p->type == PARTICLE_SET_EVENT){
 						particle_p->physics.acceleration = particleEvent_p->targetValue.acceleration;
+					}
+					
+				}
+
+				if(particleEvent_p->propertyType == PARTICLE_POS){
+
+					if(particle_p->counter == particleEvent_p->activationTime){
+						particleEvent_p->startValue.pos = particle_p->body.pos;
+					}
+
+					if(particleEvent_p->type == PARTICLE_SET_EVENT){
+						particle_p->body.pos = particleEvent_p->targetValue.pos;
+					}
+
+					if(particleEvent_p->type == PARTICLE_LINEAR_FADE_EVENT){
+						particle_p->body.pos.x = particleEvent_p->startValue.pos.x + (particleEvent_p->targetValue.pos.x - particleEvent_p->startValue.pos.x) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
+						particle_p->body.pos.y = particleEvent_p->startValue.pos.y + (particleEvent_p->targetValue.pos.y - particleEvent_p->startValue.pos.y) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
+					}
+				
+				}
+
+				if(particleEvent_p->propertyType == PARTICLE_SIZE){
+
+					if(particle_p->counter == particleEvent_p->activationTime){
+						particleEvent_p->startValue.size = particle_p->body.size;
+					}
+
+					if(particleEvent_p->type == PARTICLE_SET_EVENT){
+						particle_p->body.size = particleEvent_p->targetValue.size;
+					}
+
+					if(particleEvent_p->type == PARTICLE_LINEAR_FADE_EVENT){
+						particle_p->body.size.x = particleEvent_p->startValue.size.x + (particleEvent_p->targetValue.size.x - particleEvent_p->startValue.size.x) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
+						particle_p->body.size.y = particleEvent_p->startValue.size.y + (particleEvent_p->targetValue.size.y - particleEvent_p->startValue.size.y) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
 					}
 					
 				}

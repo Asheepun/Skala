@@ -161,30 +161,12 @@ void Engine_start(){
 
 	//load audio
 	char *soundAssets[] = {
-		/*
-		"old/player-jump",
-		"player-jump-1",
-		"player-land",
-		"enter-level-door",
-		"pickup-star",
-		"pickup-star-1",
-		"pickup-star-2",
-		"pickup-star-3",
-		"pickup-star-4",
-		"pickup-key",
-		"pickup-key-1",
-		"open-door",
-		"open-door-1",
-		//"begin-scaling", FILES ARE CORRUPTED
-		//"begin-scaling-1",
-		//"end-scaling",
-		//"end-scaling-1",
-		"scaling",
-		*/
 
 		"pickup-key-1",
 		"pickup-key-2",
 		"pickup-key-3",
+
+		"open-door-1",
 
 		"music/outside",
 		"music/first-levels",

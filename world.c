@@ -56,7 +56,7 @@ void World_init(World *world_p){
 			maxLength = 1024;
 		}
 		if(i == GAME_LAYER_PARTICLES){
-			maxLength = 1024 * 2;
+			maxLength = 1024 * 4;
 		}
 
 		IndexSafeArray_init(&world_p->spriteLayers[i], sizeof(Sprite), maxLength);
@@ -346,7 +346,7 @@ size_t World_addSprite(World *world_p, Vec2f pos, Vec2f size, Renderer2D_Color c
 	sprite_p->facing = RIGHT;
 	sprite_p->borderSize = getVec2f(0, 0);
 	sprite_p->textureCoordOffset = getVec2f(0, 0);
-	sprite_p->textureArea= size;
+	sprite_p->textureArea = size;
 
 	return index + 1000000 * layer;
 	//return sprite_p->entityHeader.ID;
