@@ -57,7 +57,7 @@ void Engine_start(){
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
 
-	//String_set(world.currentLevel, "scale-position-block-6", STRING_SIZE);
+	//String_set(world.currentLevel, "no-legs-no-scale-2", STRING_SIZE);
 
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
 	//World_switchToAndInitState(&world, LEVEL_STATE);
@@ -409,6 +409,9 @@ void Engine_update(float deltaTime){
 		World_creditsState(&world);
 	}
 
+	//update particles independent of state
+	World_updateParticles(&world);
+
 	//reset actions
 	for(int i = 0; i < 16; i++){
 		world.actions[i].downed = false;
@@ -421,6 +424,11 @@ void Engine_update(float deltaTime){
 }
 
 void Engine_draw(){
+
+	if(world.drawCallSkips > 0){
+		world.drawCallSkips--;
+		return;
+	}
 
 	Renderer2D_updateDrawSize(&world.renderer, clientWidth, clientHeight);
 

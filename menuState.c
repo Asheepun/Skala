@@ -1,5 +1,6 @@
 #include "engine/engine.h"
 #include "engine/audio.h"
+#include "engine/files.h"
 
 #include "game.h"
 #include "math.h"
@@ -11,6 +12,10 @@ int restartLevelButtonID;
 int settingsButtonID;
 int returnButtonID;
 int quitButtonID;
+int deleteSaveDataButtonID;
+
+int yesButtonID;
+int noButtonID;
 
 int returnToMainButtonID;
 int fullscreenButtonID;
@@ -60,6 +65,11 @@ void World_initMenu(World *world_p){
 		activeButtonIDsLength[MENU_STATE_MAIN]++;
 		buttonsTopOffset += buttonsMargin;
 
+		deleteSaveDataButtonID = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Delete Save Data", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		activeButtonIDs[MENU_STATE_MAIN][activeButtonIDsLength[MENU_STATE_MAIN]] = deleteSaveDataButtonID;
+		activeButtonIDsLength[MENU_STATE_MAIN]++;
+		buttonsTopOffset += buttonsMargin;
+
 		settingsButtonID = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Settings", MENU_LAYER_TEXT, MENU_STATE_MAIN);
 		activeButtonIDs[MENU_STATE_MAIN][activeButtonIDsLength[MENU_STATE_MAIN]] = settingsButtonID;
 		activeButtonIDsLength[MENU_STATE_MAIN]++;
@@ -105,6 +115,26 @@ void World_initMenu(World *world_p){
 		returnToMainButtonID = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Return", MENU_LAYER_TEXT, MENU_STATE_SETTINGS);
 		activeButtonIDs[MENU_STATE_SETTINGS][activeButtonIDsLength[MENU_STATE_SETTINGS]] = returnToMainButtonID;
 		activeButtonIDsLength[MENU_STATE_SETTINGS]++;
+		buttonsTopOffset += buttonsMargin;
+	
+	}
+
+	//delete save data buttons
+	{
+
+		activeButtonIDsLength[MENU_STATE_DELETE_SAVE_DATA] = 0;
+		int buttonsLeftOffset = 100;
+		int buttonsTopOffset = 60;
+		int buttonsMargin = 30;
+
+		yesButtonID = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Yes", MENU_LAYER_TEXT, MENU_STATE_DELETE_SAVE_DATA);
+		activeButtonIDs[MENU_STATE_DELETE_SAVE_DATA][activeButtonIDsLength[MENU_STATE_DELETE_SAVE_DATA]] = yesButtonID;
+		activeButtonIDsLength[MENU_STATE_DELETE_SAVE_DATA]++;
+		buttonsTopOffset += buttonsMargin;
+
+		noButtonID = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "No", MENU_LAYER_TEXT, MENU_STATE_DELETE_SAVE_DATA);
+		activeButtonIDs[MENU_STATE_DELETE_SAVE_DATA][activeButtonIDsLength[MENU_STATE_DELETE_SAVE_DATA]] = noButtonID;
+		activeButtonIDsLength[MENU_STATE_DELETE_SAVE_DATA]++;
 		buttonsTopOffset += buttonsMargin;
 	
 	}
@@ -164,6 +194,16 @@ void World_menuState(World *world_p){
 	
 	}
 
+	if(activeButtonIDs[currentMenuState][currentButton] == deleteSaveDataButtonID
+	&& pressingButton){
+
+		currentMenuState = MENU_STATE_DELETE_SAVE_DATA;
+		currentButton = activeButtonIDsLength[MENU_STATE_DELETE_SAVE_DATA] - 1;
+
+		return;
+
+	}
+
 	if(activeButtonIDs[currentMenuState][currentButton] == settingsButtonID
 	&& pressingButton){
 
@@ -199,6 +239,8 @@ void World_menuState(World *world_p){
 		}
 
 		world_p->currentState = world_p->stateBeforeOpeningMenu;
+
+		world_p->drawCallSkips += 1;
 
 		return;
 
@@ -258,6 +300,44 @@ void World_menuState(World *world_p){
 
 		return;
 	
+	}
+
+	//delete save data button actions
+	if(activeButtonIDs[currentMenuState][currentButton] == yesButtonID
+	&& pressingButton){
+
+		//FILE *saveDataOriginFile = fread("saveData.txt");
+
+		long int size;
+		char *data_p = getFileData_mustFree("saveData-origin.txt", &size);
+
+		writeDataToFile("saveData.txt", data_p, size);
+
+		free(data_p);
+
+		SaveData_read(&world_p->saveData);
+
+		World_switchToAndInitState(world_p, LEVEL_HUB_STATE);
+
+		//FILE *saveDataFile = fread("saveData.txt");
+
+		//fclose(saveDataOriginFile);
+		//fclose(saveDataFile);
+
+		return;
+
+	}
+
+	if(activeButtonIDs[currentMenuState][currentButton] == noButtonID
+	&& pressingButton
+	|| (world_p->actions[BACK_ACTION].downed
+	&& currentMenuState == MENU_STATE_DELETE_SAVE_DATA)){
+
+		currentMenuState = MENU_STATE_MAIN;
+		currentButton = 1;//activeButtonIDsLength[MENU_STATE_MAIN] - 2;
+
+		return;
+
 	}
 
 	//update volume button texts
