@@ -1200,32 +1200,70 @@ void World_levelState(World *world_p){
 			if(checkBodyPairToBodyPairCollision(*doorBodyPair_p, *doorKeyBodyPair_p)){
 
 				//particle effect
-				Vec2f pos = doorBodyPair_p->body.pos;
-				Vec2f size = doorBodyPair_p->body.size;
+				{
+					Vec2f pos = doorBodyPair_p->body.pos;
+					Vec2f size = doorBodyPair_p->body.size;
 
-				size_t particleSpriteIndex = World_addSprite(world_p, pos, size, COLOR_WHITE, "door", 1, GAME_LAYER_PARTICLES);
-				Sprite *sprite_p = World_getSpriteByIndex(world_p, particleSpriteIndex);
-				sprite_p->textureArea = getVec2f(20, 60);
+					size_t particleSpriteIndex = World_addSprite(world_p, pos, size, COLOR_WHITE, "door", 1, GAME_LAYER_PARTICLES);
+					Sprite *sprite_p = World_getSpriteByIndex(world_p, particleSpriteIndex);
+					sprite_p->textureArea = getVec2f(20, 60);
 
-				Particle *particle_p = World_addParticle(world_p, particleSpriteIndex);
+					Particle *particle_p = World_addParticle(world_p, particleSpriteIndex);
 
-				particle_p->body.pos = pos;
-				particle_p->body.size = size;
+					particle_p->body.pos = pos;
+					particle_p->body.size = size;
 
-				int fadeOutTime = (300 + getRandom() * 200) / 60;
+					//int fadeOutTime = (300 + getRandom() * 200) / 60;
+					int fadeOutTime = (600 + getRandom() * 200) / 60;
 
-				union ParticleProperty property;
-				property.alpha = 0;
+					union ParticleProperty property;
 
-				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, property, 0, fadeOutTime);
+					property.alpha = 0;
+					Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, property, 0, fadeOutTime);
 
-				property.size = getVec2f(size.x, 0);
+					property.size = getVec2f(size.x, 0);
+					Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_SIZE, property, 0, fadeOutTime);
 
-				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_SIZE, property, 0, fadeOutTime);
+					property.pos = getVec2f(pos.x, pos.y + size.y / 2);
+					Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_POS, property, 0, fadeOutTime);
 
-				property.pos = getVec2f(pos.x, pos.y + size.y / 2);
+					Particle_addEvent(particle_p, PARTICLE_REMOVE_EVENT, 0, property, fadeOutTime, 0);
+				}
+				{
 
-				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_POS, property, 0, fadeOutTime);
+					Vec2f pos = doorKeyBodyPair_p->body.pos;
+					Vec2f size = doorKeyBodyPair_p->body.size;
+
+					size_t particleSpriteIndex = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[doorKeyBodyPair_p->scaleType], "door-key", 1, GAME_LAYER_PARTICLES);
+					Sprite *sprite_p = World_getSpriteByIndex(world_p, particleSpriteIndex);
+					Sprite *originalSprite_p = World_getSpriteByIndex(world_p, doorKey_p->spriteIndex);
+
+					sprite_p->textureArea = getVec2f(20, 10);
+					sprite_p->facing = originalSprite_p->facing;
+					//sprite_p->
+
+					Particle *particle_p = World_addParticle(world_p, particleSpriteIndex);
+
+					particle_p->body.pos = pos;
+					particle_p->body.size = size;
+
+					int fadeOutStartTime = 0;
+					//int fadeOutTime = (300 + getRandom() * 300) / 60;
+					int fadeOutTime = (800 + getRandom() * 300) / 60;
+
+					union ParticleProperty property;
+
+					property.alpha = 0;
+					Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, property, fadeOutStartTime, fadeOutTime);
+
+					property.size = getVec2f(size.x, 0);
+					Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_SIZE, property, fadeOutStartTime, fadeOutTime);
+
+					property.pos = getVec2f(pos.x, pos.y + size.y / 2);
+					Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_POS, property, fadeOutStartTime, fadeOutTime);
+
+					Particle_addEvent(particle_p, PARTICLE_REMOVE_EVENT, 0, property, fadeOutStartTime + fadeOutTime , 0);
+				}
 
 				//sound effect
 				Audio_playSound("open-door-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
@@ -1271,6 +1309,37 @@ void World_levelState(World *world_p){
 	
 		//if(checkBodyToBodyColRoundToFloat(playerBodyPair_p->body, *pointBody_p)){
 		if(checkBodyPairToBodyPairCollision(*pointBodyPair_p, *playerBodyPair_p)){
+
+			//add particle effect
+			{
+				Vec2f pos = pointBodyPair_p->body.pos;
+				Vec2f size = pointBodyPair_p->body.size;
+
+				size_t spriteIndex = World_addSprite(world_p, pos, size, SCALE_TYPE_COLORS[pointBodyPair_p->scaleType], "point", 1.0, GAME_LAYER_PARTICLES);
+				Sprite *sprite_p = World_getSpriteByIndex(world_p, spriteIndex);
+
+				sprite_p->textureArea = getVec2f(10, 10);
+
+				Particle *particle_p = World_addParticle(world_p, spriteIndex);
+				particle_p->body.pos = pos;
+				particle_p->body.size = size;
+
+				float sizeFactor = 3.5 + 1 * getRandom();
+
+				int fadeOutTime = (500 + getRandom() * 200) / 60;
+
+				union ParticleProperty property;
+
+				property.alpha = 0;
+				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, property, 0, fadeOutTime);
+
+				property.size = getMulVec2fFloat(size, sizeFactor);
+				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_SIZE, property, 0, fadeOutTime);
+
+				property.pos = getSubVec2f(getAddVec2f(pos, getDivVec2fFloat(size, 2)), getMulVec2fFloat(size, sizeFactor / 2));
+				Particle_addEvent(particle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_POS, property, 0, fadeOutTime);
+			
+			}
 
 			World_removePointByID(world_p, point_p->entityHeader.ID);
 
@@ -1477,194 +1546,6 @@ void World_levelState(World *world_p){
 			}
 		
 		}
-	}
-
-	//update particles
-	for(int i = 0; i < world_p->particles.length; i++){
-
-		Particle *particle_p = Array_getItemPointerByIndex(&world_p->particles, i);
-
-		Sprite *sprite_p = World_getSpriteByIndex(world_p, particle_p->spriteIndex);
-
-		if(particle_p->edge == PARTICLE_EDGE_UP
-		&& particle_p->body.pos.y < particle_p->edgePos
-		|| particle_p->edge == PARTICLE_EDGE_DOWN
-		&& particle_p->body.pos.y > particle_p->edgePos
-		|| particle_p->edge == PARTICLE_EDGE_LEFT
-		&& particle_p->body.pos.x < particle_p->edgePos
-		|| particle_p->edge == PARTICLE_EDGE_RIGHT
-		&& particle_p->body.pos.x > particle_p->edgePos){
-			World_removeParticleByID(world_p, particle_p->entityHeader.ID);
-			i--;
-		}
-
-		if(particle_p->isEmitter
-		&& sprite_p->alpha > 0
-		&& particle_p->counter > 0){
-
-			Vec2f pos = particle_p->body.pos;
-			Vec2f_add(&pos, getVec2f(1 + 8 * getRandom(), 1 + 8 * getRandom()));
-			
-			size_t newSpriteIndex = World_addSprite(world_p, pos, getVec2f(1, 1), sprite_p->color, "obstacle", 1, GAME_LAYER_PARTICLES);
-			Particle *newParticle_p = World_addParticle(world_p, newSpriteIndex);
-
-			newParticle_p->body.pos = pos;
-			newParticle_p->body.size = getVec2f(1, 1);
-
-			newParticle_p->physics.velocity = getVec2f((getRandom() - 0.5) * 0.2, 0.1 + 0.15 * getRandom());
-
-			union ParticleProperty property;
-
-			int fadeOutStartTime = (0.5 + getRandom() * 0.7) * 60;
-			int fadeOutTime = (0.1 + getRandom() * 0.1) * 60;
-
-			if(getMagVec2f(particle_p->physics.velocity) > 5){
-				fadeOutStartTime += 1500;
-				newParticle_p->physics.velocity.y *= 0.2;
-			}
-
-			property.alpha = 0;
-
-			Particle_addEvent(newParticle_p, PARTICLE_LINEAR_FADE_EVENT, PARTICLE_ALPHA, property, fadeOutStartTime, fadeOutTime);
-
-			Particle_addEvent(newParticle_p, PARTICLE_REMOVE_EVENT, 0, property, fadeOutStartTime + fadeOutTime, 0);
-
-		}
-
-		bool removed = false;
-
-		for(int j = 0; j < particle_p->events.length; j++){
-
-			ParticleEvent *particleEvent_p = Array_getItemPointerByIndex(&particle_p->events, j);
-
-			if(particle_p->counter > particleEvent_p->activationTime + particleEvent_p->duration){
-
-				Array_removeItemByIndex(&particle_p->events, j);
-				j--;
-
-				continue;
-
-			}
-
-			if(particle_p->counter >= particleEvent_p->activationTime
-			&& particle_p->counter <= particleEvent_p->activationTime + particleEvent_p->duration){
-
-				if(particleEvent_p->type == PARTICLE_REMOVE_EVENT){
-					World_removeParticleByID(world_p, particle_p->entityHeader.ID);
-					i--;
-					removed = true;
-					break;
-				}
-
-				if(particleEvent_p->propertyType == PARTICLE_ALPHA){
-
-					if(particle_p->counter == particleEvent_p->activationTime){
-						particleEvent_p->startValue.alpha = sprite_p->alpha;
-					}
-
-					if(particleEvent_p->type == PARTICLE_SET_EVENT){
-						sprite_p->alpha = particleEvent_p->targetValue.alpha;
-					}
-
-					if(particleEvent_p->type == PARTICLE_LINEAR_FADE_EVENT){
-						sprite_p->alpha = particleEvent_p->startValue.alpha + (particleEvent_p->targetValue.alpha - particleEvent_p->startValue.alpha) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
-					}
-				
-				}
-
-				if(particleEvent_p->propertyType == PARTICLE_COLOR){
-
-					if(particle_p->counter == particleEvent_p->activationTime){
-						particleEvent_p->startValue.color = sprite_p->color;
-					}
-
-					if(particleEvent_p->type == PARTICLE_SET_EVENT){
-						sprite_p->color = particleEvent_p->targetValue.color;
-					}
-
-					if(particleEvent_p->type == PARTICLE_LINEAR_FADE_EVENT){
-						sprite_p->color.r = particleEvent_p->startValue.color.r + (particleEvent_p->targetValue.color.r - particleEvent_p->startValue.color.r) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
-						sprite_p->color.g = particleEvent_p->startValue.color.g + (particleEvent_p->targetValue.color.g - particleEvent_p->startValue.color.g) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
-						sprite_p->color.b = particleEvent_p->startValue.color.b + (particleEvent_p->targetValue.color.b - particleEvent_p->startValue.color.b) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
-					}
-					
-
-				}
-
-				if(particleEvent_p->propertyType == PARTICLE_VELOCITY){
-
-					if(particle_p->counter == particleEvent_p->activationTime){
-						particleEvent_p->startValue.velocity = particle_p->physics.velocity;
-					}
-
-					if(particleEvent_p->type == PARTICLE_SET_EVENT){
-						particle_p->physics.velocity = particleEvent_p->targetValue.velocity;
-					}
-					
-				}
-
-				if(particleEvent_p->propertyType == PARTICLE_ACCELERATION){
-
-					if(particle_p->counter == particleEvent_p->activationTime){
-						particleEvent_p->startValue.acceleration = particle_p->physics.acceleration;
-					}
-
-					if(particleEvent_p->type == PARTICLE_SET_EVENT){
-						particle_p->physics.acceleration = particleEvent_p->targetValue.acceleration;
-					}
-					
-				}
-
-				if(particleEvent_p->propertyType == PARTICLE_POS){
-
-					if(particle_p->counter == particleEvent_p->activationTime){
-						particleEvent_p->startValue.pos = particle_p->body.pos;
-					}
-
-					if(particleEvent_p->type == PARTICLE_SET_EVENT){
-						particle_p->body.pos = particleEvent_p->targetValue.pos;
-					}
-
-					if(particleEvent_p->type == PARTICLE_LINEAR_FADE_EVENT){
-						particle_p->body.pos.x = particleEvent_p->startValue.pos.x + (particleEvent_p->targetValue.pos.x - particleEvent_p->startValue.pos.x) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
-						particle_p->body.pos.y = particleEvent_p->startValue.pos.y + (particleEvent_p->targetValue.pos.y - particleEvent_p->startValue.pos.y) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
-					}
-				
-				}
-
-				if(particleEvent_p->propertyType == PARTICLE_SIZE){
-
-					if(particle_p->counter == particleEvent_p->activationTime){
-						particleEvent_p->startValue.size = particle_p->body.size;
-					}
-
-					if(particleEvent_p->type == PARTICLE_SET_EVENT){
-						particle_p->body.size = particleEvent_p->targetValue.size;
-					}
-
-					if(particleEvent_p->type == PARTICLE_LINEAR_FADE_EVENT){
-						particle_p->body.size.x = particleEvent_p->startValue.size.x + (particleEvent_p->targetValue.size.x - particleEvent_p->startValue.size.x) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
-						particle_p->body.size.y = particleEvent_p->startValue.size.y + (particleEvent_p->targetValue.size.y - particleEvent_p->startValue.size.y) * (particle_p->counter - particleEvent_p->activationTime) / particleEvent_p->duration;
-					}
-					
-				}
-				
-			}
-		
-		}
-
-		if(removed){
-			continue;
-		}
-
-		Vec2f_add(&particle_p->physics.velocity, particle_p->physics.acceleration);
-		Vec2f_add(&particle_p->body.pos, particle_p->physics.velocity);
-
-		//update sprite
-		sprite_p->body = particle_p->body;
-
-		particle_p->counter++;
-
 	}
 
 	//update sprites

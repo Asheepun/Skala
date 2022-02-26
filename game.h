@@ -146,6 +146,7 @@ enum ParticleEdge{
 enum MenuState{
 	MENU_STATE_MAIN,
 	MENU_STATE_SETTINGS,
+	MENU_STATE_DELETE_SAVE_DATA,
 	NUMBER_OF_MENU_STATES,
 };
 
@@ -467,6 +468,8 @@ typedef struct World{
 	bool obstaclesNeedArrows;
 	bool obstaclesCannotCollideWithEachOther;
 
+	int drawCallSkips;
+
 	//music
 	size_t currentMusicID;
 
@@ -647,6 +650,8 @@ Vec2f World_BodyPair_getScaleFromExponent(World *, BodyPair *);
 Vec2f World_BodyPair_getLastScaleFromExponent(World *, BodyPair *);
 
 void World_setButtonTextByID(World *, size_t, char *);
+
+void World_updateParticles(World *);
 
 //FILE: components.c
 
