@@ -4,7 +4,14 @@
 #include "stdlib.h"
 #include "math.h"
 #include "stdarg.h"
+
+#ifdef __linux__
 #include "stddef.h"
+#endif
+
+#ifdef _WIN32
+#include "stdint.h"
+#endif
 
 #define FILE_SIZE_INDEX 4
 #define FORMAT_TYPE_INDEX 20

@@ -5,11 +5,17 @@
 #include "engine/geometry.h"
 #include "engine/strings.h"
 
+#ifdef __linux
 #include "alsa/asoundlib.h"
-
-#include "pthread.h"
-#include "stdarg.h"
 #include "stddef.h"
+#include "pthread.h"
+#endif
+
+#ifdef _WIN32
+#include "stdint.h"
+#endif
+
+#include "stdarg.h"
 #include "string.h"
 #include "stdio.h"
 #include "time.h"
@@ -40,20 +46,22 @@ Array sounds;
 
 float volumes[2];
 
+int soundFilesLength;
+int loadedSoundFiles = 0;
+
+#ifdef __linux__
 int device;
 int dir;
 snd_pcm_t *handle;
 snd_pcm_hw_params_t *params;
 snd_pcm_status_t *status;
 
-pthread_mutex_t soundMutex = PTHREAD_MUTEX_INITIALIZER;
+//pthread_mutex_t soundMutex = PTHREAD_MUTEX_INITIALIZER;
 
 int firstFramesLeft = 0;
 int framesLeft = 0;
 int deltaFrames = 0;
 int lastDeltaFrames = 0;
-
-int loadedSoundFiles = 0;
 
 int preBurnLoops = 10;
 int loopCount = 0;
@@ -96,7 +104,7 @@ void *renderLoop(void *ptr){
 
 			burnLoops--;
 
-			pthread_mutex_lock(&soundMutex);
+			//pthread_mutex_lock(&soundMutex);
 
 			//mix sound frames
 			int16_t mixedFrames[framesToWrite * NUMBER_OF_CHANNELS];
@@ -130,7 +138,7 @@ void *renderLoop(void *ptr){
 			
 			}
 
-			pthread_mutex_unlock(&soundMutex);
+			//pthread_mutex_unlock(&soundMutex);
 
 			if(loopCount < preBurnLoops){
 				memset(mixedFrames, 0, framesToWrite * NUMBER_OF_CHANNELS * sizeof(int16_t));
@@ -152,8 +160,7 @@ void *renderLoop(void *ptr){
 	return NULL;
 
 }
-
-int soundFilesLength;
+#endif
 
 void *loadAudioFiles(void *ptr){
 
@@ -190,10 +197,13 @@ void Audio_init(char **soundFiles, int soundFilesLengthIn){
 
 	soundDataLength = soundFilesLength;
 
+	//load audio files on seperate thread
+#ifdef __linux__
 	//load audio on seperate thread
 	//loadAudioFiles(NULL);
 	pthread_t loadThread;
 	pthread_create(&loadThread, NULL, loadAudioFiles, NULL);
+#endif
 
 	//init sound and volume handling
 	Array_init(&sounds, sizeof(Sound));
@@ -202,6 +212,7 @@ void Audio_init(char **soundFiles, int soundFilesLengthIn){
 	volumes[AUDIO_SOUND_TYPE_MUSIC] = 1.0;
 
 	//init native sound device
+#ifdef __linux__
 	device = snd_pcm_open(&handle, "default", SND_PCM_STREAM_PLAYBACK, 0);
 
 	snd_pcm_hw_params_alloca(&params);
@@ -221,10 +232,13 @@ void Audio_init(char **soundFiles, int soundFilesLengthIn){
 	snd_pcm_hw_params(handle, params);
 
 	snd_pcm_status_malloc(&status);
+#endif
 
 	//start render loop on seperate thread
+#ifdef __linux__
 	pthread_t renderThread;
 	pthread_create(&renderThread, NULL, renderLoop, NULL);
+#endif
 
 }
 
@@ -255,11 +269,11 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 		return -1;
 	}
 
-	pthread_mutex_lock(&soundMutex);
+	//pthread_mutex_lock(&soundMutex);
 
 	Sound *sound_p = Array_addItem(&sounds);
 
-	pthread_mutex_unlock(&soundMutex);
+	//pthread_mutex_unlock(&soundMutex);
 
 	EntityHeader_init(&sound_p->entityHeader);
 
