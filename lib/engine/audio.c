@@ -13,6 +13,7 @@
 
 #ifdef _WIN32
 #include "stdint.h"
+#include "Windows.h"
 #endif
 
 #include "stdarg.h"
@@ -162,6 +163,110 @@ void *renderLoop(void *ptr){
 }
 #endif
 
+#ifdef _WIN32
+
+HWAVEOUT hWaveOut;
+WAVEFORMATEX wfx;
+MMRESULT result;
+
+#define FRAMES_PER_WRITE (SAMPLE_RATE / 50)
+#define FRAMES_PER_HEADER SAMPLE_RATE / 100
+#define NUMBER_OF_HEADERS 1000
+
+WAVEHDR headers[NUMBER_OF_HEADERS];
+int16_t mixedFrameBuffers[NUMBER_OF_HEADERS][FRAMES_PER_WRITE * NUMBER_OF_CHANNELS];
+int currentHeader = 0;
+
+int writtenFrames = 0;
+
+DWORD WINAPI renderLoop(LPVOID argument){
+
+	while(true){
+
+		MMTIME currentPosition;
+		waveOutGetPosition(hWaveOut, &currentPosition, sizeof(MMTIME));
+
+		int deltaFrames = writtenFrames - (currentPosition.u.sample / NUMBER_OF_CHANNELS / sizeof(int16_t));
+
+		printf("---\n");
+		printf("%i\n", currentPosition.u.sample / NUMBER_OF_CHANNELS / sizeof(int16_t));
+		printf("%i\n", writtenFrames);
+		printf("%i\n", deltaFrames);
+		printf("%i\n", sounds.length);
+
+		//int framesToWrite = FRAMES_PER_WRITE - deltaFrames;
+		int framesToWrite = FRAMES_PER_WRITE;
+
+		//if(framesToWrite < 0){
+			//framesToWrite = 0;
+		//}
+
+		while(deltaFrames < framesToWrite * 2){
+
+			//mix sound frames
+			int16_t *mixedFrames = mixedFrameBuffers[currentHeader % NUMBER_OF_HEADERS];
+			memset(mixedFrames, 0, sizeof(int16_t) * NUMBER_OF_CHANNELS * FRAMES_PER_WRITE);
+
+			for(int i = 0; i < sounds.length; i++){
+
+				Sound *sound_p = Array_getItemPointerByIndex(&sounds, i);
+				SoundData *soundData_p = &soundData[sound_p->soundDataIndex];
+				
+				if(sound_p->stopped
+				|| sound_p->soundDataIndex >= loadedSoundFiles){
+					continue;
+				}
+
+				sound_p->currentFrame += framesToWrite;
+
+				if(sound_p->currentFrame + framesToWrite > soundData_p->framesLength - framesToWrite){
+					if(sound_p->loop){
+						sound_p->currentFrame = 0;
+					}else{
+						Array_removeItemByIndex(&sounds, i);
+						i--;
+						continue;
+					}
+				}
+
+				for(int j = 0; j < framesToWrite * NUMBER_OF_CHANNELS; j++){
+					mixedFrames[j] += (int16_t)((float)soundData_p->data[sound_p->currentFrame * NUMBER_OF_CHANNELS + j] * sound_p->volume * volumes[sound_p->type] * CONSTANT_VOLUME_FACTOR);
+				}
+
+			}
+
+			//WINDOWS STUFF
+			WAVEHDR *header_p = &headers[currentHeader % NUMBER_OF_HEADERS];
+			currentHeader++;
+
+			ZeroMemory(header_p, sizeof(WAVEHDR));
+			header_p->dwBufferLength = NUMBER_OF_CHANNELS * framesToWrite * sizeof(int16_t);
+			header_p->lpData = (char *)mixedFrames;
+
+			if(currentHeader >= NUMBER_OF_HEADERS){
+				waveOutUnprepareHeader(hWaveOut, header_p, sizeof(WAVEHDR));
+			}
+
+			waveOutPrepareHeader(hWaveOut, header_p, sizeof(WAVEHDR));
+
+			waveOutWrite(hWaveOut, header_p, sizeof(WAVEHDR));
+
+			writtenFrames += framesToWrite;
+
+			//re check delta frames
+			MMTIME currentPosition;
+			waveOutGetPosition(hWaveOut, &currentPosition, sizeof(MMTIME));
+
+			deltaFrames = writtenFrames - (currentPosition.u.sample / NUMBER_OF_CHANNELS / sizeof(int16_t));
+
+		}
+	
+	}
+
+}
+
+#endif
+
 void *loadAudioFiles(void *ptr){
 
 	for(int i = 0; i < soundFilesLength; i++){
@@ -204,6 +309,9 @@ void Audio_init(char **soundFiles, int soundFilesLengthIn){
 	pthread_t loadThread;
 	pthread_create(&loadThread, NULL, loadAudioFiles, NULL);
 #endif
+#ifdef _WIN32
+	loadAudioFiles(NULL);
+#endif
 
 	//init sound and volume handling
 	Array_init(&sounds, sizeof(Sound));
@@ -233,11 +341,32 @@ void Audio_init(char **soundFiles, int soundFilesLengthIn){
 
 	snd_pcm_status_malloc(&status);
 #endif
+#ifdef _WIN32
+	wfx.nSamplesPerSec = SAMPLE_RATE;
+	wfx.wBitsPerSample = 16;
+	wfx.nChannels = NUMBER_OF_CHANNELS;
+
+	wfx.cbSize = 0;
+	wfx.wFormatTag = WAVE_FORMAT_PCM;
+	wfx.nBlockAlign = (wfx.wBitsPerSample >> 3) * wfx.nChannels;
+	wfx.nAvgBytesPerSec = wfx.nBlockAlign * wfx.nSamplesPerSec;
+
+	if(waveOutOpen(&hWaveOut, WAVE_MAPPER, &wfx, 0, 0, CALLBACK_NULL) != MMSYSERR_NOERROR){
+		fprintf(stderr, "unable to open WAVE_MAPPER device\n");
+		ExitProcess(1);
+	}
+#endif
 
 	//start render loop on seperate thread
 #ifdef __linux__
 	pthread_t renderThread;
 	pthread_create(&renderThread, NULL, renderLoop, NULL);
+#endif
+#ifdef _WIN32
+	DWORD threadID;
+	HANDLE thread = CreateThread(
+		NULL, 0, renderLoop, NULL, 0, &threadID
+	);
 #endif
 
 }

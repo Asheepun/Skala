@@ -61,6 +61,9 @@ void SaveData_read(SaveData *saveData_p){
 	Array_clear(&saveData_p->flags);
 	Array_clear(&saveData_p->completedLevels);
 	Array_clear(&saveData_p->levelsWithDoorKey);
+	Array_clear(&saveData_p->doorKeys);
+	Array_clear(&saveData_p->doors);
+
 
 	enum CurrentReadMode currentReadMode;
 	currentReadMode = SEARCHING;

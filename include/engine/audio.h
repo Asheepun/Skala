@@ -5,8 +5,8 @@
 #include "stdlib.h"
 #include "stddef.h"
 
-static int SAMPLE_RATE = 44100;
-static int NUMBER_OF_CHANNELS = 2;
+#define SAMPLE_RATE 44100
+#define NUMBER_OF_CHANNELS 2
 static int FRAME_SIZE = 4;
 static int PERIOD_SIZE = 64;
 //static int PERIOD_SIZE = 256;

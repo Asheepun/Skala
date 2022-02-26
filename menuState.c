@@ -315,6 +315,7 @@ void World_menuState(World *world_p){
 
 		free(data_p);
 
+		SaveData_init(&world_p->saveData);
 		SaveData_read(&world_p->saveData);
 
 		World_switchToAndInitState(world_p, LEVEL_HUB_STATE);
@@ -399,7 +400,7 @@ void Settings_init(Settings *settings_p){
 	settings_p->musicVolume = 0.5;
 	settings_p->sfxVolume = 0.5;
 
-	settings_p->musicVolume = 0.0;
+	//settings_p->musicVolume = 0.0;
 
 }
 
