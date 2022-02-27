@@ -1,3 +1,5 @@
+#include "engine/wav-reader.h"
+
 #include "stdio.h"
 #include "stdint.h"
 #include "string.h"
@@ -13,6 +15,8 @@
 #include "stdint.h"
 #endif
 
+#define HEADER_READ_LENGTH 1000
+
 #define FILE_SIZE_INDEX 4
 #define FORMAT_TYPE_INDEX 20
 #define NUMBER_OF_CHANNELS_INDEX 22
@@ -20,10 +24,12 @@
 #define BITS_PER_SAMPLE_INDEX 34
 #define DATA_SIZE_INDEX 40
 
+#define BEXT_INDEX 36
+
 #define SAMPLE_RATE 44100
 #define NUMBER_OF_CHANNELS 2
 
-//#define LOG_INFO_WAV_READER
+#define LOG_INFO_WAV_READER
 
 void local_printf(const char *format, ...){
 
@@ -56,26 +62,61 @@ int16_t *WavReader_getDataFromWavFile(char *path, int *numberOfPcmFrames_p){
 	local_printf("\nfile path: %s\n\n", path);
 
 	//read header data
-	int8_t fileHeader[44];
-	memset(fileHeader, 0, 44);
+	int8_t fileHeader[HEADER_READ_LENGTH];
+	memset(fileHeader, 0, HEADER_READ_LENGTH);
 
-	fread(fileHeader, 1, 44, fileHandle);
+	fread(fileHeader, 1, HEADER_READ_LENGTH, fileHandle);
 
 	local_printf("RAW HEADER\n");
-	for(int i = 0; i < 44; i++){
-		local_printf("%c", fileHeader[i]);
+	for(int i = 0; i < HEADER_READ_LENGTH; i++){
+		//local_printf("%c", fileHeader[i]);
 	}
 	local_printf("\n\n");
 
 	int32_t sampleRate;
 	int16_t numberOfChannels;
-	int32_t dataSize;
 	int16_t bitsPerSample;
+	int32_t dataSize;
 
 	memcpy(&numberOfChannels, fileHeader + NUMBER_OF_CHANNELS_INDEX, 2);
 	memcpy(&sampleRate, fileHeader + SAMPLE_RATE_INDEX, 4);
-	memcpy(&dataSize, fileHeader + DATA_SIZE_INDEX, 4);
 	memcpy(&bitsPerSample, fileHeader + BITS_PER_SAMPLE_INDEX, 2);
+	memcpy(&dataSize, fileHeader + DATA_SIZE_INDEX, 4);
+
+	int audioDataIndex = DATA_SIZE_INDEX + 4;
+
+	//check for BEXT CHUNK
+	{
+		char check[5];
+		check[4] = *"\0";
+		memcpy(check, fileHeader + BEXT_INDEX, 4);
+
+		if(strcmp(check, "bext") == 0){
+
+			printf("---\nFOUND BEXT!\n---\n");
+
+			int dataSizeIndex;
+
+			for(int i = 0; i < HEADER_READ_LENGTH; i++){
+
+				char check[5];
+				check[4] = *"\0";
+				memcpy(check, fileHeader + i, 4);
+
+				if(strcmp(check, "data") == 0){
+					dataSizeIndex = i + 4;
+					break;
+				}
+
+			}
+
+			memcpy(&dataSize, fileHeader + dataSizeIndex, 4);
+		
+			audioDataIndex = dataSizeIndex + 4;
+
+		}
+	
+	}
 
 	local_printf("numberOfChannels: %i\n", numberOfChannels);
 	local_printf("sampleRate: %i\n", sampleRate);
@@ -93,17 +134,13 @@ int16_t *WavReader_getDataFromWavFile(char *path, int *numberOfPcmFrames_p){
 
 	local_printf("\nBEGAN PROCESSING DATA\n");
 
-	int16_t *rawAudioData = malloc(sizeof(int16_t) * numberOfPcmFrames * numberOfChannels);
+	int16_t *audioData = malloc(sizeof(int16_t) * numberOfPcmFrames * numberOfChannels);
 
-	memset(rawAudioData, 0, sizeof(int16_t) * numberOfPcmFrames * numberOfChannels);
+	memset(audioData, 0, sizeof(int16_t) * numberOfPcmFrames * numberOfChannels);
 
-	fseek(fileHandle, 44, SEEK_SET);
+	fseek(fileHandle, audioDataIndex, SEEK_SET);
 
-	fread(rawAudioData, 1, dataSize, fileHandle);
-
-	int16_t *audioData = malloc(sizeof(int16_t) * numberOfPcmFrames * NUMBER_OF_CHANNELS);
-
-	memcpy(audioData, rawAudioData, sizeof(int16_t) * numberOfPcmFrames * NUMBER_OF_CHANNELS);
+	fread(audioData, 1, dataSize, fileHandle);
 
 	local_printf("\nFINNISHED PROCESSING DATA\n");
 
@@ -111,108 +148,6 @@ int16_t *WavReader_getDataFromWavFile(char *path, int *numberOfPcmFrames_p){
 
 	*numberOfPcmFrames_p = numberOfPcmFrames;
 
-	free(rawAudioData);
-
 	return audioData;
-
-	//if(SAMPLE_RATE == sampleRate){
-
-		/*
-	}else{
-
-		//resample data
-
-		int L = 147;
-		int M = 160;
-		int cuttoffFrequency = 220500;
-
-		int16_t conversionBuffer[L * NUMBER_OF_CHANNELS];
-		int16_t filteredBuffer[L * NUMBER_OF_CHANNELS];
-
-		int processedFrames = 0;
-		int pickedFrames = 0;
-
-		int processingCounter = 0;
-		int pickingCounter = 0;
-
-		double RC = 1.0 / ((double)cuttoffFrequency * 2 * 3.14);
-		double dt = 1.0 / ((double)sampleRate * (double)L);
-
-		double alpha = dt / (RC + dt);
-
-		printf("RC: %f\n", RC);
-		printf("dt: %f\n", dt);
-		printf("alpha: %f\n", alpha);
-
-		while(processedFrames < numberOfPcmFrames){
-
-			memset(conversionBuffer, 0, L * NUMBER_OF_CHANNELS * sizeof(int16_t));
-
-			conversionBuffer[0 + 0] = rawAudioData[processedFrames * NUMBER_OF_CHANNELS + 0];
-			conversionBuffer[0 + 1] = rawAudioData[processedFrames * NUMBER_OF_CHANNELS + 1];
-
-			filteredBuffer[0 + 0] = conversionBuffer[0 + 0];
-			filteredBuffer[0 + 1] = conversionBuffer[0 + 1];
-
-			//printf("%i\n", filteredBuffer[0]);
-
-			for(int i = 1; i < L; i++){
-				filteredBuffer[i * NUMBER_OF_CHANNELS + 0] = (int16_t)((double)filteredBuffer[(i - 1) * NUMBER_OF_CHANNELS + 0] + (alpha * ((double)conversionBuffer[i * NUMBER_OF_CHANNELS + 0] - (double)filteredBuffer[(i - 1) * NUMBER_OF_CHANNELS + 0])));
-				filteredBuffer[i * NUMBER_OF_CHANNELS + 1] = (int16_t)((double)filteredBuffer[(i - 1) * NUMBER_OF_CHANNELS + 1] + (alpha * ((double)conversionBuffer[i * NUMBER_OF_CHANNELS + 1] - (double)filteredBuffer[(i - 1) * NUMBER_OF_CHANNELS + 1])));
-
-				//if(i == L - 1){
-					//printf("---\n");
-					//printf("%i\n", filteredBuffer[i * NUMBER_OF_CHANNELS + 0]);
-					//printf("%i\n", filteredBuffer[i * NUMBER_OF_CHANNELS + 1]);
-				//}
-
-			}
-
-			processingCounter += L;
-
-			while(processingCounter > pickingCounter){
-
-				audioData[pickedFrames * NUMBER_OF_CHANNELS + 0] = filteredBuffer[(processingCounter - pickingCounter) * NUMBER_OF_CHANNELS + 0];
-				audioData[pickedFrames * NUMBER_OF_CHANNELS + 1] = filteredBuffer[(processingCounter - pickingCounter) * NUMBER_OF_CHANNELS + 1];
-
-				pickedFrames++;
-				pickingCounter += M;
-			
-			}
-
-			processedFrames++;
-		
-		}
-	
-	}
-
-	local_printf("\nFINNISHED PROCESSING DATA\n");
-
-	fclose(fileHandle);
-
-	*numberOfPcmFrames_p = resampledNumberOfPcmFrames;
-
-	free(rawAudioData);
-
-	return audioData;
-	*/
-
-}
-
-//Lånat från schysst snubbe
-void lowPassFrequency(int16_t *input, int16_t *output, int points, int cuttoffFrequency, int sampleRate, int numberOfChannels){
-
-    double RC = 1.0 / (cuttoffFrequency*2*3.14);
-    double dt = 1.0 / sampleRate;
-
-    double alpha = dt/(RC+dt);
-
-    output[0] = input[0];
-
-    for(int i = 1; i < points; i++){
-		for(int j = 0; j < numberOfChannels; j++){
-			output[i] = (int16_t)((double)output[(i - 1) * numberOfChannels + j] + (alpha * ((double)input[i * numberOfChannels + j] - (double)output[(i - 1) * numberOfChannels + j])));
-		}
-    }
 
 }

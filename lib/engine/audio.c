@@ -188,11 +188,11 @@ DWORD WINAPI renderLoop(LPVOID argument){
 
 		int deltaFrames = writtenFrames - (currentPosition.u.sample / NUMBER_OF_CHANNELS / sizeof(int16_t));
 
-		printf("---\n");
-		printf("%i\n", currentPosition.u.sample / NUMBER_OF_CHANNELS / sizeof(int16_t));
-		printf("%i\n", writtenFrames);
-		printf("%i\n", deltaFrames);
-		printf("%i\n", sounds.length);
+		//printf("---\n");
+		//printf("%i\n", currentPosition.u.sample / NUMBER_OF_CHANNELS / sizeof(int16_t));
+		//printf("%i\n", writtenFrames);
+		//printf("%i\n", deltaFrames);
+		//printf("%i\n", sounds.length);
 
 		//int framesToWrite = FRAMES_PER_WRITE - deltaFrames;
 		int framesToWrite = FRAMES_PER_WRITE;
