@@ -168,13 +168,18 @@ void Engine_start(){
 
 		"open-door-1",
 
+		"jump-1",
+		"jump-2",
+		"jump-3",
+		//"jump-4",
+
 		"music/outside",
 		"music/first-levels",
 		"music/door-key-levels",
 		"music/all-from-top-levels",
 		"music/scale-field-levels",
-		//"music/player-position-levels",
-		//"music/no-legs-levels",
+		"music/player-position-levels",
+		"music/no-legs-levels",
 		"music/secret-room-levels",
 	};
 
@@ -201,8 +206,6 @@ void Engine_start(){
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
 		*ID_p = Audio_playSound("music/door-key-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
-
-		world.currentMusicID = *ID_p;
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
@@ -214,13 +217,13 @@ void Engine_start(){
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		//*ID_p = Audio_playSound("music/player-position-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
-		*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/player-position-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		//*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		//*ID_p = Audio_playSound("music/no-legs-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
-		*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/no-legs-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		//*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);

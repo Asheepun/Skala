@@ -210,7 +210,7 @@ void World_levelState(World *world_p){
 		if((world_p->actions[JUMP_ACTION].down)
 		&& playerPhysics_p->onGround){
 			playerPhysics_p->velocity.y += player_p->jumpSpeed;
-			//Audio_playSound("player-jump-1", 3.0, false, AUDIO_SOUND_TYPE_SFX);
+			Audio_playSoundVariation("jump", 3, 1.0, false, AUDIO_SOUND_TYPE_SFX);
 			//Audio_playSound("player-land", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 		}
 
