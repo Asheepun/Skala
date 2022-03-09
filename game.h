@@ -513,6 +513,7 @@ static const Renderer2D_Color COLOR_BLUE 				= { 0.00, 		0.00, 		1.00 };
 static const Renderer2D_Color COLOR_YELLOW 				= { 1.00, 		1.00, 		0.00 };
 static const Renderer2D_Color COLOR_YELLOWRED 			= { 1.00, 		0.80, 		0.00 };
 static const Renderer2D_Color COLOR_ORANGE 				= { 1.00, 		0.60, 		0.00 };
+static const Renderer2D_Color COLOR_DARK_GREEN 			= { 0.00, 		0.30, 		0.00 };
 
 static const Renderer2D_Color COLOR_GREY_BACKGROUND 	= { 0.00, 		0.00, 		0.00 };
 static const Renderer2D_Color COLOR_GREEN_BACKGROUND 	= { 0.00, 		0.5, 		0.00 };
@@ -554,7 +555,7 @@ static const Renderer2D_Color SCALING_SCALE_TYPE_COLORS[] = {
 
 static int FADE_TRANSITION_TIME = 60;
 
-static float MUSIC_VOLUME_FACTOR = 1.0;
+static float MUSIC_VOLUME_FACTOR = 2.0;
 static float MUSIC_FADE_IN_SPEED = 0.01;
 static float MUSIC_FADE_OUT_SPEED = 0.01;
 

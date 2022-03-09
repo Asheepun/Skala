@@ -25,6 +25,7 @@ void World_initLevelHub(World *world_p){
 	{
 		BodyPair *bodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
 		//bodyPair_p->body.pos = getVec2f(1600, -HEIGHT * 6 - 100);
+		//bodyPair_p->body.pos = getVec2f(6700, -HEIGHT * 6 + 150);
 	}
 
 	//BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
@@ -452,6 +453,10 @@ void World_initLevelHub(World *world_p){
 	World_addObstacle(world_p, getVec2f(startingAreaX, 230), getVec2f(houseX, 40), NONE);
 
 	World_addObstacle(world_p, getVec2f(startingAreaX + 700, 210), getVec2f(200, 20), NONE);
+
+	//World_addSprite(world_p, getVec2f(startingAreaX + 700 + 70, 210 - 16), getVec2f(36, 16), COLOR_WHITE, "furniture/bench", 1, GAME_LAYER_FURNITURE);
+	//World_addSprite(world_p, getVec2f(startingAreaX + 700 + 120, 210 - 20), getVec2f(18, 20), COLOR_WHITE, "furniture/bush", 1, GAME_LAYER_FURNITURE);
+	//World_addSprite(world_p, getVec2f(startingAreaX + 700 + 110, 210 - 73), getVec2f(14, 73), COLOR_WHITE, "furniture/lamp-post", 1, GAME_LAYER_FURNITURE);
 
 	//World_addObstacle(world_p, getVec2f(startingAreaX + 200, -HEIGHT - 50), getVec2f(40, 40), ALL);
 
@@ -944,24 +949,28 @@ void World_initLevelHub(World *world_p){
 		}
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 60, 140), getVec2f(40, 90), NONE);
+		World_addSprite(world_p, getVec2f(startingAreaX + 60 + 15, 140 + 40), getVec2f(10, 10), COLOR_ORANGE, "point", 0.9, GAME_LAYER_PARTICLES);
 	}
 
 	if(SaveData_hasFlag(&world_p->saveData, "completed-scale-field-levels")){
 		World_addScaleField(world_p, getVec2f(startingAreaX + 120, 140), getVec2f(40, 90), ALL);
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 120, 140), getVec2f(40, 90), NONE);
+		World_addSprite(world_p, getVec2f(startingAreaX + 120 + 15, 140 + 40), getVec2f(10, 10), COLOR_DARK_GREEN, "point", 0.9, GAME_LAYER_PARTICLES);
 	}
 
 	if(SaveData_hasFlag(&world_p->saveData, "completed-all-from-top-levels")){
 		World_addObstacle(world_p, getVec2f(startingAreaX + 180, 140), getVec2f(40, 90), ALL_FROM_TOP);
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 180, 140), getVec2f(40, 90), NONE);
+		World_addSprite(world_p, getVec2f(startingAreaX + 180 + 15, 140 + 40), getVec2f(10, 10), COLOR_PURPLE, "point", 0.9, GAME_LAYER_PARTICLES);
 	}
 
 	if(SaveData_hasFlag(&world_p->saveData, "completed-first-scale-levels")){
 		World_addObstacle(world_p, getVec2f(startingAreaX + 240, 140), getVec2f(40, 90), ALL);
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 240, 140), getVec2f(40, 90), NONE);
+		World_addSprite(world_p, getVec2f(startingAreaX + 240 + 15, 140 + 40), getVec2f(10, 10), COLOR_GREEN, "point", 0.9, GAME_LAYER_PARTICLES);
 	}
 
 	//add platform with key in player position levels and other platforms
@@ -985,6 +994,9 @@ void World_initLevelHub(World *world_p){
 		World_addObstacle(world_p, getVec2f(platformWithKeyX + 20, -150 - 60), getVec2f(20, 60), NONE);
 
 		World_addObstacle(world_p, getVec2f(platformWithKeyX + 100, -150 - 60), getVec2f(20, 60), NONE);
+
+		World_addSprite(world_p, getVec2f(platformWithKeyX + 20 + 5, -150 - 60 + 25), getVec2f(10, 10), COLOR_BLACK, "point", 0.7, GAME_LAYER_PARTICLES);
+		World_addSprite(world_p, getVec2f(platformWithKeyX + 100 + 5, -150 - 60 + 25), getVec2f(10, 10), COLOR_BLACK, "point", 0.7, GAME_LAYER_PARTICLES);
 	}
 
 	//add scale field to ending
@@ -994,6 +1006,7 @@ void World_initLevelHub(World *world_p){
 		World_addTextSprite(world_p, getVec2f(1360 + 105, cloudY - 150), "Ascend", "times30", COLOR_WHITE, GAME_LAYER_TEXT);
 	}else{
 		World_addObstacle(world_p, getVec2f(1360 + 130, cloudY - 50), getVec2f(40, 30), NONE);
+		World_addSprite(world_p, getVec2f(1360 + 130 + 15, cloudY - 50 + 10), getVec2f(10, 10), COLOR_DARK_GREEN, "point", 0.9, GAME_LAYER_PARTICLES);
 	}
 
 	//add hercules star sign
@@ -1057,13 +1070,13 @@ void World_initLevelHub(World *world_p){
 				targetColor = COLOR_PURPLE;
 			}
 			if(openGateParticleEffectRoom == SCALE_FIELD_ROOM){
-				targetColor = COLOR_BLUE;
+				targetColor = COLOR_DARK_GREEN;
 			}
 			if(openGateParticleEffectRoom == PLAYER_POSITION_ROOM){
 				targetColor = COLOR_WHITE;
 			}
 			if(openGateParticleEffectRoom == NO_LEGS_ROOM){
-				targetColor = COLOR_GREEN;
+				targetColor = COLOR_DARK_GREEN;
 			}
 			if(openGateParticleEffectRoom == SECRET_ROOM){
 				targetColor = COLOR_WHITE;

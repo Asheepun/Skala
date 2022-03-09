@@ -187,7 +187,7 @@ void Engine_start(){
 
 	Audio_init(soundAssets, soundAssetsLength);
 
-	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_MUSIC);
+	Audio_setVolume(0.5 * MUSIC_VOLUME_FACTOR, AUDIO_SOUND_TYPE_MUSIC);
 	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_SFX);
 
 	//Audio_setVolume(0.0, AUDIO_SOUND_TYPE_MUSIC);

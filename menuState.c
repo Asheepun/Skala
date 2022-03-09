@@ -406,7 +406,7 @@ void Settings_init(Settings *settings_p){
 
 void World_Settings_updateWorld(World *world_p, Settings *settings_p){
 
-	Audio_setVolume(settings_p->musicVolume, AUDIO_SOUND_TYPE_MUSIC);
+	Audio_setVolume(settings_p->musicVolume * MUSIC_VOLUME_FACTOR, AUDIO_SOUND_TYPE_MUSIC);
 	Audio_setVolume(settings_p->sfxVolume, AUDIO_SOUND_TYPE_SFX);
 
 }
