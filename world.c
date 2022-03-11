@@ -373,7 +373,7 @@ size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, char *fontName
 
 	sprite_p->facing = RIGHT;
 
-	String_set(sprite_p->text, text, SMALL_STRING_SIZE);
+	String_set(sprite_p->text, text, STRING_SIZE);
 	sprite_p->textureCoordOffset = getVec2f(0, 0);
 	sprite_p->textureArea = getVec2f(0, 0);
 	//strcpy(sprite_p->text, text);

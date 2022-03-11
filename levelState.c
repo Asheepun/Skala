@@ -207,14 +207,14 @@ void World_levelState(World *world_p){
 			playerPhysics_p->acceleration.x += player_p->runAcceleration;
 		}
 
-		if((world_p->actions[JUMP_ACTION].down)
+		if((world_p->actions[UP_ACTION].down)
 		&& playerPhysics_p->onGround){
 			playerPhysics_p->velocity.y += player_p->jumpSpeed;
 			Audio_playSoundVariation("jump", 3, 1.0, false, AUDIO_SOUND_TYPE_SFX);
 			//Audio_playSound("player-land", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 		}
 
-		if(!world_p->actions[JUMP_ACTION].down
+		if(!world_p->actions[UP_ACTION].down
 		&& playerPhysics_p->velocity.y < 0){
 			playerPhysics_p->velocity.y = 0;
 		}
@@ -1110,7 +1110,7 @@ void World_levelState(World *world_p){
 		if(bodyPair1_p->physics.landed
 		&& world_p->playerHasLanded
 		&& bodyPair1_p->entityType == PLAYER){
-		//&& !(world_p->actions[JUMP_ACTION].down
+		//&& !(world_p->actions[UP_ACTION].down
 		//&& !world_p->scaling)){
 			//Audio_playSound("player-jump-1", 0.5, false, AUDIO_SOUND_TYPE_SFX);
 		}

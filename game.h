@@ -29,12 +29,24 @@ enum Actions{
 	DOWN_ACTION,
 	LEFT_ACTION,
 	RIGHT_ACTION,
-	JUMP_ACTION,
+	RESTART_ACTION,
 	SCALE_ACTION,
 	DO_ACTION,
 	BACK_ACTION,
 	MENU_ACTION,
-	RESTART_ACTION,
+	NUMBER_OF_ACTIONS,
+};
+
+static char *ACTION_NAMES[] = {
+	"UP",
+	"DOWN",
+	"LEFT",
+	"RIGHT",
+	"RESTART",
+	"SCALE",
+	"DO",
+	"BACK",
+	"MENU",
 };
 
 enum ButtonType{
@@ -147,6 +159,7 @@ enum MenuState{
 	MENU_STATE_MAIN,
 	MENU_STATE_SETTINGS,
 	MENU_STATE_DELETE_SAVE_DATA,
+	MENU_STATE_CONTROLS,
 	NUMBER_OF_MENU_STATES,
 };
 
@@ -198,7 +211,7 @@ typedef struct Sprite{
 	Vec2f pos;
 	//unsigned int font;
 	char *fontName;
-	char text[SMALL_STRING_SIZE];
+	char text[STRING_SIZE];
 
 }Sprite;
 
@@ -558,6 +571,8 @@ static int FADE_TRANSITION_TIME = 60;
 static float MUSIC_VOLUME_FACTOR = 2.0;
 static float MUSIC_FADE_IN_SPEED = 0.01;
 static float MUSIC_FADE_OUT_SPEED = 0.01;
+
+static float SFX_VOLUME_FACTOR = 0.5;
 
 static float PLAYER_SPEED_SCALE_EXPONENT = 1.2;
 
