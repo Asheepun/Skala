@@ -1549,6 +1549,8 @@ Pick
 
 	World_addDoor(world_p, getVec2f(60, 150), getVec2f(20, 60), NONE);
 
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, -BIG_BLOCKING_SIZE), getVec2f(20, HEIGHT + BIG_BLOCKING_SIZE), NONE);
+
 :levelName
 no-legs-point-hole
 :screenName
@@ -1563,11 +1565,11 @@ Hurdle
 
 	World_addPoint(world_p, getVec2f(WIDTH - 50, 230), NONE);
 
-	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(100, 60), NONE);
+	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(100, 70), NONE);
 
-	World_addObstacle(world_p, getVec2f(200, 210), getVec2f(60, 60), NONE);
+	World_addObstacle(world_p, getVec2f(200, 200), getVec2f(60, 70), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 120, 210), getVec2f(60, 60), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 120, 200), getVec2f(60, 70), NONE);
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 30, -HEIGHT), getVec2f(30, 2 * HEIGHT), NONE);
 
@@ -1597,7 +1599,7 @@ Mold
 
 	World_addScaleField(world_p, getVec2f(250, 130), getVec2f(80, 80), ALL);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, 210), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, -BIG_BLOCKING_SIZE), getVec2f(20, 210 + BIG_BLOCKING_SIZE), NONE);
 
 :levelName
 no-legs-drag-key
@@ -1621,7 +1623,7 @@ Force
 
 	World_addDoor(world_p, getVec2f(60, 150), getVec2f(20, 60), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(20, 210), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, -BIG_BLOCKING_SIZE), getVec2f(20, 210 + BIG_BLOCKING_SIZE), NONE);
 
 :levelName
 no-legs-key-first
