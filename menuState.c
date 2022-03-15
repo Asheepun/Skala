@@ -8,6 +8,8 @@
 #include "levels.h"
 #include "string.h"
 
+int NUMBER_OF_REBINDABLE_ACTIONS = 6;
+
 size_t menuBackgroundSpriteIndex;
 
 enum MenuState currentMenuState;
@@ -15,7 +17,10 @@ int currentButton;
 
 bool pressingButton = false;
 
-void clearMenuButtons(World *world_p){
+bool bindingAction = false;
+int actionToBindIndex;
+
+void clearMenuButtonsAndSprites(World *world_p){
 
 	for(int i = 0; i < world_p->menuButtonIDs.length; i++){
 
@@ -27,11 +32,22 @@ void clearMenuButtons(World *world_p){
 
 	Array_clear(&world_p->menuButtonIDs);
 
+	for(int i = 0; i < world_p->menuSpriteIndices.length; i++){
+
+		size_t *index_p = Array_getItemPointerByIndex(&world_p->menuSpriteIndices, i);
+		
+		World_removeSpriteByIndex(world_p, *index_p);
+
+	}
+
+	Array_clear(&world_p->menuSpriteIndices);
+
+
 }
 
 void addMainMenuButtons(World *world_p){
 
-	clearMenuButtons(world_p);
+	clearMenuButtonsAndSprites(world_p);
 
 	int buttonsLeftOffset = 100;
 	int buttonsTopOffset = 60;
@@ -41,28 +57,23 @@ void addMainMenuButtons(World *world_p){
 		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
 		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Exit Level", MENU_LAYER_TEXT, MENU_STATE_MAIN);
 		buttonsTopOffset += buttonsMargin;
-	}
-	{
+	}{
 		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
 		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Restart Level", MENU_LAYER_TEXT, MENU_STATE_MAIN);
 		buttonsTopOffset += buttonsMargin;
-	}
-	{
+	}{
 		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
 		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Delete Save Data", MENU_LAYER_TEXT, MENU_STATE_MAIN);
 		buttonsTopOffset += buttonsMargin;
-	}
-	{
+	}{
 		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
 		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Settings", MENU_LAYER_TEXT, MENU_STATE_MAIN);
 		buttonsTopOffset += buttonsMargin;
-	}
-	{
+	}{
 		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
 		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Return", MENU_LAYER_TEXT, MENU_STATE_MAIN);
 		buttonsTopOffset += buttonsMargin;
-	}
-	{
+	}{
 		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
 		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Quit", MENU_LAYER_TEXT, MENU_STATE_MAIN);
 		buttonsTopOffset += buttonsMargin;
@@ -74,7 +85,7 @@ void addMainMenuButtons(World *world_p){
 
 void addSettingsMenuButtons(World *world_p){
 
-	clearMenuButtons(world_p);
+	clearMenuButtonsAndSprites(world_p);
 
 	int buttonsLeftOffset = 100;
 	int buttonsTopOffset = 60;
@@ -82,9 +93,69 @@ void addSettingsMenuButtons(World *world_p){
 
 	{
 		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Music Volume", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}{
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Sfx Volume", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}{
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Controls", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}{
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Fullscreen", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}{
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
 		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Return", MENU_LAYER_TEXT, MENU_STATE_MAIN);
 		buttonsTopOffset += buttonsMargin;
 	}
+
+	currentMenuState = MENU_STATE_SETTINGS;
+
+}
+
+void addControlMenuButtons(World *world_p){
+
+	clearMenuButtonsAndSprites(world_p);
+
+	int buttonsLeftOffset = 100;
+	int buttonsTopOffset = 60;
+	int buttonsMargin = 30;
+
+	{
+		size_t *index_p = Array_addItem(&world_p->menuSpriteIndices);
+		*index_p = World_addTextSprite(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset - 40), "Action", "times30", COLOR_WHITE, MENU_LAYER_TEXT);
+	}{
+		size_t *index_p = Array_addItem(&world_p->menuSpriteIndices);
+		*index_p = World_addTextSprite(world_p, getVec2f(buttonsLeftOffset + 140, buttonsTopOffset - 40), "Key", "times30", COLOR_WHITE, MENU_LAYER_TEXT);
+	}
+
+	for(int i = 0; i < NUMBER_OF_REBINDABLE_ACTIONS; i++){
+
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		Action *action_p = &world_p->actions[i];
+
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), ACTION_NAMES[i], MENU_LAYER_TEXT, MENU_STATE_MAIN);
+
+		size_t *index_p = Array_addItem(&world_p->menuSpriteIndices);
+		*index_p = World_addTextSprite(world_p, getVec2f(buttonsLeftOffset + 140, buttonsTopOffset), Engine_keyNames[action_p->bindings[0]], "times20", COLOR_WHITE, MENU_LAYER_TEXT);
+
+		buttonsTopOffset += 20;
+
+	}
+
+	buttonsTopOffset += 10;
+
+	{
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Return", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}
+
+	currentMenuState = MENU_STATE_CONTROLS;
 
 }
 
@@ -102,6 +173,33 @@ void World_initMenu(World *world_p){
 }
 
 void World_menuState(World *world_p){
+
+	if(bindingAction){
+
+		Action *action_p = &world_p->actions[actionToBindIndex];
+
+		for(int i = 0; i < ENGINE_KEYS_LENGTH; i++){
+			
+			if(ENGINE_KEYS[i].downed){
+
+				printf("%s\n", Engine_keyNames[i]);
+
+				bindingAction = false;
+
+				action_p->bindingsLength = 0;
+				Action_addBinding(action_p, i);
+
+				addControlMenuButtons(world_p);
+
+				return;
+			
+			}
+			
+		}
+
+		return;
+	
+	}
 
 	//handle input
 	if(world_p->actions[DOWN_ACTION].downed){
@@ -139,6 +237,9 @@ void World_menuState(World *world_p){
 				if(strcmp(buttonText, "Exit Level") == 0
 				&& pressingButton){
 
+					//special case since the actual buttons will be cleared by themselves
+					Array_clear(&world_p->menuButtonIDs);
+
 					World_fadeTransitionToState(world_p, LEVEL_HUB_STATE);
 
 					return;
@@ -149,7 +250,7 @@ void World_menuState(World *world_p){
 				&& pressingButton){
 
 					World_removeSpriteByIndex(world_p, menuBackgroundSpriteIndex);
-					clearMenuButtons(world_p);
+					clearMenuButtonsAndSprites(world_p);
 
 					if(world_p->stateBeforeOpeningMenu == LEVEL_STATE){
 						World_switchToAndInitState(world_p, LEVEL_STATE);
@@ -158,6 +259,8 @@ void World_menuState(World *world_p){
 						World_switchToAndInitState(world_p, LEVEL_HUB_STATE);
 					}
 
+					world_p->drawCallSkips += 1;
+
 					return;
 					
 				}
@@ -165,9 +268,11 @@ void World_menuState(World *world_p){
 				if(strcmp(buttonText, "Settings") == 0
 				&& pressingButton){
 
-					currentMenuState = MENU_STATE_SETTINGS;
-
 					addSettingsMenuButtons(world_p);
+
+					currentButton = world_p->menuButtonIDs.length - 1;
+
+					return;
 
 				}
 
@@ -177,7 +282,7 @@ void World_menuState(World *world_p){
 
 					World_removeSpriteByIndex(world_p, menuBackgroundSpriteIndex);
 
-					clearMenuButtons(world_p);
+					clearMenuButtonsAndSprites(world_p);
 
 					world_p->currentState = world_p->stateBeforeOpeningMenu;
 
@@ -200,11 +305,65 @@ void World_menuState(World *world_p){
 
 			if(currentMenuState == MENU_STATE_SETTINGS){
 
+				if(strncmp(buttonText, "Music Volume", 12) == 0){
+
+					if(world_p->actions[RIGHT_ACTION].downed){
+						world_p->settings.musicVolume += 0.05;
+					}
+					if(world_p->actions[LEFT_ACTION].downed){
+						world_p->settings.musicVolume -= 0.05;
+					}
+
+					if(world_p->settings.musicVolume < 0){
+						world_p->settings.musicVolume = 0;
+					}
+					if(world_p->settings.musicVolume > 1){
+						world_p->settings.musicVolume = 1;
+					}
+				
+				}
+				
+				if(strncmp(buttonText, "Sfx Volume", 10) == 0){
+
+					if(world_p->actions[RIGHT_ACTION].downed){
+						world_p->settings.sfxVolume += 0.05;
+					}
+					if(world_p->actions[LEFT_ACTION].downed){
+						world_p->settings.sfxVolume -= 0.05;
+					}
+
+					if(world_p->settings.sfxVolume < 0){
+						world_p->settings.sfxVolume = 0;
+					}
+					if(world_p->settings.sfxVolume > 1){
+						world_p->settings.sfxVolume = 1;
+					}
+				
+				}
+
+				if(strcmp(buttonText, "Controls") == 0
+				&& pressingButton){
+
+					addControlMenuButtons(world_p);
+
+					currentButton = world_p->menuButtonIDs.length - 1;
+
+					return;
+
+				}
+				
+				if(strncmp(buttonText, "Fullscreen", 10) == 0
+				&& pressingButton){
+
+					Engine_toggleFullscreen();
+
+					return;
+
+				}
+
 				if(strcmp(buttonText, "Return") == 0
 				&& pressingButton
 				|| world_p->actions[BACK_ACTION].downed){
-
-					currentMenuState = MENU_STATE_MAIN;
 
 					addMainMenuButtons(world_p);
 
@@ -214,6 +373,64 @@ void World_menuState(World *world_p){
 
 				}
 			
+			}
+
+			if(currentMenuState == MENU_STATE_CONTROLS){
+
+				for(int i = 0; i < NUMBER_OF_REBINDABLE_ACTIONS; i++){
+
+					if(strcmp(buttonText, ACTION_NAMES[i]) == 0
+					&& pressingButton){
+
+						Action *action_p = &world_p->actions[i];
+
+						clearMenuButtonsAndSprites(world_p);
+
+						char text[STRING_SIZE];
+						String_set(text, "Press a key to bind the \"", STRING_SIZE);
+						String_append(text, ACTION_NAMES[i]);
+						String_append(text, "\" action.");
+
+						size_t *index_p = Array_addItem(&world_p->menuSpriteIndices);
+						*index_p = World_addTextSprite(world_p, getVec2f(80, 120), text, "times20", COLOR_WHITE, MENU_LAYER_TEXT);
+
+						bindingAction = true;
+						actionToBindIndex = i;
+					
+					}
+				
+				}
+
+				if(strcmp(buttonText, "Return") == 0
+				&& pressingButton
+				|| world_p->actions[BACK_ACTION].downed){
+
+					addSettingsMenuButtons(world_p);
+
+					currentButton = world_p->menuButtonIDs.length - 3;
+
+					return;
+
+				}
+			
+			}
+		
+		}
+
+		//set texts depending on current state
+		if(strncmp(buttonText, "Music Volume", 12) == 0){
+			String_set(sprite_p->text, "", SMALL_STRING_SIZE);
+			sprintf(sprite_p->text, "Music Volume: %i\% <-+>", (int)round(100.0 * Audio_getVolume(AUDIO_SOUND_TYPE_MUSIC) / MUSIC_VOLUME_FACTOR));
+		}
+		if(strncmp(buttonText, "Sfx Volume", 10) == 0){
+			String_set(sprite_p->text, "", SMALL_STRING_SIZE);
+			sprintf(sprite_p->text, "Sfx Volume: %i\% <-+>", (int)round(100.0 * Audio_getVolume(AUDIO_SOUND_TYPE_SFX)));
+		}
+		if(strncmp(buttonText, "Fullscreen", 10) == 0){
+			if(Engine_isFullscreen){
+				String_set(sprite_p->text, "Fullscreen: On", STRING_SIZE);
+			}else{
+				String_set(sprite_p->text, "Fullscreen: Off", STRING_SIZE);
 			}
 		
 		}

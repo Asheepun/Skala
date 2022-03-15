@@ -47,6 +47,7 @@ void World_init(World *world_p){
 	Array_init(&world_p->particles, sizeof(Particle));
 	Array_init(&world_p->musicAreas, sizeof(MusicArea));
 	Array_init(&world_p->menuButtonIDs, sizeof(size_t));
+	Array_init(&world_p->menuSpriteIndices, sizeof(size_t));
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 

@@ -407,6 +407,7 @@ typedef struct World{
 	Settings settings;
 
 	Array menuButtonIDs;
+	Array menuSpriteIndices;
 
 	SaveData saveData;
 	Array roomLevels[NUMBER_OF_LEVEL_HUB_ROOMS];
