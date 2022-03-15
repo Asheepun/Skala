@@ -6,7 +6,239 @@
 #include "math.h"
 #include "stdio.h"
 #include "levels.h"
+#include "string.h"
 
+size_t menuBackgroundSpriteIndex;
+
+enum MenuState currentMenuState;
+int currentButton;
+
+bool pressingButton = false;
+
+void clearMenuButtons(World *world_p){
+
+	for(int i = 0; i < world_p->menuButtonIDs.length; i++){
+
+		size_t *ID_p = Array_getItemPointerByIndex(&world_p->menuButtonIDs, i);
+		
+		World_removeButtonByID(world_p, *ID_p);
+
+	}
+
+	Array_clear(&world_p->menuButtonIDs);
+
+}
+
+void addMainMenuButtons(World *world_p){
+
+	clearMenuButtons(world_p);
+
+	int buttonsLeftOffset = 100;
+	int buttonsTopOffset = 60;
+	int buttonsMargin = 30;
+
+	if(world_p->stateBeforeOpeningMenu == LEVEL_STATE){
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Exit Level", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}
+	{
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Restart Level", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}
+	{
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Delete Save Data", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}
+	{
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Settings", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}
+	{
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Return", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}
+	{
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Quit", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}
+
+	currentMenuState = MENU_STATE_MAIN;
+
+}
+
+void addSettingsMenuButtons(World *world_p){
+
+	clearMenuButtons(world_p);
+
+	int buttonsLeftOffset = 100;
+	int buttonsTopOffset = 60;
+	int buttonsMargin = 30;
+
+	{
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Return", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}
+
+}
+
+void World_initMenu(World *world_p){
+
+	menuBackgroundSpriteIndex = World_addSprite(world_p, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), COLOR_BLACK, "menu-background", 1, MENU_LAYER_BACKGROUND);
+
+	addMainMenuButtons(world_p);
+
+	currentButton = world_p->menuButtonIDs.length - 2;
+
+	world_p->renderer.offset.x = 0;
+	world_p->renderer.offset.y = 0;
+
+}
+
+void World_menuState(World *world_p){
+
+	//handle input
+	if(world_p->actions[DOWN_ACTION].downed){
+		currentButton++;
+	}
+	if(world_p->actions[UP_ACTION].downed){
+		currentButton--;
+	}
+
+	if(currentButton < 0){
+		currentButton = world_p->menuButtonIDs.length - 1;
+	}
+	if(currentButton > world_p->menuButtonIDs.length - 1){
+		currentButton = 0;
+	}
+
+	if(world_p->actions[DO_ACTION].downed){
+		pressingButton = true;
+	}else{
+		pressingButton = false;
+	}
+
+	//handle buttons
+	for(int i = 0; i < world_p->menuButtonIDs.length; i++){
+
+		size_t *ID_p = Array_getItemPointerByIndex(&world_p->menuButtonIDs, i);
+		Button *button_p = World_getButtonByID(world_p, *ID_p);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, button_p->spriteIndex);
+		char *buttonText = sprite_p->text;
+
+
+		if(i == currentButton){
+			if(currentMenuState == MENU_STATE_MAIN){
+
+				if(strcmp(buttonText, "Exit Level") == 0
+				&& pressingButton){
+
+					World_fadeTransitionToState(world_p, LEVEL_HUB_STATE);
+
+					return;
+
+				}
+
+				if(strcmp(buttonText, "Restart Level") == 0
+				&& pressingButton){
+
+					World_removeSpriteByIndex(world_p, menuBackgroundSpriteIndex);
+					clearMenuButtons(world_p);
+
+					if(world_p->stateBeforeOpeningMenu == LEVEL_STATE){
+						World_switchToAndInitState(world_p, LEVEL_STATE);
+					}
+					if(world_p->stateBeforeOpeningMenu == LEVEL_HUB_STATE){
+						World_switchToAndInitState(world_p, LEVEL_HUB_STATE);
+					}
+
+					return;
+					
+				}
+
+				if(strcmp(buttonText, "Settings") == 0
+				&& pressingButton){
+
+					currentMenuState = MENU_STATE_SETTINGS;
+
+					addSettingsMenuButtons(world_p);
+
+				}
+
+				if(strcmp(buttonText, "Return") == 0
+				&& pressingButton
+				|| world_p->actions[BACK_ACTION].downed){
+
+					World_removeSpriteByIndex(world_p, menuBackgroundSpriteIndex);
+
+					clearMenuButtons(world_p);
+
+					world_p->currentState = world_p->stateBeforeOpeningMenu;
+
+					world_p->drawCallSkips += 1;
+
+					return;
+
+				}
+
+				if(strcmp(buttonText, "Quit") == 0
+				&& pressingButton){
+
+					Engine_quit();
+
+					return;
+
+				}
+			
+			}
+
+			if(currentMenuState == MENU_STATE_SETTINGS){
+
+				if(strcmp(buttonText, "Return") == 0
+				&& pressingButton
+				|| world_p->actions[BACK_ACTION].downed){
+
+					currentMenuState = MENU_STATE_MAIN;
+
+					addMainMenuButtons(world_p);
+
+					currentButton = world_p->menuButtonIDs.length - 3;
+
+					return;
+
+				}
+			
+			}
+		
+		}
+
+	}
+
+	//set button colors and visibility
+	for(int i = 0; i < world_p->menuButtonIDs.length; i++){
+
+		size_t *ID_p = Array_getItemPointerByIndex(&world_p->menuButtonIDs, i);
+		Button *button_p = World_getButtonByID(world_p, *ID_p);
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, button_p->spriteIndex);
+
+		sprite_p->color = COLOR_WHITE;
+
+		if(i == currentButton){
+			sprite_p->color = COLOR_YELLOW;
+		}
+
+	}
+
+}
+
+
+/*
 int exitLevelButtonID;
 int restartLevelButtonID;
 int settingsButtonID;
@@ -563,6 +795,7 @@ void World_menuState(World *world_p){
 	}
 	
 }
+*/
 
 void Settings_init(Settings *settings_p){
 
@@ -570,8 +803,8 @@ void Settings_init(Settings *settings_p){
 	settings_p->musicVolume = 0.5;
 	settings_p->sfxVolume = 0.5;
 
-	settings_p->musicVolume = 0.0;
-	settings_p->sfxVolume = 0.0;
+	//settings_p->musicVolume = 0.0;
+	//settings_p->sfxVolume = 0.0;
 
 }
 

@@ -163,6 +163,12 @@ enum MenuState{
 	NUMBER_OF_MENU_STATES,
 };
 
+enum MenuButtonTag{
+	MENU_BUTTON_EXIT_LEVEL,
+	MENU_BUTTON_SETTINGS,
+	MENU_BUTTON_RETURN,
+};
+
 union ParticleProperty{
 	Vec2f pos;
 	Vec2f size;
@@ -221,6 +227,7 @@ typedef struct Button{
 	unsigned int spriteIndex;
 	enum ButtonType buttonType;
 	enum MenuState menuState;
+	//enum MenuState menuButtonTag;
 }Button;
 
 typedef struct Settings{
@@ -398,6 +405,8 @@ typedef struct World{
 	Action actions[16];
 
 	Settings settings;
+
+	Array menuButtonIDs;
 
 	SaveData saveData;
 	Array roomLevels[NUMBER_OF_LEVEL_HUB_ROOMS];
