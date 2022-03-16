@@ -159,6 +159,30 @@ void addControlMenuButtons(World *world_p){
 
 }
 
+void addYesNoMenuButtons(World *world_p){
+
+	clearMenuButtonsAndSprites(world_p);
+
+	int buttonsLeftOffset = 100;
+	int buttonsTopOffset = 60;
+	int buttonsMargin = 30;
+
+	{
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "Yes", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}{
+		size_t *ID_p = Array_addItem(&world_p->menuButtonIDs);
+		*ID_p = World_addTextButton(world_p, getVec2f(buttonsLeftOffset, buttonsTopOffset), "No", MENU_LAYER_TEXT, MENU_STATE_MAIN);
+		buttonsTopOffset += buttonsMargin;
+	}
+
+	currentButton = 1;
+
+	currentMenuState = MENU_STATE_YES_NO;
+
+}
+
 void World_initMenu(World *world_p){
 
 	menuBackgroundSpriteIndex = World_addSprite(world_p, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), COLOR_BLACK, "menu-background", 1, MENU_LAYER_BACKGROUND);
@@ -181,8 +205,6 @@ void World_menuState(World *world_p){
 		for(int i = 0; i < ENGINE_KEYS_LENGTH; i++){
 			
 			if(ENGINE_KEYS[i].downed){
-
-				printf("%s\n", Engine_keyNames[i]);
 
 				bindingAction = false;
 
@@ -237,9 +259,6 @@ void World_menuState(World *world_p){
 				if(strcmp(buttonText, "Exit Level") == 0
 				&& pressingButton){
 
-					//special case since the actual buttons will be cleared by themselves
-					Array_clear(&world_p->menuButtonIDs);
-
 					World_fadeTransitionToState(world_p, LEVEL_HUB_STATE);
 
 					return;
@@ -263,6 +282,15 @@ void World_menuState(World *world_p){
 
 					return;
 					
+				}
+
+				if(strcmp(buttonText, "Delete Save Data") == 0
+				&& pressingButton){
+
+					addYesNoMenuButtons(world_p);
+
+					return;
+
 				}
 
 				if(strcmp(buttonText, "Settings") == 0
@@ -413,6 +441,42 @@ void World_menuState(World *world_p){
 
 				}
 			
+			}
+
+			if(currentMenuState == MENU_STATE_YES_NO){
+				
+				if(strcmp(buttonText, "Yes") == 0
+				&& pressingButton){
+
+					long int size;
+					char *data_p = getFileData_mustFree("saveData-origin.txt", &size);
+
+					writeDataToFile("saveData.txt", data_p, size);
+
+					free(data_p);
+
+					SaveData_init(&world_p->saveData);
+					SaveData_read(&world_p->saveData);
+
+					World_switchToAndInitState(world_p, LEVEL_HUB_STATE);
+
+					return;
+				
+				}
+
+				if(strcmp(buttonText, "No") == 0
+				&& pressingButton
+				|| world_p->actions[BACK_ACTION].downed){
+
+					addMainMenuButtons(world_p);
+
+					currentButton = world_p->menuButtonIDs.length - 4;
+
+					return;
+				
+				}
+				
+
 			}
 		
 		}

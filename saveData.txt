@@ -1,49 +1,19 @@
 :playerPos
-2132 138
+2188 138
 :doorKeys
-6260 -160
+6260 -200
 :doors
-360 140 40 90
+3350 180 20 60
+4020 180 20 60
 :flags
 removed-title-text
-completed-all-from-top-levels
-completed-scale-field-levels
-completed-door-key-levels
-added-gate-door
 :levelsWithDoorKey
+make-it-bigger-2
+get-key-up-2
 :completedLevels
 ÿÿÿÿÿÿÿÿÿÿÿ
-get-key-up-2
-all-from-top-1
-all-from-top-2
-all-from-top-3
-get-under-cup
-point-pikaboo
-key-obstacle-course
-key-in-cage-all-from-top
-point-cage
-point-cage-2
-point-cage-3
-make-it-bigger-2
-scale-field-1
-scale-field-2
-scale-field-3
-layers-of-fields
-two-scale-fields
-point-field-cage
-circle-scale-fields-escape
-door-key-level-1
-door-key-level-2
-floor-is-door
-get-key-up-1
-key-in-box
-push-key-with-point
 level-1
 level-2
-player-position-1
-player-position-2
-player-position-3
-scale-position-block
-scale-position-block-2
 level-3
 first-scaling-level-1
+first-scaling-level-3

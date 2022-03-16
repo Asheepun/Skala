@@ -145,6 +145,8 @@ void World_restore(World *world_p){
 	world_p->scalingByPlayerSpeed = false;
 	world_p->playerHasNoLegs = false;
 
+	Array_clear(&world_p->menuButtonIDs);
+	Array_clear(&world_p->menuSpriteIndices);
 	Array_clear(&world_p->buttons);
 	Array_clear(&world_p->bodyPairs);
 	Array_clear(&world_p->points);
