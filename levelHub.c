@@ -9,6 +9,8 @@
 #include "game.h"
 #include "levels.h"
 
+bool UNLOCK_GATE = true;
+
 void World_initLevelHub(World *world_p){
 
 	World_restore(world_p);
@@ -938,35 +940,40 @@ void World_initLevelHub(World *world_p){
 	}
 
 	//add gate
-	if(SaveData_hasFlag(&world_p->saveData, "completed-door-key-levels")){
-		if(!SaveData_hasFlag(&world_p->saveData, "added-gate-door")){
+	if(!UNLOCK_GATE){
+		if(SaveData_hasFlag(&world_p->saveData, "completed-door-key-levels")){
+			if(!SaveData_hasFlag(&world_p->saveData, "added-gate-door")){
 
-			Body *doorBody_p = Array_addItem(&world_p->saveData.doors);
-			doorBody_p->pos = getVec2f(startingAreaX + 60, 140);
-			doorBody_p->size = getVec2f(40, 90);
+				Body *doorBody_p = Array_addItem(&world_p->saveData.doors);
+				doorBody_p->pos = getVec2f(startingAreaX + 60, 140);
+				doorBody_p->size = getVec2f(40, 90);
 
-			SaveData_addFlag(&world_p->saveData, "added-gate-door");
+				SaveData_addFlag(&world_p->saveData, "added-gate-door");
+			}
+		}else{
+			World_addObstacle(world_p, getVec2f(startingAreaX + 60, 140), getVec2f(40, 90), NONE);
+			World_addSprite(world_p, getVec2f(startingAreaX + 60 + 15, 140 + 40), getVec2f(10, 10), COLOR_ORANGE, "point", 0.9, GAME_LAYER_PARTICLES);
 		}
-	}else{
-		World_addObstacle(world_p, getVec2f(startingAreaX + 60, 140), getVec2f(40, 90), NONE);
-		World_addSprite(world_p, getVec2f(startingAreaX + 60 + 15, 140 + 40), getVec2f(10, 10), COLOR_ORANGE, "point", 0.9, GAME_LAYER_PARTICLES);
 	}
 
-	if(SaveData_hasFlag(&world_p->saveData, "completed-scale-field-levels")){
+	if(SaveData_hasFlag(&world_p->saveData, "completed-scale-field-levels")
+	|| UNLOCK_GATE){
 		World_addScaleField(world_p, getVec2f(startingAreaX + 120, 140), getVec2f(40, 90), ALL);
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 120, 140), getVec2f(40, 90), NONE);
 		World_addSprite(world_p, getVec2f(startingAreaX + 120 + 15, 140 + 40), getVec2f(10, 10), COLOR_DARK_GREEN, "point", 0.9, GAME_LAYER_PARTICLES);
 	}
 
-	if(SaveData_hasFlag(&world_p->saveData, "completed-all-from-top-levels")){
+	if(SaveData_hasFlag(&world_p->saveData, "completed-all-from-top-levels")
+	|| UNLOCK_GATE){
 		World_addObstacle(world_p, getVec2f(startingAreaX + 180, 140), getVec2f(40, 90), ALL_FROM_TOP);
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 180, 140), getVec2f(40, 90), NONE);
 		World_addSprite(world_p, getVec2f(startingAreaX + 180 + 15, 140 + 40), getVec2f(10, 10), COLOR_PURPLE, "point", 0.9, GAME_LAYER_PARTICLES);
 	}
 
-	if(SaveData_hasFlag(&world_p->saveData, "completed-first-scale-levels")){
+	if(SaveData_hasFlag(&world_p->saveData, "completed-first-scale-levels")
+	|| UNLOCK_GATE){
 		World_addObstacle(world_p, getVec2f(startingAreaX + 240, 140), getVec2f(40, 90), ALL);
 	}else{
 		World_addObstacle(world_p, getVec2f(startingAreaX + 240, 140), getVec2f(40, 90), NONE);
@@ -988,7 +995,8 @@ void World_initLevelHub(World *world_p){
 		sprite_p->facing = LEFT;
 	}
 
-	if(SaveData_hasFlag(&world_p->saveData, "completed-player-position-levels")){
+	if(SaveData_hasFlag(&world_p->saveData, "completed-player-position-levels")
+	|| UNLOCK_GATE){
 		//!add nothing!	
 	}else{
 		World_addObstacle(world_p, getVec2f(platformWithKeyX + 20, -150 - 60), getVec2f(20, 60), NONE);
@@ -1000,7 +1008,8 @@ void World_initLevelHub(World *world_p){
 	}
 
 	//add scale field to ending
-	if(SaveData_hasFlag(&world_p->saveData, "completed-no-legs-levels")){
+	if(SaveData_hasFlag(&world_p->saveData, "completed-no-legs-levels")
+	|| UNLOCK_GATE){
 		World_addScaleField(world_p, getVec2f(1360 + 130, cloudY - 50), getVec2f(40, 30), ALL);
 
 		World_addTextSprite(world_p, getVec2f(1360 + 105, cloudY - 150), "Ascend", "times30", COLOR_WHITE, GAME_LAYER_TEXT);
