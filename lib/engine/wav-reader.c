@@ -29,7 +29,7 @@
 #define SAMPLE_RATE 44100
 #define NUMBER_OF_CHANNELS 2
 
-#define LOG_INFO_WAV_READER
+//#define LOG_INFO_WAV_READER
 
 void local_printf(const char *format, ...){
 
@@ -93,7 +93,7 @@ int16_t *WavReader_getDataFromWavFile(char *path, int *numberOfPcmFrames_p){
 
 		if(strcmp(check, "bext") == 0){
 
-			printf("---\nFOUND BEXT!\n---\n");
+			local_printf("---\nFOUND BEXT!\n---\n");
 
 			int dataSizeIndex;
 
