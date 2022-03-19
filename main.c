@@ -31,6 +31,7 @@ void Engine_start(){
 	World_init(&world);
 
 	Settings_init(&world.settings);
+	Settings_readFromFile(&world.settings);
 
 	for(int i = 0; i < 16; i++){
 		Action_init(&world.actions[i]);
@@ -46,13 +47,13 @@ void Engine_start(){
 	Action_addBinding(&world.actions[RIGHT_ACTION], ENGINE_KEY_D);
 	Action_addBinding(&world.actions[SCALE_ACTION], ENGINE_KEY_X);
 	Action_addBinding(&world.actions[SCALE_ACTION], ENGINE_KEY_J);
+	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
 	Action_addBinding(&world.actions[DO_ACTION], ENGINE_KEY_X);
 	Action_addBinding(&world.actions[DO_ACTION], ENGINE_KEY_J);
 	Action_addBinding(&world.actions[DO_ACTION], ENGINE_KEY_SPACE);
 	Action_addBinding(&world.actions[DO_ACTION], ENGINE_KEY_ENTER);
 	Action_addBinding(&world.actions[BACK_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
-	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
 
 	//String_set(world.currentLevel, "no-legs-no-scale-2", STRING_SIZE);
 
@@ -343,7 +344,7 @@ void Engine_update(float deltaTime){
 	}
 
 	if(ENGINE_KEYS[ENGINE_KEY_F].downed){
-		Engine_toggleFullscreen();
+		world.settings.fullscreen = !world.settings.fullscreen;
 	}
 
 	//handle actions
@@ -610,5 +611,9 @@ void Engine_draw(){
 void Engine_finnish(){
 
 	SaveData_write(&world.saveData);
+
+	Settings_writeToFile(&world.settings);
+
+	printf("Finnished.\n");
 
 }

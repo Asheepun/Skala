@@ -63,10 +63,9 @@ ma_device device;
 
 void data_callback(ma_device* device_p, void* output_p, const void* input_p, ma_uint32 frameCount){
 
-	//mix sound frames
-	int16_t mixedFrames[frameCount * NUMBER_OF_CHANNELS];
-	memset(mixedFrames, 0, frameCount * NUMBER_OF_CHANNELS * sizeof(int16_t));
+	float *outputF32_p = (float *)output_p;
 
+	//mix sound frames
 	for(int i = 0; i < sounds.length; i++){
 
 		Sound *sound_p = Array_getItemPointerByIndex(&sounds, i);
@@ -90,12 +89,10 @@ void data_callback(ma_device* device_p, void* output_p, const void* input_p, ma_
 		}
 
 		for(int j = 0; j < frameCount * NUMBER_OF_CHANNELS; j++){
-			mixedFrames[j] += (int16_t)((float)soundData_p->data[sound_p->currentFrame * NUMBER_OF_CHANNELS + j] * sound_p->volume * volumes[sound_p->type] * CONSTANT_VOLUME_FACTOR);
+			outputF32_p[j] += ((float)soundData_p->data[sound_p->currentFrame * NUMBER_OF_CHANNELS + j]) / 32767.0 * sound_p->volume * volumes[sound_p->type] * CONSTANT_VOLUME_FACTOR;
 		}
 	
 	}
-
-	memcpy(output_p, mixedFrames, frameCount * NUMBER_OF_CHANNELS * sizeof(int16_t));
 
 }
 
@@ -154,7 +151,8 @@ void Audio_init(char **soundFiles, int soundFilesLengthIn){
 	//init miniaudio
 
 	deviceConfig = ma_device_config_init(ma_device_type_playback);
-    deviceConfig.playback.format   = ma_format_s16;
+    //deviceConfig.playback.format   = ma_format_s16;
+    deviceConfig.playback.format   = ma_format_f32;
     deviceConfig.playback.channels = NUMBER_OF_CHANNELS;
     deviceConfig.sampleRate        = SAMPLE_RATE;
     deviceConfig.dataCallback      = data_callback;

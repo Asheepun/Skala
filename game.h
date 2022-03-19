@@ -234,7 +234,8 @@ typedef struct Button{
 typedef struct Settings{
 	float musicVolume;
 	float sfxVolume;
-	bool fullscreenOn;
+	bool fullscreen;
+	int actionBindings[6];
 }Settings;
 
 typedef struct BodyPair{
@@ -580,7 +581,7 @@ static const Renderer2D_Color SCALING_SCALE_TYPE_COLORS[] = {
 static int FADE_TRANSITION_TIME = 60;
 
 static float MUSIC_VOLUME_FACTOR = 2.0;
-static float MUSIC_FADE_IN_SPEED = 0.01;
+static float MUSIC_FADE_IN_SPEED = 0.015;
 static float MUSIC_FADE_OUT_SPEED = 0.01;
 
 static float SFX_VOLUME_FACTOR = 0.5;
@@ -731,6 +732,10 @@ void World_menuState(World *);
 void Settings_init(Settings *);
 
 void World_Settings_updateWorld(World *, Settings *);
+
+void Settings_readFromFile(Settings *);
+
+void Settings_writeToFile(Settings *);
 
 //FILE saving.c
 

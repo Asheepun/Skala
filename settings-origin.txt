@@ -1,0 +1,13 @@
+:fullscreen
+1
+:music-volume
+0.5
+:sfx-volume
+0.5
+:action-bindings
+36
+37
+38
+39
+27
+33
