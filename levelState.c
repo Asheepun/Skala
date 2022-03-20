@@ -98,16 +98,21 @@ void World_levelState(World *world_p){
 		}
 	}
 
-	if(world_p->scaling
+	if((world_p->scaling
+	&& (world_p->actions[UP_ACTION].downed
+	|| world_p->actions[DOWN_ACTION].downed
+	|| world_p->actions[LEFT_ACTION].downed
+	|| world_p->actions[RIGHT_ACTION].downed))
+	|| (world_p->actions[SCALE_ACTION].downed
+	&& (world_p->actions[UP_ACTION].down
+	|| world_p->actions[DOWN_ACTION].down
+	|| world_p->actions[LEFT_ACTION].down
+	|| world_p->actions[RIGHT_ACTION].down))
 	&& !world_p->playerHasNoLegs
-	//|| world_p->scalingByPlayerPosition){
-	){
-		if(world_p->actions[UP_ACTION].downed
-		|| world_p->actions[DOWN_ACTION].downed
-		|| world_p->actions[LEFT_ACTION].downed
-		|| world_p->actions[RIGHT_ACTION].downed){
-			Audio_playSound("scale-move-1", 0.7, false, AUDIO_SOUND_TYPE_SFX);
-		}
+	&& !world_p->scalingByPlayerPosition){
+
+		Audio_playSound("scale-move-1", 0.7, false, AUDIO_SOUND_TYPE_SFX);
+
 	}
 
 	Player *player_p = &world_p->player;
