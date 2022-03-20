@@ -113,6 +113,9 @@ void World_initLevelHub(World *world_p){
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "level-3", FIRST_SCALE_ROOM);
 	*currentRoomWidth += normalLevelDistance;
 
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 165), "first-scaling-level-1", FIRST_SCALE_ROOM);
+	*currentRoomWidth += normalLevelDistance;
+
 	*currentRoomWidth += 20;
 
 	houseWidth += *currentRoomWidth;
@@ -123,9 +126,6 @@ void World_initLevelHub(World *world_p){
 
 	*currentRoomX = houseX + houseWidth;
 	*currentRoomWidth += 40;
-
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 125), "first-scaling-level-1", FIRST_SCALE_ROOM);
-	*currentRoomWidth += normalLevelDistance;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 125), "first-scaling-level-3", FIRST_SCALE_ROOM);
 	*currentRoomWidth += normalLevelDistance;
@@ -1018,9 +1018,12 @@ void World_initLevelHub(World *world_p){
 		World_addSprite(world_p, getVec2f(1360 + 130 + 15, cloudY - 50 + 10), getVec2f(10, 10), COLOR_DARK_GREEN, "point", 0.9, GAME_LAYER_PARTICLES);
 	}
 
-	//add hercules star sign
+	//add hercules star sign and bench
 	if(SaveData_hasFlag(&world_p->saveData, "completed-secret-levels")){
+
 		world_p->herculesStarBackgroundSpriteIndex = World_addSprite(world_p, getVec2f(1000, 0), getVec2f(200, 200), COLOR_WHITE, "hercules", 1, GAME_LAYER_BACKGROUND);
+
+		World_addSprite(world_p, getVec2f(1090, 210 - 16), getVec2f(36, 16), COLOR_WHITE, "furniture/bench", 1, GAME_LAYER_FURNITURE);
 	}
 
 	//add saved door keys

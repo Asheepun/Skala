@@ -1,13 +1,18 @@
 :playerPos
-330 -240
+6826 -1481
 :doorKeys
 6260 -200
 :doors
 3350 180 20 60
 4020 180 20 60
 :flags
+removed-title-text
+completed-secret-levels
 :levelsWithDoorKey
 make-it-bigger-2
 get-key-up-2
 :completedLevels
 ÿÿÿÿÿÿÿÿÿÿÿ
+throw-key-1
+throw-key-2
+key-fall-through
