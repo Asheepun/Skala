@@ -89,7 +89,7 @@ void data_callback(ma_device* device_p, void* output_p, const void* input_p, ma_
 		}
 
 		for(int j = 0; j < frameCount * NUMBER_OF_CHANNELS; j++){
-			outputF32_p[j] += ((float)soundData_p->data[sound_p->currentFrame * NUMBER_OF_CHANNELS + j]) / 32767.0 * sound_p->volume * volumes[sound_p->type] * CONSTANT_VOLUME_FACTOR;
+			outputF32_p[j] += (((float)soundData_p->data[sound_p->currentFrame * NUMBER_OF_CHANNELS + j]) / 32767.0) * sound_p->volume * volumes[sound_p->type] * CONSTANT_VOLUME_FACTOR;
 		}
 	
 	}

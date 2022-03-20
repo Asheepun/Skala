@@ -260,7 +260,8 @@ void Engine_start(){
 			getVec2f(2000, height - 580),
 			getVec2f(4230, height - 800),
 			//getVec2f(2800, height - 970), //on top of roof
-			getVec2f(2460, height - 1200),
+			//getVec2f(2460, height - 1200), //at lounge
+			getVec2f(2800, height - 1100), //way above roof
 		};
 
 		int starSignSizes[8];
