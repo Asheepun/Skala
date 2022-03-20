@@ -160,6 +160,12 @@ void Engine_start(){
 	//load audio
 	char *soundAssets[] = {
 
+		"begin-scaling-1",
+
+		"scale-move-1",
+
+		//"star-escape-tmp-1",
+
 		"pickup-key-1",
 		"pickup-key-2",
 		"pickup-key-3",

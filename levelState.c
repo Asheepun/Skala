@@ -52,7 +52,7 @@ void World_initLevel(World *world_p){
 
 	if(world_p->scalingByPlayerPosition
 	|| world_p->scalingByPlayerSpeed){
-		//Audio_playSound("begin-scaling-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+		Audio_playSound("begin-scaling-1", 0.7, false, AUDIO_SOUND_TYPE_SFX);
 	}
 
 }
@@ -87,6 +87,7 @@ void World_levelState(World *world_p){
 		&& scalingSoundLoopID == -1){
 			//scalingSoundLoopID = Audio_playSound("scaling", 0.2, true, AUDIO_SOUND_TYPE_SFX);
 			//Audio_playSound("begin-scaling-1", 0.5, false, AUDIO_SOUND_TYPE_SFX);
+			Audio_playSound("begin-scaling-1", 0.7, false, AUDIO_SOUND_TYPE_SFX);
 			//scalingSoundCounter = 0;
 		}
 		if(world_p->actions[SCALE_ACTION].upped
@@ -94,6 +95,18 @@ void World_levelState(World *world_p){
 			//Audio_killSoundByID(scalingSoundLoopID);
 			//scalingSoundLoopID = -1;
 			//Audio_playSound("end-scaling-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+		}
+	}
+
+	if(world_p->scaling
+	&& !world_p->playerHasNoLegs
+	//|| world_p->scalingByPlayerPosition){
+	){
+		if(world_p->actions[UP_ACTION].downed
+		|| world_p->actions[DOWN_ACTION].downed
+		|| world_p->actions[LEFT_ACTION].downed
+		|| world_p->actions[RIGHT_ACTION].downed){
+			Audio_playSound("scale-move-1", 0.7, false, AUDIO_SOUND_TYPE_SFX);
 		}
 	}
 
