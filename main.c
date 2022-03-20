@@ -31,6 +31,7 @@ void Engine_start(){
 	World_init(&world);
 
 	Settings_init(&world.settings);
+	Settings_readFromFile(&world.settings);
 
 	for(int i = 0; i < 16; i++){
 		Action_init(&world.actions[i]);
@@ -44,18 +45,15 @@ void Engine_start(){
 	Action_addBinding(&world.actions[LEFT_ACTION], ENGINE_KEY_A);
 	Action_addBinding(&world.actions[RIGHT_ACTION], ENGINE_KEY_RIGHT);
 	Action_addBinding(&world.actions[RIGHT_ACTION], ENGINE_KEY_D);
-	Action_addBinding(&world.actions[JUMP_ACTION], ENGINE_KEY_UP);
-	Action_addBinding(&world.actions[JUMP_ACTION], ENGINE_KEY_W);
-	//Action_addBinding(&world.actions[JUMP_ACTION], ENGINE_KEY_SPACE);
 	Action_addBinding(&world.actions[SCALE_ACTION], ENGINE_KEY_X);
 	Action_addBinding(&world.actions[SCALE_ACTION], ENGINE_KEY_J);
+	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
 	Action_addBinding(&world.actions[DO_ACTION], ENGINE_KEY_X);
 	Action_addBinding(&world.actions[DO_ACTION], ENGINE_KEY_J);
 	Action_addBinding(&world.actions[DO_ACTION], ENGINE_KEY_SPACE);
 	Action_addBinding(&world.actions[DO_ACTION], ENGINE_KEY_ENTER);
 	Action_addBinding(&world.actions[BACK_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
-	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
 
 	//String_set(world.currentLevel, "no-legs-no-scale-2", STRING_SIZE);
 
@@ -162,19 +160,30 @@ void Engine_start(){
 	//load audio
 	char *soundAssets[] = {
 
+		"begin-scaling-1",
+
+		"scale-move-1",
+
+		//"star-escape-tmp-1",
+
 		"pickup-key-1",
 		"pickup-key-2",
 		"pickup-key-3",
 
 		"open-door-1",
 
+		"jump-1",
+		"jump-2",
+		"jump-3",
+		//"jump-4",
+
 		"music/outside",
 		"music/first-levels",
 		"music/door-key-levels",
 		"music/all-from-top-levels",
 		"music/scale-field-levels",
-		//"music/player-position-levels",
-		//"music/no-legs-levels",
+		"music/player-position-levels",
+		"music/no-legs-levels",
 		"music/secret-room-levels",
 	};
 
@@ -182,7 +191,7 @@ void Engine_start(){
 
 	Audio_init(soundAssets, soundAssetsLength);
 
-	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_MUSIC);
+	Audio_setVolume(0.5 * MUSIC_VOLUME_FACTOR, AUDIO_SOUND_TYPE_MUSIC);
 	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_SFX);
 
 	//Audio_setVolume(0.0, AUDIO_SOUND_TYPE_MUSIC);
@@ -201,8 +210,6 @@ void Engine_start(){
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
 		*ID_p = Audio_playSound("music/door-key-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
-
-		world.currentMusicID = *ID_p;
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
@@ -214,13 +221,13 @@ void Engine_start(){
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		//*ID_p = Audio_playSound("music/player-position-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
-		*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/player-position-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		//*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		//*ID_p = Audio_playSound("music/no-legs-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
-		*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/no-legs-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		//*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
@@ -343,7 +350,7 @@ void Engine_update(float deltaTime){
 	}
 
 	if(ENGINE_KEYS[ENGINE_KEY_F].downed){
-		Engine_toggleFullscreen();
+		world.settings.fullscreen = !world.settings.fullscreen;
 	}
 
 	//handle actions
@@ -610,5 +617,9 @@ void Engine_draw(){
 void Engine_finnish(){
 
 	SaveData_write(&world.saveData);
+
+	Settings_writeToFile(&world.settings);
+
+	printf("Finnished.\n");
 
 }

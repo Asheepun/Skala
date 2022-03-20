@@ -5,11 +5,25 @@
 #include "engine/geometry.h"
 #include "engine/strings.h"
 
-#include "alsa/asoundlib.h"
+#define MINIAUDIO_IMPLEMENTATION
+#define MA_NO_DECODING
+#define MA_NO_ENCODING
+#define MA_NO_GENERATION
+#define MA_ENABLE_ONLY_SPECIFIC_BACKENDS
+#define MA_ENABLE_ALSA 
+#define MA_ENABLE_PULSEAUDIO 
+#define MA_ENABLE_WASAPI 
+#include "miniaudio/miniaudio.h"
 
-#include "pthread.h"
-#include "stdarg.h"
+#ifdef __linux
 #include "stddef.h"
+#endif
+
+#ifdef _WIN32
+#include "stdint.h"
+#endif
+
+#include "stdarg.h"
 #include "string.h"
 #include "stdio.h"
 #include "time.h"
@@ -40,120 +54,47 @@ Array sounds;
 
 float volumes[2];
 
-int device;
-int dir;
-snd_pcm_t *handle;
-snd_pcm_hw_params_t *params;
-snd_pcm_status_t *status;
-
-pthread_mutex_t soundMutex = PTHREAD_MUTEX_INITIALIZER;
-
-int firstFramesLeft = 0;
-int framesLeft = 0;
-int deltaFrames = 0;
-int lastDeltaFrames = 0;
-
+int soundFilesLength;
 int loadedSoundFiles = 0;
 
-int preBurnLoops = 10;
-int loopCount = 0;
-int burnLoops = 0;
+ma_result result;
+ma_device_config deviceConfig;
+ma_device device;
 
-void *renderLoop(void *ptr){
+void data_callback(ma_device* device_p, void* output_p, const void* input_p, ma_uint32 frameCount){
 
-	while(true){
+	float *outputF32_p = (float *)output_p;
 
-		snd_pcm_status(handle, status);
+	//mix sound frames
+	for(int i = 0; i < sounds.length; i++){
 
-		framesLeft = snd_pcm_status_get_avail(status);
-
-		if(firstFramesLeft == 0){
-			firstFramesLeft = framesLeft;
-		}
-
-		int framesToWrite = 4 * PERIOD_SIZE;
-
-		deltaFrames = abs(firstFramesLeft - framesLeft);
-		lastDeltaFrames = deltaFrames;
-
-		int deltaDeltaFrames = abs(deltaFrames - lastDeltaFrames);
-
-		if(deltaDeltaFrames == 0
-		&& deltaFrames < framesToWrite){
-			burnLoops = 10;
-		}
-
-		loopCount++;
-
-		//printf("%i\n", deltaFrames);
-		//printf("framesToWrite: %i\n", deltaFrames);
-
-		if(deltaFrames < framesToWrite
-		//|| deltaDeltaFrames == 0
-		//&& deltaFrames < framesToWrite){
-		//|| deltaDeltaFrames == 0){
-		|| burnLoops > 0){
-
-			burnLoops--;
-
-			pthread_mutex_lock(&soundMutex);
-
-			//mix sound frames
-			int16_t mixedFrames[framesToWrite * NUMBER_OF_CHANNELS];
-			memset(mixedFrames, 0, framesToWrite * NUMBER_OF_CHANNELS * sizeof(int16_t));
-
-			for(int i = 0; i < sounds.length; i++){
-
-				Sound *sound_p = Array_getItemPointerByIndex(&sounds, i);
-				SoundData *soundData_p = &soundData[sound_p->soundDataIndex];
-				
-				if(sound_p->stopped
-				|| sound_p->soundDataIndex >= loadedSoundFiles){
-					continue;
-				}
-
-				sound_p->currentFrame += framesToWrite;
-
-				if(sound_p->currentFrame + framesToWrite > soundData_p->framesLength - framesToWrite){
-					if(sound_p->loop){
-						sound_p->currentFrame = 0;
-					}else{
-						Array_removeItemByIndex(&sounds, i);
-						i--;
-						continue;
-					}
-				}
-
-				for(int j = 0; j < framesToWrite * NUMBER_OF_CHANNELS; j++){
-					mixedFrames[j] += (int16_t)((float)soundData_p->data[sound_p->currentFrame * NUMBER_OF_CHANNELS + j] * sound_p->volume * volumes[sound_p->type] * CONSTANT_VOLUME_FACTOR);
-				}
-			
-			}
-
-			pthread_mutex_unlock(&soundMutex);
-
-			if(loopCount < preBurnLoops){
-				memset(mixedFrames, 0, framesToWrite * NUMBER_OF_CHANNELS * sizeof(int16_t));
-			}
-
-			//if(deltaDeltaFrames == 0)
-			
-			//write frames to sound card
-			snd_pcm_writei(handle, mixedFrames, framesToWrite);
-
-		}
-
-		int sleepTime = 1000000.0 * PERIOD_SIZE / (float)SAMPLE_RATE;
-
-		usleep(sleepTime);
+		Sound *sound_p = Array_getItemPointerByIndex(&sounds, i);
+		SoundData *soundData_p = &soundData[sound_p->soundDataIndex];
 		
+		if(sound_p->stopped
+		|| sound_p->soundDataIndex >= loadedSoundFiles){
+			continue;
+		}
+
+		sound_p->currentFrame += frameCount;
+
+		if(sound_p->currentFrame + frameCount > soundData_p->framesLength - frameCount){
+			if(sound_p->loop){
+				sound_p->currentFrame = 0;
+			}else{
+				Array_removeItemByIndex(&sounds, i);
+				i--;
+				continue;
+			}
+		}
+
+		for(int j = 0; j < frameCount * NUMBER_OF_CHANNELS; j++){
+			outputF32_p[j] += ((float)soundData_p->data[sound_p->currentFrame * NUMBER_OF_CHANNELS + j]) / 32767.0 * sound_p->volume * volumes[sound_p->type] * CONSTANT_VOLUME_FACTOR;
+		}
+	
 	}
 
-	return NULL;
-
 }
-
-int soundFilesLength;
 
 void *loadAudioFiles(void *ptr){
 
@@ -190,10 +131,16 @@ void Audio_init(char **soundFiles, int soundFilesLengthIn){
 
 	soundDataLength = soundFilesLength;
 
+	//load audio files on seperate thread
+#ifdef __linux__
 	//load audio on seperate thread
 	//loadAudioFiles(NULL);
 	pthread_t loadThread;
 	pthread_create(&loadThread, NULL, loadAudioFiles, NULL);
+#endif
+#ifdef _WIN32
+	loadAudioFiles(NULL);
+#endif
 
 	//init sound and volume handling
 	Array_init(&sounds, sizeof(Sound));
@@ -201,30 +148,20 @@ void Audio_init(char **soundFiles, int soundFilesLengthIn){
 	volumes[AUDIO_SOUND_TYPE_SFX] = 1.0;
 	volumes[AUDIO_SOUND_TYPE_MUSIC] = 1.0;
 
-	//init native sound device
-	device = snd_pcm_open(&handle, "default", SND_PCM_STREAM_PLAYBACK, 0);
+	//init miniaudio
 
-	snd_pcm_hw_params_alloca(&params);
+	deviceConfig = ma_device_config_init(ma_device_type_playback);
+    //deviceConfig.playback.format   = ma_format_s16;
+    deviceConfig.playback.format   = ma_format_f32;
+    deviceConfig.playback.channels = NUMBER_OF_CHANNELS;
+    deviceConfig.sampleRate        = SAMPLE_RATE;
+    deviceConfig.dataCallback      = data_callback;
 
-	snd_pcm_hw_params_any(handle, params);
+	if (ma_device_init(NULL, &deviceConfig, &device) != MA_SUCCESS) {
+		printf("Could not initialize miniaudio device!\n");
+    }
 
-	snd_pcm_hw_params_set_access(handle, params, SND_PCM_ACCESS_RW_INTERLEAVED);
-
-	snd_pcm_hw_params_set_format(handle, params, SND_PCM_FORMAT_S16_LE);
-
-	snd_pcm_hw_params_set_channels(handle, params, NUMBER_OF_CHANNELS);
-
-	snd_pcm_hw_params_set_rate_near(handle, params, &SAMPLE_RATE, &dir);
-
-	snd_pcm_hw_params_set_period_size_near(handle, params, (snd_pcm_uframes_t* )&PERIOD_SIZE, &dir);
-
-	snd_pcm_hw_params(handle, params);
-
-	snd_pcm_status_malloc(&status);
-
-	//start render loop on seperate thread
-	pthread_t renderThread;
-	pthread_create(&renderThread, NULL, renderLoop, NULL);
+	ma_device_start(&device);
 
 }
 
@@ -255,11 +192,11 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 		return -1;
 	}
 
-	pthread_mutex_lock(&soundMutex);
+	//pthread_mutex_lock(&soundMutex);
 
 	Sound *sound_p = Array_addItem(&sounds);
 
-	pthread_mutex_unlock(&soundMutex);
+	//pthread_mutex_unlock(&soundMutex);
 
 	EntityHeader_init(&sound_p->entityHeader);
 

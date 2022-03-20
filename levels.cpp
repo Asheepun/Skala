@@ -1521,7 +1521,7 @@ Island
 
 	//World_addDoorKey(world_p, getVec2f(70, 90), NONE);
 
-	World_addObstacle(world_p, getVec2f(30, 210), getVec2f(WIDTH - 330, 60), NONE);
+	World_addObstacle(world_p, getVec2f(30, 200), getVec2f(WIDTH - 330, 70), NONE);
 
 :levelName
 no-legs-key-block

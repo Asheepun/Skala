@@ -9,6 +9,12 @@ void String_set(char *, char *, int);
 
 void String_append(char *, char *);
 
+void String_append_int(char *, int);
+
+void String_append_float(char *, float);
+
+//void String_append_formatted(char *, const char *, ...);
+
 void String_clearRange(char *, int, int);
 
 #endif

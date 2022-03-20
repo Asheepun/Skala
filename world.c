@@ -46,6 +46,8 @@ void World_init(World *world_p){
 	Array_init(&world_p->levelDoors, sizeof(LevelDoor));
 	Array_init(&world_p->particles, sizeof(Particle));
 	Array_init(&world_p->musicAreas, sizeof(MusicArea));
+	Array_init(&world_p->menuButtonIDs, sizeof(size_t));
+	Array_init(&world_p->menuSpriteIndices, sizeof(size_t));
 
 	for(int i = 0; i < NUMBER_OF_SPRITE_LAYERS; i++){
 
@@ -143,6 +145,8 @@ void World_restore(World *world_p){
 	world_p->scalingByPlayerSpeed = false;
 	world_p->playerHasNoLegs = false;
 
+	Array_clear(&world_p->menuButtonIDs);
+	Array_clear(&world_p->menuSpriteIndices);
 	Array_clear(&world_p->buttons);
 	Array_clear(&world_p->bodyPairs);
 	Array_clear(&world_p->points);
@@ -373,7 +377,7 @@ size_t World_addTextSprite(World *world_p, Vec2f pos, char *text, char *fontName
 
 	sprite_p->facing = RIGHT;
 
-	String_set(sprite_p->text, text, SMALL_STRING_SIZE);
+	String_set(sprite_p->text, text, STRING_SIZE);
 	sprite_p->textureCoordOffset = getVec2f(0, 0);
 	sprite_p->textureArea = getVec2f(0, 0);
 	//strcpy(sprite_p->text, text);

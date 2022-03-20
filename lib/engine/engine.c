@@ -609,6 +609,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 		//clientHeight = lpRect->bottom - lpRect->top;
 
 	}
+
+	if (uMsg == WM_SETCURSOR && LOWORD(lParam) == HTCLIENT){
+
+		SetCursor(NULL);
+
+		return true;
+
+	}
 	
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 

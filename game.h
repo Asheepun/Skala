@@ -29,12 +29,24 @@ enum Actions{
 	DOWN_ACTION,
 	LEFT_ACTION,
 	RIGHT_ACTION,
-	JUMP_ACTION,
+	RESTART_ACTION,
 	SCALE_ACTION,
 	DO_ACTION,
 	BACK_ACTION,
 	MENU_ACTION,
-	RESTART_ACTION,
+	NUMBER_OF_ACTIONS,
+};
+
+static char *ACTION_NAMES[] = {
+	"UP",
+	"DOWN",
+	"LEFT",
+	"RIGHT",
+	"RESTART",
+	"SCALE",
+	"DO",
+	"BACK",
+	"MENU",
 };
 
 enum ButtonType{
@@ -147,7 +159,15 @@ enum MenuState{
 	MENU_STATE_MAIN,
 	MENU_STATE_SETTINGS,
 	MENU_STATE_DELETE_SAVE_DATA,
+	MENU_STATE_CONTROLS,
+	MENU_STATE_YES_NO,
 	NUMBER_OF_MENU_STATES,
+};
+
+enum MenuButtonTag{
+	MENU_BUTTON_EXIT_LEVEL,
+	MENU_BUTTON_SETTINGS,
+	MENU_BUTTON_RETURN,
 };
 
 union ParticleProperty{
@@ -198,7 +218,7 @@ typedef struct Sprite{
 	Vec2f pos;
 	//unsigned int font;
 	char *fontName;
-	char text[SMALL_STRING_SIZE];
+	char text[STRING_SIZE];
 
 }Sprite;
 
@@ -208,12 +228,14 @@ typedef struct Button{
 	unsigned int spriteIndex;
 	enum ButtonType buttonType;
 	enum MenuState menuState;
+	//enum MenuState menuButtonTag;
 }Button;
 
 typedef struct Settings{
 	float musicVolume;
 	float sfxVolume;
-	bool fullscreenOn;
+	bool fullscreen;
+	int actionBindings[6];
 }Settings;
 
 typedef struct BodyPair{
@@ -386,6 +408,9 @@ typedef struct World{
 
 	Settings settings;
 
+	Array menuButtonIDs;
+	Array menuSpriteIndices;
+
 	SaveData saveData;
 	Array roomLevels[NUMBER_OF_LEVEL_HUB_ROOMS];
 	bool addedRoomLevels;
@@ -513,6 +538,7 @@ static const Renderer2D_Color COLOR_BLUE 				= { 0.00, 		0.00, 		1.00 };
 static const Renderer2D_Color COLOR_YELLOW 				= { 1.00, 		1.00, 		0.00 };
 static const Renderer2D_Color COLOR_YELLOWRED 			= { 1.00, 		0.80, 		0.00 };
 static const Renderer2D_Color COLOR_ORANGE 				= { 1.00, 		0.60, 		0.00 };
+static const Renderer2D_Color COLOR_DARK_GREEN 			= { 0.00, 		0.30, 		0.00 };
 
 static const Renderer2D_Color COLOR_GREY_BACKGROUND 	= { 0.00, 		0.00, 		0.00 };
 static const Renderer2D_Color COLOR_GREEN_BACKGROUND 	= { 0.00, 		0.5, 		0.00 };
@@ -554,9 +580,11 @@ static const Renderer2D_Color SCALING_SCALE_TYPE_COLORS[] = {
 
 static int FADE_TRANSITION_TIME = 60;
 
-static float MUSIC_VOLUME_FACTOR = 1.0;
-static float MUSIC_FADE_IN_SPEED = 0.01;
+static float MUSIC_VOLUME_FACTOR = 2.0;
+static float MUSIC_FADE_IN_SPEED = 0.015;
 static float MUSIC_FADE_OUT_SPEED = 0.01;
+
+static float SFX_VOLUME_FACTOR = 0.5;
 
 static float PLAYER_SPEED_SCALE_EXPONENT = 1.2;
 
@@ -704,6 +732,10 @@ void World_menuState(World *);
 void Settings_init(Settings *);
 
 void World_Settings_updateWorld(World *, Settings *);
+
+void Settings_readFromFile(Settings *);
+
+void Settings_writeToFile(Settings *);
 
 //FILE saving.c
 
