@@ -1,12 +1,23 @@
 :playerPos
-330 -240
+3263 -1671
 :doorKeys
-6260 -200
+6260 -160
 :doors
-3350 180 20 60
-4020 180 20 60
 :flags
+removed-title-text
 :levelsWithDoorKey
-make-it-bigger-2
-get-key-up-2
 :completedLevels
+ÿÿÿÿÿÿÿÿÿÿÿ
+level-1
+level-2
+level-3
+first-scaling-level-1
+first-scaling-level-3
+first-scaling-level-4
+cooler-scaling-level-1
+cooler-scaling-level-2
+cooler-scaling-level-3
+cooler-scaling-level-4
+get-key-up-2
+make-it-bigger-2
+no-legs-scalable-point

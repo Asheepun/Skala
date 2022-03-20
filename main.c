@@ -252,23 +252,28 @@ void Engine_start(){
 			"assets/sprites/skorpionen.png",
 			"assets/sprites/orion.png",
 			"assets/sprites/karlavagnen.png",
+			"assets/sprites/saturn.png",
 		};
 
 		Vec2f starSignPoses[] = {
 			getVec2f(400, height - 1000),
 			getVec2f(2000, height - 580),
 			getVec2f(4230, height - 800),
+			//getVec2f(2800, height - 970), //on top of roof
+			getVec2f(2460, height - 1200),
 		};
 
-		int starSignSizes[6];
+		int starSignSizes[8];
 		int channels;
-		unsigned char *starSignData[3];
+		unsigned char *starSignData[4];
 
-		for(int i = 0; i < 3; i++){
+		printf("here\n");
+		for(int i = 0; i < 4; i++){
 			starSignData[i] = stbi_load(starSignPaths[i], &starSignSizes[i * 2], &starSignSizes[i * 2 + 1], &channels, 4);
 		}
+		printf("hoyo\n");
 
-		for(int i = 0; i < 3; i++){
+		for(int i = 0; i < 4; i++){
 			for(int y = 0; y < starSignSizes[i * 2 + 1]; y++){
 				for(int x = 0; x < starSignSizes[i * 2]; x++){
 
@@ -283,6 +288,7 @@ void Engine_start(){
 				}
 			}
 		}
+		printf("hehe\n");
 
 		Vec2f mustHaveStarPoses[] = {
 			getVec2f(2780, height - 490),
