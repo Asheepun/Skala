@@ -1,3 +1,4 @@
+#include "engine/engine.h"
 #include "math.h"
 #include "stdio.h"
 #include "game.h"
@@ -84,7 +85,10 @@ void World_generateLevel5(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 160, 210), getVec2f(160, 60), ALL);
 
-	World_addTextSprite(world_p, getVec2f(140, 140), "X key to scale ", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+	char text[255];
+	sprintf(text, "%s key to scale", Engine_keyNames[world_p->actions[5].bindings[0]]);
+
+	World_addTextSprite(world_p, getVec2f(140, 140), text, "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
 }
 
@@ -531,7 +535,10 @@ void World_generateLevel29(World *world_p){
 
 	World_addDoorKey(world_p, getVec2f(120, 210), ALL);
 
-	World_addTextSprite(world_p, getVec2f(25, 40), "R key to restart level ", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+	char text[255];
+	sprintf(text, "%s key to restart level ", Engine_keyNames[world_p->actions[4].bindings[0]]);
+
+	World_addTextSprite(world_p, getVec2f(25, 40), text, "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
 }
 
@@ -1016,7 +1023,7 @@ void World_generateLevel51(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(WIDTH, HEIGHT - 60), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, -BIG_BLOCKING_SIZE), getVec2f(WIDTH, BIG_BLOCKING_SIZE + HEIGHT - 60), NONE);
 
 }
 

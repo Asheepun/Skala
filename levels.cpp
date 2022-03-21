@@ -89,7 +89,10 @@ Gap
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 160, 210), getVec2f(160, 60), ALL);
 
-	World_addTextSprite(world_p, getVec2f(140, 140), "X key to scale ", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+	char text[255];
+	sprintf(text, "%s key to scale", Engine_keyNames[world_p->actions[5].bindings[0]]);
+
+	World_addTextSprite(world_p, getVec2f(140, 140), text, "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
 :levelName
 first-scaling-level-2
@@ -599,7 +602,10 @@ Key Hole 2
 
 	World_addDoorKey(world_p, getVec2f(120, 210), ALL);
 
-	World_addTextSprite(world_p, getVec2f(25, 40), "R key to restart level ", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+	char text[255];
+	sprintf(text, "%s key to restart level ", Engine_keyNames[world_p->actions[4].bindings[0]]);
+
+	World_addTextSprite(world_p, getVec2f(25, 40), text, "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
 :levelName
 floor-is-door
@@ -1124,7 +1130,7 @@ Acceleration
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(WIDTH, HEIGHT - 60), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, -BIG_BLOCKING_SIZE), getVec2f(WIDTH, BIG_BLOCKING_SIZE + HEIGHT - 60), NONE);
 
 :levelName
 slide-slide-slide
