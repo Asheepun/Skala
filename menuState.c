@@ -8,6 +8,7 @@
 #include "levels.h"
 #include "string.h"
 #include "stdlib.h"
+#include "stdbool.h"
 
 int NUMBER_OF_REBINDABLE_ACTIONS = 6;
 
@@ -557,7 +558,7 @@ void Settings_readFromFile(Settings *settings_p){
 	long int fileSize;
 	char *data = getFileData_mustFree("settings.txt", &fileSize);
 
-	int numberOfLines = 0;
+	int numberOfLines = 1;
 
 	for(int i = 0; i < fileSize; i++){
 		if(data[i] == *"\n"){
@@ -581,6 +582,10 @@ void Settings_readFromFile(Settings *settings_p){
 				continue;
 			}
 
+			if(currentChar >= STRING_SIZE){
+				break;
+			}
+
 			lines[currentLine][currentChar] = data[i];
 			currentChar++;
 
@@ -593,15 +598,11 @@ void Settings_readFromFile(Settings *settings_p){
 
 		if(strcmp(lines[i], ":music-volume") == 0){
 			float status = strtof(lines[i + 1], &ptr);
-			printf("%f\n", (float)status);
-			printf("%s\n", lines[i + 1]);
 			settings_p->musicVolume = status;
 		}
 
 		if(strcmp(lines[i], ":sfx-volume") == 0){
 			float status = strtof(lines[i + 1], &ptr);
-			printf("%f\n", (float)status);
-			printf("%s\n", lines[i + 1]);
 			settings_p->sfxVolume = status;
 		}
 

@@ -6,14 +6,8 @@
 #include "stdlib.h"
 #include "math.h"
 #include "stdarg.h"
-
-#ifdef __linux__
-#include "stddef.h"
-#endif
-
-#ifdef _WIN32
 #include "stdint.h"
-#endif
+#include "stddef.h"
 
 #define HEADER_READ_LENGTH 1000
 

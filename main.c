@@ -268,11 +268,9 @@ void Engine_start(){
 		int channels;
 		unsigned char *starSignData[4];
 
-		printf("here\n");
 		for(int i = 0; i < 4; i++){
 			starSignData[i] = stbi_load(starSignPaths[i], &starSignSizes[i * 2], &starSignSizes[i * 2 + 1], &channels, 4);
 		}
-		printf("hoyo\n");
 
 		for(int i = 0; i < 4; i++){
 			for(int y = 0; y < starSignSizes[i * 2 + 1]; y++){
@@ -289,7 +287,6 @@ void Engine_start(){
 				}
 			}
 		}
-		printf("hehe\n");
 
 		Vec2f mustHaveStarPoses[] = {
 			getVec2f(2780, height - 490),

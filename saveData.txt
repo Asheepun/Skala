@@ -1,18 +1,34 @@
 :playerPos
-3474 68
+2786 48
 :doorKeys
 6260 -200
+2566 48
 :doors
 3350 180 20 60
 4020 180 20 60
 :flags
 removed-title-text
+completed-first-scale-levels
 :levelsWithDoorKey
-make-it-bigger-2
 get-key-up-2
 :completedLevels
-ÿÿÿÿÿÿÿÿÿÿÿ
 level-1
 level-2
 level-3
 first-scaling-level-1
+first-scaling-level-3
+first-scaling-level-4
+cooler-scaling-level-1
+cooler-scaling-level-2
+cooler-scaling-level-3
+cooler-scaling-level-4
+cooler-scaling-level-5
+high-jump-1
+slow-fall-squeeze
+high-jump-2
+high-jump-3
+make-it-bigger-1
+make-it-bigger-2
+point-cage
+point-cage-2
+point-cage-3
