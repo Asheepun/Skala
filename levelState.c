@@ -51,7 +51,7 @@ void World_initLevel(World *world_p){
 	World_addSprite(world_p, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), backgroundColor, "obstacle", 1, GAME_LAYER_BACKGROUND);
 
 	if(world_p->scalingByPlayerPosition
-	|| world_p->scalingByPlayerSpeed){
+	&& world_p->previousState == LEVEL_HUB_STATE){
 		Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX);
 	}
 

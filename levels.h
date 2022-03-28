@@ -98,8 +98,11 @@ void World_generateLevel86(World *);
 void World_generateLevel87(World *);
 void World_generateLevel88(World *);
 void World_generateLevel89(World *);
+void World_generateLevel90(World *);
+void World_generateLevel91(World *);
+void World_generateLevel92(World *);
 
-static const size_t LEVELS_LENGTH = 89;
+static const size_t LEVELS_LENGTH = 92;
 
 static Level levels[255] = {
 	"bug-testing-level",
@@ -369,6 +372,15 @@ static Level levels[255] = {
 	"no-legs-no-scale-2",
 	"Stuck",
 	World_generateLevel89,
+	"filter-4",
+	"Filter 4",
+	World_generateLevel90,
+	"breaking-through-wall",
+	"Tangible 2",
+	World_generateLevel91,
+	"breaking-through-wall-2",
+	"Tangible 3",
+	World_generateLevel92,
 };
 
 #endif

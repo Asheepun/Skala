@@ -435,6 +435,7 @@ typedef struct World{
 	bool quit;
 
 	enum WorldState currentState;
+	enum WorldState previousState;
 	enum WorldState nextStateAfterTransition;
 	enum WorldState stateBeforeOpeningMenu;
 	int fadeTransitionCounter;

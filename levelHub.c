@@ -736,7 +736,7 @@ void World_initLevelHub(World *world_p){
 	//add boundries
 	World_addScaleField(world_p, getVec2f(startingAreaX, cloudY), getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 140 - 300, HEIGHT), NONE);
 
-	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100, -HEIGHT * 5 - 100), getVec2f(500, HEIGHT * 7), NONE);
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100, -HEIGHT * 5 - 100), getVec2f(1000, HEIGHT * 7), NONE);
 
 	//secret area
 	currentRoomX = &secretLevelsRoomX;
@@ -751,13 +751,22 @@ void World_initLevelHub(World *world_p){
 	*currentRoomWidth += 70;
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 145), "key-fall-through", SECRET_ROOM);
+	*currentRoomWidth += 70;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 145), "filter-4", SECRET_ROOM);
+	*currentRoomWidth += 70;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 145), "breaking-through-wall", SECRET_ROOM);
+	*currentRoomWidth += 70;
+
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 145), "breaking-through-wall-2", SECRET_ROOM);
 
 	*currentRoomWidth += 90;
 
 	//add secret area obstacles
 	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100 - 300, -HEIGHT * 6), getVec2f(60, HEIGHT - 120), NONE);
 
-	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100 - 300, -HEIGHT * 7), getVec2f(WIDTH * 2, HEIGHT + 40), NONE);
+	World_addObstacle(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth + 40 + 100 - 300, -HEIGHT * 7), getVec2f(WIDTH * 3, HEIGHT + 40), NONE);
 
 	World_addObstacle(world_p, getVec2f(secretLevelsRoomX + secretLevelsRoomWidth, -HEIGHT * 6), getVec2f(WIDTH, HEIGHT), NONE);
 
@@ -1251,6 +1260,8 @@ void World_initLevelHub(World *world_p){
 	World_addMusicArea(world_p, getVec2f(xySwitchLevelsRoomX, -HEIGHT + 50), getVec2f(xySwitchLevelsRoomWidth + 100, HEIGHT - 50), "music/scale-field-levels");
 
 	World_addMusicArea(world_p, getVec2f(playerPositionLevelsRoomX, 0), getVec2f(playerPositionLevelsRoomWidth + WIDTH, HEIGHT), "music/player-position-levels");
+
+	World_addMusicArea(world_p, getVec2f(playerPositionLevelsRoomX + playerPositionLevelsRoomWidth - WIDTH / 2 - 50, -HEIGHT), getVec2f(2 * WIDTH, HEIGHT), "music/player-position-levels");
 
 	World_addMusicArea(world_p, getVec2f(secretLevelsRoomX - 90, -HEIGHT * 6), getVec2f(secretLevelsRoomWidth + 100, 160), "music/secret-room-levels");
 
