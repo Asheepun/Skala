@@ -847,9 +847,11 @@ void World_levelState(World *world_p){
 
 			if(world_p->currentState != LEVEL_HUB_STATE//fix small thing in elevator, will probably need a better fix
 			&& (bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y > HEIGHT
-			&& bodyPair1_p->scaleType == ALL
+			&& (bodyPair1_p->scaleType == ALL
+			|| bodyPair1_p->originScaleType == ALL)
 			|| bodyPair1_p->body.pos.y < 0
-			&& bodyPair1_p->scaleType == ALL_FROM_TOP
+			&& (bodyPair1_p->scaleType == ALL_FROM_TOP
+			|| bodyPair1_p->originScaleType == ALL_FROM_TOP)
 			&& world_p->currentState == LEVEL_STATE)
 			&& bodyPair1_p->entityType != DOOR_KEY
 			&& bodyPair1_p->entityType != PLAYER){
@@ -876,9 +878,10 @@ void World_levelState(World *world_p){
 
 			if(collision_p->oub){
 				BodyPair oubBodyPair;
-				Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, 200));
-				if(bodyPair1_p->scaleType == ALL_FROM_TOP){
-					oubBodyPair.body.pos.y = -200;
+				Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, BIG_BLOCKING_SIZE));
+				//if(bodyPair1_p->scaleType == ALL_FROM_TOP){
+				if(bodyPair1_p->body.pos.y < 0){
+					oubBodyPair.body.pos.y = -BIG_BLOCKING_SIZE;
 				}
 				oubBodyPair.lastBody = oubBodyPair.body;
 				bodyPair2_p = &oubBodyPair;
