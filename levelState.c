@@ -52,7 +52,7 @@ void World_initLevel(World *world_p){
 
 	if(world_p->scalingByPlayerPosition
 	|| world_p->scalingByPlayerSpeed){
-		Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX);
+		Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX, 0);
 	}
 
 }
@@ -87,7 +87,7 @@ void World_levelState(World *world_p){
 		&& scalingSoundLoopID == -1){
 			//scalingSoundLoopID = Audio_playSound("scaling", 0.2, true, AUDIO_SOUND_TYPE_SFX);
 			//Audio_playSound("begin-scaling-1", 0.5, false, AUDIO_SOUND_TYPE_SFX);
-			Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX);
+			Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX, 0);
 			//scalingSoundCounter = 0;
 		}
 		if(world_p->actions[SCALE_ACTION].upped
@@ -228,7 +228,7 @@ void World_levelState(World *world_p){
 		if((world_p->actions[UP_ACTION].down)
 		&& playerPhysics_p->onGround){
 			playerPhysics_p->velocity.y += player_p->jumpSpeed;
-			Audio_playSoundVariation("jump", 3, 1.0, false, AUDIO_SOUND_TYPE_SFX);
+			Audio_playSoundVariation("jump", 3, 1.0, false, AUDIO_SOUND_TYPE_SFX, 0);
 			//Audio_playSound("player-land", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 		}
 
@@ -1130,7 +1130,7 @@ void World_levelState(World *world_p){
 		&& bodyPair1_p->entityType == PLAYER){
 		//&& !(world_p->actions[UP_ACTION].down
 		//&& !world_p->scaling)){
-			//Audio_playSound("player-jump-1", 0.5, false, AUDIO_SOUND_TYPE_SFX);
+			//Audio_playSound("player-jump-1", 0.5, false, AUDIO_SOUND_TYPE_SFX, 0);
 		}
 
 	}
@@ -1199,7 +1199,7 @@ void World_levelState(World *world_p){
 
 	if(playerGotKey){
 		if(!player_p->holdingKey){
-			Audio_playSoundVariation("pickup-key", 3, 1.0, false, AUDIO_SOUND_TYPE_SFX);
+			Audio_playSoundVariation("pickup-key", 3, 1.0, false, AUDIO_SOUND_TYPE_SFX, 0);
 		}
 		player_p->holdingKey = true;
 	}else{
@@ -1284,7 +1284,7 @@ void World_levelState(World *world_p){
 				}
 
 				//sound effect
-				Audio_playSound("open-door-1", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+				Audio_playSound("open-door-1", 1.0, false, AUDIO_SOUND_TYPE_SFX, 0);
 
 				//remove door and key
 				World_removeDoorByID(world_p, door_p->entityHeader.ID);

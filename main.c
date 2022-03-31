@@ -201,37 +201,37 @@ void Engine_start(){
 
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/first-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/first-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/door-key-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/door-key-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/all-from-top-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/all-from-top-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/scale-field-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/scale-field-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/player-position-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/player-position-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 		//*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/no-legs-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/no-legs-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 		//*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/secret-room-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/secret-room-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 	}
 
 	//make star background texture
@@ -431,6 +431,8 @@ void Engine_update(float deltaTime){
 	}
 
 	World_Settings_updateWorld(&world, &world.settings);
+
+	Audio_updateDelayedSounds();
 
 }
 

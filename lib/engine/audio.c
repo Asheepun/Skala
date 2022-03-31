@@ -40,6 +40,11 @@ typedef struct Sound{
 	enum Audio_SoundTypeEnum type;
 }Sound;
 
+typedef struct DelayedSound{
+	Sound sound;
+	int ticksLeft;
+}DelayedSound;
+
 typedef struct SoundData{
 	int16_t *data;
 	int framesLength;
@@ -51,6 +56,7 @@ SoundData soundData[255];
 int soundDataLength = 0;
 
 Array sounds;
+Array delayedSounds;
 
 float volumes[2];
 
@@ -132,15 +138,15 @@ void Audio_init(char **soundFiles, int soundFilesLengthIn){
 	soundDataLength = soundFilesLength;
 
 	//load audio files on seperate thread
-#ifdef __linux__
+//#ifdef __linux__
 	//load audio on seperate thread
 	//loadAudioFiles(NULL);
-	pthread_t loadThread;
-	pthread_create(&loadThread, NULL, loadAudioFiles, NULL);
-#endif
-#ifdef _WIN32
+	//pthread_t loadThread;
+	//pthread_create(&loadThread, NULL, loadAudioFiles, NULL);
+//#endif
+//#ifdef _WIN32
 	loadAudioFiles(NULL);
-#endif
+//#endif
 
 	//init sound and volume handling
 	Array_init(&sounds, sizeof(Sound));
@@ -177,7 +183,7 @@ float Audio_getVolume(enum Audio_SoundTypeEnum soundType){
 
 }
 
-size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_SoundTypeEnum soundType){
+size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_SoundTypeEnum soundType, int delay){
 
 	int soundDataIndex = -1;
 	for(int i = 0; i < soundDataLength; i++){
@@ -194,7 +200,22 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 
 	//pthread_mutex_lock(&soundMutex);
 
-	Sound *sound_p = Array_addItem(&sounds);
+	Sound *sound_p;
+
+	if(delay == 0){
+		sound_p = Array_addItem(&sounds);
+	}else{
+
+		//printf("obobo\n");
+
+		DelayedSound *delayedSound_p = Array_addItem(&delayedSounds);
+
+		delayedSound_p->ticksLeft = delay;
+		sound_p = &delayedSound_p->sound;
+
+		//printf("nanana\n");
+
+	}
 
 	//pthread_mutex_unlock(&soundMutex);
 
@@ -211,7 +232,7 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 
 }
 
-size_t Audio_playSoundVariation(char *soundName, int variations, float volume, bool loop, enum Audio_SoundTypeEnum soundType){
+size_t Audio_playSoundVariation(char *soundName, int variations, float volume, bool loop, enum Audio_SoundTypeEnum soundType, int delay){
 
 	char variationName[STRING_SIZE];
 
@@ -220,7 +241,32 @@ size_t Audio_playSoundVariation(char *soundName, int variations, float volume, b
 	memset(variationName, 0, sizeof(char) * STRING_SIZE);
 	sprintf(variationName, "%s-%i", soundName, variationNumber);
 
-	return Audio_playSound(variationName, volume, loop, soundType);
+	return Audio_playSound(variationName, volume, loop, soundType, delay);
+
+}
+
+void Audio_updateDelayedSounds(){
+	
+	for(int i = 0; i < delayedSounds.length; i++){
+
+		DelayedSound *delayedSound_p = Array_getItemPointerByIndex(&delayedSounds, i);
+
+		delayedSound_p->ticksLeft--;
+
+		if(delayedSound_p->ticksLeft <= 0){
+
+			//printf("GOT HERE\n");
+
+			Sound *sound_p = Array_addItem(&sounds);
+
+			*sound_p = delayedSound_p->sound;
+
+			Array_removeItemByIndex(&delayedSounds, i);
+			i--;
+		
+		}
+	
+	}
 
 }
 
