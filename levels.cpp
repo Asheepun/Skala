@@ -1951,7 +1951,7 @@ Locker 2
 
 	World_restore(world_p);
 
-	World_initPlayer(world_p, getVec2f(70, 30), NONE);
+	World_initPlayer(world_p, getVec2f(70, 210), NONE);
 
 	World_addPoint(world_p, getVec2f(WIDTH - 65, 210), ALL);
 

@@ -983,6 +983,28 @@ void World_levelState(World *world_p){
 	Array_free(&collisions);
 	Array_free(&lastCollisions);
 
+	//UGLY FIX FOR BUG WITH DOOR KEYS MIGHT BREAK STUFF!!! BUG WAS OBSERVED IN LOCKER LEVELS WHERE KEY WOULD GO THROUGH WALL DUE TO PLAYER HOLDING FORCE
+	for(int i = 0; i < world_p->doorKeys.length; i++){
+
+		DoorKey *doorKey_p = Array_getItemPointerByIndex(&world_p->doorKeys, i);
+		BodyPair *bodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
+
+		if(doorKey_p->isHeld
+		&& bodyPair_p->lastBody.size.y >= 1
+		&& bodyPair_p->body.size.y < 1){
+			//Vec2f_log(bodyPair_p->lastBody.size);
+			bodyPair_p->physics.velocity.x = 0;
+		}
+
+		if(doorKey_p->isHeld
+		&& bodyPair_p->lastBody.size.x >= 1
+		&& bodyPair_p->body.size.x < 1){
+			bodyPair_p->physics.velocity.y = 0;
+		}
+	
+	
+	}
+
 	//apply physics and update last bodies
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
 
@@ -1004,6 +1026,7 @@ void World_levelState(World *world_p){
 
 		//update last bodies
 		bodyPair_p->lastBody = bodyPair_p->body;
+
 			
 	}
 
@@ -1163,6 +1186,8 @@ void World_levelState(World *world_p){
 		BodyPair *doorKeyBodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
 
+		doorKey_p->isHeld = false;
+
 		if(checkBodyPairToBodyPairCollision(*playerBodyPair_p, *doorKeyBodyPair_p)
 		&& !playerGotKey){
 
@@ -1192,6 +1217,7 @@ void World_levelState(World *world_p){
 			//Vec2f_divByFactor(&velocity, 3);
 
 			playerGotKey = true;
+			doorKey_p->isHeld = true;
 
 			doorKeyBodyPair_p->physics.velocity = velocity;
 			doorKey_p->facing = player_p->facing;

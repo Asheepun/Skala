@@ -13,6 +13,7 @@
 #define MA_ENABLE_ALSA 
 #define MA_ENABLE_PULSEAUDIO 
 #define MA_ENABLE_WASAPI 
+//#define MA_ENABLE_DSOUND 
 #include "miniaudio/miniaudio.h"
 
 #ifdef __linux
