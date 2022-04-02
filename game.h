@@ -314,6 +314,7 @@ typedef struct Door{
 typedef struct DoorKey{
 	EntityHeader entityHeader;
 	Physics physics;
+	bool isHeld;
 	size_t bodyPairID;
 	//size_t spriteID;
 	unsigned int spriteIndex;
@@ -435,6 +436,7 @@ typedef struct World{
 	bool quit;
 
 	enum WorldState currentState;
+	enum WorldState previousState;
 	enum WorldState nextStateAfterTransition;
 	enum WorldState stateBeforeOpeningMenu;
 	int fadeTransitionCounter;

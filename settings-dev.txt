@@ -1,0 +1,14 @@
+:fullscreen
+0
+:music-volume
+0.500000
+:sfx-volume
+0.500000
+:action-bindings
+32
+28
+10
+13
+27
+19
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   

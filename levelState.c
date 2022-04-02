@@ -51,8 +51,8 @@ void World_initLevel(World *world_p){
 	World_addSprite(world_p, getVec2f(0, 0), getVec2f(WIDTH, HEIGHT), backgroundColor, "obstacle", 1, GAME_LAYER_BACKGROUND);
 
 	if(world_p->scalingByPlayerPosition
-	|| world_p->scalingByPlayerSpeed){
-		Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX, 0);
+	&& world_p->previousState == LEVEL_HUB_STATE){
+		Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX);
 	}
 
 }
@@ -847,9 +847,11 @@ void World_levelState(World *world_p){
 
 			if(world_p->currentState != LEVEL_HUB_STATE//fix small thing in elevator, will probably need a better fix
 			&& (bodyPair1_p->body.pos.y + bodyPair1_p->body.size.y > HEIGHT
-			&& bodyPair1_p->scaleType == ALL
+			&& (bodyPair1_p->scaleType == ALL
+			|| bodyPair1_p->originScaleType == ALL)
 			|| bodyPair1_p->body.pos.y < 0
-			&& bodyPair1_p->scaleType == ALL_FROM_TOP
+			&& (bodyPair1_p->scaleType == ALL_FROM_TOP
+			|| bodyPair1_p->originScaleType == ALL_FROM_TOP)
 			&& world_p->currentState == LEVEL_STATE)
 			&& bodyPair1_p->entityType != DOOR_KEY
 			&& bodyPair1_p->entityType != PLAYER){
@@ -876,9 +878,10 @@ void World_levelState(World *world_p){
 
 			if(collision_p->oub){
 				BodyPair oubBodyPair;
-				Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, 200));
-				if(bodyPair1_p->scaleType == ALL_FROM_TOP){
-					oubBodyPair.body.pos.y = -200;
+				Body_init(&oubBodyPair.body, getVec2f(0, HEIGHT), getVec2f(0, BIG_BLOCKING_SIZE));
+				//if(bodyPair1_p->scaleType == ALL_FROM_TOP){
+				if(bodyPair1_p->body.pos.y < 0){
+					oubBodyPair.body.pos.y = -BIG_BLOCKING_SIZE;
 				}
 				oubBodyPair.lastBody = oubBodyPair.body;
 				bodyPair2_p = &oubBodyPair;
@@ -980,6 +983,28 @@ void World_levelState(World *world_p){
 	Array_free(&collisions);
 	Array_free(&lastCollisions);
 
+	//UGLY FIX FOR BUG WITH DOOR KEYS MIGHT BREAK STUFF!!! BUG WAS OBSERVED IN LOCKER LEVELS WHERE KEY WOULD GO THROUGH WALL DUE TO PLAYER HOLDING FORCE
+	for(int i = 0; i < world_p->doorKeys.length; i++){
+
+		DoorKey *doorKey_p = Array_getItemPointerByIndex(&world_p->doorKeys, i);
+		BodyPair *bodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
+
+		if(doorKey_p->isHeld
+		&& bodyPair_p->lastBody.size.y >= 1
+		&& bodyPair_p->body.size.y < 1){
+			//Vec2f_log(bodyPair_p->lastBody.size);
+			bodyPair_p->physics.velocity.x = 0;
+		}
+
+		if(doorKey_p->isHeld
+		&& bodyPair_p->lastBody.size.x >= 1
+		&& bodyPair_p->body.size.x < 1){
+			bodyPair_p->physics.velocity.y = 0;
+		}
+	
+	
+	}
+
 	//apply physics and update last bodies
 	for(int i = 0; i < world_p->bodyPairs.length; i++){
 
@@ -1001,6 +1026,7 @@ void World_levelState(World *world_p){
 
 		//update last bodies
 		bodyPair_p->lastBody = bodyPair_p->body;
+
 			
 	}
 
@@ -1160,6 +1186,8 @@ void World_levelState(World *world_p){
 		BodyPair *doorKeyBodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
 
+		doorKey_p->isHeld = false;
+
 		if(checkBodyPairToBodyPairCollision(*playerBodyPair_p, *doorKeyBodyPair_p)
 		&& !playerGotKey){
 
@@ -1189,6 +1217,7 @@ void World_levelState(World *world_p){
 			//Vec2f_divByFactor(&velocity, 3);
 
 			playerGotKey = true;
+			doorKey_p->isHeld = true;
 
 			doorKeyBodyPair_p->physics.velocity = velocity;
 			doorKey_p->facing = player_p->facing;

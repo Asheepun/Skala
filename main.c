@@ -55,7 +55,7 @@ void Engine_start(){
 	Action_addBinding(&world.actions[BACK_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
 
-	//String_set(world.currentLevel, "no-legs-no-scale-2", STRING_SIZE);
+	//String_set(world.currentLevel, "breaking-through-wall-2", STRING_SIZE);
 
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
 	//World_switchToAndInitState(&world, LEVEL_STATE);
@@ -191,8 +191,8 @@ void Engine_start(){
 
 	Audio_init(soundAssets, soundAssetsLength);
 
-	Audio_setVolume(0.5 * MUSIC_VOLUME_FACTOR, AUDIO_SOUND_TYPE_MUSIC);
-	Audio_setVolume(0.5, AUDIO_SOUND_TYPE_SFX);
+	//Audio_setVolume(0.5 * MUSIC_VOLUME_FACTOR, AUDIO_SOUND_TYPE_MUSIC);
+	//Audio_setVolume(0.5, AUDIO_SOUND_TYPE_SFX);
 
 	//Audio_setVolume(0.0, AUDIO_SOUND_TYPE_MUSIC);
 
@@ -434,6 +434,8 @@ void Engine_update(float deltaTime){
 
 	Audio_updateDelayedSounds();
 
+	world.previousState = world.currentState;
+
 }
 
 void Engine_draw(){
@@ -502,8 +504,8 @@ void Engine_draw(){
 				pos.x = (sprite_p->body.pos.x);
 				pos.y = (sprite_p->body.pos.y);
 
-				size.x = ceil(sprite_p->body.size.x);
-				size.y = ceil(sprite_p->body.size.y);
+				size.x = (sprite_p->body.size.x);
+				size.y = (sprite_p->body.size.y);
 
 				if(pos.x + size.x < -world.renderer.offset.x
 				|| pos.y + size.y < -world.renderer.offset.y
