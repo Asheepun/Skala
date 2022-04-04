@@ -388,6 +388,7 @@ typedef struct Action{
 	int controllerButtonBindings[16];
 	int controllerButtonBindingsLength;
 	float *axis_p;
+	float *lastAxis_p;
 	float axisActivation;
 }Action;
 
@@ -649,7 +650,7 @@ void Action_init(Action *);
 
 void Action_addBinding(Action *, int);
 void Action_addControllerButtonBinding(Action *, int);
-void Action_addControllerAxisBinding(Action *, float *, float);
+void Action_addControllerAxisBinding(Action *, float *, float *, float);
 
 Body BodyPair_getDeltaBody(BodyPair);
 

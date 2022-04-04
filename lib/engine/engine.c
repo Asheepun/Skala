@@ -237,8 +237,12 @@ void initKeys(){
 	//init controller
 	Engine_controller.leftStick = getVec2f(0, 0);
 	Engine_controller.rightStick = getVec2f(0, 0);
+	Engine_controller.lastLeftStick = getVec2f(0, 0);
+	Engine_controller.lastRightStick = getVec2f(0, 0);
 	Engine_controller.leftTrigger = 0;
 	Engine_controller.rightTrigger = 0;
+	Engine_controller.lastLeftTrigger = 0;
+	Engine_controller.lastRightTrigger = 0;
 
 	for(int i = 0; i < ENGINE_CONTROLLER_BUTTONS_LENGTH; i++){
 		Engine_controller.buttons[i].down = false;
@@ -260,6 +264,11 @@ void resetKeys(){
 		Engine_controller.buttons[i].downed = false;
 		Engine_controller.buttons[i].upped = false;
 	}
+
+	Engine_controller.lastLeftStick = Engine_controller.leftStick;
+	Engine_controller.lastRightStick = Engine_controller.rightStick;
+	Engine_controller.lastLeftTrigger = Engine_controller.leftTrigger;
+	Engine_controller.lastRightTrigger = Engine_controller.rightTrigger;
 
 }
 
@@ -315,7 +324,7 @@ int main(){
 	XkbSetDetectableAutoRepeat(dpy, true, &autoRepeatIsAvailable);
 
 	//init controller
-	controllerFD = open("/dev/input/js0", O_NONBLOCK);
+	controllerFD = open("/dev/input/js1", O_NONBLOCK);
 
 	printf("controllerFD: %i\n", controllerFD);
 
@@ -407,13 +416,17 @@ int main(){
 					if(jse.number == CONTROLLER_BUTTON_IDENTIFIERS[i]){
 
 						if(jse.value == 1){
+							if(!Engine_controller.buttons[i].down){
+								Engine_controller.buttons[i].downed = true;
+							}
 							Engine_controller.buttons[i].down = true;
-							Engine_controller.buttons[i].downed = true;
 						}
 
 						if(jse.value == 0){
+							if(Engine_controller.buttons[i].down){
+								Engine_controller.buttons[i].upped = true;
+							}
 							Engine_controller.buttons[i].down = false;
-							Engine_controller.buttons[i].upped = true;
 						}
 					
 					}
@@ -493,6 +506,7 @@ int main(){
 		
 		}
 
+		/*
 		for(int i = 0; i < ENGINE_CONTROLLER_BUTTONS_LENGTH; i++){
 			printf("%i: %i\n", i, Engine_controller.buttons[i].down);
 		}
@@ -500,6 +514,7 @@ int main(){
 		Vec2f_log(Engine_controller.rightStick);
 		printf("%f\n", Engine_controller.leftTrigger);
 		printf("%f\n", Engine_controller.rightTrigger);
+		*/
 
 		//update
 

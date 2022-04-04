@@ -55,6 +55,8 @@ void Engine_start(){
 	Action_addBinding(&world.actions[BACK_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
 
+	/*
+	//regular controller bindings
 	Action_addControllerButtonBinding(&world.actions[UP_ACTION], ENGINE_CONTROLLER_BUTTON_UP);
 	Action_addControllerButtonBinding(&world.actions[DOWN_ACTION], ENGINE_CONTROLLER_BUTTON_DOWN);
 	Action_addControllerButtonBinding(&world.actions[LEFT_ACTION], ENGINE_CONTROLLER_BUTTON_LEFT);
@@ -67,16 +69,22 @@ void Engine_start(){
 	Action_addControllerButtonBinding(&world.actions[BACK_ACTION], ENGINE_CONTROLLER_BUTTON_MIDDLE_RIGHT);
 	Action_addControllerButtonBinding(&world.actions[BACK_ACTION], ENGINE_CONTROLLER_BUTTON_B);
 
-	Action_addControllerAxisBinding(&world.actions[UP_ACTION], &Engine_controller.leftStick.y, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
-	Action_addControllerAxisBinding(&world.actions[DOWN_ACTION], &Engine_controller.leftStick.y, ENGINE_CONTROLLER_ACTIVATION_ZONE);
-	Action_addControllerAxisBinding(&world.actions[LEFT_ACTION], &Engine_controller.leftStick.x, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
-	Action_addControllerAxisBinding(&world.actions[RIGHT_ACTION], &Engine_controller.leftStick.x, ENGINE_CONTROLLER_ACTIVATION_ZONE);
-	/*
-	Action_addControllerAxisBinding(&world.actions[UP_ACTION], &Engine_controller.rightStick.y, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
-	Action_addControllerAxisBinding(&world.actions[DOWN_ACTION], &Engine_controller.rightStick.y, ENGINE_CONTROLLER_ACTIVATION_ZONE);
-	Action_addControllerAxisBinding(&world.actions[LEFT_ACTION], &Engine_controller.rightStick.x, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
-	Action_addControllerAxisBinding(&world.actions[RIGHT_ACTION], &Engine_controller.rightStick.x, ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[UP_ACTION], &Engine_controller.leftStick.y, Engine_controller.lastLeftStick.y, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[DOWN_ACTION], &Engine_controller.leftStick.y, Engine_controller.lastLeftStick.y, ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[LEFT_ACTION], &Engine_controller.leftStick.x, Engine_controller.lastLeftStick.x, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[RIGHT_ACTION], &Engine_controller.leftStick.x, Engine_controller.lastLeftStick.x, ENGINE_CONTROLLER_ACTIVATION_ZONE);
 	*/
+
+	//arcade box joystick bindings
+	Action_addControllerAxisBinding(&world.actions[UP_ACTION], &Engine_controller.leftStick.x, &Engine_controller.lastLeftStick.x, ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[DOWN_ACTION], &Engine_controller.leftStick.x, &Engine_controller.lastLeftStick.x, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[LEFT_ACTION], &Engine_controller.leftStick.y, &Engine_controller.lastLeftStick.y, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[RIGHT_ACTION], &Engine_controller.leftStick.y, &Engine_controller.lastLeftStick.y, ENGINE_CONTROLLER_ACTIVATION_ZONE);
+
+	Action_addControllerButtonBinding(&world.actions[SCALE_ACTION], ENGINE_CONTROLLER_BUTTON_B);
+	Action_addControllerButtonBinding(&world.actions[DO_ACTION], ENGINE_CONTROLLER_BUTTON_B);
+	Action_addControllerButtonBinding(&world.actions[MENU_ACTION], ENGINE_CONTROLLER_BUTTON_A);
+	Action_addControllerButtonBinding(&world.actions[BACK_ACTION], ENGINE_CONTROLLER_BUTTON_A);
 
 	//String_set(world.currentLevel, "breaking-through-wall-2", STRING_SIZE);
 
@@ -424,7 +432,13 @@ void Engine_update(float deltaTime){
 			|| action_p->axisActivation > 0
 			&& *action_p->axis_p > action_p->axisActivation){
 				action_p->down = true;
-				action_p->downed = true;
+
+				if(action_p->axisActivation < 0
+				&& *action_p->lastAxis_p > action_p->axisActivation
+				|| action_p->axisActivation > 0
+				&& *action_p->lastAxis_p < action_p->axisActivation){
+					action_p->downed = true;
+				}
 			}
 			
 		}

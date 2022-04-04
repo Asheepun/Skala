@@ -165,9 +165,13 @@ typedef struct Engine_Key{
 typedef struct Engine_Controller{
 	Engine_Key buttons[ENGINE_CONTROLLER_BUTTONS_LENGTH];
 	Vec2f leftStick;
+	Vec2f lastLeftStick;
 	Vec2f rightStick;
+	Vec2f lastRightStick;
 	float leftTrigger;
+	float lastLeftTrigger;
 	float rightTrigger;
+	float lastRightTrigger;
 }Engine_Controller;
 
 /*

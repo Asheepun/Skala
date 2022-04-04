@@ -875,8 +875,9 @@ void Action_addControllerButtonBinding(Action *action_p, int buttonIndex){
 	action_p->controllerButtonBindingsLength++;
 }
 
-void Action_addControllerAxisBinding(Action *action_p, float *axis_p, float activation){
+void Action_addControllerAxisBinding(Action *action_p, float *axis_p, float *lastAxis_p, float activation){
 	action_p->axis_p = axis_p;
+	action_p->lastAxis_p = lastAxis_p;
 	action_p->axisActivation = activation;
 }
 
