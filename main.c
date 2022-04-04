@@ -55,6 +55,37 @@ void Engine_start(){
 	Action_addBinding(&world.actions[BACK_ACTION], ENGINE_KEY_ESCAPE);
 	Action_addBinding(&world.actions[MENU_ACTION], ENGINE_KEY_ESCAPE);
 
+	/*
+	//regular controller bindings
+	Action_addControllerButtonBinding(&world.actions[UP_ACTION], ENGINE_CONTROLLER_BUTTON_UP);
+	Action_addControllerButtonBinding(&world.actions[DOWN_ACTION], ENGINE_CONTROLLER_BUTTON_DOWN);
+	Action_addControllerButtonBinding(&world.actions[LEFT_ACTION], ENGINE_CONTROLLER_BUTTON_LEFT);
+	Action_addControllerButtonBinding(&world.actions[RIGHT_ACTION], ENGINE_CONTROLLER_BUTTON_RIGHT);
+	Action_addControllerButtonBinding(&world.actions[SCALE_ACTION], ENGINE_CONTROLLER_BUTTON_X);
+	Action_addControllerButtonBinding(&world.actions[RESTART_ACTION], ENGINE_CONTROLLER_BUTTON_Y);
+	Action_addControllerButtonBinding(&world.actions[DO_ACTION], ENGINE_CONTROLLER_BUTTON_X);
+	Action_addControllerButtonBinding(&world.actions[DO_ACTION], ENGINE_CONTROLLER_BUTTON_A);
+	Action_addControllerButtonBinding(&world.actions[MENU_ACTION], ENGINE_CONTROLLER_BUTTON_MIDDLE_RIGHT);
+	Action_addControllerButtonBinding(&world.actions[BACK_ACTION], ENGINE_CONTROLLER_BUTTON_MIDDLE_RIGHT);
+	Action_addControllerButtonBinding(&world.actions[BACK_ACTION], ENGINE_CONTROLLER_BUTTON_B);
+
+	Action_addControllerAxisBinding(&world.actions[UP_ACTION], &Engine_controller.leftStick.y, Engine_controller.lastLeftStick.y, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[DOWN_ACTION], &Engine_controller.leftStick.y, Engine_controller.lastLeftStick.y, ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[LEFT_ACTION], &Engine_controller.leftStick.x, Engine_controller.lastLeftStick.x, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[RIGHT_ACTION], &Engine_controller.leftStick.x, Engine_controller.lastLeftStick.x, ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	*/
+
+	//arcade box joystick bindings
+	Action_addControllerAxisBinding(&world.actions[UP_ACTION], &Engine_controller.leftStick.x, &Engine_controller.lastLeftStick.x, ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[DOWN_ACTION], &Engine_controller.leftStick.x, &Engine_controller.lastLeftStick.x, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[LEFT_ACTION], &Engine_controller.leftStick.y, &Engine_controller.lastLeftStick.y, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[RIGHT_ACTION], &Engine_controller.leftStick.y, &Engine_controller.lastLeftStick.y, ENGINE_CONTROLLER_ACTIVATION_ZONE);
+
+	Action_addControllerButtonBinding(&world.actions[SCALE_ACTION], ENGINE_CONTROLLER_BUTTON_B);
+	Action_addControllerButtonBinding(&world.actions[DO_ACTION], ENGINE_CONTROLLER_BUTTON_B);
+	Action_addControllerButtonBinding(&world.actions[MENU_ACTION], ENGINE_CONTROLLER_BUTTON_A);
+	Action_addControllerButtonBinding(&world.actions[BACK_ACTION], ENGINE_CONTROLLER_BUTTON_A);
+
 	//String_set(world.currentLevel, "breaking-through-wall-2", STRING_SIZE);
 
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
@@ -204,37 +235,37 @@ void Engine_start(){
 
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/first-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/first-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/door-key-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/door-key-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/all-from-top-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/all-from-top-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/scale-field-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/scale-field-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/player-position-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/player-position-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 		//*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/no-legs-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/no-legs-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 		//*ID_p = Audio_playSound("music/outside", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
 	}
 	{
 		size_t *ID_p = Array_addItem(&world.musicIDs);
-		*ID_p = Audio_playSound("music/secret-room-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC);
+		*ID_p = Audio_playSound("music/secret-room-levels", 0.0, true, AUDIO_SOUND_TYPE_MUSIC, 0);
 	}
 
 	//make star background texture
@@ -361,23 +392,60 @@ void Engine_update(float deltaTime){
 	}
 
 	//handle actions
-	for(int i = 0; i < 16; i++){
+	for(int i = 0; i < NUMBER_OF_ACTIONS; i++){
 
-		world.actions[i].down = false;
-		world.actions[i].downed = false;
-		world.actions[i].upped = false;
+		Action *action_p = &world.actions[i];
 
-		for(int j = 0; j < world.actions[i].bindingsLength; j++){
-			if(ENGINE_KEYS[world.actions[i].bindings[j]].down){
-				world.actions[i].down = true;
+		action_p->down = false;
+		action_p->downed = false;
+		action_p->upped = false;
+
+		for(int j = 0; j < action_p->bindingsLength; j++){
+			if(ENGINE_KEYS[action_p->bindings[j]].down){
+				action_p->down = true;
 			}
-			if(ENGINE_KEYS[world.actions[i].bindings[j]].downed){
-				world.actions[i].downed = true;
+			if(ENGINE_KEYS[action_p->bindings[j]].downed){
+				action_p->downed = true;
 			}
-			if(ENGINE_KEYS[world.actions[i].bindings[j]].upped){
-				world.actions[i].upped = true;
+			if(ENGINE_KEYS[action_p->bindings[j]].upped){
+				action_p->upped = true;
 			}
 		}
+
+		for(int j = 0; j < action_p->controllerButtonBindingsLength; j++){
+
+			Engine_Key button = Engine_controller.buttons[action_p->controllerButtonBindings[j]];
+
+			if(button.down){
+				action_p->down = true;
+			}
+			if(button.downed){
+				action_p->downed = true;
+			}
+			if(button.upped){
+				action_p->upped = true;
+			}
+			
+		}
+
+		if(action_p->axis_p != NULL){
+
+			if(action_p->axisActivation < 0
+			&& *action_p->axis_p < action_p->axisActivation
+			|| action_p->axisActivation > 0
+			&& *action_p->axis_p > action_p->axisActivation){
+				action_p->down = true;
+
+				if(action_p->axisActivation < 0
+				&& *action_p->lastAxis_p > action_p->axisActivation
+				|| action_p->axisActivation > 0
+				&& *action_p->lastAxis_p < action_p->axisActivation){
+					action_p->downed = true;
+				}
+			}
+			
+		}
+
 	}
 
 	//handle fade transition
@@ -434,6 +502,8 @@ void Engine_update(float deltaTime){
 	}
 
 	World_Settings_updateWorld(&world, &world.settings);
+
+	Audio_updateDelayedSounds();
 
 	world.previousState = world.currentState;
 
