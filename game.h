@@ -385,6 +385,10 @@ typedef struct Action{
 	bool upped;
 	int bindings[16];
 	int bindingsLength;
+	int controllerButtonBindings[16];
+	int controllerButtonBindingsLength;
+	float *axis_p;
+	float axisActivation;
 }Action;
 
 typedef struct SaveData{
@@ -644,6 +648,8 @@ Particle *World_getParticleByID(World *, size_t);
 void Action_init(Action *);
 
 void Action_addBinding(Action *, int);
+void Action_addControllerButtonBinding(Action *, int);
+void Action_addControllerAxisBinding(Action *, float *, float);
 
 Body BodyPair_getDeltaBody(BodyPair);
 

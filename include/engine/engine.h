@@ -123,6 +123,30 @@ static char *Engine_keyNames[] = {
 
 };
 
+enum Engine_ControllerKeyIdentifiers{
+
+	ENGINE_CONTROLLER_BUTTON_Y,
+	ENGINE_CONTROLLER_BUTTON_A,
+	ENGINE_CONTROLLER_BUTTON_X,
+	ENGINE_CONTROLLER_BUTTON_B,
+
+	ENGINE_CONTROLLER_BUTTON_MIDDLE_LEFT,
+	ENGINE_CONTROLLER_BUTTON_MIDDLE_RIGHT,
+
+	ENGINE_CONTROLLER_BUTTON_LEFT_BUTTON,
+	ENGINE_CONTROLLER_BUTTON_RIGHT_BUTTON,
+
+	ENGINE_CONTROLLER_REAL_BUTTONS_LENGTH,
+
+	ENGINE_CONTROLLER_BUTTON_UP,
+	ENGINE_CONTROLLER_BUTTON_DOWN,
+	ENGINE_CONTROLLER_BUTTON_LEFT,
+	ENGINE_CONTROLLER_BUTTON_RIGHT,
+
+	ENGINE_CONTROLLER_BUTTONS_LENGTH,
+
+};
+
 typedef struct Engine_Pixel{
 	unsigned char r;
 	unsigned char g;
@@ -138,6 +162,14 @@ typedef struct Engine_Key{
 	bool upped;
 }Engine_Key;
 
+typedef struct Engine_Controller{
+	Engine_Key buttons[ENGINE_CONTROLLER_BUTTONS_LENGTH];
+	Vec2f leftStick;
+	Vec2f rightStick;
+	float leftTrigger;
+	float rightTrigger;
+}Engine_Controller;
+
 /*
 static const Engine_Pixel ENGINE_COLORS[ENGINE_COLORS_LENGTH] = {
 	255, 255, 255,
@@ -151,6 +183,12 @@ static const Engine_Pixel ENGINE_COLORS[ENGINE_COLORS_LENGTH] = {
 
 //GLOBAL VARIABLE DECLARTIONS
 extern Engine_Key ENGINE_KEYS[ENGINE_KEYS_LENGTH];
+
+extern Engine_Controller Engine_controller;
+
+static float ENGINE_CONTROLLER_DEAD_ZONE = 0.3;
+static float ENGINE_CONTROLLER_ACTIVATION_ZONE = 0.7;
+//extern Engine_Key Engine_ControllerKeys[ENGINE_CONTROLLER_KEYS_LENGTH];
 //extern Engine_Pixel colorBuffers[ENGINE_COLORS_LENGTH][COLOR_BUFFER_SIZE];
 
 //extern int screenWidth;

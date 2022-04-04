@@ -15,6 +15,9 @@
 
 #include "time.h"
 #include "unistd.h"
+#include "fcntl.h"
+#include "unistd.h"
+#include "linux/joystick.h"
 
 #include "X11/X.h"
 #include "X11/Xlib.h"
@@ -52,6 +55,7 @@ Window win;
 GLXContext glc;
 XWindowAttributes gwa;
 XEvent xev;
+int controllerFD;
 #endif
 
 #ifdef _WIN32
@@ -73,6 +77,8 @@ bool Engine_isFullscreen = false;
 int Engine_elapsedFrames = 0;
 
 Engine_Key ENGINE_KEYS[ENGINE_KEYS_LENGTH];
+Engine_Controller Engine_controller;
+//Engine_Key Engine_ControllerKeys[ENGINE_CONTROLLER_KEYS_LENGTH];
 
 #ifdef __linux__
 static unsigned int OS_KEY_IDENTIFIERS[] = {
@@ -123,6 +129,22 @@ static unsigned int OS_KEY_IDENTIFIERS[] = {
 	XK_space,
 	XK_Escape,
 	XK_Return,
+
+};
+
+//digit in thousand is for type, rest is for number
+static int CONTROLLER_BUTTON_IDENTIFIERS[] = {
+
+	3,
+	0,
+	2,
+	1,
+
+	6,
+	7,
+
+	4,
+	5,
 
 };
 #endif
@@ -211,14 +233,34 @@ void initKeys(){
 		ENGINE_KEYS[i].upped = false;
 	
 	}
-	
+
+	//init controller
+	Engine_controller.leftStick = getVec2f(0, 0);
+	Engine_controller.rightStick = getVec2f(0, 0);
+	Engine_controller.leftTrigger = 0;
+	Engine_controller.rightTrigger = 0;
+
+	for(int i = 0; i < ENGINE_CONTROLLER_BUTTONS_LENGTH; i++){
+		Engine_controller.buttons[i].down = false;
+		Engine_controller.buttons[i].downed = false;
+		Engine_controller.buttons[i].upped = false;
+	}
+
 }
 
 void resetKeys(){
+
 	for(int i = 0; i < ENGINE_KEYS_LENGTH; i++){
 		ENGINE_KEYS[i].downed = false;
 		ENGINE_KEYS[i].upped = false;
 	}
+
+	//reset controller
+	for(int i = 0; i < ENGINE_CONTROLLER_BUTTONS_LENGTH; i++){
+		Engine_controller.buttons[i].downed = false;
+		Engine_controller.buttons[i].upped = false;
+	}
+
 }
 
 //ENGINE ENTRY POINT
@@ -272,6 +314,11 @@ int main(){
 	int autoRepeatIsAvailable;
 	XkbSetDetectableAutoRepeat(dpy, true, &autoRepeatIsAvailable);
 
+	//init controller
+	controllerFD = open("/dev/input/js0", O_NONBLOCK);
+
+	printf("controllerFD: %i\n", controllerFD);
+
 	//common inits
 	//initPixelDrawing();
 	initKeys();
@@ -296,7 +343,7 @@ int main(){
 
 		startTicks = clock();
 
-		//handle events
+		//handle keyboard and mouse events
 		while(XPending(dpy) > 0){
 
 			XNextEvent(dpy, &xev);
@@ -348,6 +395,111 @@ int main(){
 			}
 		
 		}
+
+		//handle controller events
+		struct js_event jse;
+		while(read(controllerFD, &jse, sizeof(jse)) > 0){
+
+			if(jse.type == 1){
+
+				for(int i = 0; i < ENGINE_CONTROLLER_REAL_BUTTONS_LENGTH; i++){
+
+					if(jse.number == CONTROLLER_BUTTON_IDENTIFIERS[i]){
+
+						if(jse.value == 1){
+							Engine_controller.buttons[i].down = true;
+							Engine_controller.buttons[i].downed = true;
+						}
+
+						if(jse.value == 0){
+							Engine_controller.buttons[i].down = false;
+							Engine_controller.buttons[i].upped = true;
+						}
+					
+					}
+				
+				}
+			
+			}
+
+			if(jse.type == 2){
+
+				if(jse.number == 0){
+					Engine_controller.leftStick.x = (float)jse.value / 32767.0;
+				}
+				if(jse.number == 1){
+					Engine_controller.leftStick.y = (float)jse.value / 32767.0;
+				}
+				if(jse.number == 3){
+					Engine_controller.rightStick.x = (float)jse.value / 32767.0;
+				}
+				if(jse.number == 4){
+					Engine_controller.rightStick.y = (float)jse.value / 32767.0;
+				}
+
+				if(jse.number == 2){
+					Engine_controller.leftTrigger = (float)(jse.value + 32767) / (2.0 * 32767.0);
+				}
+				if(jse.number == 5){
+					Engine_controller.rightTrigger = (float)(jse.value + 32767) / (2.0 * 32767.0);
+				}
+
+				if(jse.number == 6){
+					if(jse.value < 0){
+						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].down = true;
+						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].downed = true;
+					}
+					if(jse.value > 0){
+						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].down = true;
+						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].downed = true;
+					}
+					if(jse.value == 0){
+
+						if(Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].down){
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].upped = true;
+						}
+						if(Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].down){
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].upped = true;
+						}
+
+						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].down = false;
+						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].down = false;
+					}
+				}
+				if(jse.number == 7){
+					if(jse.value < 0){
+						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].down = true;
+						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].downed = true;
+					}
+					if(jse.value > 0){
+						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].down = true;
+						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].downed = true;
+					}
+					if(jse.value == 0){
+
+						if(Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].down){
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].upped = true;
+						}
+						if(Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].down){
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].upped = true;
+						}
+
+						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].down = false;
+						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].down = false;
+					}
+				}
+			
+			}
+		
+		}
+
+		for(int i = 0; i < ENGINE_CONTROLLER_BUTTONS_LENGTH; i++){
+			printf("%i: %i\n", i, Engine_controller.buttons[i].down);
+		}
+		Vec2f_log(Engine_controller.leftStick);
+		Vec2f_log(Engine_controller.rightStick);
+		printf("%f\n", Engine_controller.leftTrigger);
+		printf("%f\n", Engine_controller.rightTrigger);
 
 		//update
 

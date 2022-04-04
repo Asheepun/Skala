@@ -856,15 +856,28 @@ bool BodyPair_isScalable(BodyPair *bodyPair_p){
 
 }
 
-void Action_init(Action *a){
-	a->down = false;
-	a->downed = false;
-	a->bindingsLength = 0;
+void Action_init(Action *action_p){
+	action_p->down = false;
+	action_p->downed = false;
+	action_p->bindingsLength = 0;
+	action_p->controllerButtonBindingsLength = 0;
+	action_p->axis_p = NULL;
+	action_p->axisActivation = 0;
 }
 
-void Action_addBinding(Action *a, int key){
-	a->bindings[a->bindingsLength] = key;
-	a->bindingsLength++;
+void Action_addBinding(Action *action_p, int key){
+	action_p->bindings[action_p->bindingsLength] = key;
+	action_p->bindingsLength++;
+}
+
+void Action_addControllerButtonBinding(Action *action_p, int buttonIndex){
+	action_p->controllerButtonBindings[action_p->controllerButtonBindingsLength] = buttonIndex;
+	action_p->controllerButtonBindingsLength++;
+}
+
+void Action_addControllerAxisBinding(Action *action_p, float *axis_p, float activation){
+	action_p->axis_p = axis_p;
+	action_p->axisActivation = activation;
 }
 
 /*
