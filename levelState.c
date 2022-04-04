@@ -1392,7 +1392,7 @@ void World_levelState(World *world_p){
 
 			i--;
 			
-			//Audio_playSound("pickup-star-3", 1.0, false, AUDIO_SOUND_TYPE_SFX);
+			Audio_playSoundVariation("pickup-star-type-2", 1, 1.0, false, AUDIO_SOUND_TYPE_SFX);
 
 		}
 

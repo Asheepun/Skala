@@ -1,17 +1,16 @@
 :playerPos
-330 -240
+3564 208
 :doorKeys
 6260 -160
 :doors
-4020 180 20 60
 :flags
 removed-title-text
 completed-door-key-levels
 completed-secret-levels
 completed-player-position-levels
 completed-no-legs-levels
+completed-all-from-top-levels
 :levelsWithDoorKey
-make-it-bigger-2
 :completedLevels
 ÿÿÿÿÿÿÿÿÿÿÿ
 door-key-level-1
@@ -55,3 +54,23 @@ no-legs-scalable-point-first
 no-legs-scalable-point-scale-field
 no-legs-scalable-point-2
 no-legs-scalable-point
+level-1
+high-jump-3
+cooler-scaling-level-2
+cooler-scaling-level-3
+cooler-scaling-level-4
+level-2
+level-3
+first-scaling-level-1
+first-scaling-level-3
+first-scaling-level-4
+cooler-scaling-level-1
+all-from-top-3
+get-under-cup
+point-pikaboo
+key-obstacle-course
+key-in-cage-all-from-top
+make-it-bigger-2
+scale-field-1
+scale-field-2
+scale-field-3
