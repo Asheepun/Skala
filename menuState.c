@@ -1,6 +1,7 @@
 #include "engine/engine.h"
 #include "engine/audio.h"
 #include "engine/files.h"
+#include "engine/strings.h"
 
 #include "game.h"
 #include "math.h"
@@ -566,7 +567,8 @@ void Settings_readFromFile(Settings *settings_p){
 		}
 	}
 
-	char lines[numberOfLines][STRING_SIZE];
+	char *lines = malloc(numberOfLines * STRING_SIZE);
+	//char lines[numberOfLines][STRING_SIZE];
 
 	{
 		memset(lines, 0, numberOfLines * STRING_SIZE);
@@ -586,7 +588,7 @@ void Settings_readFromFile(Settings *settings_p){
 				break;
 			}
 
-			lines[currentLine][currentChar] = data[i];
+			*(lines + currentLine * STRING_SIZE + currentChar) = data[i];
 			currentChar++;
 
 		}
@@ -596,24 +598,24 @@ void Settings_readFromFile(Settings *settings_p){
 
 	for(int i = 0; i < numberOfLines; i++){
 
-		if(strcmp(lines[i], ":music-volume") == 0){
-			float status = strtof(lines[i + 1], &ptr);
+		if(strcmp(lines + i * STRING_SIZE, ":music-volume") == 0){
+			float status = strtof(lines + (i + 1) * STRING_SIZE, &ptr);
 			settings_p->musicVolume = status;
 		}
 
-		if(strcmp(lines[i], ":sfx-volume") == 0){
-			float status = strtof(lines[i + 1], &ptr);
+		if(strcmp(lines + i * STRING_SIZE, ":sfx-volume") == 0){
+			float status = strtof(lines + (i + 1) * STRING_SIZE, &ptr);
 			settings_p->sfxVolume = status;
 		}
 
-		if(strcmp(lines[i], ":fullscreen") == 0){
-			long status = strtol(lines[i + 1], &ptr, 10);
+		if(strcmp(lines + i * STRING_SIZE, ":fullscreen") == 0){
+			long status = strtol(lines + (i + 1) * STRING_SIZE, &ptr, 10);
 			settings_p->fullscreen = (bool)status;
 		}
 
-		if(strcmp(lines[i], ":action-bindings") == 0){
+		if(strcmp(lines + i * STRING_SIZE, ":action-bindings") == 0){
 			for(int j = 0; j < 6; j++){
-				long status = strtol(lines[i + 1 + j], &ptr, 10);
+				long status = strtol(lines + (i + 1 + j) * STRING_SIZE, &ptr, 10);
 				settings_p->actionBindings[j] = (int)status;
 			}
 		}
@@ -621,6 +623,7 @@ void Settings_readFromFile(Settings *settings_p){
 	}
 
 	free(data);
+	free(lines);
 
 }
 
@@ -628,7 +631,7 @@ void Settings_writeToFile(Settings *settings_p){
 
 	int dataSize = 10 * STRING_SIZE;
 
-	char data[dataSize];
+	char *data = malloc(dataSize);
 	memset(data, 0, dataSize);
 
 	String_append(data, ":fullscreen\n");
@@ -650,5 +653,7 @@ void Settings_writeToFile(Settings *settings_p){
 	}
 
 	writeDataToFile("settings.txt", data, dataSize);
+
+	free(data);
 
 }

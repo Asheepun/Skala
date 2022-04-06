@@ -4,6 +4,13 @@
 #include "math.h"
 #include "stdio.h"
 
+float PI = 3.14159265359;
+
+//#ifdef _WIN32
+//#define _USE_MATH_DEFINES
+//#include "cmath.h"
+//#endif
+
 //GENERAL MATH FUNCTIONS
 float normalize(float x){
 	if(x == 0){
@@ -294,8 +301,8 @@ Vec3f getLineToTriangleIntersectionVec3f(Vec3f l1, Vec3f l2, Vec3f v1, Vec3f v2,
 
 	float a1 = getAngleBetweenVec3f(getSubVec3f(N, O), getSubVec3f(P, O));
 
-	if(a1 > M_PI / 2){
-		a1 = M_PI - a1;
+	if(a1 > PI / 2){
+		a1 = PI - a1;
 		Vec3f_inverse(&N);
 	}
 
@@ -303,8 +310,8 @@ Vec3f getLineToTriangleIntersectionVec3f(Vec3f l1, Vec3f l2, Vec3f v1, Vec3f v2,
 
 	float a2 = getAngleBetweenVec3f(dl, N);
 
-	if(a2 > M_PI / 2){
-		a2 = M_PI - a2;
+	if(a2 > PI / 2){
+		a2 = PI - a2;
 		Vec3f_inverse(&dl);
 	}
 

@@ -89,8 +89,14 @@ Gap
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 160, 210), getVec2f(160, 60), ALL);
 
-	char text[255];
+	char text[256];
+	memset(text, 0, 256);
 	sprintf(text, "%s key to scale", Engine_keyNames[world_p->actions[5].bindings[0]]);
+
+	if(Engine_controllerIsConnected){
+		memset(text, 0, 256);
+		sprintf(text, "X button to scale");
+	}
 
 	World_addTextSprite(world_p, getVec2f(140, 140), text, "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
@@ -602,10 +608,17 @@ Key Hole 2
 
 	World_addDoorKey(world_p, getVec2f(120, 210), ALL);
 
-	char text[255];
+	Vec2f pos = getVec2f(25, 40);
+	char text[256];
+	memset(text, 0, 256);
 	sprintf(text, "%s key to restart level ", Engine_keyNames[world_p->actions[4].bindings[0]]);
 
-	World_addTextSprite(world_p, getVec2f(25, 40), text, "times20", COLOR_WHITE, GAME_LAYER_TEXT);
+	if(Engine_controllerIsConnected){
+		sprintf(text, "Y button to restart level ");
+		pos.x = 15;
+	}
+
+	World_addTextSprite(world_p, pos, text, "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
 :levelName
 floor-is-door

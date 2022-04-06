@@ -123,7 +123,7 @@ static char *Engine_keyNames[] = {
 
 };
 
-enum Engine_ControllerKeyIdentifiers{
+enum Engine_ControllerButtonIdentifiers{
 
 	ENGINE_CONTROLLER_BUTTON_Y,
 	ENGINE_CONTROLLER_BUTTON_A,
@@ -206,6 +206,7 @@ static float ENGINE_CONTROLLER_ACTIVATION_ZONE = 0.7;
 extern int clientWidth;
 extern int clientHeight;
 extern bool Engine_isFullscreen;
+extern bool Engine_controllerIsConnected;
 
 extern int Engine_elapsedFrames;
 

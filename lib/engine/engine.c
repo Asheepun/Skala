@@ -38,8 +38,11 @@
 
 #include "windows.h"
 #include "winuser.h"
+#include "xinput.h"
 
 //#include "glad/glad_wgl.h"
+
+//#pragma comment(lib, "winmm.lib")
 
 #endif
 
@@ -73,6 +76,7 @@ HWND hwnd;
 int clientWidth = 800;
 int clientHeight = 450;
 bool Engine_isFullscreen = false;
+bool Engine_controllerIsConnected = false;
 
 int Engine_elapsedFrames = 0;
 
@@ -132,7 +136,6 @@ static unsigned int OS_KEY_IDENTIFIERS[] = {
 
 };
 
-//digit in thousand is for type, rest is for number
 static int CONTROLLER_BUTTON_IDENTIFIERS[] = {
 
 	3,
@@ -198,6 +201,28 @@ static unsigned int OS_KEY_IDENTIFIERS[] = {
 	VK_SPACE,
 	VK_ESCAPE,
 	VK_RETURN,
+
+};
+
+static int CONTROLLER_BUTTON_IDENTIFIERS[] = {
+
+	XINPUT_GAMEPAD_Y,
+	XINPUT_GAMEPAD_A,
+	XINPUT_GAMEPAD_X,
+	XINPUT_GAMEPAD_B,
+
+	XINPUT_GAMEPAD_BACK,
+	XINPUT_GAMEPAD_START,
+
+	XINPUT_GAMEPAD_LEFT_SHOULDER,
+	XINPUT_GAMEPAD_RIGHT_SHOULDER,
+
+	77,//placeholder for length property in enum
+
+	XINPUT_GAMEPAD_DPAD_UP,
+	XINPUT_GAMEPAD_DPAD_DOWN,
+	XINPUT_GAMEPAD_DPAD_LEFT,
+	XINPUT_GAMEPAD_DPAD_RIGHT,
 
 };
 #endif
@@ -586,7 +611,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//setup window
 	const char CLASS_NAME[] = "Untitled Engine Program";
 	
-	WNDCLASS wc = {};
+	//WNDCLASS wc = {  };
+	WNDCLASS wc;
+	memset(&wc, 0, sizeof(WNDCLASS));
 	
 	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = hInstance;
@@ -618,7 +645,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	
 	HDC hdc = GetDC(hwnd);
 	
-	PIXELFORMATDESCRIPTOR pfd = {};
+	PIXELFORMATDESCRIPTOR pfd;
+	memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
 	pfd.nSize = sizeof(pfd);
 	pfd.nVersion = 1;
 	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
@@ -675,12 +703,53 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		QueryPerformanceCounter(&liStart);
 	
 		//handle events
-		MSG msg = {};
+		MSG msg;
+		memset(&msg, 0, sizeof(MSG));
 		while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)){
 		
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		
+		}
+
+		//handle controller
+		{
+			DWORD dwResult;    
+			XINPUT_STATE state;
+			ZeroMemory(&state, sizeof(XINPUT_STATE));
+
+			dwResult = XInputGetState(0, &state);
+
+			if(dwResult == ERROR_SUCCESS){
+
+				Engine_controllerIsConnected = true;
+
+				for(int i = 0; i < ENGINE_CONTROLLER_BUTTONS_LENGTH; i++){
+
+					if((state.Gamepad.wButtons & CONTROLLER_BUTTON_IDENTIFIERS[i]) == CONTROLLER_BUTTON_IDENTIFIERS[i]){
+						if(!Engine_controller.buttons[i].down){
+							Engine_controller.buttons[i].downed = true;
+						}
+						Engine_controller.buttons[i].down = true;
+					}else if(Engine_controller.buttons[i].down){
+						Engine_controller.buttons[i].upped = true;
+						Engine_controller.buttons[i].down = false;
+					}
+
+				}
+
+				Engine_controller.leftStick.x = (float)state.Gamepad.sThumbLX / 32767.0;
+				Engine_controller.leftStick.y = -(float)state.Gamepad.sThumbLY / 32767.0;
+				Engine_controller.rightStick.x = (float)state.Gamepad.sThumbRX / 32767.0;
+				Engine_controller.rightStick.y = -(float)state.Gamepad.sThumbRY / 32767.0;
+
+				Engine_controller.leftTrigger = (float)state.Gamepad.bLeftTrigger / 255.0;
+				Engine_controller.rightTrigger = (float)state.Gamepad.bRightTrigger / 255.0;
+
+
+			}else{
+				Engine_controllerIsConnected = false;
+			}
 		}
 
 		//update

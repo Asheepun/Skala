@@ -1,4 +1,6 @@
 //#INCLUDE "STDBOOL.H"
+#include "engine/engine.h"
+
 #include "math.h"
 #include "stdio.h"
 #include "string.h"
@@ -479,9 +481,17 @@ void World_initLevelHub(World *world_p){
 
 		world_p->titleTextParticleID = World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 250, -HEIGHT - 50), "Skala ", "times80", COLOR_WHITE, activationTime, duration);
 
-		world_p->movementKeysTextParticleID = World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 30), "Arrow keys to move ", "times20", COLOR_WHITE, activationTime + secondActivationTime, duration);
+		if(Engine_controllerIsConnected){
+			world_p->movementKeysTextParticleID = World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 30), "Left thumb stick to move ", "times20", COLOR_WHITE, activationTime + secondActivationTime, duration);
 
-		world_p->menuKeyTextParticleID = World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 50), "Esc key to open menu ", "times20", COLOR_WHITE, activationTime + secondActivationTime, duration);
+			world_p->menuKeyTextParticleID = World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 50), "Start button to open menu ", "times20", COLOR_WHITE, activationTime + secondActivationTime, duration);
+		
+		}else{
+			world_p->movementKeysTextParticleID = World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 30), "Arrow keys to move ", "times20", COLOR_WHITE, activationTime + secondActivationTime, duration);
+
+			world_p->menuKeyTextParticleID = World_addFadeInTextParticle(world_p, getVec2f(startingAreaX + 260, -HEIGHT + 50), "Esc key to open menu ", "times20", COLOR_WHITE, activationTime + secondActivationTime, duration);
+		
+		}
 	
 	}
 

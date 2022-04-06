@@ -179,7 +179,7 @@ unsigned int IndexSafeArray_addItem(IndexSafeArray *indexSafeArray_p){
 
 	for(int i = 0; i < indexSafeArray_p->maxLength; i++){
 
-		bool *flag = indexSafeArray_p->items + i * indexSafeArray_p->indexSize;
+		bool *flag = (bool *)((char *)indexSafeArray_p->items + i * indexSafeArray_p->indexSize);
 
 		if(!*flag){
 
@@ -204,7 +204,7 @@ unsigned int IndexSafeArray_addItem(IndexSafeArray *indexSafeArray_p){
 
 void *IndexSafeArray_getItemPointer(IndexSafeArray *indexSafeArray_p, unsigned int index){
 
-	bool *flag = indexSafeArray_p->items + index * indexSafeArray_p->indexSize;
+	bool *flag = (bool *)((char *)indexSafeArray_p->items + index * indexSafeArray_p->indexSize);
 
 	if(*flag){
 		return (void *)((char *)flag + sizeof(bool));
@@ -216,7 +216,7 @@ void *IndexSafeArray_getItemPointer(IndexSafeArray *indexSafeArray_p, unsigned i
 
 void IndexSafeArray_removeItem(IndexSafeArray *indexSafeArray_p, unsigned int index){
 
-	bool *flag = indexSafeArray_p->items + index * indexSafeArray_p->indexSize;
+	bool *flag = ((bool *)(char *)indexSafeArray_p->items + index * indexSafeArray_p->indexSize);
 
 	*flag = false;
 	

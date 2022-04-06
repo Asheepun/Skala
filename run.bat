@@ -6,4 +6,4 @@ cd ..
 
 generator\generate.exe
 
-gcc lib/*/*.c *.c -msse2 -mfpmath=sse -g -I ./include/ -lopengl32 -lgdi32 -lwinmm -static -o main.exe && main.exe
+gcc lib/engine/*.c lib/glad/*.c lib/miniaudio/*.c *.c -msse2 -mfpmath=sse -g -I ./include/ -lopengl32 -lgdi32 -lwinmm -lxinput -o main.exe && main.exe

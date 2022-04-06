@@ -5,6 +5,8 @@
 #define LARGE_STRING_SIZE 1024
 #define SMALL_STRING_SIZE 32
 
+//const int STRING_SIZE = 256;
+
 void String_set(char *, char *, int);
 
 void String_append(char *, char *);
