@@ -29,6 +29,7 @@ enum Actions{
 	DOWN_ACTION,
 	LEFT_ACTION,
 	RIGHT_ACTION,
+	JUMP_ACTION,
 	RESTART_ACTION,
 	SCALE_ACTION,
 	DO_ACTION,
@@ -42,6 +43,7 @@ static char *ACTION_NAMES[] = {
 	"DOWN",
 	"LEFT",
 	"RIGHT",
+	"JUMP",
 	"RESTART",
 	"SCALE",
 	"DO",
@@ -387,9 +389,11 @@ typedef struct Action{
 	int bindingsLength;
 	int controllerButtonBindings[16];
 	int controllerButtonBindingsLength;
-	float *axis_p;
-	float *lastAxis_p;
-	float axisActivation;
+	Vec2f *stick_p;
+	Vec2f *lastStick_p;
+	float angle1;
+	float angle2;
+	float stickActivation;
 }Action;
 
 typedef struct SaveData{
@@ -650,7 +654,7 @@ void Action_init(Action *);
 
 void Action_addBinding(Action *, int);
 void Action_addControllerButtonBinding(Action *, int);
-void Action_addControllerAxisBinding(Action *, float *, float *, float);
+void Action_addControllerAxisBinding(Action *, float, float, float, Vec2f *, Vec2f *);
 
 Body BodyPair_getDeltaBody(BodyPair);
 

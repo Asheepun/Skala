@@ -323,7 +323,7 @@ void World_generateLevel17(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(240, 10), getVec2f(30, 70), NONE);
 
-	World_addObstacle(world_p, getVec2f(160, 200), getVec2f(120, 70), NONE);
+	World_addObstacle(world_p, getVec2f(220, 200), getVec2f(60, 70), NONE);
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 80, 40), getVec2f(80, 80), NONE);
 

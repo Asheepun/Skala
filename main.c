@@ -45,6 +45,8 @@ void Engine_start(){
 	Action_addBinding(&world.actions[LEFT_ACTION], ENGINE_KEY_A);
 	Action_addBinding(&world.actions[RIGHT_ACTION], ENGINE_KEY_RIGHT);
 	Action_addBinding(&world.actions[RIGHT_ACTION], ENGINE_KEY_D);
+	Action_addBinding(&world.actions[JUMP_ACTION], ENGINE_KEY_UP);
+	Action_addBinding(&world.actions[JUMP_ACTION], ENGINE_KEY_W);
 	Action_addBinding(&world.actions[SCALE_ACTION], ENGINE_KEY_X);
 	Action_addBinding(&world.actions[SCALE_ACTION], ENGINE_KEY_J);
 	Action_addBinding(&world.actions[RESTART_ACTION], ENGINE_KEY_R);
@@ -60,6 +62,7 @@ void Engine_start(){
 	Action_addControllerButtonBinding(&world.actions[DOWN_ACTION], ENGINE_CONTROLLER_BUTTON_DOWN);
 	Action_addControllerButtonBinding(&world.actions[LEFT_ACTION], ENGINE_CONTROLLER_BUTTON_LEFT);
 	Action_addControllerButtonBinding(&world.actions[RIGHT_ACTION], ENGINE_CONTROLLER_BUTTON_RIGHT);
+	Action_addControllerButtonBinding(&world.actions[JUMP_ACTION], ENGINE_CONTROLLER_BUTTON_A);
 	Action_addControllerButtonBinding(&world.actions[SCALE_ACTION], ENGINE_CONTROLLER_BUTTON_X);
 	Action_addControllerButtonBinding(&world.actions[RESTART_ACTION], ENGINE_CONTROLLER_BUTTON_Y);
 	Action_addControllerButtonBinding(&world.actions[DO_ACTION], ENGINE_CONTROLLER_BUTTON_X);
@@ -68,10 +71,11 @@ void Engine_start(){
 	Action_addControllerButtonBinding(&world.actions[BACK_ACTION], ENGINE_CONTROLLER_BUTTON_MIDDLE_RIGHT);
 	Action_addControllerButtonBinding(&world.actions[BACK_ACTION], ENGINE_CONTROLLER_BUTTON_B);
 
-	Action_addControllerAxisBinding(&world.actions[UP_ACTION], &Engine_controller.leftStick.y, &Engine_controller.lastLeftStick.y, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
-	Action_addControllerAxisBinding(&world.actions[DOWN_ACTION], &Engine_controller.leftStick.y, &Engine_controller.lastLeftStick.y, ENGINE_CONTROLLER_ACTIVATION_ZONE);
-	Action_addControllerAxisBinding(&world.actions[LEFT_ACTION], &Engine_controller.leftStick.x, &Engine_controller.lastLeftStick.x, -ENGINE_CONTROLLER_ACTIVATION_ZONE);
-	Action_addControllerAxisBinding(&world.actions[RIGHT_ACTION], &Engine_controller.leftStick.x, &Engine_controller.lastLeftStick.x, ENGINE_CONTROLLER_ACTIVATION_ZONE);
+	Action_addControllerAxisBinding(&world.actions[UP_ACTION], 205, 335, ENGINE_CONTROLLER_ACTIVATION_ZONE, &Engine_controller.leftStick, &Engine_controller.lastLeftStick);
+	Action_addControllerAxisBinding(&world.actions[DOWN_ACTION], 25, 155, ENGINE_CONTROLLER_ACTIVATION_ZONE, &Engine_controller.leftStick, &Engine_controller.lastLeftStick);
+	Action_addControllerAxisBinding(&world.actions[LEFT_ACTION], 295, 65, ENGINE_CONTROLLER_ACTIVATION_ZONE, &Engine_controller.leftStick, &Engine_controller.lastLeftStick);
+	Action_addControllerAxisBinding(&world.actions[RIGHT_ACTION], 115, 245, ENGINE_CONTROLLER_ACTIVATION_ZONE, &Engine_controller.leftStick, &Engine_controller.lastLeftStick);
+	Action_addControllerAxisBinding(&world.actions[JUMP_ACTION], 215, 325, ENGINE_CONTROLLER_ACTIVATION_ZONE, &Engine_controller.leftStick, &Engine_controller.lastLeftStick);
 
 	/*
 	//arcade box joystick bindings
@@ -428,22 +432,40 @@ void Engine_update(float deltaTime){
 			
 		}
 
-		if(action_p->axis_p != NULL){
+		if(action_p->stick_p != NULL){
 
-			if(action_p->axisActivation < 0
-			&& *action_p->axis_p < action_p->axisActivation
-			|| action_p->axisActivation > 0
-			&& *action_p->axis_p > action_p->axisActivation){
-				action_p->down = true;
+			float stickAngle = -atan2(action_p->stick_p->y, action_p->stick_p->x) + M_PI;
+			float mag = getMagVec2f(*action_p->stick_p);
 
-				if(action_p->axisActivation < 0
-				&& *action_p->lastAxis_p > action_p->axisActivation
-				|| action_p->axisActivation > 0
-				&& *action_p->lastAxis_p < action_p->axisActivation){
+			float lastStickAngle = -atan2(action_p->lastStick_p->y, action_p->lastStick_p->x) + M_PI;
+			float lastMag = getMagVec2f(*action_p->lastStick_p);
+
+			bool down = false;
+			bool lastDown = false;
+
+			if(mag >= action_p->stickActivation
+			&& (stickAngle > action_p->angle1 && stickAngle < action_p->angle2
+			|| action_p->angle1 > action_p->angle2
+			&& (stickAngle > action_p->angle1 && stickAngle < action_p->angle2 + M_PI * 2
+			|| stickAngle + M_PI * 2 > action_p->angle1 && stickAngle < action_p->angle2))){
+				down = true;
+			}
+
+			if(lastMag >= action_p->stickActivation
+			&& (lastStickAngle > action_p->angle1 && lastStickAngle < action_p->angle2
+			|| action_p->angle1 > action_p->angle2
+			&& (lastStickAngle > action_p->angle1 && lastStickAngle < action_p->angle2 + M_PI * 2
+			|| lastStickAngle + M_PI * 2 > action_p->angle1 && lastStickAngle < action_p->angle2))){
+				lastDown = true;
+			}
+
+			if(down){
+				if(!lastDown){
 					action_p->downed = true;
 				}
+				action_p->down = true;
 			}
-			
+
 		}
 
 	}

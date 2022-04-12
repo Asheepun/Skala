@@ -1,13 +1,27 @@
 :playerPos
-330 -240
+6286 176
 :doorKeys
 6260 -200
 :doors
 3350 180 20 60
 4020 180 20 60
 :flags
+removed-title-text
+completed-player-position-levels
 :levelsWithDoorKey
 make-it-bigger-2
 get-key-up-2
 :completedLevels
-ÿÿÿÿÿÿÿÿÿÿÿ
+player-position-1
+player-position-2
+player-position-3
+airport-control
+grow-through-jumping
+player-position-jumping-key-1
+player-position-jumping-key-2
+player-position-jumping-key-3
+scale-position-block
+scale-position-block-2
+scale-position-block-5
+scale-position-block-5.2
+scale-position-block-6

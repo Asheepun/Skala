@@ -225,16 +225,14 @@ void World_levelState(World *world_p){
 			playerPhysics_p->acceleration.x += player_p->runAcceleration;
 		}
 
-		if((world_p->actions[UP_ACTION].down
-		|| Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_A].down)//MUST HAVE "A" BUTTON JUMP FOR CONTROLLER
+		if((world_p->actions[JUMP_ACTION].down)
 		&& playerPhysics_p->onGround){
 			playerPhysics_p->velocity.y += player_p->jumpSpeed;
 			Audio_playSoundVariation("jump", 3, 1.0, false, AUDIO_SOUND_TYPE_SFX, 0);
 			//Audio_playSound("player-land", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 		}
 
-		if(!world_p->actions[UP_ACTION].down
-		&& !Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_A].down//MUST HAVE "A" BUTTON JUMP FOR CONTROLLER
+		if(!world_p->actions[JUMP_ACTION].down
 		&& playerPhysics_p->velocity.y < 0){
 			playerPhysics_p->velocity.y = 0;
 		}
@@ -681,7 +679,7 @@ void World_levelState(World *world_p){
 			origin = getVec2f(0, 0);
 
 			if(world_p->currentState == LEVEL_HUB_STATE){
-				origin = getVec2f(0, -HEIGHT * 6);
+				origin = getVec2f(0, -HEIGHT * 7);
 			}
 
 		}

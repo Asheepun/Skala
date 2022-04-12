@@ -497,7 +497,9 @@ void World_initLevelHub(World *world_p){
 
 	//elevator to ending
 	
-	World_addObstacle(world_p, getVec2f(0, cloudY - HEIGHT + 100), getVec2f(100, -cloudY + 2 * HEIGHT - 40 - 100), NONE);
+	World_addObstacle(world_p, getVec2f(0, cloudY - HEIGHT * 2 - 130), getVec2f(100, -cloudY + 4 * HEIGHT), NONE);
+
+	//World_addObstacle(world_p, getVec2f(0, -70), getVec2f(100, 2 * HEIGHT), NONE);
 
 	World_addObstacle(world_p, getVec2f(200, cloudY), getVec2f(100, -cloudY + HEIGHT - 130), NONE);
 
