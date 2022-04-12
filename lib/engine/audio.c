@@ -151,6 +151,7 @@ void Audio_init(char **soundFiles, int soundFilesLengthIn){
 
 	//init sound and volume handling
 	Array_init(&sounds, sizeof(Sound));
+	Array_init(&delayedSounds, sizeof(DelayedSound));
 
 	volumes[AUDIO_SOUND_TYPE_SFX] = 1.0;
 	volumes[AUDIO_SOUND_TYPE_MUSIC] = 1.0;
@@ -204,23 +205,21 @@ size_t Audio_playSound(char *soundName, float volume, bool loop, enum Audio_Soun
 	Sound *sound_p;
 
 	if(delay == 0){
-		sound_p = Array_addItem(&sounds);
-	}else{
 
-		//printf("obobo\n");
+		sound_p = Array_addItem(&sounds);
+
+	}else{
 
 		DelayedSound *delayedSound_p = Array_addItem(&delayedSounds);
 
 		delayedSound_p->ticksLeft = delay;
 		sound_p = &delayedSound_p->sound;
 
-		//printf("nanana\n");
-
 	}
 
-	//pthread_mutex_unlock(&soundMutex);
-
 	EntityHeader_init(&sound_p->entityHeader);
+
+	//pthread_mutex_unlock(&soundMutex);
 
 	sound_p->currentFrame = 0;
 	sound_p->soundDataIndex = soundDataIndex;
@@ -256,14 +255,14 @@ void Audio_updateDelayedSounds(){
 
 		if(delayedSound_p->ticksLeft <= 0){
 
-			//printf("GOT HERE\n");
-
 			Sound *sound_p = Array_addItem(&sounds);
 
 			*sound_p = delayedSound_p->sound;
 
 			Array_removeItemByIndex(&delayedSounds, i);
 			i--;
+
+			continue;
 		
 		}
 	

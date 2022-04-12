@@ -52,7 +52,7 @@ void World_initLevel(World *world_p){
 
 	if(world_p->scalingByPlayerPosition
 	&& world_p->previousState == LEVEL_HUB_STATE){
-		Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX, 0);
+		Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX, 500 / 60);
 	}
 
 }
@@ -1392,7 +1392,7 @@ void World_levelState(World *world_p){
 
 			i--;
 			
-			Audio_playSoundVariation("pickup-star-type-2", 1, 1.0, false, AUDIO_SOUND_TYPE_SFX, 0);
+			Audio_playSoundVariation("pickup-star", 3, 4.0, false, AUDIO_SOUND_TYPE_SFX, 0);
 
 		}
 

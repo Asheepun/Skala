@@ -1,5 +1,6 @@
 //#INCLUDE "STDBOOL.H"
 #include "engine/engine.h"
+#include "engine/audio.h"
 
 #include "math.h"
 #include "stdio.h"
@@ -1083,6 +1084,8 @@ void World_initLevelHub(World *world_p){
 	//open gate particle effect
 	if(doOpenGateParticleEffect){
 
+		Audio_playSound("free-stars", 1.0, false, AUDIO_SOUND_TYPE_SFX, 1500 / 60);
+
 		int counter = 0;
 
 		for(int i = world_p->levelDoors.length - 1; i >= 0; i--){
@@ -1122,8 +1125,12 @@ void World_initLevelHub(World *world_p){
 
 			Vec2f pos = levelDoor_p->body.pos;
 
-			int startTime = 2000 / 60 * counter + 1000 / 60;
+			int startTime = 2000 / 60 * counter + 1500 / 60;
 			union ParticleProperty property;
+
+			//Audio_playSound("free-stars", 1.0, false, AUDIO_SOUND_TYPE_SFX, startTime);
+			//Audio_playSoundVariation("free-star", 1, 3.0, false, AUDIO_SOUND_TYPE_SFX, startTime);
+			//Audio_playSoundVariation("pickup-star", 3, 3.0, false, AUDIO_SOUND_TYPE_SFX, startTime);
 
 			Vec2f targetPos = getVec2f(0, HEIGHT - 100);
 

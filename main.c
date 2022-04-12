@@ -205,8 +205,15 @@ void Engine_start(){
 		"pickup-key-2",
 		"pickup-key-3",
 
-		"pickup-star-type-1-1",
-		"pickup-star-type-2-1",
+		"pickup-star-1",
+		"pickup-star-2",
+		"pickup-star-3",
+
+		"free-star-1",
+		"free-star-2",
+		"free-star-3",
+
+		"free-stars",
 
 		"open-door-1",
 

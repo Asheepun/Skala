@@ -88,7 +88,7 @@ void World_generateLevel5(World *world_p){
 
 	char text[256];
 	memset(text, 0, 256);
-	sprintf(text, "%s key to scale", Engine_keyNames[world_p->actions[5].bindings[0]]);
+	sprintf(text, "%s key to scale", Engine_keyNames[world_p->actions[6].bindings[0]]);
 
 	if(Engine_controllerIsConnected){
 		memset(text, 0, 256);
@@ -545,7 +545,7 @@ void World_generateLevel29(World *world_p){
 	Vec2f pos = getVec2f(25, 40);
 	char text[256];
 	memset(text, 0, 256);
-	sprintf(text, "%s key to restart level ", Engine_keyNames[world_p->actions[4].bindings[0]]);
+	sprintf(text, "%s key to restart level ", Engine_keyNames[world_p->actions[5].bindings[0]]);
 
 	if(Engine_controllerIsConnected){
 		sprintf(text, "Y button to restart level ");
@@ -1829,6 +1829,8 @@ void World_generateLevel87(World *world_p){
 	World_addPoint(world_p, getVec2f(WIDTH - 95, 195), NONE);
 
 	World_addObstacle(world_p, getVec2f(70, HEIGHT - 40), getVec2f(WIDTH - 90, 40), NONE);
+
+	World_addScaleField(world_p, getVec2f(0, -BIG_BLOCKING_SIZE), getVec2f(WIDTH, BIG_BLOCKING_SIZE), NONE);
 
 	World_addScaleField(world_p, getVec2f(0, 90), getVec2f(WIDTH - 20, 30), NONE);
 
