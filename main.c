@@ -208,6 +208,7 @@ void Engine_start(){
 		"pickup-star-1",
 		"pickup-star-2",
 		"pickup-star-3",
+		"pickup-star-4",
 
 		"free-star-1",
 		"free-star-2",
@@ -604,8 +605,8 @@ void Engine_draw(){
 				pos.x = (sprite_p->body.pos.x);
 				pos.y = (sprite_p->body.pos.y);
 
-				size.x = (sprite_p->body.size.x);
-				size.y = (sprite_p->body.size.y);
+				size.x = ceil(sprite_p->body.size.x);
+				size.y = ceil(sprite_p->body.size.y);
 
 				if(pos.x + size.x < -world.renderer.offset.x
 				|| pos.y + size.y < -world.renderer.offset.y
@@ -640,8 +641,8 @@ void Engine_draw(){
 			}
 			else if(sprite_p->type == TEXT_SPRITE){
 
-				pos.x = round(sprite_p->pos.x);
-				pos.y = round(sprite_p->pos.y);
+				pos.x = (sprite_p->pos.x);
+				pos.y = (sprite_p->pos.y);
 
 				int imageWidth, imageHeight;
 

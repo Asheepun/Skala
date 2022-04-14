@@ -23,6 +23,8 @@ typedef struct Collision{
 
 int blockerAnimationCount = 25;
 
+unsigned int framesSinceLastJumpSoundCount = 33;
+
 size_t scalingSoundLoopID = -1;
 
 void World_initLevel(World *world_p){
@@ -227,10 +229,18 @@ void World_levelState(World *world_p){
 
 		if((world_p->actions[JUMP_ACTION].down)
 		&& playerPhysics_p->onGround){
+
 			playerPhysics_p->velocity.y += player_p->jumpSpeed;
-			Audio_playSoundVariation("jump", 3, 1.0, false, AUDIO_SOUND_TYPE_SFX, 0);
+
+			if(framesSinceLastJumpSoundCount > 2){
+				Audio_playSoundVariation("jump", 3, 1.0, false, AUDIO_SOUND_TYPE_SFX, 0);
+			}
+
+			framesSinceLastJumpSoundCount = 0;
 			//Audio_playSound("player-land", 1.0, false, AUDIO_SOUND_TYPE_SFX);
 		}
+
+		framesSinceLastJumpSoundCount++;
 
 		if(!world_p->actions[JUMP_ACTION].down
 		&& playerPhysics_p->velocity.y < 0){
@@ -1392,7 +1402,7 @@ void World_levelState(World *world_p){
 
 			i--;
 			
-			Audio_playSoundVariation("pickup-star", 3, 4.0, false, AUDIO_SOUND_TYPE_SFX, 0);
+			Audio_playSoundVariation("pickup-star", 4, 4.0, false, AUDIO_SOUND_TYPE_SFX, 0);
 
 		}
 
