@@ -12,8 +12,8 @@
 #include "game.h"
 #include "levels.h"
 
-bool UNLOCK_GATE = true;
-//bool UNLOCK_GATE = false;
+//bool UNLOCK_GATE = true;
+bool UNLOCK_GATE = false;
 
 void World_initLevelHub(World *world_p){
 
