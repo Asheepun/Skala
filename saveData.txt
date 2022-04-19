@@ -1,13 +1,15 @@
 :playerPos
-330 -240
+2047 167
 :doorKeys
 6260 -200
 :doors
 3350 180 20 60
 4020 180 20 60
 :flags
+removed-title-text
 :levelsWithDoorKey
 make-it-bigger-2
 get-key-up-2
 :completedLevels
 ÿÿÿÿÿÿÿÿÿÿÿ
+first-scaling-level-1

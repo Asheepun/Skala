@@ -156,7 +156,6 @@ void Audio_init(char **soundFiles, int soundFilesLengthIn){
 	volumes[AUDIO_SOUND_TYPE_MUSIC] = 1.0;
 
 	//init miniaudio
-
 	deviceConfig = ma_device_config_init(ma_device_type_playback);
     //deviceConfig.playback.format   = ma_format_s16;
     deviceConfig.playback.format   = ma_format_f32;
