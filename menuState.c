@@ -11,7 +11,7 @@
 #include "stdlib.h"
 #include "stdbool.h"
 
-int NUMBER_OF_REBINDABLE_ACTIONS = 6;
+int NUMBER_OF_REBINDABLE_ACTIONS = 7;
 
 size_t menuBackgroundSpriteIndex;
 
@@ -543,7 +543,7 @@ void World_Settings_updateWorld(World *world_p, Settings *settings_p){
 		Engine_toggleFullscreen();
 	}
 
-	for(int i = 0; i < 6; i++){
+	for(int i = 0; i < NUMBER_OF_REBINDABLE_ACTIONS; i++){
 
 		Action *action_p = &world_p->actions[i];
 
@@ -614,7 +614,7 @@ void Settings_readFromFile(Settings *settings_p){
 		}
 
 		if(strcmp(lines + i * STRING_SIZE, ":action-bindings") == 0){
-			for(int j = 0; j < 6; j++){
+			for(int j = 0; j < NUMBER_OF_REBINDABLE_ACTIONS; j++){
 				long status = strtol(lines + (i + 1 + j) * STRING_SIZE, &ptr, 10);
 				settings_p->actionBindings[j] = (int)status;
 			}
@@ -647,7 +647,7 @@ void Settings_writeToFile(Settings *settings_p){
 	String_append(data, "\n");
 
 	String_append(data, ":action-bindings\n");
-	for(int i = 0; i < 6; i++){
+	for(int i = 0; i < NUMBER_OF_REBINDABLE_ACTIONS; i++){
 		String_append_int(data, settings_p->actionBindings[i]);
 		String_append(data, "\n");
 	}

@@ -1,5 +1,6 @@
 //#INCLUDE "STDBOOL.H"
 #include "engine/engine.h"
+#include "engine/audio.h"
 
 #include "math.h"
 #include "stdio.h"
@@ -11,8 +12,8 @@
 #include "game.h"
 #include "levels.h"
 
-bool UNLOCK_GATE = true;
-//bool UNLOCK_GATE = false;
+//bool UNLOCK_GATE = true;
+bool UNLOCK_GATE = false;
 
 void World_initLevelHub(World *world_p){
 
@@ -497,7 +498,9 @@ void World_initLevelHub(World *world_p){
 
 	//elevator to ending
 	
-	World_addObstacle(world_p, getVec2f(0, cloudY - HEIGHT + 100), getVec2f(100, -cloudY + 2 * HEIGHT - 40 - 100), NONE);
+	World_addObstacle(world_p, getVec2f(0, cloudY - HEIGHT * 2 - 130), getVec2f(100, -cloudY + 4 * HEIGHT), NONE);
+
+	//World_addObstacle(world_p, getVec2f(0, -70), getVec2f(100, 2 * HEIGHT), NONE);
 
 	World_addObstacle(world_p, getVec2f(200, cloudY), getVec2f(100, -cloudY + HEIGHT - 130), NONE);
 
@@ -1081,6 +1084,8 @@ void World_initLevelHub(World *world_p){
 	//open gate particle effect
 	if(doOpenGateParticleEffect){
 
+		Audio_playSound("free-stars", 1.0, false, AUDIO_SOUND_TYPE_SFX, 1500 / 60);
+
 		int counter = 0;
 
 		for(int i = world_p->levelDoors.length - 1; i >= 0; i--){
@@ -1120,8 +1125,12 @@ void World_initLevelHub(World *world_p){
 
 			Vec2f pos = levelDoor_p->body.pos;
 
-			int startTime = 2000 / 60 * counter + 1000 / 60;
+			int startTime = 2000 / 60 * counter + 1500 / 60;
 			union ParticleProperty property;
+
+			//Audio_playSound("free-stars", 1.0, false, AUDIO_SOUND_TYPE_SFX, startTime);
+			//Audio_playSoundVariation("free-star", 1, 3.0, false, AUDIO_SOUND_TYPE_SFX, startTime);
+			//Audio_playSoundVariation("pickup-star", 3, 3.0, false, AUDIO_SOUND_TYPE_SFX, startTime);
 
 			Vec2f targetPos = getVec2f(0, HEIGHT - 100);
 

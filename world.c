@@ -861,8 +861,11 @@ void Action_init(Action *action_p){
 	action_p->downed = false;
 	action_p->bindingsLength = 0;
 	action_p->controllerButtonBindingsLength = 0;
-	action_p->axis_p = NULL;
-	action_p->axisActivation = 0;
+	action_p->stick_p = NULL;
+	action_p->lastStick_p = NULL;
+	action_p->angle1 = 0;
+	action_p->angle2 = 0;
+	action_p->stickActivation = 0;
 }
 
 void Action_addBinding(Action *action_p, int key){
@@ -875,10 +878,12 @@ void Action_addControllerButtonBinding(Action *action_p, int buttonIndex){
 	action_p->controllerButtonBindingsLength++;
 }
 
-void Action_addControllerAxisBinding(Action *action_p, float *axis_p, float *lastAxis_p, float activation){
-	action_p->axis_p = axis_p;
-	action_p->lastAxis_p = lastAxis_p;
-	action_p->axisActivation = activation;
+void Action_addControllerAxisBinding(Action *action_p, float angle1, float angle2, float activation, Vec2f *stick_p, Vec2f *lastStick_p){
+	action_p->angle1 = (angle1 / 360) * M_PI * 2;
+	action_p->angle2 = (angle2 / 360) * M_PI * 2;
+	action_p->stickActivation = activation;
+	action_p->stick_p = stick_p;
+	action_p->lastStick_p = lastStick_p;
 }
 
 /*

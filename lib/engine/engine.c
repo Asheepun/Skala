@@ -349,9 +349,7 @@ int main(){
 	XkbSetDetectableAutoRepeat(dpy, true, &autoRepeatIsAvailable);
 
 	//init controller
-	controllerFD = open("/dev/input/js1", O_NONBLOCK);
-
-	printf("controllerFD: %i\n", controllerFD);
+	controllerFD = open("/dev/input/js0", O_NONBLOCK);
 
 	//common inits
 	//initPixelDrawing();
@@ -430,116 +428,126 @@ int main(){
 		
 		}
 
+		//check if controller is connected
+		if(access("/dev/input/js0", F_OK) == 0){
+			if(controllerFD == -1){
+				controllerFD = open("/dev/input/js0", O_NONBLOCK);
+			}
+		}else{
+			controllerFD = -1;
+		}
+
+		if(controllerFD == -1){
+			Engine_controllerIsConnected = false;
+		}else{
+			Engine_controllerIsConnected = true;
+		}
+
 		//handle controller events
-		struct js_event jse;
-		while(read(controllerFD, &jse, sizeof(jse)) > 0){
+		if(Engine_controllerIsConnected){
 
-			if(jse.type == 1){
+			struct js_event jse;
 
-				for(int i = 0; i < ENGINE_CONTROLLER_REAL_BUTTONS_LENGTH; i++){
+			while(read(controllerFD, &jse, sizeof(jse)) > 0){
 
-					if(jse.number == CONTROLLER_BUTTON_IDENTIFIERS[i]){
+				if(jse.type == 1){
 
-						if(jse.value == 1){
-							if(!Engine_controller.buttons[i].down){
-								Engine_controller.buttons[i].downed = true;
+					for(int i = 0; i < ENGINE_CONTROLLER_REAL_BUTTONS_LENGTH; i++){
+
+						if(jse.number == CONTROLLER_BUTTON_IDENTIFIERS[i]){
+
+							if(jse.value == 1){
+								if(!Engine_controller.buttons[i].down){
+									Engine_controller.buttons[i].downed = true;
+								}
+								Engine_controller.buttons[i].down = true;
 							}
-							Engine_controller.buttons[i].down = true;
-						}
 
-						if(jse.value == 0){
-							if(Engine_controller.buttons[i].down){
-								Engine_controller.buttons[i].upped = true;
+							if(jse.value == 0){
+								if(Engine_controller.buttons[i].down){
+									Engine_controller.buttons[i].upped = true;
+								}
+								Engine_controller.buttons[i].down = false;
 							}
-							Engine_controller.buttons[i].down = false;
+						
 						}
 					
 					}
 				
 				}
-			
-			}
 
-			if(jse.type == 2){
+				if(jse.type == 2){
 
-				if(jse.number == 0){
-					Engine_controller.leftStick.x = (float)jse.value / 32767.0;
-				}
-				if(jse.number == 1){
-					Engine_controller.leftStick.y = (float)jse.value / 32767.0;
-				}
-				if(jse.number == 3){
-					Engine_controller.rightStick.x = (float)jse.value / 32767.0;
-				}
-				if(jse.number == 4){
-					Engine_controller.rightStick.y = (float)jse.value / 32767.0;
-				}
-
-				if(jse.number == 2){
-					Engine_controller.leftTrigger = (float)(jse.value + 32767) / (2.0 * 32767.0);
-				}
-				if(jse.number == 5){
-					Engine_controller.rightTrigger = (float)(jse.value + 32767) / (2.0 * 32767.0);
-				}
-
-				if(jse.number == 6){
-					if(jse.value < 0){
-						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].down = true;
-						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].downed = true;
+					if(jse.number == 0){
+						Engine_controller.leftStick.x = (float)jse.value / 32767.0;
 					}
-					if(jse.value > 0){
-						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].down = true;
-						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].downed = true;
+					if(jse.number == 1){
+						Engine_controller.leftStick.y = (float)jse.value / 32767.0;
 					}
-					if(jse.value == 0){
+					if(jse.number == 3){
+						Engine_controller.rightStick.x = (float)jse.value / 32767.0;
+					}
+					if(jse.number == 4){
+						Engine_controller.rightStick.y = (float)jse.value / 32767.0;
+					}
 
-						if(Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].down){
-							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].upped = true;
+					if(jse.number == 2){
+						Engine_controller.leftTrigger = (float)(jse.value + 32767) / (2.0 * 32767.0);
+					}
+					if(jse.number == 5){
+						Engine_controller.rightTrigger = (float)(jse.value + 32767) / (2.0 * 32767.0);
+					}
+
+					if(jse.number == 6){
+						if(jse.value < 0){
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].down = true;
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].downed = true;
 						}
-						if(Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].down){
-							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].upped = true;
+						if(jse.value > 0){
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].down = true;
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].downed = true;
 						}
+						if(jse.value == 0){
 
-						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].down = false;
-						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].down = false;
-					}
-				}
-				if(jse.number == 7){
-					if(jse.value < 0){
-						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].down = true;
-						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].downed = true;
-					}
-					if(jse.value > 0){
-						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].down = true;
-						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].downed = true;
-					}
-					if(jse.value == 0){
+							if(Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].down){
+								Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].upped = true;
+							}
+							if(Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].down){
+								Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].upped = true;
+							}
 
-						if(Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].down){
-							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].upped = true;
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_LEFT].down = false;
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_RIGHT].down = false;
 						}
-						if(Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].down){
-							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].upped = true;
-						}
-
-						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].down = false;
-						Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].down = false;
 					}
+					if(jse.number == 7){
+						if(jse.value < 0){
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].down = true;
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].downed = true;
+						}
+						if(jse.value > 0){
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].down = true;
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].downed = true;
+						}
+						if(jse.value == 0){
+
+							if(Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].down){
+								Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].upped = true;
+							}
+							if(Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].down){
+								Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].upped = true;
+							}
+
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_UP].down = false;
+							Engine_controller.buttons[ENGINE_CONTROLLER_BUTTON_DOWN].down = false;
+						}
+					}
+				
 				}
 			
 			}
 		
 		}
-
-		/*
-		for(int i = 0; i < ENGINE_CONTROLLER_BUTTONS_LENGTH; i++){
-			printf("%i: %i\n", i, Engine_controller.buttons[i].down);
-		}
-		Vec2f_log(Engine_controller.leftStick);
-		Vec2f_log(Engine_controller.rightStick);
-		printf("%f\n", Engine_controller.leftTrigger);
-		printf("%f\n", Engine_controller.rightTrigger);
-		*/
 
 		//update
 
