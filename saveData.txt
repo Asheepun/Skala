@@ -1,5 +1,5 @@
 :playerPos
-3428 61
+2688 138
 :doorKeys
 6260 -160
 :doors
@@ -14,3 +14,4 @@ door-key-level-1
 door-key-level-2
 floor-is-door
 get-key-up-1
+cooler-scaling-level-4
