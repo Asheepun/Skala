@@ -115,7 +115,7 @@ void *loadAudioFiles(void *ptr){
 
 		soundData_p->data = WavReader_getDataFromWavFile(path, &soundData_p->framesLength);
 
-		printf("Loaded WAV file: %s\n", soundData_p->name);
+		//printf("Loaded WAV file: %s\n", soundData_p->name);
 
 		loadedSoundFiles++;
 		
