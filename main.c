@@ -21,6 +21,9 @@
 #include "game.h"
 #include "levels.h"
 
+//bool DEV_MODE_ON = true;
+bool DEV_MODE_ON = false;
+
 static World world;
 
 Renderer2D_ShaderProgram singleColorTextureShaderProgram;
@@ -395,12 +398,14 @@ void Engine_start(){
 
 void Engine_update(float deltaTime){
 
-	if(ENGINE_KEYS[ENGINE_KEY_Q].down){
-		Engine_quit();
-	}
+	if(DEV_MODE_ON){
+		if(ENGINE_KEYS[ENGINE_KEY_Q].down){
+			Engine_quit();
+		}
 
-	if(ENGINE_KEYS[ENGINE_KEY_F].downed){
-		world.settings.fullscreen = !world.settings.fullscreen;
+		if(ENGINE_KEYS[ENGINE_KEY_F].downed){
+			world.settings.fullscreen = !world.settings.fullscreen;
+		}
 	}
 
 	//handle actions

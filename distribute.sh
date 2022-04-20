@@ -1,23 +1,23 @@
-rm -r ./distributables/linux/*
+rm -r ./distributables/skala-linux/*
 
-cp ./main ./distributables/linux/skala
+cp ./main ./distributables/skala-linux/skala
 
-cp -r ./assets ./distributables/linux/assets
+cp -r ./assets ./distributables/skala-linux/assets
 
-cp -r ./shaders ./distributables/linux/shaders
+cp -r ./shaders ./distributables/skala-linux/shaders
 
-cp ./saveData-origin.txt ./distributables/linux/saveData-origin.txt
+cp ./saveData-origin.txt ./distributables/skala-linux/saveData-origin.txt
 
-cp ./distributables/linux/saveData-origin.txt ./distributables/linux/saveData.txt
+cp ./distributables/skala-linux/saveData-origin.txt ./distributables/skala-linux/saveData.txt
 
-cp ./settings-origin.txt ./distributables/linux/settings-origin.txt
+cp ./settings-origin.txt ./distributables/skala-linux/settings-origin.txt
 
-cp ./distributables/linux/settings-origin.txt ./distributables/linux/settings.txt
+cp ./distributables/skala-linux/settings-origin.txt ./distributables/skala-linux/settings.txt
 
 cd distributables
 
-rm ./linux.zip
+rm ./skala-linux.zip
 
-zip -r ./linux.zip ./linux/
+zip -r ./skala-linux.zip ./skala-linux/
 
 cd ..
