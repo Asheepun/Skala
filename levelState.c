@@ -2041,4 +2041,9 @@ void World_levelState(World *world_p){
 		world_p->currentMusicID = newID;
 	}
 
+	if(Audio_soundIsPlaying(world_p->creditsMusicID)){
+		world_p->currentMusicID = -1;
+	}
+
+
 }

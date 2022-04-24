@@ -354,3 +354,16 @@ char *Audio_getSoundNameByID(size_t ID){
 	return soundData_p->name;
 
 }
+
+bool Audio_soundIsPlaying(size_t ID){
+	
+	Sound *sound_p = Array_getItemPointerByID(&sounds, ID);
+	
+	if(sound_p != NULL
+	&& !sound_p->stopped){
+		return true;
+	}
+
+	return false;
+
+}

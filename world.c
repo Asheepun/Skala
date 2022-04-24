@@ -127,6 +127,8 @@ void World_init(World *world_p){
 	}
 	*/
 
+	world_p->creditsMusicID = -1;
+
 	World_restore(world_p);
 
 }

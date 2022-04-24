@@ -51,4 +51,6 @@ void Audio_setSoundTimeByID(size_t, int);
 
 char *Audio_getSoundNameByID(size_t);
 
+bool Audio_soundIsPlaying(size_t);
+
 #endif

@@ -234,6 +234,7 @@ void Engine_start(){
 		"music/player-position-levels",
 		"music/no-legs-levels",
 		"music/secret-room-levels",
+		"music/credits",
 	};
 
 	int soundAssetsLength = sizeof(soundAssets) / sizeof(char *);

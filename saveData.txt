@@ -1,19 +1,12 @@
 :playerPos
-3696 -131
+330 -240
 :doorKeys
-6260 -160
+6260 -200
 :doors
+3350 180 20 60
+4020 180 20 60
 :flags
-removed-title-text
-completed-scale-field-levels
 :levelsWithDoorKey
-:completedLevels
-get-key-up-2
 make-it-bigger-2
-scale-field-1
-scale-field-2
-scale-field-3
-layers-of-fields
-two-scale-fields
-point-field-cage
-circle-scale-fields-escape
+get-key-up-2
+:completedLevels

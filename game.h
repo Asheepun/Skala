@@ -512,6 +512,8 @@ typedef struct World{
 	Array musicIDs;
 	Array musicAreas;
 
+	size_t creditsMusicID;
+
 }World;
 
 //global variables
