@@ -626,7 +626,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = hInstance;
 	wc.lpszClassName = CLASS_NAME;
-	
+
+	wc.hIcon  = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(69));
+	//wc.hIconSm  = (HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(69), IMAGE_ICON, 16, 16, 0);
+
 	RegisterClass(&wc);
 	
 	hwnd = CreateWindowEx(
@@ -681,7 +684,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	wglSwapIntervalEXT(1);
 
-	printf("%s\n", glGetString(GL_VERSION));
+	//printf("%s\n", glGetString(GL_VERSION));
 	//printf("%s\n", glGetString(GL_EXTENSIONS));
 	//printf("%s\n", wglGetExtensionsStringARB());
 

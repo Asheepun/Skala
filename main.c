@@ -393,7 +393,9 @@ void Engine_start(){
 	}
 
 
-	printf("hello there, we meet again\n");
+	if(DEV_MODE_ON){
+		printf("hello there, we meet again\n");
+	}
 
 }
 
@@ -735,6 +737,8 @@ void Engine_finnish(){
 
 	Settings_writeToFile(&world.settings);
 
-	printf("Finnished.\n");
+	if(DEV_MODE_ON){
+		printf("Finnished.\n");
+	}
 
 }
