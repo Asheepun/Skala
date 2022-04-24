@@ -291,7 +291,7 @@ void World_initLevelHub(World *world_p){
 	*currentRoomX = elevatorRoomX + elevatorRoomWidth;
 	*currentRoomWidth += 60 + 200 + 10;
 
-	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth - 120, 180), getVec2f(11, 11), COLOR_WHITE, "furniture/lamp-1", 1, GAME_LAYER_FURNITURE);
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth - 120, 180), getVec2f(11, 12), COLOR_WHITE, "furniture/lamp-4", 1, GAME_LAYER_FURNITURE);
 
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, 195), "all-from-top-1", ALL_FROM_TOP_ROOM);
 	*currentRoomWidth += normalLevelDistance;
@@ -322,7 +322,7 @@ void World_initLevelHub(World *world_p){
 
 	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth + 50, 180), getVec2f(11, 11), COLOR_WHITE, "furniture/lamp-1", 1, GAME_LAYER_FURNITURE);
 
-	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth + 230, 180), getVec2f(11, 11), COLOR_WHITE, "furniture/lamp-1", 1, GAME_LAYER_FURNITURE);
+	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth + 230, 180), getVec2f(11, 12), COLOR_WHITE, "furniture/lamp-4", 1, GAME_LAYER_FURNITURE);
 
 
 	//*currentRoomWidth += 550;
