@@ -4,6 +4,8 @@ cp ./main ./distributables/skala-linux/skala
 
 cp -r ./assets ./distributables/skala-linux/assets
 
+rm -r ./distributables/skala-linux/assets/audiowav
+
 cp -r ./shaders ./distributables/skala-linux/shaders
 
 cp ./saveData-origin.txt ./distributables/skala-linux/saveData-origin.txt

@@ -5,6 +5,8 @@
 #include "engine/geometry.h"
 #include "engine/strings.h"
 
+#include "stb/stb_vorbis.h"
+
 #define MINIAUDIO_IMPLEMENTATION
 #define MA_NO_DECODING
 #define MA_NO_ENCODING
@@ -50,6 +52,7 @@ typedef struct SoundData{
 	int16_t *data;
 	int framesLength;
 	char *name;
+	bool loaded;
 }SoundData;
 
 SoundData soundData[255];
@@ -62,7 +65,6 @@ Array delayedSounds;
 float volumes[2];
 
 int soundFilesLength;
-int loadedSoundFiles = 0;
 
 ma_result result;
 ma_device_config deviceConfig;
@@ -79,7 +81,7 @@ void data_callback(ma_device* device_p, void* output_p, const void* input_p, ma_
 		SoundData *soundData_p = &soundData[sound_p->soundDataIndex];
 		
 		if(sound_p->stopped
-		|| sound_p->soundDataIndex >= loadedSoundFiles){
+		|| !soundData_p->loaded){
 			continue;
 		}
 
@@ -103,22 +105,66 @@ void data_callback(ma_device* device_p, void* output_p, const void* input_p, ma_
 
 }
 
-void *loadAudioFiles(void *ptr){
+void *loadAudioFiles1(void *ptr){
 
 	for(int i = 0; i < soundFilesLength; i++){
 
 		SoundData *soundData_p = &soundData[i];
 
 		char path[255];
+		sprintf(path, "assets/audio/%s.ogg", soundData_p->name);
 
-		sprintf(path, "assets/audio/%s.wav", soundData_p->name);
+		if(strncmp(soundData_p->name, "music/", 6) == 0){
 
-		soundData_p->data = WavReader_getDataFromWavFile(path, &soundData_p->framesLength);
+			int framesToLoad = SAMPLE_RATE * 10;
 
-		//printf("Loaded WAV file: %s\n", soundData_p->name);
+			int error;
+			stb_vorbis *v = stb_vorbis_open_filename(path, &error, NULL);
 
-		loadedSoundFiles++;
-		
+			soundData_p->data = malloc(framesToLoad * NUMBER_OF_CHANNELS * sizeof(int16_t));
+			soundData_p->framesLength = framesToLoad;
+
+			int n = stb_vorbis_get_samples_short_interleaved(v, 2, soundData_p->data, framesToLoad * NUMBER_OF_CHANNELS);
+
+			soundData_p->loaded = true;
+			
+		}
+
+	}
+
+}
+
+void *loadAudioFiles2(void *ptr){
+
+	for(int i = 0; i < soundFilesLength; i++){
+
+		SoundData *soundData_p = &soundData[i];
+
+		char path[255];
+		sprintf(path, "assets/audio/%s.ogg", soundData_p->name);
+	
+		if((strncmp(soundData_p->name, "music/", 6) == 0)){
+
+			int16_t *data;
+			int channels, sampleRate, length;
+			length = stb_vorbis_decode_filename(path, &channels, &sampleRate, &data);
+
+			//if(soundData_p->data != NULL){
+				//free(soundData_p->data);
+			//}
+
+			soundData_p->data = data;
+			soundData_p->framesLength = length;
+
+			soundData_p->loaded = true;
+
+
+		}else{
+			int channels, sampleRate;
+			soundData_p->framesLength = stb_vorbis_decode_filename(path, &channels, &sampleRate, &soundData_p->data);
+			soundData_p->loaded = true;
+		}
+	
 	}
 
 }
@@ -133,20 +179,23 @@ void Audio_init(char **soundFiles, int soundFilesLengthIn){
 		SoundData *soundData_p = &soundData[i];
 
 		soundData_p->name = soundFiles[i];
+		soundData_p->loaded = false;
+		soundData_p->data = NULL;
 
 	}
 
 	soundDataLength = soundFilesLength;
 
 	//load audio files on seperate thread
-//#ifdef __linux__
+#ifdef __linux__
 	//load audio on seperate thread
-	//loadAudioFiles(NULL);
-	//pthread_t loadThread;
-	//pthread_create(&loadThread, NULL, loadAudioFiles, NULL);
-//#endif
+	pthread_t loadThread1;
+	pthread_t loadThread2;
+	pthread_create(&loadThread1, NULL, loadAudioFiles1, NULL);
+	pthread_create(&loadThread2, NULL, loadAudioFiles2, NULL);
+#endif
 //#ifdef _WIN32
-	loadAudioFiles(NULL);
+	//loadAudioFiles(NULL);
 //#endif
 
 	//init sound and volume handling
@@ -365,5 +414,14 @@ bool Audio_soundIsPlaying(size_t ID){
 	}
 
 	return false;
+
+}
+
+bool Audio_soundIsLoaded(size_t ID){
+	
+	Sound *sound_p = Array_getItemPointerByID(&sounds, ID);
+	SoundData *soundData_p = &soundData[sound_p->soundDataIndex];
+	
+	return soundData_p->loaded;
 
 }

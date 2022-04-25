@@ -232,9 +232,9 @@ void Engine_start(){
 		"music/door-key-levels",
 		"music/all-from-top-levels",
 		"music/scale-field-levels",
-		"music/player-position-levels",
 		"music/no-legs-levels",
 		"music/secret-room-levels",
+		"music/player-position-levels",
 		"music/credits",
 	};
 
@@ -548,6 +548,8 @@ void Engine_update(float deltaTime){
 
 }
 
+//int startFadeCounter = 15;
+
 void Engine_draw(){
 
 	if(world.drawCallSkips > 0){
@@ -730,6 +732,31 @@ void Engine_draw(){
 		Renderer2D_drawRectangle(&world.renderer);
 
 	}
+
+	/*
+	//draw start fade
+	if(startFadeCounter > 0){
+
+		float alpha = (float)startFadeCounter / 15.0;
+
+		Vec2f pos = { -world.renderer.offset.x, -world.renderer.offset.y };
+		Vec2f size = { WIDTH, HEIGHT };
+
+		Renderer2D_setShaderProgram(&world.renderer, world.renderer.colorShaderProgram);
+
+		Renderer2D_beginRectangle(&world.renderer, pos.x, pos.y, size.x, size.y);
+
+		color = COLOR_BLACK;
+
+		Renderer2D_supplyUniform(&world.renderer, &alpha, "alpha", RENDERER2D_UNIFORM_TYPE_FLOAT);
+		Renderer2D_supplyUniform(&world.renderer, &color, "color", RENDERER2D_UNIFORM_TYPE_COLOR);
+
+		Renderer2D_drawRectangle(&world.renderer);
+
+		startFadeCounter--;
+
+	}
+	*/
 
 }
 

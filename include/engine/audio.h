@@ -53,4 +53,6 @@ char *Audio_getSoundNameByID(size_t);
 
 bool Audio_soundIsPlaying(size_t);
 
+bool Audio_soundIsLoaded(size_t);
+
 #endif

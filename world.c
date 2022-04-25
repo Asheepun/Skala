@@ -78,7 +78,7 @@ void World_init(World *world_p){
 
 		Font *font_p = Array_addItem(&world_p->fonts);
 
-		*font_p = getFont("assets/times.ttf", fontSize);
+		*font_p = getFont("assets/fonts/times.ttf", fontSize);
 
 		sprintf(font_p->name, "times%i", fontSize);
 

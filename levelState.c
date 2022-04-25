@@ -2003,6 +2003,10 @@ void World_levelState(World *world_p){
 		}else{
 			Audio_decreaseSoundVolumeByID(ID, MUSIC_FADE_OUT_SPEED);
 		}
+
+		if(!Audio_soundIsLoaded(ID)){
+			Audio_setSoundVolumeByID(ID, 0.0);
+		}
 	
 	}
 
