@@ -21,8 +21,8 @@
 #include "game.h"
 #include "levels.h"
 
-bool DEV_MODE_ON = true;
-//bool DEV_MODE_ON = false;
+//bool DEV_MODE_ON = true;
+bool DEV_MODE_ON = false;
 
 static World world;
 

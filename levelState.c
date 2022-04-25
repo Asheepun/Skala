@@ -2019,12 +2019,15 @@ void World_levelState(World *world_p){
 
 		if(ID == world_p->currentMusicID){
 			Audio_increaseSoundVolumeByID(ID, MUSIC_FADE_IN_SPEED);
-		}else{
+		}
+		if(ID != world_p->currentMusicID){
 			Audio_decreaseSoundVolumeByID(ID, MUSIC_FADE_OUT_SPEED);
 		}
 
-		if(!Audio_soundIsLoaded(ID)){
+		if(!Audio_soundIsLoaded(ID)
+		|| Audio_soundIsPlaying(world_p->creditsMusicID)){
 			Audio_setSoundVolumeByID(ID, 0.0);
+			Audio_setSoundTimeByID(ID, 0);
 		}
 	
 	}
@@ -2062,10 +2065,6 @@ void World_levelState(World *world_p){
 		}
 
 		world_p->currentMusicID = newID;
-	}
-
-	if(Audio_soundIsPlaying(world_p->creditsMusicID)){
-		world_p->currentMusicID = -1;
 	}
 
 

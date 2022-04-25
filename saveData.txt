@@ -1,5 +1,5 @@
 :playerPos
-3038 138
+1920 178
 :doorKeys
 6260 -200
 :doors
@@ -7,6 +7,7 @@
 4020 180 20 60
 :flags
 removed-title-text
+completed-no-legs-levels
 :levelsWithDoorKey
 make-it-bigger-2
 get-key-up-2
@@ -19,3 +20,17 @@ cooler-scaling-level-3
 slow-fall-squeeze
 high-jump-2
 high-jump-3
+no-legs
+no-legs-2
+no-legs-4
+no-legs-3
+no-legs-point-hole
+no-legs-key-first
+no-legs-key-block
+no-legs-scale-field-key
+no-legs-drag-key
+no-legs-scalable-point-first
+no-legs-scalable-point-scale-field
+no-legs-scalable-point-2
+no-legs-scalable-point
+level-2
