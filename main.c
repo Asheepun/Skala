@@ -614,8 +614,8 @@ void Engine_draw(){
 				pos.x = (sprite_p->body.pos.x);
 				pos.y = (sprite_p->body.pos.y);
 
-				size.x = ceil(sprite_p->body.size.x);
-				size.y = ceil(sprite_p->body.size.y);
+				size.x = (sprite_p->body.size.x);
+				size.y = (sprite_p->body.size.y);
 
 				if(pos.x + size.x < -world.renderer.offset.x
 				|| pos.y + size.y < -world.renderer.offset.y
@@ -676,6 +676,7 @@ void Engine_draw(){
 				Renderer2D_supplyUniform(&world.renderer, &color, "color", RENDERER2D_UNIFORM_TYPE_COLOR);
 				Renderer2D_supplyUniform(&world.renderer, &alpha, "alpha", RENDERER2D_UNIFORM_TYPE_FLOAT);
 				Renderer2D_supplyUniform(&world.renderer, &sprite_p->facing, "facing", RENDERER2D_UNIFORM_TYPE_INT);
+				Renderer2D_supplyUniform(&world.renderer, &textureCoordOffset, "textureCoordOffset", RENDERER2D_UNIFORM_TYPE_VEC2);
 
 				Renderer2D_drawRectangle(&world.renderer);
 			

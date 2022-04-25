@@ -45,6 +45,8 @@ Steps
 
 	World_restore(world_p);
 
+	world_p->obstaclesCannotCollideWithEachOther = true;
+
 	World_initPlayer(world_p, getVec2f(50, 100), NONE);
 
 	World_addPoint(world_p, getVec2f(400, 110), NONE);
