@@ -18,6 +18,8 @@
 //#define MA_ENABLE_DSOUND 
 #include "miniaudio/miniaudio.h"
 
+#include "pthread.h"
+
 #ifdef __linux
 #include "stddef.h"
 #endif
@@ -187,16 +189,10 @@ void Audio_init(char **soundFiles, int soundFilesLengthIn){
 	soundDataLength = soundFilesLength;
 
 	//load audio files on seperate thread
-#ifdef __linux__
-	//load audio on seperate thread
 	pthread_t loadThread1;
 	pthread_t loadThread2;
 	pthread_create(&loadThread1, NULL, loadAudioFiles1, NULL);
 	pthread_create(&loadThread2, NULL, loadAudioFiles2, NULL);
-#endif
-//#ifdef _WIN32
-	//loadAudioFiles(NULL);
-//#endif
 
 	//init sound and volume handling
 	Array_init(&sounds, sizeof(Sound));

@@ -4,6 +4,8 @@ cp ./main.exe ./distributables/skala-windows/skala.exe
 
 cp -r ./assets ./distributables/skala-windows/assets
 
+rm -r ./distributables/skala-windows/assets/audiowav
+
 cp -r ./shaders ./distributables/skala-windows/shaders
 
 cp ./saveData-origin.txt ./distributables/skala-windows/saveData-origin.txt
