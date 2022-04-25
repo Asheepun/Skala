@@ -1,5 +1,5 @@
 :playerPos
-1868 176
+3038 138
 :doorKeys
 6260 -200
 :doors
@@ -12,3 +12,10 @@ make-it-bigger-2
 get-key-up-2
 :completedLevels
 level-1
+first-scaling-level-4
+high-jump-1
+cooler-scaling-level-4
+cooler-scaling-level-3
+slow-fall-squeeze
+high-jump-2
+high-jump-3

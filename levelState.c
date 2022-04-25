@@ -209,6 +209,21 @@ void World_levelState(World *world_p){
 				bodyPair_p->scaleExponent.y--;
 			}
 
+			if(world_p->currentState == LEVEL_STATE){
+				if(bodyPair_p->scaleExponent.x > 6 * 60){
+					bodyPair_p->scaleExponent.x = 6 * 60;
+				}
+				if(bodyPair_p->scaleExponent.x < -6 * 60){
+					bodyPair_p->scaleExponent.x = -6 * 60;
+				}
+				if(bodyPair_p->scaleExponent.y > 6 * 60){
+					bodyPair_p->scaleExponent.y = 6 * 60;
+				}
+				if(bodyPair_p->scaleExponent.y < -4.5 * 60){
+					bodyPair_p->scaleExponent.y = -4.5 * 60;
+				}
+			}
+
 		}
 
 	}
@@ -633,6 +648,8 @@ void World_levelState(World *world_p){
 					bodyPair1_p->body.pos.x = roundTo2Dec(leftBodyPair_p->body.pos.x + leftBodyPair_p->body.size.x);
 					bodyPair1_p->body.size.x = roundTo2Dec(rightBodyPair_p->body.pos.x) - roundTo2Dec(leftBodyPair_p->body.pos.x + leftBodyPair_p->body.size.x);
 
+					bodyPair1_p->scaleExponent.x = bodyPair1_p->lastScaleExponent.x;
+
 					//shift in case there still is collision
 					bodyPair1_p->body.pos.x = ceil(bodyPair1_p->body.pos.x);
 					bodyPair1_p->body.size.x = floor(bodyPair1_p->body.size.x);
@@ -966,6 +983,8 @@ void World_levelState(World *world_p){
 
 					bodyPair1_p->body.pos.y = roundTo2Dec(upBodyPair_p->body.pos.y + upBodyPair_p->body.size.y);
 					bodyPair1_p->body.size.y = roundTo2Dec(downBodyPair_p->body.pos.y) - roundTo2Dec(upBodyPair_p->body.pos.y + upBodyPair_p->body.size.y);
+
+					bodyPair1_p->scaleExponent.y = bodyPair1_p->lastScaleExponent.y;
 
 					//shift in case there still is collision
 					bodyPair1_p->body.pos.y = ceil(bodyPair1_p->body.pos.y);
