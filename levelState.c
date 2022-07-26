@@ -54,7 +54,9 @@ void World_initLevel(World *world_p){
 
 	if(world_p->scalingByPlayerPosition
 	&& world_p->previousState == LEVEL_HUB_STATE){
-		Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX, 500 / 60);
+		//Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX, 500 / 60);
+		//Audio_playSound("begin-scaling-1", 0.1, false, AUDIO_SOUND_TYPE_SFX, 500 / 60);
+		Audio_playSoundVariation("begin-scaling", 3, 0.25, false, AUDIO_SOUND_TYPE_SFX, 0);
 	}
 
 }
@@ -89,7 +91,9 @@ void World_levelState(World *world_p){
 		&& scalingSoundLoopID == -1){
 			//scalingSoundLoopID = Audio_playSound("scaling", 0.2, true, AUDIO_SOUND_TYPE_SFX);
 			//Audio_playSound("begin-scaling-1", 0.5, false, AUDIO_SOUND_TYPE_SFX);
-			Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX, 0);
+			//Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX, 0);
+			//Audio_playSound("begin-scaling-1", 0.2, false, AUDIO_SOUND_TYPE_SFX, 0);
+			Audio_playSoundVariation("begin-scaling", 3, 0.25, false, AUDIO_SOUND_TYPE_SFX, 0);
 			//scalingSoundCounter = 0;
 		}
 		if(world_p->actions[SCALE_ACTION].upped

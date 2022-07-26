@@ -200,6 +200,8 @@ void Engine_start(){
 	char *soundAssets[] = {
 
 		"begin-scaling-1",
+		"begin-scaling-2",
+		"begin-scaling-3",
 
 		"scale-move-1",
 
