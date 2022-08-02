@@ -1086,27 +1086,36 @@ void World_initLevelHub(World *world_p){
 
 		//unlock steam achievements
 		
+		char command[STRING_SIZE];
+#ifdef _WIN32
+		String_set(command, "Steamapihandler.exe ", STRING_SIZE);
+#endif
+#ifdef __linux__
+		String_set(command, "steamapi-handler ", STRING_SIZE);
+#endif
 		if(openGateParticleEffectRoom == FIRST_SCALE_ROOM){
-			system("Steamapihandler.exe first-levels");
+			String_append(command, "first-levels");
 		}
 		if(openGateParticleEffectRoom == DOOR_KEY_ROOM){
-			system("Steamapihandler.exe door-key-levels");
+			String_append(command, "door-key-levels");
 		}
 		if(openGateParticleEffectRoom == ALL_FROM_TOP_ROOM){
-			system("Steamapihandler.exe all-from-top-levels");
+			String_append(command, "all-from-top-levels");
 		}
 		if(openGateParticleEffectRoom == SCALE_FIELD_ROOM){
-			system("Steamapihandler.exe scale-field-levels");
+			String_append(command, "scale-field-levels");
 		}
 		if(openGateParticleEffectRoom == PLAYER_POSITION_ROOM){
-			system("Steamapihandler.exe player-position-levels");
+			String_append(command, "player-position-levels");
 		}
 		if(openGateParticleEffectRoom == NO_LEGS_ROOM){
-			system("Steamapihandler.exe no-legs-levels");
+			String_append(command, "no-legs-levels");
 		}
 		if(openGateParticleEffectRoom == SECRET_ROOM){
-			system("Steamapihandler.exe secret-levels");
+			String_append(command, "secret-levels");
 		}
+
+		system(command);
 
 		Audio_playSound("free-stars", 1.0, false, AUDIO_SOUND_TYPE_SFX, 1500 / 60);
 
