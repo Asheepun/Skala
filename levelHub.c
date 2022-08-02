@@ -1084,6 +1084,30 @@ void World_initLevelHub(World *world_p){
 	//open gate particle effect
 	if(doOpenGateParticleEffect){
 
+		//unlock steam achievements
+		
+		if(openGateParticleEffectRoom == FIRST_SCALE_ROOM){
+			system("Steamapihandler.exe first-levels");
+		}
+		if(openGateParticleEffectRoom == DOOR_KEY_ROOM){
+			system("Steamapihandler.exe door-key-levels");
+		}
+		if(openGateParticleEffectRoom == ALL_FROM_TOP_ROOM){
+			system("Steamapihandler.exe all-from-top-levels");
+		}
+		if(openGateParticleEffectRoom == SCALE_FIELD_ROOM){
+			system("Steamapihandler.exe scale-field-levels");
+		}
+		if(openGateParticleEffectRoom == PLAYER_POSITION_ROOM){
+			system("Steamapihandler.exe player-position-levels");
+		}
+		if(openGateParticleEffectRoom == NO_LEGS_ROOM){
+			system("Steamapihandler.exe no-legs-levels");
+		}
+		if(openGateParticleEffectRoom == SECRET_ROOM){
+			system("Steamapihandler.exe secret-levels");
+		}
+
 		Audio_playSound("free-stars", 1.0, false, AUDIO_SOUND_TYPE_SFX, 1500 / 60);
 
 		int counter = 0;

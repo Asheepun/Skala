@@ -30,6 +30,8 @@ Renderer2D_ShaderProgram singleColorTextureShaderProgram;
 
 void Engine_start(){
 
+	//system("Steamapihandler.exe oogabaagoo");
+
 	//set up world and game
 	World_init(&world);
 
