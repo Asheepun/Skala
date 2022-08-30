@@ -282,28 +282,20 @@ void World_levelState(World *world_p){
 	Body *playerBody_p = &World_getBodyPairByID(world_p, world_p->player.bodyPairID)->body;
 
 	//check if player is dead
-	if((playerBody_p->pos.y > HEIGHT + 20
+	if(playerBody_p->pos.y > HEIGHT + 20
 	|| playerBody_p->size.x < 1
 	|| playerBody_p->size.y < 1
-	|| world_p->actions[RESTART_ACTION].downed)
-	&& world_p->currentState == LEVEL_STATE){
-
-		World_initLevel(world_p);
-
-		return;
-
-	}
-
-	//control restart
-	if(world_p->actions[RESTART_ACTION].downed){
+	|| world_p->actions[RESTART_ACTION].downed){
 
 		if(world_p->currentState == LEVEL_STATE){
-			playerBody_p->pos.y = HEIGHT * 2;
+			World_initLevel(world_p);
 		}
 
 		if(world_p->currentState == LEVEL_HUB_STATE){
 			World_initLevelHub(world_p);
 		}
+
+		return;
 
 	}
 

@@ -1091,7 +1091,7 @@ void World_initLevelHub(World *world_p){
 		String_set(command, "Steamapihandler.exe ", STRING_SIZE);
 #endif
 #ifdef __linux__
-		String_set(command, "steamapi-handler ", STRING_SIZE);
+		String_set(command, "./steamapi-handler ", STRING_SIZE);
 #endif
 		if(openGateParticleEffectRoom == FIRST_SCALE_ROOM){
 			String_append(command, "first-levels");
@@ -1114,6 +1114,8 @@ void World_initLevelHub(World *world_p){
 		if(openGateParticleEffectRoom == SECRET_ROOM){
 			String_append(command, "secret-levels");
 		}
+
+		printf("%s\n", command);
 
 		system(command);
 
