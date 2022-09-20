@@ -23,6 +23,7 @@
 #include "X11/Xlib.h"
 #include "X11/XKBlib.h"
 #include <X11/Xutil.h>
+#include <X11/Xatom.h>
 #include "GL/glx.h"
 
 #endif
@@ -322,8 +323,10 @@ int main(){
 
 	cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
 
+
+	swa.override_redirect = True;
 	swa.colormap = cmap;
-	swa.event_mask = KeyPressMask | KeyReleaseMask | ButtonPressMask | StructureNotifyMask;
+	swa.event_mask = KeyPressMask | KeyReleaseMask | ButtonPressMask | StructureNotifyMask | PropertyChangeMask;
 
 	win = XCreateWindow(dpy, root, 0, 0, clientWidth, clientHeight, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
 
@@ -922,6 +925,7 @@ void Engine_centerWindow(){
 
 }
 
+bool check = true;
 void Engine_toggleFullscreen(){
 
 #ifdef _WIN32
@@ -940,16 +944,55 @@ void Engine_toggleFullscreen(){
 #endif
 
 #ifdef __linux__
+
 	if(!Engine_isFullscreen){
 
-		Engine_setWindowSize(DisplayWidth(dpy, screenNumber), DisplayHeight(dpy, screenNumber));
+		Atom wm_state = XInternAtom(dpy, "_NET_WM_STATE", False);
+		Atom fullscreen = XInternAtom(dpy, "_NET_WM_STATE_FULLSCREEN", False);
+
+		XEvent xev;
+		memset(&xev, 0, sizeof(xev));
+		xev.type = ClientMessage;
+		xev.xclient.window = win;
+		xev.xclient.message_type = wm_state;
+		xev.xclient.format = 32;
+		xev.xclient.data.l[0] = 1;
+		xev.xclient.data.l[1] = fullscreen;
+		xev.xclient.data.l[2] = 0;
+
+		XMapWindow(dpy, win);
+
+		XSendEvent (dpy, DefaultRootWindow(dpy), False, SubstructureRedirectMask | SubstructureNotifyMask, &xev);
+
+	/*
+		Engine_setWindowSize(DisplayWidth(dpy, screenNumber) + 100, DisplayHeight(dpy, screenNumber));
 		Engine_centerWindow();
+		*/
 
 		Engine_isFullscreen = true;
 	}else{
 
+		Atom wm_state = XInternAtom(dpy, "_NET_WM_STATE", False);
+		Atom fullscreen = XInternAtom(dpy, "_NET_WM_STATE_FULLSCREEN", False);
+
+		XEvent xev;
+		memset(&xev, 0, sizeof(xev));
+		xev.type = ClientMessage;
+		xev.xclient.window = win;
+		xev.xclient.message_type = wm_state;
+		xev.xclient.format = 32;
+		xev.xclient.data.l[0] = 0;
+		xev.xclient.data.l[1] = fullscreen;
+		xev.xclient.data.l[2] = 0;
+
+		XMapWindow(dpy, win);
+
+		XSendEvent (dpy, DefaultRootWindow(dpy), False, SubstructureRedirectMask | SubstructureNotifyMask, &xev);
+
+		/*
 		Engine_setWindowSize(480 * 2, 270 * 2);
 		Engine_centerWindow();
+		*/
 	
 		Engine_isFullscreen = false;
 	}
