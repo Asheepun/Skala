@@ -1,0 +1,31 @@
+:playerPos
+6022 178
+:doorKeys
+6260 -160
+:doors
+:flags
+removed-title-text
+:levelsWithDoorKey
+:completedLevels
+level-3
+first-scaling-level-1
+cooler-scaling-level-1
+high-jump-3
+get-key-up-2
+make-it-bigger-2
+circle-scale-fields-escape
+all-from-top-1
+all-from-top-2
+all-from-top-3
+get-under-cup
+point-pikaboo
+key-obstacle-course
+player-position-1
+player-position-2
+player-position-3
+airport-control
+grow-through-jumping
+player-position-jumping-key-1
+player-position-jumping-key-2
+player-position-jumping-key-3
+scale-position-block
