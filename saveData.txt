@@ -1,5 +1,5 @@
 :playerPos
-2699 138
+3034 138
 :doorKeys
 6260 -200
 :doors
@@ -11,3 +11,4 @@ removed-title-text
 make-it-bigger-2
 get-key-up-2
 :completedLevels
+high-jump-3
