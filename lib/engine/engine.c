@@ -879,6 +879,19 @@ void Engine_quit(){
 	programShouldQuit = true;
 }
 
+void Engine_executeCommand(char *command){
+
+#ifdef _WIN32
+	WinExec(command, SW_HIDE);
+#endif
+
+#ifdef __linux__
+	system(command);
+#endif
+	
+}
+
+
 //WINDOW FUNCTIONS
 void Engine_setWindowTitle(char *title){
 	

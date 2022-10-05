@@ -1,5 +1,5 @@
 :playerPos
-2699 138
+2322 138
 :doorKeys
 6260 -200
 :doors
@@ -11,3 +11,5 @@ removed-title-text
 make-it-bigger-2
 get-key-up-2
 :completedLevels
+cooler-scaling-level-3
+cooler-scaling-level-1

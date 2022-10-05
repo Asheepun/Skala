@@ -222,6 +222,8 @@ void Engine_finnish();
 
 void Engine_quit();
 
+void Engine_executeCommand(char *);
+
 //WINDOW FUNCTIONS
 
 void Engine_setWindowTitle(char *);

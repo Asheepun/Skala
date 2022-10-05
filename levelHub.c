@@ -1080,6 +1080,7 @@ void World_initLevelHub(World *world_p){
 	//openGateParticleEffectRoom = SECRET_ROOM;
 	//openGateParticleEffectRoom = SCALE_FIELD_ROOM;
 
+	//WinExec("ls", SW_HIDE);
 
 	//open gate particle effect
 	if(doOpenGateParticleEffect){
@@ -1115,9 +1116,9 @@ void World_initLevelHub(World *world_p){
 			String_append(command, "secret-levels");
 		}
 
-		printf("%s\n", command);
+		//printf("%s\n", command);
 
-		system(command);
+		Engine_executeCommand(command);
 
 		Audio_playSound("free-stars", 1.0, false, AUDIO_SOUND_TYPE_SFX, 1500 / 60);
 
