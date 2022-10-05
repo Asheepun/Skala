@@ -1,5 +1,9 @@
 :playerPos
+<<<<<<< HEAD
 2322 138
+=======
+3034 138
+>>>>>>> 9131ad6fed7b202069ac5c3c6a4c4458b136e6dd
 :doorKeys
 6260 -200
 :doors
@@ -11,5 +15,9 @@ removed-title-text
 make-it-bigger-2
 get-key-up-2
 :completedLevels
+<<<<<<< HEAD
 cooler-scaling-level-3
 cooler-scaling-level-1
+=======
+high-jump-3
+>>>>>>> 9131ad6fed7b202069ac5c3c6a4c4458b136e6dd
