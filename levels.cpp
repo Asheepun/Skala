@@ -728,7 +728,7 @@ Locker
 
 	World_addObstacle(world_p, getVec2f(0, 20), getVec2f(20, HEIGHT - 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(20, HEIGHT - 10), getVec2f(50, 10), NONE);
+	//World_addObstacle(world_p, getVec2f(20, HEIGHT - 10), getVec2f(50, 10), NONE);
 
 	World_addObstacle(world_p, getVec2f(70, 60), getVec2f(20, HEIGHT - 60), NONE);
 
@@ -1944,13 +1944,13 @@ Locker
 
 	World_addDoorKey(world_p, getVec2f(250, HEIGHT - 30), ALL);
 
-	World_addObstacle(world_p, getVec2f(0, HEIGHT - 20), getVec2f(WIDTH - 140, 20), NONE);
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 17), getVec2f(WIDTH - 140, 17), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH - 20, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 80, HEIGHT - 20), getVec2f(60, 20), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 80, HEIGHT - 17), getVec2f(60, 17), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 40, 0), getVec2f(20, HEIGHT - 20), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 40, 0), getVec2f(20, HEIGHT - 17), NONE);
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 100, 80), getVec2f(20, HEIGHT - 80), NONE);
 
@@ -1964,7 +1964,7 @@ Locker
 
 	World_addDoor(world_p, getVec2f(WIDTH - 100, 20), getVec2f(20, 40), NONE);
 
-	World_addObstacle(world_p, getVec2f(0, HEIGHT - 50), getVec2f(120, 30), NONE);
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 45), getVec2f(120, 30), NONE);
 
 :levelName
 throw-key-2
@@ -1980,13 +1980,13 @@ Locker 2
 
 	World_addDoorKey(world_p, getVec2f(200, HEIGHT - 30), ALL);
 
-	World_addObstacle(world_p, getVec2f(0, HEIGHT - 20), getVec2f(WIDTH - 140, 20), NONE);
+	World_addObstacle(world_p, getVec2f(0, HEIGHT - 17), getVec2f(WIDTH - 140, 17), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(WIDTH - 20, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 80, HEIGHT - 20), getVec2f(60, 20), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 80, HEIGHT - 17), getVec2f(60, 17), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 40, 0), getVec2f(20, HEIGHT - 20), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 40, 0), getVec2f(20, HEIGHT - 17), NONE);
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 100, 80), getVec2f(20, HEIGHT - 80), NONE);
 
@@ -2012,19 +2012,19 @@ Barrier
 
 	World_addPoint(world_p, getVec2f(WIDTH - 95, 195), NONE);
 
-	World_addObstacle(world_p, getVec2f(70, HEIGHT - 40), getVec2f(WIDTH - 90, 40), NONE);
+	World_addObstacle(world_p, getVec2f(60, HEIGHT - 40), getVec2f(WIDTH - 80, 40), NONE);
 
 	World_addScaleField(world_p, getVec2f(0, -BIG_BLOCKING_SIZE), getVec2f(WIDTH, BIG_BLOCKING_SIZE), NONE);
 
 	World_addScaleField(world_p, getVec2f(0, 90), getVec2f(WIDTH - 20, 30), NONE);
 
-	World_addObstacle(world_p, getVec2f(80, 120), getVec2f(WIDTH - 100, 20), NONE);
+	World_addObstacle(world_p, getVec2f(60, 120), getVec2f(WIDTH - 80, 20), NONE);
 
-	World_addObstacle(world_p, getVec2f(0, 80), getVec2f(80, 10), NONE);
+	World_addObstacle(world_p, getVec2f(0, 80), getVec2f(90, 10), NONE);
 
-	World_addObstacle(world_p, getVec2f(70, 120), getVec2f(10, HEIGHT - 120), NONE);
+	World_addObstacle(world_p, getVec2f(60, 120), getVec2f(10, HEIGHT - 120), NONE);
 
-	World_addScaleField(world_p, getVec2f(0, 120), getVec2f(70, HEIGHT - 120), NONE);
+	World_addScaleField(world_p, getVec2f(0, 120), getVec2f(60, HEIGHT - 120), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(20, 90), NONE);
 
@@ -2032,7 +2032,7 @@ Barrier
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 60, 120), getVec2f(40, 110), NONE);
 
-	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(100, 50), NONE);
+	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(110, 50), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 0), getVec2f(BIG_BLOCKING_SIZE, 20), NONE);
 
@@ -2141,7 +2141,7 @@ Tangible 2
 
 	World_addScaleField(world_p, getVec2f(0, 140), getVec2f(50, 50), ALL_FROM_TOP);
 
-	World_addScaleField(world_p, getVec2f(WIDTH - 70, 120), getVec2f(50, 90), NONE);
+	//World_addScaleField(world_p, getVec2f(WIDTH - 70, 120), getVec2f(50, 90), NONE);
 
 	World_addScaleField(world_p, getVec2f(0, 20), getVec2f(100, 80), NONE);
 
@@ -2171,3 +2171,31 @@ Tangible 3
 
 	World_addScaleField(world_p, getVec2f(0, 20), getVec2f(100, 190), ALL_FROM_TOP);
 
+	//World_addScaleField(world_p, getVec2f(0, 00), getVec2f(100, 20), NONE);
+
+
+:levelName
+breaking-through-wall-3
+:screenName
+Tangible 3
+:levelCode
+
+	World_restore(world_p);
+
+	World_initPlayer(world_p, getVec2f(70, 210 - 60), NONE);
+
+	World_addPoint(world_p, getVec2f(410, 130), ALL);
+
+	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(200, HEIGHT - 220), NONE);
+
+	World_addObstacle(world_p, getVec2f(200, 20), getVec2f(40, HEIGHT - 40), NONE);
+
+	World_addScaleField(world_p, getVec2f(0, 0), getVec2f(WIDTH, 20), NONE);
+
+	World_addScaleField(world_p, getVec2f(0, HEIGHT - 20), getVec2f(WIDTH, 20), NONE);
+
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 20), getVec2f(BIG_BLOCKING_SIZE, HEIGHT - 40), NONE);
+
+	//World_addObstacle(world_p, getVec2f(0, 0), getVec2f(40, HEIGHT), NONE);
+
+	//World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);

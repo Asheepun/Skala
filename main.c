@@ -95,10 +95,10 @@ void Engine_start(){
 	Action_addControllerButtonBinding(&world.actions[BACK_ACTION], ENGINE_CONTROLLER_BUTTON_A);
 	*/
 
-	//String_set(world.currentLevel, "breaking-through-wall-2", STRING_SIZE);
+	//String_set(world.currentLevel, "breaking-through-wall-3", STRING_SIZE);
+	//World_switchToAndInitState(&world, LEVEL_STATE);
 
 	World_switchToAndInitState(&world, LEVEL_HUB_STATE);
-	//World_switchToAndInitState(&world, LEVEL_STATE);
 
 	//set up engine and renderer
 	Engine_setWindowTitle("Skala");

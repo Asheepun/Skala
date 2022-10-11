@@ -1,5 +1,5 @@
 :playerPos
-6822 -1481
+6691 -1481
 :doorKeys
 4015 230
 :doors
@@ -9,6 +9,7 @@ removed-title-text
 completed-player-position-levels
 completed-door-key-levels
 added-gate-door
+completed-secret-levels
 :levelsWithDoorKey
 :completedLevels
 door-key-level-1
@@ -42,3 +43,5 @@ throw-key-2
 key-fall-through
 filter-4
 breaking-through-wall
+breaking-through-wall-3
+breaking-through-wall-2
