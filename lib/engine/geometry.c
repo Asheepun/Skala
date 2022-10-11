@@ -132,6 +132,10 @@ Vec2f getDivVec2fFloat(Vec2f v, float a){
 	return getVec2f(v.x / a, v.y / a);
 }
 
+Vec2f getDivVec2f(Vec2f v1, Vec2f v2){
+	return getVec2f(v1.x / v2.x, v1.y / v2.y);
+}
+
 float getDistanceVec2f(Vec2f v1, Vec2f v2){
 	return sqrt((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y));
 }

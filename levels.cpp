@@ -1611,7 +1611,7 @@ Mold
 
 	World_addPoint(world_p, getVec2f(30, 170), NONE);
 
-	World_addDoorKey(world_p, getVec2f(200, 30), NONE);
+	World_addDoorKey(world_p, getVec2f(200, 170), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
 
@@ -1637,13 +1637,20 @@ Force
 
 	World_addPoint(world_p, getVec2f(10, 170), NONE);
 
-	World_addDoorKey(world_p, getVec2f(200, 30), NONE);
+	World_addDoorKey(world_p, getVec2f(200, 170), NONE);
+	//World_addDoorKey(world_p, getVec2f(150, 30), ALL);
 
 	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
 
 	World_addObstacle(world_p, getVec2f(0, 130), getVec2f(80, 20), NONE);
 
+	//World_addObstacle(world_p, getVec2f(200, 100), getVec2f(40, 40), NONE);
+
 	World_addDoor(world_p, getVec2f(60, 150), getVec2f(20, 60), NONE);
+
+	World_addScaleField(world_p, getVec2f(250, 130), getVec2f(80, 80), ALL);
+
+	World_addScaleField(world_p, getVec2f(80, 130), getVec2f(20, 80), NONE);
 
 	World_addObstacle(world_p, getVec2f(WIDTH - 20, -BIG_BLOCKING_SIZE), getVec2f(20, 210 + BIG_BLOCKING_SIZE), NONE);
 

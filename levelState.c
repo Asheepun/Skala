@@ -27,6 +27,8 @@ unsigned int framesSinceLastJumpSoundCount = 33;
 
 size_t scalingSoundLoopID = -1;
 
+Vec2f lastDoorKeyFixVelocity = { 0.0, 0.0 };
+
 void World_initLevel(World *world_p){
 
 	for(int i = 0; i < LEVELS_LENGTH; i++){
@@ -388,9 +390,16 @@ void World_levelState(World *world_p){
 			origin = getVec2f(0, 0);
 		}
 
+		float previousBodyPosX = bodyPair_p->body.pos.x;
+
 		Body_unScaleX(&bodyPair_p->body, origin.x, lastScale.x);
 
 		Body_scaleX(&bodyPair_p->body, origin.x, scale.x);
+
+		if(bodyPair_p->entityType == DOOR_KEY
+		&& bodyPair_p->isHeld){
+			bodyPair_p->body.pos.x = previousBodyPosX;
+		}
 
 	}
 
@@ -707,9 +716,16 @@ void World_levelState(World *world_p){
 
 		}
 
+		float previousBodyPosY = bodyPair_p->body.pos.y;
+
 		Body_unScaleY(&bodyPair_p->body, origin.y, lastScale.y);
 
 		Body_scaleY(&bodyPair_p->body, origin.y, scale.y);
+
+		if(bodyPair_p->entityType == DOOR_KEY
+		&& bodyPair_p->isHeld){
+			bodyPair_p->body.pos.y = previousBodyPosY;
+		}
 	
 	}
 
@@ -1014,14 +1030,14 @@ void World_levelState(World *world_p){
 		DoorKey *doorKey_p = Array_getItemPointerByIndex(&world_p->doorKeys, i);
 		BodyPair *bodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
 
-		if(doorKey_p->isHeld
+		if(bodyPair_p->isHeld
 		&& bodyPair_p->lastBody.size.y >= 1
 		&& bodyPair_p->body.size.y < 1){
 			//Vec2f_log(bodyPair_p->lastBody.size);
 			bodyPair_p->physics.velocity.x = 0;
 		}
 
-		if(doorKey_p->isHeld
+		if(bodyPair_p->isHeld
 		&& bodyPair_p->lastBody.size.x >= 1
 		&& bodyPair_p->body.size.x < 1){
 			bodyPair_p->physics.velocity.y = 0;
@@ -1042,9 +1058,17 @@ void World_levelState(World *world_p){
 
 		bodyPair_p->physics.acceleration.y += bodyPair_p->physics.gravity;
 
+
 		Vec2f_add(&bodyPair_p->physics.velocity, bodyPair_p->physics.acceleration);
 
 		Vec2f_mul(&bodyPair_p->physics.velocity, bodyPair_p->physics.resistance);
+
+		if(bodyPair_p->entityType == DOOR_KEY
+		&& bodyPair_p->isHeld){
+			Vec2f_div(&bodyPair_p->physics.velocity, bodyPair_p->physics.resistance);
+			Vec2f_sub(&bodyPair_p->physics.velocity, bodyPair_p->physics.acceleration);
+			//bodyPair_p->physics.velocity = getVec2f(0, 0);
+		}
 
 		//reset acceleration
 		bodyPair_p->physics.acceleration = getVec2f(0, 0);
@@ -1205,16 +1229,45 @@ void World_levelState(World *world_p){
 
 	//check if player collides with door keys
 	bool playerGotKey = false;
+
 	for(int i = 0; i < world_p->doorKeys.length; i++){
 
 		DoorKey *doorKey_p = Array_getItemPointerByIndex(&world_p->doorKeys, i);
 		BodyPair *doorKeyBodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
 		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, player_p->bodyPairID);
 
-		doorKey_p->isHeld = false;
-
 		if(checkBodyPairToBodyPairCollision(*playerBodyPair_p, *doorKeyBodyPair_p)
 		&& !playerGotKey){
+			//check if other key is held
+			bool otherKeyIsHeld = false;
+			for(int j = 0; j < world_p->doorKeys.length; j++){
+
+				DoorKey *doorKey2_p = Array_getItemPointerByIndex(&world_p->doorKeys, j);
+				BodyPair *doorKey2BodyPair_p = World_getBodyPairByID(world_p, doorKey2_p->bodyPairID);
+				if(j != i
+				&& doorKey2BodyPair_p->isHeld){
+					otherKeyIsHeld = true;
+				}
+			}
+
+			if(!otherKeyIsHeld){
+				doorKeyBodyPair_p->isHeld = true;
+			}
+		}
+
+		if(doorKeyBodyPair_p->isHeld){
+
+			Vec2f physicsScale = BodyPair_getPhysicsScale(doorKeyBodyPair_p);
+			Vec2f diff = getSubVec2f(getDivVec2f(doorKey_p->lastHeldVelocity, physicsScale), getSubVec2f(doorKeyBodyPair_p->body.pos, doorKeyBodyPair_p->lastBody.pos));
+			if(((abs(diff.x) > 20.0
+			|| abs(diff.y) > 20.0)
+			&& !checkBodyPairToBodyPairCollision(*playerBodyPair_p, *doorKeyBodyPair_p))
+			|| doorKeyBodyPair_p->body.size.x < 1.0
+			|| doorKeyBodyPair_p->body.size.y < 1.0){
+				Vec2f_log(diff);
+				doorKeyBodyPair_p->isHeld = false;
+				playerGotKey = false;
+			}
 
 			Vec2f playerPhysicsScale = BodyPair_getPhysicsScale(playerBodyPair_p);
 			Vec2f doorKeyPhysicsScale = BodyPair_getPhysicsScale(doorKeyBodyPair_p);
@@ -1231,20 +1284,27 @@ void World_levelState(World *world_p){
 				doorKeyHold.x += doorKeyBodyPair_p->body.size.x;
 			}
 
-			Vec2f velocity = playerHand;
-			Vec2f_sub(&velocity, doorKeyHold);
-			Vec2f_mul(&velocity, doorKeyPhysicsScale);
+			//Vec2f velocity = playerHand;
+			//Vec2f_sub(&velocity, doorKeyHold);
+			//Vec2f_mul(&velocity, doorKeyPhysicsScale);
 
-			float mag = getMagVec2f(velocity);
+			//float mag = getMagVec2f(velocity);
 
-			Vec2f_normalize(&velocity);
-			Vec2f_mulByFloat(&velocity, mag);
+			//Vec2f_normalize(&velocity);
+			//Vec2f_mulByFloat(&velocity, mag);
 			//Vec2f_divByFactor(&velocity, 3);
 
+			Vec2f velocity = getSubVec2f(playerHand, doorKeyHold);
+			Vec2f_add(&velocity, getSubVec2f(playerBodyPair_p->body.pos, playerBodyPair_p->lastBody.pos));
+
+			Vec2f_mul(&velocity, doorKeyPhysicsScale);
+
+			//lastDoorKeyFixVelocity = velocity;
+
 			playerGotKey = true;
-			doorKey_p->isHeld = true;
 
 			doorKeyBodyPair_p->physics.velocity = velocity;
+			doorKey_p->lastHeldVelocity = doorKeyBodyPair_p->physics.velocity;
 			doorKey_p->facing = player_p->facing;
 
 		}

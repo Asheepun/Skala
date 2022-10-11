@@ -447,6 +447,8 @@ size_t World_addBodyPair(World *world_p, Body body, enum ScaleType scaleType, en
 	bodyPair_p->scaleExponent = getVec2f(0, 0);
 	bodyPair_p->lastScaleExponent = getVec2f(0, 0);
 
+	bodyPair_p->isHeld = false;
+
 	//bodyPair_p->canCollideWithPlayer = canCollideWithPlayer;
 
 	Physics_init(&bodyPair_p->physics);
@@ -538,6 +540,9 @@ size_t World_addDoorKey(World *world_p, Vec2f pos, enum ScaleType scaleType){
 	physics_p->resistance = getVec2f(0.9, 0.9);
 
 	doorKey_p->facing = RIGHT;
+	doorKey_p->lastHeldVelocity = getVec2f(0, 0);
+	//doorKey_p->isHeld = false;
+	//doorKey_p->isHeldCounter = 0;
 
 	return doorKey_p->entityHeader.ID;
 
@@ -1059,7 +1064,9 @@ bool checkIfBodyPairsCanCollide(BodyPair bodyPair1, BodyPair bodyPair2){
 		&& !(bodyPair1.entityType == DOOR_KEY && bodyPair2.entityType == DOOR)
 
 		&& bodyPair1.entityType != SCALE_FIELD
-		&& bodyPair2.entityType != SCALE_FIELD;
+		&& bodyPair2.entityType != SCALE_FIELD
+	
+		&& !(bodyPair1.entityType == DOOR_KEY && bodyPair2.entityType == DOOR_KEY);
 }
 
 void World_checkAndHandleBodyPairCollisionsX(World *world_p, enum CollisionWeight collisionWeight1, enum ScaleType scaleType1, enum CollisionWeight collisionWeight2, enum ScaleType scaleType2){

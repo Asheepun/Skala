@@ -54,6 +54,8 @@ Vec2f getMulVec2fFloat(Vec2f, float);
 
 Vec2f getDivVec2fFloat(Vec2f, float);
 
+Vec2f getDivVec2f(Vec2f, Vec2f);
+
 float getDistanceVec2f(Vec2f, Vec2f);
 
 Vec2f getNormalizedVec2f(Vec2f);

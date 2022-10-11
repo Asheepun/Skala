@@ -268,6 +268,7 @@ typedef struct BodyPair{
 	enum CollisionWeight collisionWeight;
 	enum EntityType entityType;
 
+	bool isHeld;
 	bool isStuckX;
 	bool isStuckY;
 	//bool isStuck;
@@ -316,7 +317,9 @@ typedef struct Door{
 typedef struct DoorKey{
 	EntityHeader entityHeader;
 	Physics physics;
-	bool isHeld;
+	//bool isHeld;
+	//int isHeldCounter;
+	Vec2f lastHeldVelocity;
 	size_t bodyPairID;
 	//size_t spriteID;
 	unsigned int spriteIndex;

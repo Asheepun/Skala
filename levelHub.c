@@ -594,8 +594,8 @@ void World_initLevelHub(World *world_p){
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-scale-field-key", NO_LEGS_ROOM);
 	*currentRoomWidth += 70;
 
-	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-drag-key", NO_LEGS_ROOM);
-	*currentRoomWidth += 80;
+	//World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, noLegsLevelsRoomY), "no-legs-drag-key", NO_LEGS_ROOM);
+	//*currentRoomWidth += 80;
 
 	World_addSprite(world_p, getVec2f(*currentRoomX + *currentRoomWidth, cloudY - 20 - 61), getVec2f(20, 61), COLOR_WHITE, "furniture/pillar-2", 1, GAME_LAYER_FURNITURE);
 
