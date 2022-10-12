@@ -1,47 +1,21 @@
 :playerPos
-6691 -1481
+7032 -1481
 :doorKeys
-4015 230
+6260 -200
 :doors
-360 140 40 90
+3350 180 20 60
+4020 180 20 60
 :flags
 removed-title-text
-completed-player-position-levels
-completed-door-key-levels
-added-gate-door
 completed-secret-levels
 :levelsWithDoorKey
-:completedLevels
-door-key-level-1
-door-key-level-2
-get-key-up-2
 make-it-bigger-2
-floor-is-door
-get-key-up-1
-player-position-1
-player-position-jumping-key-1
-player-position-jumping-key-2
-player-position-jumping-key-3
-scale-position-block
-scale-position-block-2
-scale-position-block-5
-scale-position-block-5.2
-scale-position-block-6
-player-position-2
-player-position-3
-airport-control
-grow-through-jumping
-key-in-box
-push-key-with-point
-key-obstacle-course
-key-in-cage-all-from-top
-no-legs-key-first
-no-legs-key-block
-no-legs-scale-field-key
+get-key-up-2
+:completedLevels
 throw-key-1
 throw-key-2
 key-fall-through
 filter-4
 breaking-through-wall
-breaking-through-wall-3
 breaking-through-wall-2
+breaking-through-wall-3

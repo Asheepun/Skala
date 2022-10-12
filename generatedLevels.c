@@ -1996,21 +1996,27 @@ void World_generateLevel93(World *world_p){
 
 	World_restore(world_p);
 
-	World_initPlayer(world_p, getVec2f(70, 210 - 60), NONE);
+	World_initPlayer(world_p, getVec2f(70, 70), NONE);
 
-	World_addPoint(world_p, getVec2f(410, 130), ALL);
+	World_addPoint(world_p, getVec2f(240, 160), ALL_FROM_TOP);
 
-	World_addObstacle(world_p, getVec2f(0, 200), getVec2f(200, HEIGHT - 220), NONE);
+	World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
 
-	World_addObstacle(world_p, getVec2f(200, 20), getVec2f(40, HEIGHT - 40), NONE);
+	World_addObstacle(world_p, getVec2f(0, 100), getVec2f(WIDTH, 20), NONE);
 
-	World_addScaleField(world_p, getVec2f(0, 0), getVec2f(WIDTH, 20), NONE);
+	World_addObstacle(world_p, getVec2f(0, -BIG_BLOCKING_SIZE), getVec2f(WIDTH, BIG_BLOCKING_SIZE + 20), NONE);
 
-	World_addScaleField(world_p, getVec2f(0, HEIGHT - 20), getVec2f(WIDTH, 20), NONE);
+	World_addObstacle(world_p, getVec2f(WIDTH - 20, 0), getVec2f(BIG_BLOCKING_SIZE, HEIGHT), NONE);
 
-	World_addObstacle(world_p, getVec2f(WIDTH - 20, 20), getVec2f(BIG_BLOCKING_SIZE, HEIGHT - 40), NONE);
+	World_addObstacle(world_p, getVec2f(0, -BIG_BLOCKING_SIZE), getVec2f(0, BIG_BLOCKING_SIZE), NONE);
 
-	//World_addObstacle(world_p, getVec2f(0, 0), getVec2f(40, HEIGHT), NONE);
+	//World_addScaleField(world_p, getVec2f(0, 140), getVec2f(50, 50), ALL_FROM_TOP);
+	
+	World_addScaleField(world_p, getVec2f(WIDTH - 90, 30), getVec2f(70, 60), ALL);
 
-	//World_addObstacle(world_p, getVec2f(0, 210), getVec2f(WIDTH, 60), NONE);
+	//World_addScaleField(world_p, getVec2f(WIDTH - 70, 120), getVec2f(50, 90), NONE);
+
+	World_addScaleField(world_p, getVec2f(0, 120), getVec2f(100, 90), NONE);
+
+	World_addScaleField(world_p, getVec2f(WIDTH - 120, 120), getVec2f(100, 90), NONE);
 }

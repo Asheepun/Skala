@@ -380,7 +380,7 @@ static Level levels[255] = {
 	"Tangible 2",
 	World_generateLevel91,
 	"breaking-through-wall-2",
-	"Tangible 3",
+	"Tangible 4",
 	World_generateLevel92,
 	"breaking-through-wall-3",
 	"Tangible 3",

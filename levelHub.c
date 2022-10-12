@@ -773,6 +773,9 @@ void World_initLevelHub(World *world_p){
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 145), "breaking-through-wall", SECRET_ROOM);
 	*currentRoomWidth += 70;
 
+	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 145), "breaking-through-wall-3", SECRET_ROOM);
+	*currentRoomWidth += 70;
+
 	World_addLevelDoor(world_p, getVec2f(*currentRoomX + *currentRoomWidth, -HEIGHT * 5 - 145), "breaking-through-wall-2", SECRET_ROOM);
 
 	*currentRoomWidth += 90;
