@@ -1031,6 +1031,14 @@ void World_levelState(World *world_p){
 		BodyPair *bodyPair_p = World_getBodyPairByID(world_p, doorKey_p->bodyPairID);
 
 		if(bodyPair_p->isHeld
+		&& (bodyPair_p->body.size.x < 1
+		|| bodyPair_p->body.size.y < 1)){
+			bodyPair_p->physics.velocity = getVec2f(0, 0);
+			bodyPair_p->isHeld = false;
+		}
+
+		/*
+		if(bodyPair_p->isHeld
 		&& bodyPair_p->lastBody.size.y >= 1
 		&& bodyPair_p->body.size.y < 1){
 			//Vec2f_log(bodyPair_p->lastBody.size);
@@ -1042,6 +1050,7 @@ void World_levelState(World *world_p){
 		&& bodyPair_p->body.size.x < 1){
 			bodyPair_p->physics.velocity.y = 0;
 		}
+		*/
 	
 	
 	}
