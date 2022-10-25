@@ -1,5 +1,5 @@
 :playerPos
-6690 -1481
+330 -240
 :doorKeys
 :doors
 :flags
@@ -11,6 +11,7 @@ completed-first-scale-levels
 completed-scale-field-levels
 completed-player-position-levels
 completed-no-legs-levels
+completed-secret-levels
 :levelsWithDoorKey
 :completedLevels
 level-1
@@ -75,9 +76,11 @@ no-legs-point-hole
 no-legs-key-first
 no-legs-key-block
 no-legs-scale-field-key
+no-legs-drag-key
 no-legs-scalable-point-first
 no-legs-scalable-point-scale-field
 no-legs-scalable-point-2
 no-legs-scalable-point
 throw-key-1
 throw-key-2
+key-fall-through

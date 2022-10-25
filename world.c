@@ -168,6 +168,10 @@ void World_restore(World *world_p){
 	//world_p->fpsTextID = World_addTextSprite(world_p, getVec2f(10, 10), "", "times20", COLOR_WHITE, GAME_LAYER_TEXT);
 
 	world_p->endingFlashAlpha = 0;
+	world_p->endBenchFadeAlpha = 0;
+	world_p->endBenchFadeCounter = 3 * 60;
+	world_p->endBenchText = 0;
+	world_p->sawEndBenchText = false;
 
 	world_p->obstaclesNeedArrows = false;
 	world_p->obstaclesCannotCollideWithEachOther = false;

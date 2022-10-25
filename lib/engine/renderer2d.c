@@ -301,7 +301,7 @@ void Renderer2D_drawRectangle(Renderer2D_Renderer *renderer_p){
 
 }
 
-void Renderer2D_beginText(Renderer2D_Renderer *renderer_p, char *text, int x, int y, int fontSize, Font font){
+void Renderer2D_beginText(Renderer2D_Renderer *renderer_p, char *text, float x, float y, int fontSize, Font font){
 
 	glDeleteTextures(1, &renderer_p->textTexture.ID);
 

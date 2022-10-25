@@ -706,6 +706,84 @@ void Engine_draw(){
 		Renderer2D_drawRectangle(&world.renderer);
 
 	}
+	
+	if(world.endBenchFadeAlpha > 0){
+		
+		/*
+		Renderer2D_setShaderProgram(&world.renderer, world.renderer.colorShaderProgram);
+
+		Renderer2D_beginRectangle(&world.renderer, -world.renderer.offset.x, -world.renderer.offset.y, WIDTH, HEIGHT);
+
+		color = COLOR_BLACK;
+		alpha = world.endBenchFadeAlpha;
+
+		Renderer2D_supplyUniform(&world.renderer, &alpha, "alpha", RENDERER2D_UNIFORM_TYPE_FLOAT);
+		Renderer2D_supplyUniform(&world.renderer, &color, "color", RENDERER2D_UNIFORM_TYPE_COLOR);
+
+		Renderer2D_drawRectangle(&world.renderer);
+		*/
+
+		Renderer2D_setShaderProgram(&world.renderer, singleColorTextureShaderProgram);
+
+		Font font;
+		for(int k = 0; k < world.fonts.length; k++){
+
+			Font *font_p = Array_getItemPointerByIndex(&world.fonts, k);
+
+			if(strcmp(font_p->name, "times40") == 0){
+				font = *font_p;
+				break;
+			}
+		
+		}
+
+		alpha = world.endBenchFadeAlpha * world.endBenchFadeAlpha;
+		color = COLOR_WHITE;
+		Vec2f textureCoordOffset = getVec2f(0, 0);
+		enum Facing facing = RIGHT;
+		int fontSize = 40;
+
+		char text[STRING_SIZE];
+		Vec2f pos;
+
+		if(world.endBenchText == 0){
+			pos = getVec2f(2580.0, 150.0);
+			String_set(text, "Out There", STRING_SIZE);
+		}
+		if(world.endBenchText == 1){
+			pos = getVec2f(2463.0, 150.0);
+			String_set(text, "w < 1 or h < 1", STRING_SIZE);
+		}
+		if(world.endBenchText == 2){
+			pos = getVec2f(2450.0, 150.0);
+			String_set(text, "y (s - s0) > -v s", STRING_SIZE);
+		}
+		if(world.endBenchText == 3){
+			pos = getVec2f(2640.0, 150.0);
+			String_set(text, "Far Cry", STRING_SIZE);
+		}
+		if(world.endBenchText == 4){
+			pos = getVec2f(2430.0, 150.0);
+			String_set(text, "Outward Bound", STRING_SIZE);
+		}
+
+		Vec2f_sub(&pos, world.renderer.offset);
+
+		pos.y *= 0.4;
+		pos.x *= 0.3;
+
+		Vec2f_log(pos);
+
+		Renderer2D_beginText(&world.renderer, text, pos.x, pos.y, fontSize, font);
+
+		Renderer2D_supplyUniform(&world.renderer, &color, "color", RENDERER2D_UNIFORM_TYPE_COLOR);
+		Renderer2D_supplyUniform(&world.renderer, &alpha, "alpha", RENDERER2D_UNIFORM_TYPE_FLOAT);
+		Renderer2D_supplyUniform(&world.renderer, &facing, "facing", RENDERER2D_UNIFORM_TYPE_INT);
+		Renderer2D_supplyUniform(&world.renderer, &textureCoordOffset, "textureCoordOffset", RENDERER2D_UNIFORM_TYPE_VEC2);
+
+		Renderer2D_drawRectangle(&world.renderer);
+
+	}
 
 	//draw fade transition
 	if(world.fadeTransitionCounter > 0){

@@ -32,6 +32,8 @@ void World_initLevelHub(World *world_p){
 		BodyPair *bodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
 		//bodyPair_p->body.pos = getVec2f(1600, -HEIGHT * 6 - 100);
 		//bodyPair_p->body.pos = getVec2f(6700, -HEIGHT * 6 + 150);
+		//bodyPair_p->body.pos = getVec2f(290, -HEIGHT * 6 - 100);
+		//bodyPair_p->body.pos = getVec2f(3000, -200);
 	}
 
 	//BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
@@ -510,7 +512,9 @@ void World_initLevelHub(World *world_p){
 
 	World_addObstacle(world_p, getVec2f(200, cloudY), getVec2f(100, -cloudY + HEIGHT - 130), NONE);
 
-	World_addScaleField(world_p, getVec2f(200, cloudY - 60), getVec2f(80, 60), NONE);
+	World_addScaleField(world_p, getVec2f(200, cloudY - 61), getVec2f(90, 62), NONE);
+
+	World_addScaleField(world_p, getVec2f(290, cloudY - HEIGHT * 4), getVec2f(40, HEIGHT * 4), NONE);
 	
 	World_addObstacle(world_p, getVec2f(0, HEIGHT - 40), getVec2f(300, 40), NONE);
 

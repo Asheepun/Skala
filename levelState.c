@@ -2132,5 +2132,44 @@ void World_levelState(World *world_p){
 		world_p->currentMusicID = newID;
 	}
 
+	if(world_p->currentState == LEVEL_HUB_STATE
+	&& SaveData_hasFlag(&world_p->saveData, "completed-secret-levels")){
+
+		BodyPair *playerBodyPair_p = World_getBodyPairByID(world_p, world_p->player.bodyPairID);
+
+		if(playerBodyPair_p->body.pos.x > 1070
+		&& playerBodyPair_p->body.pos.x < 1130
+		&& playerBodyPair_p->body.pos.y + playerBodyPair_p->body.size.y > 200){
+
+			world_p->endBenchFadeCounter--;
+
+			if(world_p->endBenchFadeCounter <= 0){
+				world_p->endBenchFadeAlpha += 0.007;
+			}
+
+		}else{
+			world_p->endBenchFadeAlpha -= 0.01;
+		}
+
+		if(world_p->endBenchFadeAlpha > 1.0){
+			world_p->endBenchFadeAlpha = 1.0;
+			world_p->sawEndBenchText = true;
+		}
+
+		if(world_p->endBenchFadeAlpha < 0.0){
+			//world_p->endBenchFadeCounter = 0;
+			world_p->endBenchFadeCounter = 5 * 60;
+			world_p->endBenchFadeAlpha = 0.0;
+			if(world_p->sawEndBenchText){
+				world_p->endBenchText++;
+				world_p->sawEndBenchText = false;
+			}
+		}
+
+		if(world_p->endBenchText > 4){
+			world_p->endBenchText = 0;
+		}
+	
+	}
 
 }

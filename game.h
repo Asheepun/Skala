@@ -517,6 +517,11 @@ typedef struct World{
 
 	size_t creditsMusicID;
 
+	int endBenchFadeCounter;
+	float endBenchFadeAlpha;
+	int endBenchText;
+	bool sawEndBenchText;
+
 }World;
 
 //global variables

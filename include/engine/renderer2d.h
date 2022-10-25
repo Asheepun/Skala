@@ -81,7 +81,7 @@ void Renderer2D_setTexture(Renderer2D_Renderer *, Renderer2D_Texture);
 
 void Renderer2D_beginRectangle(Renderer2D_Renderer *, float, float, float, float);
 
-void Renderer2D_beginText(Renderer2D_Renderer *, char *, int, int, int, Font);
+void Renderer2D_beginText(Renderer2D_Renderer *, char *, float, float, int, Font);
 
 void Renderer2D_supplyUniform(Renderer2D_Renderer *, void *, char *, enum Renderer2D_UniformTypeEnum);
 
