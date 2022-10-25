@@ -2166,8 +2166,56 @@ void World_levelState(World *world_p){
 			}
 		}
 
-		if(world_p->endBenchText > 4){
+		if(world_p->endBenchText > 3){
 			world_p->endBenchText = 0;
+		}
+
+		Sprite *sprite_p = World_getSpriteByIndex(world_p, world_p->endBenchTextSpriteIndex);
+
+		char text[STRING_SIZE];
+		Vec2f pos;
+
+		/*
+		if(world_p->endBenchText == 0){
+			pos = getVec2f(2640.0, 150.0);
+			String_set(text, "Origin", STRING_SIZE);
+		}
+		*/
+		if(world_p->endBenchText == 0){
+			pos = getVec2f(2580.0, 150.0);
+			String_set(text, "Out There", STRING_SIZE);
+		}
+		if(world_p->endBenchText == 1){
+			pos = getVec2f(2463.0, 150.0);
+			String_set(text, "w < 1 or h < 1", STRING_SIZE);
+		}
+		if(world_p->endBenchText == 2){
+			pos = getVec2f(2450.0, 150.0);
+			String_set(text, "y (s - s0) > -v s", STRING_SIZE);
+		}
+		/*
+		if(world_p->endBenchText == 3){
+			pos = getVec2f(2640.0, 150.0);
+			String_set(text, "Far Cry", STRING_SIZE);
+		}
+		*/
+		if(world_p->endBenchText == 3){
+			pos = getVec2f(2430.0, 150.0);
+			String_set(text, "Outward Bound", STRING_SIZE);
+		}
+
+		Vec2f_sub(&pos, world_p->renderer.offset);
+
+		pos.y *= 0.4;
+		pos.x *= 0.3;
+
+		sprite_p->pos = pos;
+		String_set(sprite_p->text, text, STRING_SIZE);
+
+		if(world_p->endBenchFadeAlpha > 0.0){
+			sprite_p->alpha = world_p->endBenchFadeAlpha * world_p->endBenchFadeAlpha;
+		}else{
+			sprite_p->alpha = 0.0;
 		}
 	
 	}

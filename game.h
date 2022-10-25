@@ -521,6 +521,7 @@ typedef struct World{
 	float endBenchFadeAlpha;
 	int endBenchText;
 	bool sawEndBenchText;
+	size_t endBenchTextSpriteIndex;
 
 }World;
 

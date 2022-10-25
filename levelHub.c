@@ -23,6 +23,9 @@ void World_initLevelHub(World *world_p){
 
 	world_p->starBackgroundSpriteIndex = World_addSprite(world_p, getVec2f(0, 0), getVec2f(5000, HEIGHT * 8), COLOR_WHITE, "star-background", 1, GAME_LAYER_BACKGROUND);
 
+
+	world_p->endBenchTextSpriteIndex = World_addTextSprite(world_p, getVec2f(0, 0), "", "times40", COLOR_WHITE, GAME_LAYER_WALLS);
+
 	world_p->playerHasLanded = false;
 
 	World_initPlayer(world_p, world_p->saveData.playerPos, NONE);
