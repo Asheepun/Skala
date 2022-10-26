@@ -302,7 +302,7 @@ static Level levels[255] = {
 	"Offset",
 	World_generateLevel65,
 	"no-legs-scalable-point-scale-field",
-	"Offsetter",
+	"Net",
 	World_generateLevel66,
 	"no-legs-scalable-point-scale-field-2",
 	"Lost",
