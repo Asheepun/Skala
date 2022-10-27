@@ -2166,7 +2166,7 @@ void World_levelState(World *world_p){
 			}
 		}
 
-		if(world_p->endBenchText > 3){
+		if(world_p->endBenchText > 2){
 			world_p->endBenchText = 0;
 		}
 
@@ -2181,10 +2181,12 @@ void World_levelState(World *world_p){
 			String_set(text, "Origin", STRING_SIZE);
 		}
 		*/
+		/*
 		if(world_p->endBenchText == 0){
 			pos = getVec2f(2580.0, 150.0);
 			String_set(text, "Out There", STRING_SIZE);
 		}
+		*/
 		if(world_p->endBenchText == 1){
 			pos = getVec2f(2463.0, 150.0);
 			String_set(text, "w < 1 or h < 1", STRING_SIZE);
@@ -2199,7 +2201,7 @@ void World_levelState(World *world_p){
 			String_set(text, "Far Cry", STRING_SIZE);
 		}
 		*/
-		if(world_p->endBenchText == 3){
+		if(world_p->endBenchText == 0){
 			pos = getVec2f(2430.0, 150.0);
 			String_set(text, "Outward Bound", STRING_SIZE);
 		}
