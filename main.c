@@ -18,8 +18,15 @@
 #include "engine/array.h"
 #include "engine/audio.h"
 #include "engine/strings.h"
+#include "engine/files.h"
 #include "game.h"
 #include "levels.h"
+
+#include "stdio.h"
+#include "math.h"
+#include "string.h"
+#include "stdlib.h"
+#include "dirent.h"
 
 //bool DEV_MODE_ON = true;
 bool DEV_MODE_ON = false;
@@ -29,6 +36,48 @@ static World world;
 Renderer2D_ShaderProgram singleColorTextureShaderProgram;
 
 void Engine_start(){
+
+	
+	{
+		char dirPath[STRING_SIZE];
+		String_set(dirPath, "./", STRING_SIZE);
+
+		DIR *dataDir = opendir(dirPath);
+		struct dirent* dirEntry;
+
+		bool saveDataExists = false;
+		bool settingsExist = false;
+
+		while((dirEntry = readdir(dataDir)) != NULL){
+			if(strcmp(dirEntry->d_name, "saveData.txt") == 0){
+				saveDataExists = true;
+			}
+			if(strcmp(dirEntry->d_name, "settings.txt") == 0){
+				settingsExist = true;
+			}
+		}
+
+		if(!saveDataExists){
+
+			long int size;
+			char *data_p = getFileData_mustFree("saveData-origin.txt", &size);
+
+			writeDataToFile("saveData.txt", data_p, size);
+
+			free(data_p);
+
+		}
+		if(!settingsExist){
+
+			long int size;
+			char *data_p = getFileData_mustFree("settings-origin.txt", &size);
+
+			writeDataToFile("settings.txt", data_p, size);
+
+			free(data_p);
+
+		}
+	}
 
 	//system("Steamapihandler.exe oogabaagoo");
 
