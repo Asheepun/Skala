@@ -1,6 +1,0 @@
-:playerPos
-10 4096
-:completedLevel
-level-1
-level-2
-flying-key-2-trickshot-edition

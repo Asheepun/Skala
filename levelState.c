@@ -2192,8 +2192,9 @@ void World_levelState(World *world_p){
 			String_set(text, "w < 1 or h < 1", STRING_SIZE);
 		}
 		if(world_p->endBenchText == 2){
-			pos = getVec2f(2450.0, 150.0);
-			String_set(text, "y (s - s0) > -v s", STRING_SIZE);
+			//pos = getVec2f(2450.0, 150.0);
+			pos = getVec2f(2380.0, 150.0);
+			String_set(text, "|y (s - s0)| > |-v s|", STRING_SIZE);
 		}
 		/*
 		if(world_p->endBenchText == 3){
