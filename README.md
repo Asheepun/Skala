@@ -4,4 +4,4 @@ Skala is a puzzle game written C using my custom engine. The engine is built on 
 
 Skala can be played for free on [Steam](https://store.steampowered.com/app/1884990/Skala/).
 
-![](https://cdn.cloudflare.steamstatic.com/steam/apps/1884990/extras/skala-gif.gif)
+![](productionAssets/screenshots/3.jpg)
